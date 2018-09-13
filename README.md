@@ -18,7 +18,7 @@ For Example:
 * ...
 
 ## What can i do with it?
-Please don't use it till the version number will go significally over 10.
+Please don't use it till the version number will go significally over 1.
 
 
 
