@@ -8,6 +8,9 @@ import "url-search-params-polyfill";
 import * as MappingConstants from "../constants/mapping";
 
 import getLayersByNames from "../tools/layerFactory";
+import FullscreenControl from ".//FullscreenControl";
+import NewWindowControl from "./NewWindowControl";
+import LocateControl from "../components/LocateControl";
 
 export class RoutedMap extends React.Component {
   constructor(props) {
@@ -113,27 +116,88 @@ export class RoutedMap extends React.Component {
     const zoomByUrl =
       parseInt(this.props.urlSearchParams.get("zoom"), 10) || this.props.fallbackZoom;
 
+    let fullscreenControl = <div />;
+    
+    let iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+    let inIframe = window.self !== window.top;
+    let simulateInIframe = false;
+    let simulateInIOS = false;
+    let iosClass = "no-iOS-device";
+
+    if (this.props.fullScreenControlEnabled) {
+      fullscreenControl = (
+        <FullscreenControl
+          title="Vollbildmodus"
+          forceSeparateButton={true}
+          titleCancel="Vollbildmodus beenden"
+          position="topleft"
+          container={document.documentElement}
+        />
+      );
+  
+      if (simulateInIOS || iOS) {
+        iosClass = "iOS-device";
+        if (simulateInIframe || inIframe) {
+          fullscreenControl = (
+            // <OverlayTrigger placement="left" overlay={(<Tooltip>Maximiert in neuem Browser-Tab öffnen.</Tooltip>)}>
+            <NewWindowControl
+              position="topleft"
+              routing={this.props.routing}
+              title="Maximiert in neuem Browser-Tab öffnen."
+            />
+          );
+          // </OverlayTrigger>
+        } else {
+          fullscreenControl = <div />;
+        }
+      }
+    }
+    let locateControl = <div />;
+    if (this.props.locateControlEnabled) {
+      locateControl = (
+        <LocateControl
+          setView="once"
+          flyTo={true}
+          strings={{
+            title: "Mein Standort",
+            metersUnit: "Metern",
+            feetUnit: "Feet",
+            popup: "Sie befinden sich im Umkreis von {distance} {unit} um diesen Punkt.",
+            outsideMapBoundsMsg: "Sie gefinden sich wahrscheinlich außerhalb der Kartengrenzen."
+          }}
+        />
+      );
+    }
+
     return (
-      <Map
-        ref={leafletMap => {
-          this.leafletMap = leafletMap;
-        }}
-        key={"leafletMap"}
-        crs={this.props.referenceSystem}
-        style={this.props.style}
-        center={positionByUrl}
-        zoom={zoomByUrl}
-        zoomControl={false}
-        attributionControl={false}
-        doubleClickZoom={false}
-        ondblclick={this.props.ondblclick}
-        minZoom={7}
-        maxZoom={18}
-      >
-        <ZoomControl position="topleft" zoomInTitle="Vergr&ouml;ßern" zoomOutTitle="Verkleinern" />
-        {getLayersByNames(this.props.backgroundlayers, this.props.urlSearchParams)}
-        {this.props.children}
-      </Map>
+      <div className={iosClass}>
+        <Map
+          ref={leafletMap => {
+            this.leafletMap = leafletMap;
+          }}
+          key={"leafletMap"}
+          crs={this.props.referenceSystem}
+          style={this.props.style}
+          center={positionByUrl}
+          zoom={zoomByUrl}
+          zoomControl={false}
+          attributionControl={false}
+          doubleClickZoom={false}
+          ondblclick={this.props.ondblclick}
+          minZoom={7}
+          maxZoom={18}
+        >
+          <ZoomControl
+            position="topleft"
+            zoomInTitle="Vergr&ouml;ßern"
+            zoomOutTitle="Verkleinern"
+          />
+          {fullscreenControl}
+          {locateControl}
+          {getLayersByNames(this.props.backgroundlayers, this.props.urlSearchParams)}
+          {this.props.children}
+        </Map>
+      </div>
     );
   }
 }
@@ -157,8 +221,10 @@ RoutedMap.propTypes = {
   fallbackPosition: PropTypes.object,
   fallbackZoom: PropTypes.number,
   referenceSystem: PropTypes.object,
-  referenceSystemDefinition: PropTypes.object,
-  backgroundlayers: PropTypes.string
+  referenceSystemDefinition: PropTypes.string,
+  backgroundlayers: PropTypes.string,
+  fullScreenControlEnabled: PropTypes.bool,
+  locateControlEnabled: PropTypes.bool
 };
 
 RoutedMap.defaultProps = {

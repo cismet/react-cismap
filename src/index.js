@@ -24,6 +24,8 @@ ReactDOM.render(
         this.props.mappingActions.setAutoFit(false)
       }
       backgroundlayers={"bplan_abkg@30"}
+      fullScreenControlEnabled={true}
+      locateControlEnabled={true}
     />
   </div>,
   document.getElementById("root")
