@@ -64,7 +64,7 @@ class ProjGeoJson extends Path {
         }
       }
       if (props.hoverer) {
-        let theStyle = props.style(feature, this.props.featureStylerScalableImageSize);
+        let theStyle = props.style(feature, props.featureStylerScalableImageSize);
 
         layer.bindTooltip("" + props.hoverer(feature), {
           offset: L.point(theStyle.radius, 0),
