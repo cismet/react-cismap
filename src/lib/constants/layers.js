@@ -43,6 +43,7 @@ Layers.set("osm", (options = DEFAULT_LAYER_OPTIONS) => {
   );
 });
 Layers.set("osm.night", (options = DEFAULT_NIGHT_LAYER_OPTIONS) => {
+  let mergedOptions = objectAssign({}, defaultNightOptions, options);
   return (
     <StyledWMSTileLayer
       key="Mundialis OSM.night"
@@ -50,8 +51,8 @@ Layers.set("osm.night", (options = DEFAULT_NIGHT_LAYER_OPTIONS) => {
       layers="OSM-WMS"
       format="image/png"
       maxZoom={19}
-      opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      opacity={mergedOptions.opacity}
+      cssFilter={mergedOptions["css-filter"]}
       version="1.1.1"
     />
   );
@@ -72,6 +73,7 @@ Layers.set("osm2", (options = DEFAULT_LAYER_OPTIONS) => {
   );
 });
 Layers.set("osm2.night", (options = DEFAULT_NIGHT_LAYER_OPTIONS) => {
+  let mergedOptions = objectAssign({}, DEFAULT_NIGHT_LAYER_OPTIONS, options);
   return (
     <StyledWMSTileLayer
       key="terrestris OSM.night"
@@ -79,8 +81,8 @@ Layers.set("osm2.night", (options = DEFAULT_NIGHT_LAYER_OPTIONS) => {
       layers="OSM-WMS"
       format="image/png"
       maxZoom={19}
-      opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      opacity={mergedOptions.opacity}
+      cssFilter={mergedOptions["css-filter"]}
       version="1.1.1"
     />
   );
@@ -270,6 +272,7 @@ Layers.set("webatlas", (options = DEFAULT_LAYER_OPTIONS) => {
 });
 
 Layers.set("webatlas.night", (options = DEFAULT_NIGHT_LAYER_OPTIONS) => {
+  let mergedOptions = objectAssign({}, DEFAULT_NIGHT_LAYER_OPTIONS, options);
   return (
     <StyledWMSTileLayer
       key="webatlas"
@@ -279,8 +282,8 @@ Layers.set("webatlas.night", (options = DEFAULT_NIGHT_LAYER_OPTIONS) => {
       tiled="false"
       version="1.1.1"
       maxZoom={19}
-      opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      opacity={mergedOptions.opacity}
+      cssFilter={mergedOptions["css-filter"]}
     />
   );
 });
@@ -302,6 +305,7 @@ Layers.set("rvrWMS", (options = DEFAULT_LAYER_OPTIONS) => {
 });
 
 Layers.set("rvrWMS.night", (options = DEFAULT_NIGHT_LAYER_OPTIONS) => {
+  let mergedOptions = objectAssign({}, DEFAULT_NIGHT_LAYER_OPTIONS, options);
   return (
     <StyledWMSTileLayer
       key="stadtplan_rvr.night"
@@ -311,8 +315,8 @@ Layers.set("rvrWMS.night", (options = DEFAULT_NIGHT_LAYER_OPTIONS) => {
       tiled="false"
       version="1.3.0"
       maxZoom={19}
-      opacity={options.opacity}
-      cssFilter={options["css-filter"]}
+      opacity={mergedOptions.opacity}
+      cssFilter={mergedOptions["css-filter"]}
     />
   );
 });

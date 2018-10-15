@@ -6,6 +6,7 @@ import { RoutedMap, MappingConstants } from "./lib";
 const mapStyle = {
   height: 500
 };
+let urlSearchParams = new URLSearchParams(window.location.href);
 ReactDOM.render(
   <div>
     <div>Simple Map</div>
@@ -23,10 +24,11 @@ ReactDOM.render(
       autoFitProcessedHandler={() =>
         this.props.mappingActions.setAutoFit(false)
       }
-      backgroundlayers={"bplan_abkg@30"}
+      backgroundlayers={"rvrWMS"}
+      urlSearchParams={urlSearchParams}
       fullScreenControlEnabled={true}
       locateControlEnabled={true}
-    />
+      />
   </div>,
   document.getElementById("root")
 );

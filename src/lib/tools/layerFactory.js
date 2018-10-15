@@ -3,19 +3,25 @@ import Layers from "../constants/layers";
 
 export default function getLayers(
   layerString,
-  searchParams = new URLSearchParams(),
+  searchParams = new URLSearchParams(""),
   config = {
     layerSeparator: "|"
   }
 ) {
   const layerArr = layerString.split(config.layerSeparator || "|");
   let namedMapStyle = searchParams.get("mapStyle") || "";
+  if (namedMapStyle!==""){
+    namedMapStyle="."+namedMapStyle;
+  }
+  
   return (
     <div>
       {layerArr.map(layerWithOptions => {
         const layOp = layerWithOptions.split("@");
         if (!isNaN(parseInt(layOp[1], 10))) {
-          const layerGetter = Layers.get(layOp[0] + namedMapStyle);
+          const key=layOp[0] + namedMapStyle;
+          const layerGetter = Layers.get(key);
+
           if (layerGetter) {
             return layerGetter({
               opacity: parseInt(layOp[1] || "100", 10) / 100.0
