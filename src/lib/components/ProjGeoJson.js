@@ -188,7 +188,7 @@ ProjGeoJson.propTypes = {
   labeler: PropTypes.func,
   hoverer: PropTypes.func,
   featureClickHandler: PropTypes.func.isRequired,
-  mapRef: PropTypes.object.isRequired,
+  mapRef: PropTypes.object,
   featureStylerScalableImageSize: PropTypes.number,
   clusteringEnabled: PropTypes.bool,
   clusterOptions: PropTypes.object
