@@ -13,7 +13,7 @@ export const DEFAULT_NIGHT_LAYER_OPTIONS = {
 };
 export const DEFAULT_BLUE_LAYER_OPTIONS = {
   opacity: 0.9,
-  "css-filter": "filter:sepia(1.0) hue-rotate(150deg) contrast(0.9) opacity(1) invert(0) saturate(1)"
+  "css-filter": "filter:sepia(0.5) hue-rotate(155deg) contrast(0.9) opacity(0.9) invert(0)"
 };
 Layers.set("nrwDOP20", (options = DEFAULT_LAYER_OPTIONS) => {
   return (

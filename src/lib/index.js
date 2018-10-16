@@ -3,6 +3,7 @@ import * as MappingConstants from "./constants/mapping";
 import ProjGeoJson from "./components/ProjGeoJson";
 import FeatureCollectionDisplay from "./components/FeatureCollectionDisplay";
 import RoutedMap from "./components/RoutedMap";
+import getLayersByName from "./tools/layerFactory";
 
 export {
   MappingHelpers,
@@ -10,4 +11,5 @@ export {
   FeatureCollectionDisplay,
   RoutedMap,
   ProjGeoJson,
+  getLayersByName
 };
