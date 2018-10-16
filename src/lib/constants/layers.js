@@ -9,9 +9,12 @@ export default Layers;
 export const DEFAULT_LAYER_OPTIONS = { opacity: 1.0 };
 export const DEFAULT_NIGHT_LAYER_OPTIONS = {
   opacity: 0.9,
-  "css-filter": "filter:grayscale(0.9)brightness(0.9)invert(1);"
+  "css-filter": "filter:grayscale(0.9)brightness(0.9)invert(1)"
 };
-
+export const DEFAULT_BLUE_LAYER_OPTIONS = {
+  opacity: 0.9,
+  "css-filter": "filter:sepia(1.0) hue-rotate(150deg) contrast(0.9) opacity(1) invert(0) saturate(1)"
+};
 Layers.set("nrwDOP20", (options = DEFAULT_LAYER_OPTIONS) => {
   return (
     <StyledWMSTileLayer
@@ -321,6 +324,23 @@ Layers.set("rvrWMS.night", (options = DEFAULT_NIGHT_LAYER_OPTIONS) => {
   );
 });
 
+Layers.set("rvrWMS.blue", (options = DEFAULT_BLUE_LAYER_OPTIONS) => {
+  let mergedOptions = objectAssign({}, DEFAULT_BLUE_LAYER_OPTIONS, options);
+  return (
+    <StyledWMSTileLayer
+      key="stadtplan_rvr.blue"
+      url="https://rvr.demo.omniscale.net/mapproxy/service"
+      layers="stadtplan_rvr"
+      format="image/png"
+      tiled="false"
+      version="1.3.0"
+      maxZoom={19}
+      opacity={mergedOptions.opacity}
+      cssFilter={mergedOptions["css-filter"]}
+    />
+  );
+});
+
 Layers.set("ruhrWMS", (options = DEFAULT_LAYER_OPTIONS) => {
   return (
     <StyledWMSTileLayer
@@ -354,7 +374,22 @@ Layers.set("ruhrWMS.night", (options = DEFAULT_NIGHT_LAYER_OPTIONS) => {
     />
   );
 });
-
+Layers.set("ruhrWMS.blue", (options = DEFAULT_BLUE_LAYER_OPTIONS) => {
+  let mergedOptions = objectAssign({}, DEFAULT_BLUE_LAYER_OPTIONS, options);
+  return (
+    <StyledWMSTileLayer
+      key="ruhr_stadtplan_rvr.blue"
+      url="https://geodaten.metropoleruhr.de/spw2/service"
+      layers="stadtplan_rvr"
+      format="image/png"
+      tiled="false"
+      version="1.3.0"
+      maxZoom={19}
+      opacity={mergedOptions.opacity}
+      cssFilter={mergedOptions["css-filter"]}
+    />
+  );
+});
 Layers.set("wupp-plan-live", (options = DEFAULT_LAYER_OPTIONS) => {
   return (
     <StyledWMSTileLayer
