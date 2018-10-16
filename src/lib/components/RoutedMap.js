@@ -194,7 +194,7 @@ export class RoutedMap extends React.Component {
           />
           {fullscreenControl}
           {locateControl}
-          {getLayersByNames(this.props.backgroundlayers, this.props.urlSearchParams)}
+          {getLayersByNames(this.props.backgroundlayers, this.props.urlSearchParams.get('mapStyle'))}
           {this.props.children}
         </Map>
       </div>
