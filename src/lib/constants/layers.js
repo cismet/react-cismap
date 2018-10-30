@@ -6,13 +6,13 @@ const Layers = new Map();
 export default Layers;
 
 export const namedStyles = {
-	default: { opacity: 1.0 },
+	default: { opacity: 0.6 },
 	night: {
 		opacity: 0.9,
 		'css-filter': 'filter:grayscale(0.9)brightness(0.9)invert(1)'
 	},
 	blue: {
-		opacity: 0.9,
+		opacity: 1.0,
 		'css-filter': 'filter:sepia(0.5) hue-rotate(155deg) contrast(0.9) opacity(0.9) invert(0)'
 	}
 };
@@ -303,7 +303,22 @@ Layers.set('orthoIntra', (options = DEFAULT_LAYER_OPTIONS) => {
 		<StyledWMSTileLayer
       key={"Ortho2014"+JSON.stringify(options)}
       url="http://s10221:7098/orthofotos/services"
-			layers="WO2014"
+			layers="WO2018"
+			format="image/png"
+			tiled="true"
+			maxZoom={19}
+			opacity={options.opacity}
+			cssFilter={options['css-filter']}
+		/>
+	);
+});
+
+Layers.set('trueOrthoIntra', (options = DEFAULT_LAYER_OPTIONS) => {
+	return (
+		<StyledWMSTileLayer
+      key={"trueOrtho2018"+JSON.stringify(options)}
+      url="http://s10221:7098/orthofotos/services"
+			layers="WTO2018"
 			format="image/png"
 			tiled="true"
 			maxZoom={19}
