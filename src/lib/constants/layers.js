@@ -328,6 +328,22 @@ Layers.set('trueOrthoIntra', (options = DEFAULT_LAYER_OPTIONS) => {
 	);
 });
 
+Layers.set('trueOrtho2018', (options = DEFAULT_LAYER_OPTIONS) => {
+	return (
+		<StyledWMSTileLayer
+      key={"trueOrtho2018"+JSON.stringify(options)}
+      url="https://geoportal.wuppertal.de/deegree/wms"
+			layers="R102:trueortho2018 "
+			format="image/png"
+			tiled="true"
+			maxZoom={19}
+			opacity={options.opacity}
+			cssFilter={options['css-filter']}
+		/>
+	);
+});
+
+
 Layers.set('ESRILayer', (options = DEFAULT_LAYER_OPTIONS) => {
 	return (
 		<TileLayer
