@@ -343,6 +343,20 @@ Layers.set('trueOrtho2018', (options = DEFAULT_LAYER_OPTIONS) => {
 	);
 });
 
+Layers.set('hillshade', (options = DEFAULT_LAYER_OPTIONS) => {
+	return (
+		<StyledWMSTileLayer
+      key={"hillshade"+JSON.stringify(options)}
+      url="https://geoportal.wuppertal.de/deegree/wms"
+			layers="hillshade "
+			format="image/png"
+			tiled="true"
+			maxZoom={19}
+			opacity={options.opacity}
+			cssFilter={options['css-filter']}
+		/>
+	);
+});
 
 Layers.set('ESRILayer', (options = DEFAULT_LAYER_OPTIONS) => {
 	return (
