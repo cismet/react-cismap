@@ -4,7 +4,8 @@ import './index.css';
 
 import { RoutedMap, MappingConstants } from "./lib";
 const mapStyle = {
-  height: 500
+  height: 500,
+cursor:'crosshair'
 };
 let urlSearchParams = new URLSearchParams(window.location.href);
 ReactDOM.render(
@@ -21,6 +22,8 @@ ReactDOM.render(
       }}
       layers=""
       doubleClickZoom={false}
+      onclick={(e)=>console.log('click',e)}
+      ondblclick={(e)=>console.log('doubleclick',e)}
       autoFitProcessedHandler={() =>
         this.props.mappingActions.setAutoFit(false)
       }

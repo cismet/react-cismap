@@ -184,6 +184,7 @@ export class RoutedMap extends React.Component {
           attributionControl={false}
           doubleClickZoom={false}
           ondblclick={this.props.ondblclick}
+          onclick={this.props.onclick}
           minZoom={7}
           maxZoom={18}
         >
@@ -210,11 +211,10 @@ RoutedMap.propTypes = {
   featureClickHandler: PropTypes.func,
   style: PropTypes.object.isRequired,
   ondblclick: PropTypes.func,
+  onclick: PropTypes.func,
   children: PropTypes.array,
   locationChangedHandler: PropTypes.func,
-
   boundingBoxChangedHandler: PropTypes.func,
-
   autoFitConfiguration: PropTypes.object,
   autoFitProcessedHandler: PropTypes.func,
   urlSearchParams: PropTypes.object,
@@ -233,6 +233,7 @@ RoutedMap.defaultProps = {
   searchButtonTrigger: function() {},
   featureClickHandler: function() {},
   ondblclick: function() {},
+  onclick: function() {},
   locationChangedHandler: function() {},
   autoFitConfiguration: {},
   urlSearchParams: new URLSearchParams(""),
