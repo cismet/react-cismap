@@ -47,6 +47,7 @@ export class RoutedMap extends React.Component {
       } else {
         console.log("this.leafletMap is null");
       }
+
     });
     this.storeBoundingBox(this.leafletMap);
   }
@@ -170,7 +171,8 @@ export class RoutedMap extends React.Component {
         />
       );
     }
-
+    console.log('leafletMap-Ref',this.leafletMap);
+    
     return (
       <div className={iosClass}>
         <Map
