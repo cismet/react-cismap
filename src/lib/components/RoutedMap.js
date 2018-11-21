@@ -83,6 +83,8 @@ export class RoutedMap extends React.Component {
   }
 
   storeBoundingBox(leafletMap) {
+    console.log('storeBoundingBox');
+    
     //store the projected bounds in the store
     const bounds = leafletMap.leafletElement.getBounds();
     const projectedNE = proj4(proj4.defs("EPSG:4326"), this.props.referenceSystemDefinition, [
