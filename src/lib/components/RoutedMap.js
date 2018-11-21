@@ -21,11 +21,11 @@ export class RoutedMap extends React.Component {
   // add a handler for detecting map changes
   componentDidMount() {
     console.log('XXXXXXXXXXXXXthis.leafletMap',this.leafletMap);
-    
+    const leafletMap=this.leafletMap;
     this.leafletMap.leafletElement.on("moveend", () => {
-      if (typeof this.leafletMap !== "undefined" && this.leafletMap !== null) {
-        const zoom = this.leafletMap.leafletElement.getZoom();
-        const center = this.leafletMap.leafletElement.getCenter();
+      if (typeof leafletMap !== "undefined" && leafletMap !== null) {
+        const zoom = leafletMap.leafletElement.getZoom();
+        const center = leafletMap.leafletElement.getCenter();
         const latFromUrl = parseFloat(this.props.urlSearchParams.get("lat"));
         const lngFromUrl = parseFloat(this.props.urlSearchParams.get("lng"));
         const zoomFromUrl = parseInt(this.props.urlSearchParams.get("zoom"), 10);
@@ -45,13 +45,13 @@ export class RoutedMap extends React.Component {
             zoom: zoom
           });
         }
-        this.storeBoundingBox(this.leafletMap);
+        this.storeBoundingBox(leafletMap);
       } else {
         console.log("this.leafletMap is null");
       }
 
     });
-    this.storeBoundingBox(this.leafletMap);
+    this.storeBoundingBox(leafletMap);
   }
 
   //Handle a autoFit Command if needed
