@@ -45,7 +45,7 @@ export class RoutedMap extends React.Component {
         }
         this.storeBoundingBox(this.leafletMap);
       } else {
-        //console.log("this.leafletMap is null");
+        console.log("this.leafletMap is null");
       }
     });
     this.storeBoundingBox(this.leafletMap);
@@ -225,6 +225,7 @@ RoutedMap.propTypes = {
   backgroundlayers: PropTypes.string,
   fullScreenControlEnabled: PropTypes.bool,
   locateControlEnabled: PropTypes.bool
+  
 };
 
 RoutedMap.defaultProps = {
