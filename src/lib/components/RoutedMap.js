@@ -20,6 +20,8 @@ export class RoutedMap extends React.Component {
 
   // add a handler for detecting map changes
   componentDidMount() {
+    console.log('XXXXXXXXXXXXXthis.leafletMap',this.leafletMap);
+    
     this.leafletMap.leafletElement.on("moveend", () => {
       if (typeof this.leafletMap !== "undefined" && this.leafletMap !== null) {
         const zoom = this.leafletMap.leafletElement.getZoom();
