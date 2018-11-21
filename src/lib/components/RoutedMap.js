@@ -20,7 +20,6 @@ export class RoutedMap extends React.Component {
 
   // add a handler for detecting map changes
   componentDidMount() {
-    console.log('XXXXXXXXXXXXXthis.leafletMap',this.leafletMap);
     const leafletMap=this.leafletMap;
     this.leafletMap.leafletElement.on("moveend", () => {
       if (typeof leafletMap !== "undefined" && leafletMap !== null) {
@@ -47,7 +46,7 @@ export class RoutedMap extends React.Component {
         }
         this.storeBoundingBox(leafletMap);
       } else {
-        console.log("this.leafletMap is null");
+        console.warn("leafletMap ref is null. this could lead to update problems. ");
       }
 
     });
@@ -85,9 +84,7 @@ export class RoutedMap extends React.Component {
     }
   }
 
-  storeBoundingBox(leafletMap) {
-    console.log('storeBoundingBox');
-    
+  storeBoundingBox(leafletMap) {    
     //store the projected bounds in the store
     const bounds = leafletMap.leafletElement.getBounds();
     const projectedNE = proj4(proj4.defs("EPSG:4326"), this.props.referenceSystemDefinition, [
@@ -172,9 +169,7 @@ export class RoutedMap extends React.Component {
           }}
         />
       );
-    }
-    console.log('leafletMap-Ref',this.leafletMap);
-    
+    }    
     return (
       <div className={iosClass}>
         <Map
