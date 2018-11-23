@@ -333,7 +333,7 @@ Layers.set('trueOrtho2018', (options = DEFAULT_LAYER_OPTIONS) => {
 		<StyledWMSTileLayer
       key={"trueOrtho2018"+JSON.stringify(options)}
       url="https://geoportal.wuppertal.de/deegree/wms"
-			layers="R102:trueortho2018 "
+			layers="R102:trueortho201810"
 			format="image/png"
 			tiled="true"
 			maxZoom={19}
