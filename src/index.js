@@ -27,7 +27,7 @@ ReactDOM.render(
       autoFitProcessedHandler={() =>
         this.props.mappingActions.setAutoFit(false)
       }
-      backgroundlayers={"ruhrWMS"}
+      backgroundlayers={"rvrSchrift"}
       urlSearchParams={urlSearchParams}
       fullScreenControlEnabled={true}
       locateControlEnabled={true}

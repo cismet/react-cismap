@@ -265,6 +265,21 @@ Layers.set('rvrWMS', (options = DEFAULT_LAYER_OPTIONS) => {
 	);
 });
 
+Layers.set('rvrSchrift', (options = DEFAULT_LAYER_OPTIONS) => {
+	return (
+		<StyledWMSTileLayer
+			key={"stadtplan_rvr_schrift"+JSON.stringify(options)}
+      url="https://rvr.demo.omniscale.net/mapproxy/service"
+			layers="schrift_rvr"
+			format="image/png"
+			tiled="false"
+			version="1.3.0"
+			maxZoom={19}
+			opacity={options.opacity}
+			cssFilter={options['css-filter']}
+		/>
+	);
+});
 
 Layers.set('ruhrWMS', (options = DEFAULT_LAYER_OPTIONS) => {
 	return (
