@@ -273,6 +273,7 @@ Layers.set('rvrSchrift', (options = DEFAULT_LAYER_OPTIONS) => {
 			layers="schrift_rvr"
 			format="image/png"
 			tiled="false"
+			transparent="true"
 			version="1.3.0"
 			maxZoom={19}
 			opacity={options.opacity}

@@ -27,7 +27,7 @@ ReactDOM.render(
       autoFitProcessedHandler={() =>
         this.props.mappingActions.setAutoFit(false)
       }
-      backgroundlayers={"rvrSchrift"}
+      backgroundlayers={"trueOrtho2018@70|rvrSchrift@100"}
       urlSearchParams={urlSearchParams}
       fullScreenControlEnabled={true}
       locateControlEnabled={true}
