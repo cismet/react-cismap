@@ -115,8 +115,15 @@ export class RoutedMap extends React.Component {
       parseFloat(this.props.urlSearchParams.get("lat")) || this.props.fallbackPosition.lat,
       parseFloat(this.props.urlSearchParams.get("lng")) || this.props.fallbackPosition.lng
     ];
-    const zoomByUrl =
-      parseInt(this.props.urlSearchParams.get("zoom"), 10) || this.props.fallbackZoom;
+
+    let zoomByUrl;
+    if (this.props.zoomSnap===1){
+      zoomByUrl=parseint(this.props.urlSearchParams.get("zoom"), 10) || this.props.fallbackZoom;
+
+    }
+    else {
+      zoomByUrl=parseFloat(this.props.urlSearchParams.get("zoom")) || this.props.fallbackZoom;
+    }
 
     let fullscreenControl = <div />;
     
