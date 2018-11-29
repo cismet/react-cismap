@@ -186,8 +186,10 @@ export class RoutedMap extends React.Component {
           doubleClickZoom={false}
           ondblclick={this.props.ondblclick}
           onclick={this.props.onclick}
-          minZoom={7}
-          maxZoom={18}
+          minZoom={this.props.minZoom}
+          maxZoom={this.props.maxZoom}
+          zoomSnap={this.props.zoomSnap}
+          zoomDelta={this.props.zoomDelta}
         >
           <ZoomControl
             position="topleft"
@@ -225,7 +227,11 @@ RoutedMap.propTypes = {
   referenceSystemDefinition: PropTypes.string,
   backgroundlayers: PropTypes.string,
   fullScreenControlEnabled: PropTypes.bool,
-  locateControlEnabled: PropTypes.bool
+  locateControlEnabled: PropTypes.bool,
+  minZoom: PropTypes.number,
+  maxZoom: PropTypes.number,
+  zoomSnap: PropTypes.number,
+  zoomDelta: PropTypes.number
   
 };
 
@@ -248,7 +254,11 @@ RoutedMap.defaultProps = {
   fallbackZoom: 14,
   referenceSystem: MappingConstants.crs25832,
   referenceSystemDefinition: MappingConstants.proj4crs25832def,
-  backgroundlayers: "default"
+  backgroundlayers: "default",
+  minZoom: 7,
+  maxZoom: 18,
+  zoomSnap: 1,
+  zoomDelta: 1
 };
 
 export default RoutedMap;

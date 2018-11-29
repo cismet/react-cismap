@@ -31,6 +31,10 @@ ReactDOM.render(
       urlSearchParams={urlSearchParams}
       fullScreenControlEnabled={true}
       locateControlEnabled={true}
+      minZoom= {7}
+      maxZoom= {18}
+      zoomSnap= {0.5}
+      zoomDelta= {0.5}
       />
   </div>,
   document.getElementById("root")
