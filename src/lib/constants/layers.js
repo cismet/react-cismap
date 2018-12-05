@@ -374,6 +374,36 @@ Layers.set('hillshade', (options = DEFAULT_LAYER_OPTIONS) => {
 	);
 });
 
+Layers.set('trueOrtho2018Cached', (options = DEFAULT_LAYER_OPTIONS) => {
+	return (
+		<StyledWMSTileLayer
+      key={"trueOrtho2018"+JSON.stringify(options)}
+      url="https://wunda-geoportal-cache.cismet.de/geoportal"
+			layers="R102:trueortho201810"
+			format="image/png"
+			tiled="true"
+			maxZoom={19}
+			opacity={options.opacity}
+			cssFilter={options['css-filter']}
+		/>
+	);
+});
+
+Layers.set('hillshadeCached', (options = DEFAULT_LAYER_OPTIONS) => {
+	return (
+		<StyledWMSTileLayer
+      key={"hillshade"+JSON.stringify(options)}
+      url="https://wunda-geoportal-cache.cismet.de/geoportal"
+			layers="hillshade "
+			format="image/png"
+			tiled="true"
+			maxZoom={19}
+			opacity={options.opacity}
+			cssFilter={options['css-filter']}
+		/>
+	);
+});
+
 Layers.set('ESRILayer', (options = DEFAULT_LAYER_OPTIONS) => {
 	return (
 		<TileLayer
