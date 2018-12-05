@@ -118,7 +118,7 @@ export class RoutedMap extends React.Component {
 
     let zoomByUrl;
     if (this.props.zoomSnap===1){
-      zoomByUrl=parseint(this.props.urlSearchParams.get("zoom"), 10) || this.props.fallbackZoom;
+      zoomByUrl=parseInt(this.props.urlSearchParams.get("zoom"), 10) || this.props.fallbackZoom;
 
     }
     else {
