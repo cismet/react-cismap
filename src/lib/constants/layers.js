@@ -114,7 +114,7 @@ Layers.set('bplan_abkg', (options = DEFAULT_LAYER_OPTIONS) => {
 	return (
 		<StyledWMSTileLayer
       key={"bplan_abkg"+JSON.stringify(options)}
-      url="https://wunda-geoportal-cache.cismet.de/geoportal"
+      url="https://geoportal.wuppertal.de/deegree/wms"
 			layers="bplanreihe"
 			format="image/png"
 			tiled="true"
@@ -125,7 +125,7 @@ Layers.set('bplan_abkg', (options = DEFAULT_LAYER_OPTIONS) => {
 	);
 });
 
-Layers.set('bplan_abkg', (options = DEFAULT_LAYER_OPTIONS) => {
+Layers.set('bplan_abkg_cached', (options = DEFAULT_LAYER_OPTIONS) => {
 	return (
 		<StyledWMSTileLayer
       key={"bplan_abkg"+JSON.stringify(options)}
