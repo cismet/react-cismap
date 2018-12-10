@@ -114,7 +114,7 @@ Layers.set('bplan_abkg', (options = DEFAULT_LAYER_OPTIONS) => {
 	return (
 		<StyledWMSTileLayer
       key={"bplan_abkg"+JSON.stringify(options)}
-      url="https://geoportal.wuppertal.de/deegree/wms"
+      url="https://maps.wuppertal.de/deegree/wms"
 			layers="bplanreihe"
 			format="image/png"
 			tiled="true"
@@ -144,7 +144,7 @@ Layers.set('bplan_abkg_uncached', (options = DEFAULT_LAYER_OPTIONS) => {
 	return (
 		<StyledWMSTileLayer
       key={"bplan_abkg_uncached"+JSON.stringify(options)}
-      url="https://geoportal.wuppertal.de/deegree/wms"
+      url="https://maps.wuppertal.de/deegree/wms"
 			layers="bplanreihe"
 			format="image/png"
 			tiled="true"
@@ -159,7 +159,7 @@ Layers.set('bplan_ovl', (options = DEFAULT_LAYER_OPTIONS) => {
 	return (
 		<StyledWMSTileLayer
       key={"bplan_ovl"+JSON.stringify(options)}
-      url="https://geoportal.wuppertal.de/deegree/wms"
+      url="https://maps.wuppertal.de/deegree/wms"
 			layers="bplanhintergrund"
 			format="image/png"
 			tiled="true"
@@ -206,7 +206,7 @@ Layers.set('uwBPlan', (options = DEFAULT_LAYER_OPTIONS) => {
 	return (
 		<StyledWMSTileLayer
       key={"BPlanreihe auf Umwis"+JSON.stringify(options)}
-      url="https://geoportal.wuppertal.de/deegree/wms"
+      url="https://maps.wuppertal.de/deegree/wms"
 			layers="bplanreihe,bplanhintergrund"
 			format="image/png"
 			tiled="true"
@@ -348,7 +348,7 @@ Layers.set('trueOrtho2018', (options = DEFAULT_LAYER_OPTIONS) => {
 	return (
 		<StyledWMSTileLayer
       key={"trueOrtho2018"+JSON.stringify(options)}
-      url="https://geoportal.wuppertal.de/deegree/wms"
+      url="https://maps.wuppertal.de/deegree/wms"
 			layers="R102:trueortho201810"
 			format="image/png"
 			tiled="true"
@@ -363,7 +363,7 @@ Layers.set('hillshade', (options = DEFAULT_LAYER_OPTIONS) => {
 	return (
 		<StyledWMSTileLayer
       key={"hillshade"+JSON.stringify(options)}
-      url="https://geoportal.wuppertal.de/deegree/wms"
+      url="https://maps.wuppertal.de/deegree/wms"
 			layers="hillshade "
 			format="image/png"
 			tiled="true"
