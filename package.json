@@ -1,12 +1,19 @@
 {
 	"name": "react-cismap",
 	"description": "our (cismet) mapping (pattern) library for better reusability in different projects",
-	"version": "0.0.38",
+	"version": "0.1.0",
 	"main": "dist/index.js",
 	"module": "dist/index.js",
-	"files": [ "dist", "README.md" ],
+	"files": [
+		"dist",
+		"README.md"
+	],
 	"babel": {
-		"presets": [ "es2015", "react", "stage-0" ]
+		"presets": [
+			"es2015",
+			"react",
+			"stage-0"
+		]
 	},
 	"license": "MIT",
 	"repository": {
