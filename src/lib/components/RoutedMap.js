@@ -11,6 +11,7 @@ import getLayersByNames from '../tools/layerFactory';
 import FullscreenControl from './/FullscreenControl';
 import NewWindowControl from './NewWindowControl';
 import LocateControl from '../components/LocateControl';
+import { getInternetExplorerVersion } from '../tools/browserHelper';
 
 export class RoutedMap extends React.Component {
 	constructor(props) {
@@ -141,7 +142,7 @@ export class RoutedMap extends React.Component {
 		let simulateInIframe = false;
 		let simulateInIOS = false;
 		let iosClass = 'no-iOS-device';
-
+		let internetExplorer = getInternetExplorerVersion() !== -1;
 		if (this.props.fullScreenControlEnabled) {
 			fullscreenControl = (
 				<FullscreenControl
@@ -153,7 +154,7 @@ export class RoutedMap extends React.Component {
 				/>
 			);
 
-			if (simulateInIOS || iOS) {
+			if (simulateInIOS || iOS || internetExplorer) {
 				iosClass = 'iOS-device';
 				if (simulateInIframe || inIframe) {
 					fullscreenControl = (
