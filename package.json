@@ -1,20 +1,19 @@
 {
 	"name": "react-cismap",
 	"description": "our (cismet) mapping (pattern) library for better reusability in different projects",
-	"version": "0.3.1",
+	"version": "0.4.",
 	"main": "dist/index.js",
 	"module": "dist/index.js",
 	"files": [
 		"dist",
 		"README.md"
 	],
-	"babel": {
-		"presets": [
-			"es2015",
-			"react",
-			"stage-0"
-		]
-	},
+	"browserslist": [
+		">0.2%",
+		"not dead",
+		"not ie <= 11",
+		"not op_mini all"
+	],
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -23,7 +22,7 @@
 	"dependencies": {
 		"@turf/bbox-polygon": "^6.0.1",
 		"@turf/intersect": "^6.1.3",
-		"babel-preset-react": "^6.24.1",
+		"babel-polyfill": "^6.26.0",
 		"leaflet": "^1.2.0",
 		"leaflet-easybutton": "^2.3.0",
 		"leaflet-fullscreen-custom-container-fork": "^1.0.7",
@@ -39,10 +38,17 @@
 		"url-search-params-polyfill": "^5.0.0"
 	},
 	"devDependencies": {
+		"@babel/cli": "^7.7.0",
+		"@babel/core": "^7.3.3",
 		"@babel/preset-env": "^7.3.1",
-		"babel-cli": "^6.26.0",
-		"babel-preset-es2015": "^6.24.1",
-		"babel-preset-stage-0": "^6.24.1",
+		"@storybook/addon-actions": "^5.1.11",
+		"@storybook/addon-docs": "5.2.0-rc.6",
+		"@storybook/addon-info": "5.1.11",
+		"@storybook/addon-links": "^5.1.11",
+		"@storybook/react": "^5.1.11",
+		"chai": "^4.1.2",
+		"cypress": "3.4.1",
+		"mocha": "^3.5.0",
 		"prop-types": "^15.6.2",
 		"react-scripts": "^3.2.0"
 	},
@@ -51,10 +57,20 @@
 		"react": "^16.5.0"
 	},
 	"scripts": {
-		"start": "react-scripts start",
+		"start": "start-storybook -p 9009 -s public",
+		"start-cra": "react-scripts start",
 		"build-cra": "react-scripts build ",
 		"build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --copy-files  --source-maps both --ignore __tests__,spec.js,test.js,__snapshots__",
 		"test": "react-scripts test --env=jsdom",
-		"eject": "react-scripts eject"
+		"eject-dont-do": "react-scripts eject",
+		"storybook": "start-storybook -p 9009 -s public",
+		"build-storybook": "build-storybook -s public",
+		"cy": "cypress open",
+		"cy-run": "cypress run"
+	},
+	"babel": {
+		"presets": [
+			"@babel/react"
+		]
 	}
 }
