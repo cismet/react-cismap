@@ -22,6 +22,7 @@ export class RoutedMap extends React.Component {
 	// add a handler for detecting map changes
 	componentDidMount() {
 		const leafletMap = this.leafletMap;
+		this.leafletMap.editable = true;
 		this.leafletMap.leafletElement.on('moveend', () => {
 			if (typeof leafletMap !== 'undefined' && leafletMap !== null) {
 				const zoom = leafletMap.leafletElement.getZoom();
@@ -215,6 +216,7 @@ export class RoutedMap extends React.Component {
 						zoomInTitle='Vergr&ouml;ßern'
 						zoomOutTitle='Verkleinern'
 					/>
+
 					{fullscreenControl}
 					{locateControl}
 					{getLayersByNames(

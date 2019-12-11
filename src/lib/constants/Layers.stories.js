@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react';
 
 import { RoutedMap, MappingConstants } from '../../lib';
 
-storiesOf('LocateControl', module)
+storiesOf('LayersConfig', module)
 	// .addDecorator(withInfo) // At your stories directly.
 	.add('Simple', () => {
 		const mapStyle = {
@@ -15,7 +15,7 @@ storiesOf('LocateControl', module)
 
 		return (
 			<div>
-				<div>Simple Map with Locate Control</div>
+				<div>Simple Map with Fullscreen Control</div>
 				<br />
 				<RoutedMap
 					style={mapStyle}
@@ -32,8 +32,8 @@ storiesOf('LocateControl', module)
 					autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
 					backgroundlayers={'ruhrWMSlight@40|trueOrtho2018@10|rvrSchrift@100'}
 					urlSearchParams={urlSearchParams}
-					fullScreenControlEnabled={false}
-					locateControlEnabled={true}
+					fullScreenControlEnabled={true}
+					locateControlEnabled={false}
 					minZoom={7}
 					maxZoom={18}
 					zoomSnap={0.5}
