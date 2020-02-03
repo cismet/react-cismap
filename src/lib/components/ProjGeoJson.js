@@ -25,6 +25,7 @@ class ProjGeoJson extends Path {
 
 			//TODO set a offset so that the Tooltip is shown in the current map
 			layer.feature = feature;
+			layer.customtype = 'ProjGeoJsonLayer';
 
 			//new
 			//layer.on('click',props.featureClickHandler);
@@ -83,6 +84,9 @@ class ProjGeoJson extends Path {
 					layer.closePopup();
 				});
 			}
+
+			// console.log('report layer for snapping', layer);
+			props.reportForSnapping(layer);
 		};
 
 		props.pointToLayer = (feature, latlng) => {
@@ -197,11 +201,13 @@ ProjGeoJson.propTypes = {
 	mapRef: PropTypes.object,
 	featureStylerScalableImageSize: PropTypes.number,
 	clusteringEnabled: PropTypes.bool,
-	clusterOptions: PropTypes.object
+	clusterOptions: PropTypes.object,
+	reportForSnapping: PropTypes.func.isRequired
 };
 
 ProjGeoJson.defaultProps = {
 	featureStylerScalableImageSize: 32,
 	clusterOptions: {},
-	clusteringEnabled: false
+	clusteringEnabled: false,
+	reportForSnapping: (layer) => {}
 };
