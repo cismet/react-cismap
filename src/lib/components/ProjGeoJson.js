@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import 'proj4leaflet';
 
 import { Path } from 'react-leaflet';
-
+import 'leaflet-editable';
+import 'leaflet.path.drag';
 require('react-leaflet-markercluster/dist/styles.min.css');
 
 // need to have this import
@@ -29,10 +30,15 @@ class ProjGeoJson extends Path {
 			//layer.on('click',props.featureClickHandler);
 
 			//old
-			layer.on('click', function(event) {
-				props.featureClickHandler(event, feature, layer);
-			});
-
+			if (props.featureClickHandler !== undefined) {
+				layer.on('click', function(event) {
+					props.featureClickHandler(event, feature, layer);
+				});
+			}
+			// console.log('toggleEdit', layer.toggleEdit);
+			if (props.editable === true) {
+				layer.on('dblclick', L.DomEvent.stop).on('dblclick', layer.toggleEdit);
+			}
 			let zoffset = new L.point(0, 0);
 			if (feature.selected) {
 				//ugly winning: a direct call of bringToFront has no effect -.-

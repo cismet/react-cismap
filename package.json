@@ -20,14 +20,20 @@
 		"url": "git@github.com:cismet/react-cismap.git"
 	},
 	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^1.2.26",
+		"@fortawesome/free-brands-svg-icons": "^5.12.0",
+		"@fortawesome/free-solid-svg-icons": "^5.12.0",
+		"@fortawesome/react-fontawesome": "^0.1.8",
 		"@turf/bbox-polygon": "^6.0.1",
 		"@turf/intersect": "^6.1.3",
 		"babel-polyfill": "^6.26.0",
 		"leaflet": "^1.2.0",
 		"leaflet-easybutton": "^2.3.0",
+		"leaflet-editable": "^1.2.0",
 		"leaflet-fullscreen-custom-container-fork": "^1.0.7",
 		"leaflet.locatecontrol": "^0.63.0",
 		"leaflet.markercluster": "^1.4.0",
+		"leaflet.path.drag": "^0.0.6",
 		"polylabel": "^1.0.2",
 		"proj4": "^2.5.0",
 		"proj4leaflet": "^1.0.2",
@@ -41,6 +47,7 @@
 		"@babel/cli": "^7.7.0",
 		"@babel/core": "^7.3.3",
 		"@babel/preset-env": "^7.3.1",
+		"@fortawesome/fontawesome-free": "^5.12.0",
 		"@storybook/addon-actions": "^5.1.11",
 		"@storybook/addon-docs": "5.2.0-rc.6",
 		"@storybook/addon-info": "5.1.11",
@@ -50,7 +57,7 @@
 		"cypress": "3.4.1",
 		"mocha": "^3.5.0",
 		"prop-types": "^15.6.2",
-		"react-scripts": "^3.2.0"
+		"react-scripts": "^3.3.0"
 	},
 	"peerDependencies": {
 		"prop-types": "^15.6.2",

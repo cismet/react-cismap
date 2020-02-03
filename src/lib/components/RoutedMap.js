@@ -22,7 +22,7 @@ export class RoutedMap extends React.Component {
 	// add a handler for detecting map changes
 	componentDidMount() {
 		const leafletMap = this.leafletMap;
-		this.leafletMap.editable = true;
+		// this.leafletMap.editable = true;
 		this.leafletMap.leafletElement.on('moveend', () => {
 			if (typeof leafletMap !== 'undefined' && leafletMap !== null) {
 				const zoom = leafletMap.leafletElement.getZoom();
@@ -196,6 +196,7 @@ export class RoutedMap extends React.Component {
 					ref={(leafletMap) => {
 						this.leafletMap = leafletMap;
 					}}
+					editable={this.props.editable}
 					key={'leafletMap'}
 					crs={this.props.referenceSystem}
 					style={this.props.style}
@@ -255,7 +256,8 @@ RoutedMap.propTypes = {
 	minZoom: PropTypes.number,
 	maxZoom: PropTypes.number,
 	zoomSnap: PropTypes.number,
-	zoomDelta: PropTypes.number
+	zoomDelta: PropTypes.number,
+	editable: PropTypes.bool
 };
 
 RoutedMap.defaultProps = {
@@ -281,7 +283,8 @@ RoutedMap.defaultProps = {
 	minZoom: 7,
 	maxZoom: 18,
 	zoomSnap: 1,
-	zoomDelta: 1
+	zoomDelta: 1,
+	editable: false
 };
 
 export default RoutedMap;

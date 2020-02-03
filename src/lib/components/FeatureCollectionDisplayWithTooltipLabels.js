@@ -23,7 +23,8 @@ const FeatureCollectionDisplay = ({
 	mapRef,
 	selectionSpiderfyMinZoom,
 	clusterOptions,
-	clusteringEnabled
+	clusteringEnabled,
+	editable = false
 }) => {
 	let markers = [];
 	let markerPos = [];
@@ -113,6 +114,7 @@ const FeatureCollectionDisplay = ({
 				featureClickHandler={featureClickHandler}
 				mapRef={mapRef}
 				selectionSpiderfyMinZoom={selectionSpiderfyMinZoom}
+				editable={editable}
 			/>
 			{markers}
 		</div>
