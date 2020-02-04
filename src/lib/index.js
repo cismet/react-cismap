@@ -4,6 +4,7 @@ import Layers from './constants/layers';
 import ProjGeoJson from './components/ProjGeoJson';
 import FeatureCollectionDisplay from './components/FeatureCollectionDisplay';
 import FeatureCollectionDisplayWithTooltipLabels from './components/FeatureCollectionDisplayWithTooltipLabels';
+import AnnotatedMap from './components/AnnotatedMap';
 import RoutedMap from './components/RoutedMap';
 import getLayersByName from './tools/layerFactory';
 import FullscreenControl from './components/FullscreenControl';
@@ -14,6 +15,7 @@ export {
 	FeatureCollectionDisplay,
 	FeatureCollectionDisplayWithTooltipLabels,
 	RoutedMap,
+	AnnotatedMap,
 	ProjGeoJson,
 	getLayersByName,
 	FullscreenControl,

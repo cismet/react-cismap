@@ -17,8 +17,10 @@ import {
 	flaechenStyle,
 	getMarkerStyleFromFeatureConsideringSelection
 } from './Editing.Storybook.data';
+import { convertPolygonLatLngsToGeoJson } from '../../tools/mappingHelpers';
 
 import L from 'leaflet';
+
 storiesOf('EditControl', module)
 	// .addDecorator(withInfo) // At your stories directly.
 	.add('Simple Editing', () => {
@@ -122,7 +124,7 @@ storiesOf('EditControl', module)
 			</div>
 		);
 	})
-	.add('Simple Editing with GeoJson Background', () => {
+	.add('Simple Editing with GeoJson Background ', () => {
 		const mapStyle = {
 			height: window.innerHeight,
 			cursor: 'pointer'
@@ -131,72 +133,43 @@ storiesOf('EditControl', module)
 
 		let urlSearchParams = new URLSearchParams(window.location.href);
 		const [ snappingLayers, setSnappingLayers ] = useState([]);
+		const [ annotations, setAnnotations ] = useState([]);
+		console.log('annotations annotations', annotations);
+
 		return (
 			<div>
-				<div>Simple Annotation creation with a GeoJSON background in cismap.React </div>
+				<div>
+					Simple Annotation creation with a GeoJSON background ({kassenzeichen.length}{' '}
+					features) in cismap.React{' '}
+				</div>
 				<br />
 				<br />
 				<button
 					onClick={() => {
-						console.log('map', mapRef.current.leafletMap.leafletElement._layers);
 						const map = mapRef.current.leafletMap.leafletElement;
-						var snap = new L.Handler.MarkerSnap(map);
-						// var line = L.polyline([
+
+						const snap = mapRef.current.snap;
+						console.log('mapRef.current.leafletMap', snap);
+
+						// const line = L.polyline([
 						// 	[ 51.27278821188484, 7.19929425724872 ],
 						// 	[ 51.37278821188484, 7.29929425724872 ]
 						// ]).addTo(map);
-						//snap.addGuideLayer(line);
+						// snap.addGuideLayer(line);
 
+						let guideCount = 0;
 						for (const lkey of Object.keys(map._layers)) {
 							const l = map._layers[lkey];
 							//console.log('l', l);
 
-							if (l.customtype === 'ProjGeoJsonLayer') {
+							if (l.customtype === 'snapping.ProjGeoJsonLayer') {
 								snap.addGuideLayer(l);
-								console.log('lxxx', l);
+								console.log('snapLayer', l);
+
+								guideCount++;
 							}
 						}
-
-						var snapMarker = L.marker(map.getCenter(), {
-							icon: map.editTools.createVertexIcon({
-								className: 'leaflet-div-icon leaflet-drawing-icon'
-							}),
-							opacity: 1,
-							zIndexOffset: 1000
-						});
-						snap.watchMarker(snapMarker);
-
-						map.on('editable:vertex:dragstart', function(e) {
-							snap.watchMarker(e.vertex);
-						});
-						map.on('editable:vertex:dragend', function(e) {
-							snap.unwatchMarker(e.vertex);
-						});
-						map.on('editable:drawing:start', function() {
-							this.on('mousemove', followMouse);
-						});
-						map.on('editable:drawing:end', function() {
-							this.off('mousemove', followMouse);
-							snapMarker.remove();
-						});
-						map.on('editable:drawing:click', function(e) {
-							// Leaflet copy event data to another object when firing,
-							// so the event object we have here is not the one fired by
-							// Leaflet.Editable; it's not a deep copy though, so we can change
-							// the other objects that have a reference here.
-							var latlng = snapMarker.getLatLng();
-							e.latlng.lat = latlng.lat;
-							e.latlng.lng = latlng.lng;
-						});
-						snapMarker.on('snap', function(e) {
-							snapMarker.addTo(map);
-						});
-						snapMarker.on('unsnap', function(e) {
-							snapMarker.remove();
-						});
-						var followMouse = function(e) {
-							snapMarker.setLatLng(e.latlng);
-						};
+						console.log('Added ' + guideCount + ' guides.');
 					}}
 				>
 					Snapping
@@ -228,10 +201,22 @@ storiesOf('EditControl', module)
 						lat: 51.27278821188484,
 						lng: 7.19929425724872
 					}}
-					snaplayersX={snappingLayers}
 				>
 					<EditControl
-						onSelect={action('onSelectAction')}
+						onSelect={(e) => {
+							action('onSelectAction')(e);
+							const x = {
+								id: '-1',
+								latlngs: e.getLatLngs(),
+								properties: {}
+							};
+							const f = convertPolygonLatLngsToGeoJson(x);
+							const aFC = annotations;
+							annotations.push(f);
+							setAnnotations(aFC);
+							console.log('event on select', f);
+							console.log('annotations', annotations, JSON.stringify(annotations));
+						}}
 						onCreation={action('onCreationAction')}
 					/>
 					<FeatureCollectionDisplay
@@ -247,11 +232,19 @@ storiesOf('EditControl', module)
 						style={flaechenStyle}
 						showMarkerCollection={true}
 						markerStyle={getMarkerStyleFromFeatureConsideringSelection}
-						reportForSnapping={(layer) => {
-							const sl = snappingLayers;
-							sl.push(layer);
-							setSnappingLayers(sl);
+						snappingGuides={true}
+					/>
+					<FeatureCollectionDisplay
+						editable={false}
+						key={'ds+' + JSON.stringify(annotations)}
+						featureCollection={annotations}
+						boundingBox={{
+							left: 343647.19856823067,
+							top: 5695957.177980389,
+							right: 398987.6070465423,
+							bottom: 5652273.416315537
 						}}
+						showMarkerCollection={false}
 					/>
 				</RoutedMap>
 			</div>

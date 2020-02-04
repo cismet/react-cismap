@@ -26,8 +26,10 @@ export class RoutedMap extends React.Component {
 		const leafletMap = this.leafletMap;
 		// this.leafletMap.editable = true;
 
-		console.log('this.leafletMap.leafletElement', this.leafletMap.leafletElement);
-		this.leafletMap.leafletElement.on('moveend', () => {
+		const map = leafletMap.leafletElement;
+		console.log('this.leafletMap.leafletElement', map);
+		//Do sstuff after panning is over
+		map.on('moveend', () => {
 			if (typeof leafletMap !== 'undefined' && leafletMap !== null) {
 				const zoom = leafletMap.leafletElement.getZoom();
 				const center = leafletMap.leafletElement.getCenter();
@@ -55,6 +57,65 @@ export class RoutedMap extends React.Component {
 				console.warn('leafletMap ref is null. this could lead to update problems. ');
 			}
 		});
+
+		//Do stuff for snapping
+
+		this.snap = new L.Handler.MarkerSnap(map);
+		const snap = this.snap;
+		var snapMarker = L.marker(map.getCenter(), {
+			icon: map.editTools.createVertexIcon({
+				className: 'leaflet-div-icon leaflet-drawing-icon'
+			}),
+			opacity: 1,
+			zIndexOffset: 1000
+		});
+		snap.watchMarker(snapMarker);
+
+		map.on('editable:vertex:dragstart', function(e) {
+			snap.watchMarker(e.vertex);
+		});
+		map.on('editable:vertex:dragend', function(e) {
+			snap.unwatchMarker(e.vertex);
+		});
+		map.on('editable:drawing:start', function() {
+			this.on('mousemove', followMouse);
+		});
+		map.on('editable:drawing:end', function() {
+			this.off('mousemove', followMouse);
+			snapMarker.remove();
+		});
+		map.on('editable:drawing:click', function(e) {
+			// Leaflet copy event data to another object when firing,
+			// so the event object we have here is not the one fired by
+			// Leaflet.Editable; it's not a deep copy though, so we can change
+			// the other objects that have a reference here.
+			var latlng = snapMarker.getLatLng();
+			e.latlng.lat = latlng.lat;
+			e.latlng.lng = latlng.lng;
+		});
+		snapMarker.on('snap', function(e) {
+			snapMarker.addTo(map);
+		});
+		snapMarker.on('unsnap', function(e) {
+			snapMarker.remove();
+		});
+		var followMouse = function(e) {
+			snapMarker.setLatLng(e.latlng);
+		};
+
+		map.on('layeradd', function(e) {
+			if (e.layer.customtype !== undefined && e.layer.customtype.startsWith('snapping.')) {
+				// console.log('layeradd', e.layer.customtype, snap);
+				snap.addGuideLayer(e.layer);
+			}
+		});
+		// map.on('layerremove', function(e) {
+		// 	if (e.layer.customtype !== undefined && e.layer.customtype.startsWith('snapping.')) {
+		// 		console.log('layerremove', e.layer.customtype);
+		// 		//this method is not exiting
+		// 		snap.removeGuideLayer(e.layer);
+		// 	}
+		// });
 
 		this.storeBoundingBox(leafletMap);
 	}
@@ -97,50 +158,6 @@ export class RoutedMap extends React.Component {
 				}
 				this.props.autoFitProcessedHandler();
 			}
-
-			// for (const layer of this.props.snaplayers) {
-			// 	snap.addGuideLayer(layer);
-			// 	console.log('xxx', layer);
-			// }
-			// var snapMarker = L.marker(map.getCenter(), {
-			// 	icon: map.editTools.createVertexIcon({
-			// 		className: 'leaflet-div-icon leaflet-drawing-icon'
-			// 	}),
-			// 	opacity: 1,
-			// 	zIndexOffset: 1000
-			// });
-			// snap.watchMarker(snapMarker);
-			// map.on('editable:vertex:dragstart', function(e) {
-			// 	snap.watchMarker(e.vertex);
-			// });
-			// map.on('editable:vertex:dragend', function(e) {
-			// 	snap.unwatchMarker(e.vertex);
-			// });
-			// map.on('editable:drawing:start', function() {
-			// 	this.on('mousemove', followMouse);
-			// });
-			// map.on('editable:drawing:end', function() {
-			// 	this.off('mousemove', followMouse);
-			// 	snapMarker.remove();
-			// });
-			// map.on('editable:drawing:click', function(e) {
-			// 	// Leaflet copy event data to another object when firing,
-			// 	// so the event object we have here is not the one fired by
-			// 	// Leaflet.Editable; it's not a deep copy though, so we can change
-			// 	// the other objects that have a reference here.
-			// 	var latlng = snapMarker.getLatLng();
-			// 	e.latlng.lat = latlng.lat;
-			// 	e.latlng.lng = latlng.lng;
-			// });
-			// snapMarker.on('snap', function(e) {
-			// 	snapMarker.addTo(map);
-			// });
-			// snapMarker.on('unsnap', function(e) {
-			// 	snapMarker.remove();
-			// });
-			// var followMouse = function(e) {
-			// 	snapMarker.setLatLng(e.latlng);
-			// };
 		}
 	}
 
@@ -171,58 +188,6 @@ export class RoutedMap extends React.Component {
 	}
 
 	render() {
-		// if (typeof this.leafletMap !== 'undefined' && this.leafletMap != null) {
-		// 	if (this.props.snaplayers !== undefined) {
-		// 		console.log('this.props.snaplayers', this.props.snaplayers);
-
-		// 		const map = this.leafletMap.leafletElement;
-		// 		var snap = new L.Handler.MarkerSnap(map);
-		// 		for (const layer of this.props.snaplayers) {
-		// 			snap.addGuideLayer(layer);
-		// 			console.log('xxx', layer);
-		// 		}
-		// 		var snapMarker = L.marker(map.getCenter(), {
-		// 			icon: map.editTools.createVertexIcon({
-		// 				className: 'leaflet-div-icon leaflet-drawing-icon'
-		// 			}),
-		// 			opacity: 1,
-		// 			zIndexOffset: 1000
-		// 		});
-		// 		snap.watchMarker(snapMarker);
-		// 		map.on('editable:vertex:dragstart', function(e) {
-		// 			snap.watchMarker(e.vertex);
-		// 		});
-		// 		map.on('editable:vertex:dragend', function(e) {
-		// 			snap.unwatchMarker(e.vertex);
-		// 		});
-		// 		map.on('editable:drawing:start', function() {
-		// 			this.on('mousemove', followMouse);
-		// 		});
-		// 		map.on('editable:drawing:end', function() {
-		// 			this.off('mousemove', followMouse);
-		// 			snapMarker.remove();
-		// 		});
-		// 		map.on('editable:drawing:click', function(e) {
-		// 			// Leaflet copy event data to another object when firing,
-		// 			// so the event object we have here is not the one fired by
-		// 			// Leaflet.Editable; it's not a deep copy though, so we can change
-		// 			// the other objects that have a reference here.
-		// 			var latlng = snapMarker.getLatLng();
-		// 			e.latlng.lat = latlng.lat;
-		// 			e.latlng.lng = latlng.lng;
-		// 		});
-		// 		snapMarker.on('snap', function(e) {
-		// 			snapMarker.addTo(map);
-		// 		});
-		// 		snapMarker.on('unsnap', function(e) {
-		// 			snapMarker.remove();
-		// 		});
-		// 		var followMouse = function(e) {
-		// 			snapMarker.setLatLng(e.latlng);
-		// 		};
-		// 	}
-		// }
-
 		const positionByUrl = [
 			parseFloat(this.props.urlSearchParams.get('lat')) || this.props.fallbackPosition.lat,
 			parseFloat(this.props.urlSearchParams.get('lng')) || this.props.fallbackPosition.lng
@@ -358,8 +323,7 @@ RoutedMap.propTypes = {
 	maxZoom: PropTypes.number,
 	zoomSnap: PropTypes.number,
 	zoomDelta: PropTypes.number,
-	editable: PropTypes.bool,
-	snaplayers: PropTypes.array
+	editable: PropTypes.bool
 };
 
 RoutedMap.defaultProps = {

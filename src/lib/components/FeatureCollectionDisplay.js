@@ -18,7 +18,7 @@ const FeatureCollectionDisplay = ({
 	markerCollectionTransformation,
 	markerStyle,
 	editable = false,
-	reportForSnapping
+	snappingGuides = false
 }) => {
 	let markers;
 	if (showMarkerCollection) {
@@ -37,6 +37,7 @@ const FeatureCollectionDisplay = ({
 				featureClickHandler={featureClickHandler}
 				mapRef={mapRef}
 				selectionSpiderfyMinZoom={selectionSpiderfyMinZoom}
+				snappingGuides={false}
 			/>
 		);
 	}
@@ -53,7 +54,7 @@ const FeatureCollectionDisplay = ({
 				mapRef={mapRef}
 				selectionSpiderfyMinZoom={selectionSpiderfyMinZoom}
 				editable={editable}
-				reportForSnapping={reportForSnapping}
+				snappingGuides={snappingGuides}
 			/>
 			{markers}
 		</div>

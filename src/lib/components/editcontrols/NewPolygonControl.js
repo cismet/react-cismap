@@ -45,6 +45,7 @@ export default class Control extends MapControl {
 
 						props.onSelect(e.layer);
 					});
+					e.layer.remove();
 				});
 				// map.on('editable:drawing:click', () => {
 				// 	console.log('click');
