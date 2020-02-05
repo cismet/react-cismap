@@ -29,7 +29,6 @@ export class RoutedMap extends React.Component {
 		// this.leafletMap.editable = true;
 
 		const map = leafletMap.leafletElement;
-		console.log('this.leafletMap.leafletElement', map);
 		//Do sstuff after panning is over
 		map.on('moveend', () => {
 			if (typeof leafletMap !== 'undefined' && leafletMap !== null) {
@@ -118,12 +117,17 @@ export class RoutedMap extends React.Component {
 				snap.addGuideLayer(e.layer);
 			}
 		});
-		// map.on('layerremove', function(e) {
-		// 	if (e.layer.snappingGuide === true) {
-		// 		//this method is not existing
-		// 		snap.removeGuideLayer(e.layer);
-		// 	}
-		// });
+		map.on('layerremove', function(e) {
+			if (e.layer.snappingGuide === true) {
+				const hitIndex = snap._guides.indexOf(e.layer);
+				if (hitIndex !== -1) {
+					snap._guides.splice(hitIndex, 1);
+					// console.log('removeGuideLayer');
+				}
+
+				//snap.removeGuideLayer(e.layer);
+			}
+		});
 
 		this.storeBoundingBox(leafletMap);
 	}

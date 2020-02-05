@@ -51,7 +51,6 @@ const Comp = (props) => {
 					layer.feature !== undefined &&
 					layer.feature.inEditMode === true
 				) {
-					console.log('layer anno', layer);
 					layer.enableEdit();
 				}
 			}

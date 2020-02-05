@@ -47,17 +47,22 @@ export default class Control extends MapControl {
 					return convertPolygonLatLngsToGeoJson(x);
 				};
 
-				//Ganzes Objekt verschoben
+				//moved whole object
 				map.on('editable:dragend', (e) => {
 					props.onFeatureChange(createFeature(e.layer.feature.id, e.layer));
 				});
 
+				//moved only the handles of an object
 				map.on('editable:vertex:dragend', (e) => {
 					props.onFeatureChange(createFeature(e.layer.feature.id, e.layer));
 				});
 
+				//created a new object
 				map.on('editable:drawing:end', (e) => {
-					props.onFeatureCreation(createFeature(-1, e.layer));
+					const feature = createFeature(-1, e.layer);
+					//if you wannt to keep the edit handles on just do
+					feature.inEditMode = true;
+					props.onFeatureCreation(feature);
 
 					//switch off editing
 					//e.layer.toggleEdit();
