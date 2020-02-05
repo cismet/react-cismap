@@ -476,8 +476,6 @@ const uwz = [
 	}
 ];
 
-console.log('----cc---------cc---');
-
 storiesOf('FeatureCollectionDisplayWithTooltipLabels', module)
 	// .addDecorator(withInfo) // At your stories directly.
 	.add('Simple FCD in 25832', () =>

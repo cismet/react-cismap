@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { MapControl } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet-editable';
+import { convertPolygonLatLngsToGeoJson } from '../../tools/mappingHelpers';
 
 export default class Control extends MapControl {
 	createLeafletElement(props) {
@@ -16,8 +17,6 @@ export default class Control extends MapControl {
 			},
 
 			onAdd: function(map) {
-				console.log('props', props);
-
 				var container = L.DomUtil.create('div', 'leaflet-control leaflet-bar'),
 					link = L.DomUtil.create('a', '', container);
 
@@ -34,17 +33,44 @@ export default class Control extends MapControl {
 				);
 
 				const that = this;
+
+				// map.on('editable:editing', (e) => {
+				// 	console.log('editing', e);
+				// });
+
+				const createFeature = (id, layer) => {
+					const x = {
+						id: id,
+						latlngs: layer.getLatLngs(),
+						properties: {}
+					};
+					return convertPolygonLatLngsToGeoJson(x);
+				};
+
+				//Ganzes Objekt verschoben
+				map.on('editable:dragend', (e) => {
+					props.onFeatureChange(createFeature(e.layer.feature.id, e.layer));
+				});
+
+				map.on('editable:vertex:dragend', (e) => {
+					props.onFeatureChange(createFeature(e.layer.feature.id, e.layer));
+				});
+
 				map.on('editable:drawing:end', (e) => {
-					props.onCreation(e.layer);
-					e.layer.toggleEdit();
+					props.onFeatureCreation(createFeature(-1, e.layer));
 
-					e.layer.on('dblclick', L.DomEvent.stop).on('dblclick', e.layer.toggleEdit);
+					//switch off editing
+					//e.layer.toggleEdit();
 
-					e.layer.on('click', L.DomEvent.stop).on('click', () => {
-						console.log('e.layer', e);
+					// e.layer.on('dblclick', L.DomEvent.stop).on('dblclick', e.layer.toggleEdit);
 
-						props.onSelect(e.layer);
-					});
+					// e.layer.on('click', L.DomEvent.stop).on('click', () => {
+					// 	console.log('e.layer', e);
+
+					// 	props.onSelect(e.layer);
+					// });
+
+					//remove the object since it is stored in a feature collection
 					e.layer.remove();
 				});
 				// map.on('editable:drawing:click', () => {
@@ -72,11 +98,13 @@ export default class Control extends MapControl {
 Control.propTypes = {
 	position: PropTypes.string,
 	onSelect: PropTypes.func,
-	onCreation: PropTypes.func
+	onFeatureCreation: PropTypes.func,
+	onFeatureChange: PropTypes.func
 };
 
 Control.defaultProps = {
 	position: 'topleft',
 	onSelect: (editable) => {},
-	onCreation: (editable) => {}
+	onFeatureCreation: (editable) => {},
+	onFeatureChange: (editable) => {}
 };

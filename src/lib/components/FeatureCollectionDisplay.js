@@ -18,7 +18,8 @@ const FeatureCollectionDisplay = ({
 	markerCollectionTransformation,
 	markerStyle,
 	editable = false,
-	snappingGuides = false
+	snappingGuides = false,
+	customType
 }) => {
 	let markers;
 	if (showMarkerCollection) {
@@ -38,6 +39,7 @@ const FeatureCollectionDisplay = ({
 				mapRef={mapRef}
 				selectionSpiderfyMinZoom={selectionSpiderfyMinZoom}
 				snappingGuides={false}
+				customType={customType}
 			/>
 		);
 	}
@@ -55,6 +57,7 @@ const FeatureCollectionDisplay = ({
 				selectionSpiderfyMinZoom={selectionSpiderfyMinZoom}
 				editable={editable}
 				snappingGuides={snappingGuides}
+				customType={customType}
 			/>
 			{markers}
 		</div>
@@ -77,7 +80,8 @@ FeatureCollectionDisplay.propTypes = {
 	clusteringEnabled: PropTypes.bool,
 	showMarkerCollection: PropTypes.bool,
 	markerCollectionTransformation: PropTypes.func,
-	markerStyle: PropTypes.func
+	markerStyle: PropTypes.func,
+	customType: PropTypes.string
 };
 
 FeatureCollectionDisplay.defaultProps = {

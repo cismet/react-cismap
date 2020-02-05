@@ -162,7 +162,7 @@ storiesOf('EditControl', module)
 							const l = map._layers[lkey];
 							//console.log('l', l);
 
-							if (l.customtype === 'snapping.ProjGeoJsonLayer') {
+							if (l.snappingGuide === true) {
 								snap.addGuideLayer(l);
 								console.log('snapLayer', l);
 

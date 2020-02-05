@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import ProjGeoJson from './ProjGeoJson';
-import { convertFeatureCollectionToMarkerPositionCollection } from '../tools/mappingHelpers';
 import RoutedMap from './RoutedMap';
 import FeatureCollectionDisplay from './FeatureCollectionDisplay';
-import { convertPolygonLatLngsToGeoJson } from '../tools/mappingHelpers';
 import EditControl from './editcontrols/NewPolygonControl';
+import { convertFeatureCollectionToMarkerPositionCollection } from '../tools/mappingHelpers';
 
 import 'leaflet-editable';
 import 'leaflet.path.drag';
@@ -14,9 +13,11 @@ import L from 'leaflet';
 
 // Since this component is simple and static, there's no parent container for it.
 const Comp = (props) => {
+	const [ featuresInActiveEditMode, setFeaturesInActiveEditMode ] = useState([]);
+	const mapRef = useRef(null);
 	const [ annotations, setAnnotations ] = useState([
 		{
-			id: '-1',
+			id: '0',
 			type: 'Feature',
 			geometry: {
 				type: 'Polygon',
@@ -40,41 +41,50 @@ const Comp = (props) => {
 		}
 	]);
 
-	// useEffect(() => {
-
-	// }, []);
-
-	let markers;
-	console.log('props', props);
-	const mapStyle = {
-		height: window.innerHeight - 100,
-		cursor: 'pointer',
-		clear: 'both'
-	};
+	useEffect(
+		() => {
+			const map = mapRef.current.leafletMap.leafletElement;
+			for (const layerkey of Object.keys(map._layers)) {
+				const layer = map._layers[layerkey];
+				if (
+					layer.customType === 'annotation' &&
+					layer.feature !== undefined &&
+					layer.feature.inEditMode === true
+				) {
+					console.log('layer anno', layer);
+					layer.enableEdit();
+				}
+			}
+		},
+		[ annotations ]
+	);
 
 	return (
-		<RoutedMap {...props}>
+		<RoutedMap ref={mapRef} {...props}>
 			{props.children}
 			<EditControl
 				onSelect={(e) => {
 					console.log('onSelect', e);
 				}}
-				onCreation={(e) => {
+				onFeatureCreation={(feature) => {
 					setAnnotations((oldAnno) => {
-						const x = {
-							id: oldAnno.length + 1,
-							latlngs: e.getLatLngs(),
-							properties: {}
-						};
-						const f = convertPolygonLatLngsToGeoJson(x);
-						return [ ...oldAnno, f ];
+						feature.id = oldAnno.length;
+						return [ ...oldAnno, feature ];
+					});
+				}}
+				onFeatureChange={(feature) => {
+					setAnnotations((oldAnno) => {
+						feature.inEditMode = true;
+						oldAnno[feature.id] = feature;
+						return [ ...oldAnno ];
 					});
 				}}
 			/>
 			<FeatureCollectionDisplay
 				editable={true}
-				snappingGuides={false}
-				key={'ds' + JSON.stringify(annotations)}
+				snappingGuides={true}
+				customType='annotation'
+				key={'annotation'}
 				featureCollection={annotations}
 				boundingBox={{
 					left: 343647.19856823067,

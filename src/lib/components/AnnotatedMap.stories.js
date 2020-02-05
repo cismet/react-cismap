@@ -32,15 +32,16 @@ storiesOf('AnnotatedMap', module)
 					key={'leafletRoutedMap'}
 					referenceSystem={MappingConstants.crs25832}
 					referenceSystemDefinition={MappingConstants.proj4crs25832def}
-					ref={(leafletMap) => {
-						// this.leafletRoutedMap = leafletMap;
-					}}
 					layers=''
 					doubleClickZoom={false}
-					onclick={(e) => console.log('click', e)}
-					ondblclick={(e) => console.log('doubleclick', e)}
+					onclick={(e) => {
+						console.log();
+					}}
+					ondblclick={(e) => {
+						console.log();
+					}}
 					autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
-					backgroundlayers={'ruhrWMSlight@40|trueOrtho2018@10|rvrSchrift@100'}
+					backgroundlayers={'ruhrWMSlight@40|trueOrtho2018@10|_rvrSchrift@100'}
 					urlSearchParams={urlSearchParams}
 					fullScreenControlEnabled={false}
 					locateControlEnabled={false}

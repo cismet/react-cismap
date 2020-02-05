@@ -26,7 +26,10 @@ class ProjGeoJson extends Path {
 			//TODO set a offset so that the Tooltip is shown in the current map
 			layer.feature = feature;
 			if (props.snappingGuides === true) {
-				layer.customtype = 'snapping.ProjGeoJsonLayer';
+				layer.snappingGuide = true;
+			}
+			if (props.customType !== undefined) {
+				layer.customType = props.customType;
 			}
 
 			//new
@@ -40,7 +43,10 @@ class ProjGeoJson extends Path {
 			}
 			// console.log('toggleEdit', layer.toggleEdit);
 			if (props.editable === true) {
-				layer.on('dblclick', L.DomEvent.stop).on('dblclick', layer.toggleEdit);
+				layer.on('dblclick', L.DomEvent.stop).on('dblclick', () => {
+					layer.toggleEdit();
+					layer.feature.inEditMode = layer.editEnabled();
+				});
 			}
 			let zoffset = new L.point(0, 0);
 			if (feature.selected) {
@@ -202,7 +208,8 @@ ProjGeoJson.propTypes = {
 	mapRef: PropTypes.object,
 	featureStylerScalableImageSize: PropTypes.number,
 	clusteringEnabled: PropTypes.bool,
-	clusterOptions: PropTypes.object
+	clusterOptions: PropTypes.object,
+	customType: PropTypes.string
 };
 
 ProjGeoJson.defaultProps = {

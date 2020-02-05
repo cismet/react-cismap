@@ -15,6 +15,8 @@ import { getInternetExplorerVersion } from '../tools/browserHelper';
 import L from 'leaflet';
 import 'leaflet-snap';
 import 'leaflet-geometryutil';
+import '../tools/leaflet-geometryutil-workaround'; //see https://github.com/makinacorpus/Leaflet.GeometryUtil/issues/59
+
 export class RoutedMap extends React.Component {
 	constructor(props) {
 		super(props);
@@ -72,10 +74,18 @@ export class RoutedMap extends React.Component {
 		snap.watchMarker(snapMarker);
 
 		map.on('editable:vertex:dragstart', function(e) {
+			//remove the the layer from the guides if it is in there
+			// no need to add it, because of the conversion ot a feature after editing
+			const hitIndex = snap._guides.indexOf(e.layer);
+			if (hitIndex !== -1) {
+				snap._guides.splice(hitIndex, 1);
+			}
 			snap.watchMarker(e.vertex);
 		});
 		map.on('editable:vertex:dragend', function(e) {
 			snap.unwatchMarker(e.vertex);
+			// need to add it here again if it would not be converted to a feature
+			// snap.addGuideLayer(e.layer);
 		});
 		map.on('editable:drawing:start', function() {
 			this.on('mousemove', followMouse);
@@ -104,15 +114,13 @@ export class RoutedMap extends React.Component {
 		};
 
 		map.on('layeradd', function(e) {
-			if (e.layer.customtype !== undefined && e.layer.customtype.startsWith('snapping.')) {
-				// console.log('layeradd', e.layer.customtype, snap);
+			if (e.layer.snappingGuide === true) {
 				snap.addGuideLayer(e.layer);
 			}
 		});
 		// map.on('layerremove', function(e) {
-		// 	if (e.layer.customtype !== undefined && e.layer.customtype.startsWith('snapping.')) {
-		// 		console.log('layerremove', e.layer.customtype);
-		// 		//this method is not exiting
+		// 	if (e.layer.snappingGuide === true) {
+		// 		//this method is not existing
 		// 		snap.removeGuideLayer(e.layer);
 		// 	}
 		// });

@@ -189,7 +189,6 @@ const createPolygonMarkerGeometry = (coordinates, viewBBox, markerPos) => {
 export const convertPolygonLatLngsToGeoJson = ({
 	id,
 	latlngs,
-	featureProprties,
 	crs = '25832',
 	type = 'Feature',
 	properties
@@ -208,7 +207,6 @@ export const convertPolygonLatLngsToGeoJson = ({
 	for (const firstLevel of latlngs) {
 		const resultArray = [];
 		for (const latlng of firstLevel) {
-			console.log('latlng', latlng);
 			const coord = proj4(proj4.defs('EPSG:4326'), projectionData[crs].def, [
 				latlng.lng,
 				latlng.lat
