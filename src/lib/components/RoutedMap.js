@@ -101,6 +101,38 @@ export class RoutedMap extends React.Component {
 		});
 		snap.watchMarker(snapMarker);
 		const that = this;
+
+		map.on('editable:dragstart', function(e) {
+			if (that.props.snappingEnabled && e.layer.feature.geometry.type === 'Point') {
+				//remove the the layer from the guides if it is in there
+				// no need to add it, because of the conversion ot a feature after editing
+
+				const hitIndex = snap._guides.indexOf(e.layer);
+				if (hitIndex !== -1) {
+					snap._guides.splice(hitIndex, 1);
+				}
+
+				//snapMarker.addTo(map);
+				snap.watchMarker(e.layer);
+			}
+		});
+		map.on('editable:drag', function(e) {
+			if (that.props.snappingEnabled && e.layer.feature.geometry.type === 'Point') {
+				snapMarker.setLatLng(e.latlng);
+			}
+		});
+
+		map.on('editable:dragend', function(e) {
+			if (that.props.snappingEnabled && e.layer.feature.geometry.type === 'Point') {
+				snap.unwatchMarker(e.layer);
+				//snapMarker.remove();
+
+				//
+				//need to add it here again if it would not be converted to a feature
+				// snap.addGuideLayer(e.layer);
+			}
+		});
+
 		map.on('editable:vertex:dragstart', function(e) {
 			if (that.props.snappingEnabled) {
 				//remove the the layer from the guides if it is in there
@@ -109,6 +141,8 @@ export class RoutedMap extends React.Component {
 				if (hitIndex !== -1) {
 					snap._guides.splice(hitIndex, 1);
 				}
+				console.log('snap.watchMarker(e.vertex)', e);
+
 				snap.watchMarker(e.vertex);
 			}
 		});

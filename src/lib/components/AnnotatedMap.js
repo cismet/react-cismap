@@ -5,6 +5,7 @@ import RoutedMap from './RoutedMap';
 import FeatureCollectionDisplay from './FeatureCollectionDisplay';
 import NewPolyControl from './editcontrols/NewPolygonControl';
 import NewMarkerControl from './editcontrols/NewMarkerControl';
+import RemoveControl from './editcontrols/RemoveEditableObjectControl';
 import { convertFeatureCollectionToMarkerPositionCollection } from '../tools/mappingHelpers';
 import { convertPolygonLatLngsToGeoJson, projectionData } from '../tools/mappingHelpers';
 import { reproject } from 'reproject';
@@ -144,6 +145,7 @@ const Comp = (props) => {
 
 			{editable && <NewPolyControl />}
 			{editable && <NewMarkerControl />}
+			{editable && <RemoveControl />}
 			{editable && (
 				<FeatureCollectionDisplay
 					editable={true}

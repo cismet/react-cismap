@@ -109,7 +109,11 @@ class ProjGeoJson extends Path {
 						iconAnchor: [ theStyle.svgSize / 2, theStyle.svgSize / 2 ],
 						iconSize: [ theStyle.svgSize, theStyle.svgSize ]
 					});
-					marker = L.marker(latlng, { icon: divIcon });
+					if (theStyle.svg !== undefined) {
+						marker = L.marker(latlng, { icon: divIcon });
+					} else {
+						marker = L.marker(latlng);
+					}
 				} else {
 					marker = L.circleMarker(latlng, { radius: 2 });
 				}
