@@ -17,6 +17,34 @@ import 'leaflet-snap';
 import 'leaflet-geometryutil';
 import '../tools/leaflet-geometryutil-workaround'; //see https://github.com/makinacorpus/Leaflet.GeometryUtil/issues/59
 
+L.EditControl = L.Control.extend({
+	options: {
+		position: 'topleft',
+		callback: null,
+		kind: '',
+		html: ''
+	},
+
+	onAdd: function(map) {
+		var container = L.DomUtil.create('div', 'leaflet-control leaflet-bar'),
+			link = L.DomUtil.create('a', '', container);
+
+		link.href = '#';
+		link.title = 'Create a new ' + this.options.kind;
+		link.innerHTML = this.options.html;
+		L.DomEvent.on(link, 'click', L.DomEvent.stop).on(
+			link,
+			'click',
+			function() {
+				window.LAYER = this.options.callback.call(map.editTools);
+			},
+			this
+		);
+
+		return container;
+	}
+});
+
 export class RoutedMap extends React.Component {
 	constructor(props) {
 		super(props);
@@ -60,6 +88,7 @@ export class RoutedMap extends React.Component {
 		});
 
 		//Do stuff for snapping
+		console.log('this.props.snappingEnabled', this.props.snappingEnabled);
 
 		this.snap = new L.Handler.MarkerSnap(map);
 		const snap = this.snap;
@@ -71,45 +100,61 @@ export class RoutedMap extends React.Component {
 			zIndexOffset: 1000
 		});
 		snap.watchMarker(snapMarker);
-
+		const that = this;
 		map.on('editable:vertex:dragstart', function(e) {
-			//remove the the layer from the guides if it is in there
-			// no need to add it, because of the conversion ot a feature after editing
-			const hitIndex = snap._guides.indexOf(e.layer);
-			if (hitIndex !== -1) {
-				snap._guides.splice(hitIndex, 1);
+			if (that.props.snappingEnabled) {
+				//remove the the layer from the guides if it is in there
+				// no need to add it, because of the conversion ot a feature after editing
+				const hitIndex = snap._guides.indexOf(e.layer);
+				if (hitIndex !== -1) {
+					snap._guides.splice(hitIndex, 1);
+				}
+				snap.watchMarker(e.vertex);
 			}
-			snap.watchMarker(e.vertex);
 		});
 		map.on('editable:vertex:dragend', function(e) {
-			snap.unwatchMarker(e.vertex);
-			// need to add it here again if it would not be converted to a feature
-			// snap.addGuideLayer(e.layer);
+			if (that.props.snappingEnabled) {
+				snap.unwatchMarker(e.vertex);
+				// need to add it here again if it would not be converted to a feature
+				// snap.addGuideLayer(e.layer);
+			}
 		});
 		map.on('editable:drawing:start', function() {
-			this.on('mousemove', followMouse);
+			if (that.props.snappingEnabled) {
+				this.on('mousemove', followMouse);
+			}
 		});
 		map.on('editable:drawing:end', function() {
-			this.off('mousemove', followMouse);
-			snapMarker.remove();
+			if (that.props.snappingEnabled) {
+				this.off('mousemove', followMouse);
+				snapMarker.remove();
+			}
 		});
 		map.on('editable:drawing:click', function(e) {
-			// Leaflet copy event data to another object when firing,
-			// so the event object we have here is not the one fired by
-			// Leaflet.Editable; it's not a deep copy though, so we can change
-			// the other objects that have a reference here.
-			var latlng = snapMarker.getLatLng();
-			e.latlng.lat = latlng.lat;
-			e.latlng.lng = latlng.lng;
+			if (that.props.snappingEnabled) {
+				// Leaflet copy event data to another object when firing,
+				// so the event object we have here is not the one fired by
+				// Leaflet.Editable; it's not a deep copy though, so we can change
+				// the other objects that have a reference here.
+				var latlng = snapMarker.getLatLng();
+				e.latlng.lat = latlng.lat;
+				e.latlng.lng = latlng.lng;
+			}
 		});
 		snapMarker.on('snap', function(e) {
-			snapMarker.addTo(map);
+			if (that.props.snappingEnabled) {
+				snapMarker.addTo(map);
+			}
 		});
 		snapMarker.on('unsnap', function(e) {
-			snapMarker.remove();
+			if (that.props.snappingEnabled) {
+				snapMarker.remove();
+			}
 		});
 		var followMouse = function(e) {
-			snapMarker.setLatLng(e.latlng);
+			if (that.props.snappingEnabled) {
+				snapMarker.setLatLng(e.latlng);
+			}
 		};
 
 		map.on('layeradd', function(e) {
@@ -130,6 +175,7 @@ export class RoutedMap extends React.Component {
 		});
 
 		this.storeBoundingBox(leafletMap);
+		this.props.mapReady(map);
 	}
 
 	//Handle a autoFit Command if needed
@@ -335,7 +381,8 @@ RoutedMap.propTypes = {
 	maxZoom: PropTypes.number,
 	zoomSnap: PropTypes.number,
 	zoomDelta: PropTypes.number,
-	editable: PropTypes.bool
+	editable: PropTypes.bool,
+	mapReady: PropTypes.func
 };
 
 RoutedMap.defaultProps = {
@@ -362,7 +409,8 @@ RoutedMap.defaultProps = {
 	maxZoom: 18,
 	zoomSnap: 1,
 	zoomDelta: 1,
-	editable: false
+	editable: false,
+	mapReady: (map) => {}
 };
 
 export default RoutedMap;

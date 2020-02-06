@@ -14,6 +14,15 @@ export const projectionData = {
 				name: 'urn:ogc:def:crs:EPSG::25832'
 			}
 		}
+	},
+	'4326': {
+		def: '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs',
+		geojson: {
+			type: 'name',
+			properties: {
+				name: 'urn:ogc:def:crs:EPSG::4326'
+			}
+		}
 	}
 };
 
