@@ -103,7 +103,11 @@ export default class Control extends MapControl {
 			onSelect: this.props.onSelect,
 			callback: map.editTools.startMarker,
 			kind: 'marker',
-			html: '<i class="fas fa-map-marker"></i>'
+			html: '<i class="fas fa-map-marker"></i>',
+			htmlOn: `<span style="padding:2px; padding-right:4px; padding-left:4px; border-radius:4px; border: 3px solid #008AFA;" clasxs="fa-layers" >
+						<i  class="fas fa-map-marker"></i>
+						
+					</span>`
 		});
 	}
 }

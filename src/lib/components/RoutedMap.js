@@ -32,11 +32,23 @@ L.EditControl = L.Control.extend({
 		link.href = '#';
 		link.title = 'Create a new ' + this.options.kind;
 		link.innerHTML = this.options.html;
+		L.DomEvent.disableClickPropagation(link);
+
 		L.DomEvent.on(link, 'click', L.DomEvent.stop).on(
 			link,
 			'click',
-			function() {
-				window.LAYER = this.options.callback.call(map.editTools);
+			function(e) {
+				if (map.editTools.mode === undefined) {
+					map.editTools.mode = this.options.kind;
+					map.editTools.keepMode = false;
+					link.innerHTML = this.options.htmlOn;
+					window.LAYER = this.options.callback.call(map.editTools);
+				} else {
+					map.editTools.keepMode = false;
+					map.editTools.mode = undefined;
+					link.innerHTML = this.options.html;
+					map.editTools.stopDrawing();
+				}
 			},
 			this
 		);
@@ -100,6 +112,7 @@ export class RoutedMap extends React.Component {
 			zIndexOffset: 1000
 		});
 		snap.watchMarker(snapMarker);
+		map.mysnap = snap;
 		const that = this;
 
 		map.on('editable:dragstart', function(e) {
@@ -125,7 +138,7 @@ export class RoutedMap extends React.Component {
 		map.on('editable:dragend', function(e) {
 			if (that.props.snappingEnabled && e.layer.feature.geometry.type === 'Point') {
 				snap.unwatchMarker(e.layer);
-				//snapMarker.remove();
+				snapMarker.remove();
 
 				//
 				//need to add it here again if it would not be converted to a feature
@@ -163,6 +176,7 @@ export class RoutedMap extends React.Component {
 				this.off('mousemove', followMouse);
 				snapMarker.remove();
 			}
+			console.log('map.editTools.mode', map.editTools.mode);
 		});
 		map.on('editable:drawing:click', function(e) {
 			if (that.props.snappingEnabled) {

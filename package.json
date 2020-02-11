@@ -30,6 +30,7 @@
 		"leaflet": "^1.2.0",
 		"leaflet-easybutton": "^2.3.0",
 		"leaflet-editable": "^1.2.0",
+		"leaflet-extra-markers": "^1.2.1",
 		"leaflet-fullscreen-custom-container-fork": "^1.0.7",
 		"leaflet-snap": "^0.0.4",
 		"leaflet.locatecontrol": "^0.63.0",

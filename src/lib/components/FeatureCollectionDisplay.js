@@ -19,7 +19,8 @@ const FeatureCollectionDisplay = ({
 	markerStyle,
 	editable = false,
 	snappingGuides = false,
-	customType
+	customType,
+	editModeStatusChanged
 }) => {
 	let markers;
 	if (showMarkerCollection) {
@@ -58,6 +59,7 @@ const FeatureCollectionDisplay = ({
 				editable={editable}
 				snappingGuides={snappingGuides}
 				customType={customType}
+				editModeStatusChanged={editModeStatusChanged}
 			/>
 			{markers}
 		</div>

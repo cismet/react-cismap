@@ -4,7 +4,7 @@ import ProjGeoJson from './ProjGeoJson';
 import RoutedMap from './RoutedMap';
 import FeatureCollectionDisplay from './FeatureCollectionDisplay';
 import NewPolyControl from './editcontrols/NewPolygonControl';
-import NewMarkerControl from './editcontrols/NewMarkerControl';
+import NewMarkerControl from './editcontrols/NewMarkerControl_';
 import RemoveControl from './editcontrols/RemoveEditableObjectControl';
 import { convertFeatureCollectionToMarkerPositionCollection } from '../tools/mappingHelpers';
 import { convertPolygonLatLngsToGeoJson, projectionData } from '../tools/mappingHelpers';
@@ -14,10 +14,12 @@ import 'leaflet.path.drag';
 import proj4 from 'proj4';
 import '@fortawesome/fontawesome-free/js/all.js';
 import L from 'leaflet';
+import 'leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css';
+import ExtraMarkers from 'leaflet-extra-markers';
 
 // Since this component is simple and static, there's no parent container for it.
 const Comp = (props) => {
-	const { editable } = props;
+	const { editable, allAnnotationsInEditModeOverride } = props;
 	const [ featuresInActiveEditMode, setFeaturesInActiveEditMode ] = useState([]);
 	const mapRef = useRef(null);
 	const [ annotations, setAnnotations ] = useState([
@@ -61,17 +63,33 @@ const Comp = (props) => {
 			for (const layerkey of Object.keys(map._layers)) {
 				const layer = map._layers[layerkey];
 				if (
+					layer !== undefined &&
 					layer.customType === 'annotation' &&
-					layer.feature !== undefined &&
-					layer.feature.inEditMode === true
+					layer.feature !== undefined
 				) {
 					if (layer.enableEdit !== undefined) {
-						layer.enableEdit();
+						if (
+							(layer.feature.inEditMode === true &&
+								allAnnotationsInEditModeOverride === undefined) ||
+							allAnnotationsInEditModeOverride === true
+						) {
+							layer.enableEdit();
+							if (layer.feature.inEditMode !== true) {
+								layer.feature.inEditMode = true;
+								onFeatureChange(layer.feature);
+							}
+						} else {
+							layer.disableEdit();
+							if (layer.feature.inEditMode !== false) {
+								layer.feature.inEditMode = false;
+								onFeatureChange(layer.feature);
+							}
+						}
 					}
 				}
 			}
 		},
-		[ annotations ]
+		[ annotations, allAnnotationsInEditModeOverride ]
 	);
 
 	const onFeatureCreation = (feature) => {
@@ -150,6 +168,7 @@ const Comp = (props) => {
 				<FeatureCollectionDisplay
 					editable={true}
 					snappingGuides={true}
+					editModeStatusChanged={onFeatureChange}
 					customType='annotation'
 					key={'annotation'}
 					featureCollection={annotations}
@@ -161,6 +180,7 @@ const Comp = (props) => {
 					}}
 					style={(feature) => {
 						console.log('feature.inEditMode', feature.inEditMode);
+						const currentColor = '#ffff00';
 
 						const borderColor = '#990100';
 						const fillColor = '#B90504';
@@ -173,80 +193,12 @@ const Comp = (props) => {
 							fillOpacity: 0.6,
 							className: 'annotation-' + feature.id,
 							defaultMarker: true,
-							svg_: `
-              <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-              <svg
-                 xmlns:dc="http://purl.org/dc/elements/1.1/"
-                 xmlns:cc="http://creativecommons.org/ns#"
-                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                 xmlns:svg="http://www.w3.org/2000/svg"
-                 xmlns="http://www.w3.org/2000/svg"
-                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-                 width="30"
-                 height="30"
-                 viewBox="0 0 24 24"
-                 version="1.1"
-                 id="svg3037"
-                 inkscape:version="0.48.3.1 r9886"
-                 sodipodi:docname="marker.svg">
-                <metadata
-                   id="metadata3049">
-                  <rdf:RDF>
-                    <cc:Work
-                       rdf:about="">
-                      <dc:format>image/svg+xml</dc:format>
-                      <dc:type
-                         rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-                      <dc:title></dc:title>
-                    </cc:Work>
-                  </rdf:RDF>
-                </metadata>
-                <defs
-                   id="defs3047" />
-                <sodipodi:namedview
-                   pagecolor="#ffffff"
-                   bordercolor="#666666"
-                   borderopacity="1"
-                   objecttolerance="10"
-                   gridtolerance="10"
-                   guidetolerance="10"
-                   inkscape:pageopacity="0"
-                   inkscape:pageshadow="2"
-                   inkscape:window-width="1280"
-                   inkscape:window-height="750"
-                   id="namedview3045"
-                   showgrid="false"
-                   inkscape:zoom="11.313708"
-                   inkscape:cx="-1.9846567"
-                   inkscape:cy="10.262487"
-                   inkscape:window-x="0"
-                   inkscape:window-y="0"
-                   inkscape:window-maximized="1"
-                   inkscape:current-layer="svg3037" />
-                <path
-                   sodipodi:type="arc"
-                   style="fill:${fillColor};fill-opacity:0.6"
-                   id="path3055"
-                   sodipodi:cx="14.976165"
-                   sodipodi:cy="12.322564"
-                   sodipodi:rx="6.1573091"
-                   sodipodi:ry="5.0450211"
-                   d="m 21.133474,12.322564 a 6.1573091,5.0450211 0 1 1 -12.3146182,0 6.1573091,5.0450211 0 1 1 12.3146182,0 z"
-                   transform="matrix(1.9489033,0,0,2.3785827,-17.187097,-17.310238)" />
-                <path
-                   sodipodi:type="arc"
-                   style="fill:#ffffff;fill-opacity:1"
-                   id="path3057"
-                   sodipodi:cx="14.49947"
-                   sodipodi:cy="13.990996"
-                   sodipodi:rx="2.7409956"
-                   sodipodi:ry="1.7876059"
-                   d="m 17.240465,13.990996 a 2.7409956,1.7876059 0 1 1 -5.481991,0 2.7409956,1.7876059 0 1 1 5.481991,0 z"
-                   transform="matrix(1.4593237,0,0,2.2376297,-9.1594199,-19.306669)" />
-              </svg>
-              `,
-							svgSize: 30
+							customMarker: L.ExtraMarkers.icon({
+								icon: feature.inEditMode === true ? 'fa-square' : undefined,
+								markerColor: 'red',
+								shape: 'circle',
+								prefix: 'fa'
+							})
 						};
 					}}
 				/>

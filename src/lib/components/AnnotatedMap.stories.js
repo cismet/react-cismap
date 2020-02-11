@@ -10,7 +10,7 @@ import {
 	flaechenStyle,
 	getMarkerStyleFromFeatureConsideringSelection
 } from './editcontrols/Editing.Storybook.data';
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs';
+import { withKnobs, text, boolean, number, select } from '@storybook/addon-knobs';
 
 const stories = storiesOf('AnnotatedMap', module).add('Simple', () => {
 	const mapStyle = {
@@ -21,7 +21,15 @@ const stories = storiesOf('AnnotatedMap', module).add('Simple', () => {
 
 	let urlSearchParams = new URLSearchParams('');
 
-	const allAnnotationsInEditMode = boolean('EditModeForAnnotations', true);
+	const allAnnotationsInEditModeOverride = select(
+		'allAnnotationsInEditModeOverride',
+		{
+			true: true,
+			false: false,
+			undefined: undefined
+		},
+		undefined
+	);
 	const editableAnnotations = boolean('Editable', true);
 	const snappingEnabled = boolean('Snapping', true);
 
@@ -33,6 +41,7 @@ const stories = storiesOf('AnnotatedMap', module).add('Simple', () => {
 			<AnnotatedMap
 				style={mapStyle}
 				editable={editableAnnotations}
+				allAnnotationsInEditModeOverride={allAnnotationsInEditModeOverride}
 				snappingEnabled={snappingEnabled}
 				key={'leafletRoutedMap'}
 				referenceSystem={MappingConstants.crs25832}

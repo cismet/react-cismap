@@ -45,9 +45,14 @@ class ProjGeoJson extends Path {
 			if (props.editable === true) {
 				layer.on('dblclick', L.DomEvent.stop).on('dblclick', () => {
 					console.log('layer of dblclick', layer);
-
 					layer.toggleEdit();
+
 					layer.feature.inEditMode = layer.editEnabled();
+					props.editModeStatusChanged(layer.feature);
+					console.log('layer.editor.map.mySnap', layer.editor.map.mySnap);
+
+					if (layer.feature.inEditMode === false) {
+					}
 				});
 			}
 			let zoffset = new L.point(0, 0);
@@ -102,14 +107,20 @@ class ProjGeoJson extends Path {
 			if (props.style) {
 				let theStyle = props.style(feature);
 				let marker = null;
-				if (theStyle.svg || theStyle.defaultMarker === true) {
-					let divIcon = L.divIcon({
-						className: 'leaflet-data-marker',
-						html: theStyle.svg,
-						iconAnchor: [ theStyle.svgSize / 2, theStyle.svgSize / 2 ],
-						iconSize: [ theStyle.svgSize, theStyle.svgSize ]
-					});
-					if (theStyle.svg !== undefined) {
+				if (
+					theStyle.svg ||
+					theStyle.defaultMarker === true ||
+					theStyle.customMarker !== undefined
+				) {
+					if (theStyle.customMarker !== undefined) {
+						marker = L.marker(latlng, { icon: theStyle.customMarker });
+					} else if (theStyle.svg !== undefined) {
+						let divIcon = L.divIcon({
+							className: 'leaflet-data-marker',
+							html: theStyle.svg,
+							iconAnchor: [ theStyle.svgSize / 2, theStyle.svgSize / 2 ],
+							iconSize: [ theStyle.svgSize, theStyle.svgSize ]
+						});
 						marker = L.marker(latlng, { icon: divIcon });
 					} else {
 						marker = L.marker(latlng);
@@ -215,11 +226,13 @@ ProjGeoJson.propTypes = {
 	featureStylerScalableImageSize: PropTypes.number,
 	clusteringEnabled: PropTypes.bool,
 	clusterOptions: PropTypes.object,
-	customType: PropTypes.string
+	customType: PropTypes.string,
+	editModeStatusChanged: PropTypes.func
 };
 
 ProjGeoJson.defaultProps = {
 	featureStylerScalableImageSize: 32,
 	clusterOptions: {},
-	clusteringEnabled: false
+	clusteringEnabled: false,
+	editModeStatusChanged: (feature) => {}
 };
