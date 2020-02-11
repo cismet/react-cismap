@@ -4,7 +4,7 @@ import ProjGeoJson from './ProjGeoJson';
 import RoutedMap from './RoutedMap';
 import FeatureCollectionDisplay from './FeatureCollectionDisplay';
 import NewPolyControl from './editcontrols/NewPolygonControl';
-import NewMarkerControl from './editcontrols/NewMarkerControl_';
+import NewMarkerControl from './editcontrols/NewMarkerControl';
 import RemoveControl from './editcontrols/RemoveEditableObjectControl';
 import { convertFeatureCollectionToMarkerPositionCollection } from '../tools/mappingHelpers';
 import { convertPolygonLatLngsToGeoJson, projectionData } from '../tools/mappingHelpers';
