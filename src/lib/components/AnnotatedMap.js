@@ -214,8 +214,17 @@ const Comp = (props) => {
 						right: 398987.6070465423,
 						bottom: 5652273.416315537
 					}}
+					featureClickHandler={(event, feature) => {
+						console.log('click', event, feature);
+
+						if (feature.selected === undefined || feature.selected === false) {
+							feature.selected = true;
+						} else {
+							feature.selected = false;
+						}
+					}}
 					style={(feature) => {
-						console.log('feature.inEditMode', feature.inEditMode);
+						console.log('feature', feature);
 						const currentColor = '#ffff00';
 
 						const borderColor = '#990100';

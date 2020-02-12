@@ -33,6 +33,12 @@ L.EditControl = L.Control.extend({
 		link.href = '#';
 		link.title = 'Create a new ' + this.options.kind;
 		link.innerHTML = this.options.html;
+
+		//Demo for proper Toolbar Styling
+		// var link2 = L.DomUtil.create('a', '', container);
+		// link2.href = '#';
+		// link2.title = 'Create a new ' + this.options.kind;
+		// link2.innerHTML = this.options.html;
 		L.DomEvent.disableClickPropagation(link);
 		console.log('map.editTools.mode.name:', map.editTools.mode.name);
 		watch(map.editTools.mode, 'name', () => {
@@ -87,7 +93,7 @@ export class RoutedMap extends React.Component {
 
 		map.editTools.mode = {
 			name: undefined,
-			locked: true,
+			locked: false,
 			callback: null
 		};
 

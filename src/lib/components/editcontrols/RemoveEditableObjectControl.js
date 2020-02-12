@@ -6,40 +6,17 @@ import 'leaflet-editable';
 export default class Control extends MapControl {
 	createLeafletElement(props) {
 		const { map } = this.context;
-		L.RemoveControl = L.Control.extend({
+
+		L.NewPolygonControl = L.EditControl.extend({
 			options: {
 				position: this.props.position,
-				onSelect: this.props.requestForRemoval,
-				callback: () => {},
-				kind: 'remove',
+				onSelect: this.props.onSelect,
+				callback: (editTools) => {},
+				kind: 'eraser',
 				html: '<i class="fas fa-eraser"></i>'
-			},
-
-			onAdd: function(map) {
-				var container = L.DomUtil.create('div', 'leaflet-control leaflet-bar'),
-					link = L.DomUtil.create('a', '', container);
-
-				link.href = '#';
-				link.title = 'Objekt entfernen';
-				link.innerHTML = this.options.html;
-				L.DomEvent.on(link, 'click', L.DomEvent.stop).on(
-					link,
-					'click',
-					function() {
-						console.log('rmove');
-
-						window.LAYER = this.options.callback.call(map.editTools);
-					},
-					this
-				);
-
-				const that = this;
-
-				return container;
 			}
 		});
-
-		return new L.RemoveControl();
+		return new L.NewPolygonControl();
 	}
 }
 
