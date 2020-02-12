@@ -16,7 +16,7 @@ import '@fortawesome/fontawesome-free/js/all.js';
 import L from 'leaflet';
 import 'leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css';
 import ExtraMarkers from 'leaflet-extra-markers';
-
+import NewWindowControl from './NewWindowControl';
 // Since this component is simple and static, there's no parent container for it.
 const Comp = (props) => {
 	const { editable, allAnnotationsInEditModeOverride } = props;
@@ -112,17 +112,22 @@ const Comp = (props) => {
 			{...props}
 			mapReady={(map) => {
 				const createFeature = (id, layer) => {
-					const wgs84geoJSON = layer.toGeoJSON();
-					const reprojectedGeoJSON = reproject(
-						wgs84geoJSON,
-						proj4.WGS84,
-						projectionData['25832'].def
-					);
-					// console.log('wgs84geoJSON', JSON.stringify(wgs84geoJSON));
-					console.log('reprojectedGeoJSON', JSON.stringify(reprojectedGeoJSON));
+					try {
+						const wgs84geoJSON = layer.toGeoJSON();
+						const reprojectedGeoJSON = reproject(
+							wgs84geoJSON,
+							proj4.WGS84,
+							projectionData['25832'].def
+						);
+						// console.log('wgs84geoJSON', JSON.stringify(wgs84geoJSON));
+						console.log('reprojectedGeoJSON', JSON.stringify(reprojectedGeoJSON));
 
-					reprojectedGeoJSON.id = id;
-					return reprojectedGeoJSON;
+						reprojectedGeoJSON.id = id;
+						return reprojectedGeoJSON;
+					} catch (e) {
+						console.log('excepotion in create feature', e);
+						return undefined;
+					}
 				};
 
 				//moved whole object
@@ -135,28 +140,59 @@ const Comp = (props) => {
 					onFeatureChange(createFeature(e.layer.feature.id, e.layer));
 				});
 
+				map.on('editable:drawing:click', (e) => {
+					console.log('editable:drawing:click e', e);
+
+					console.log(
+						' editable:drawing:click e.layer.editTools.validClick',
+						e.editTools.validClicks
+					);
+
+					e.editTools.validClicks = e.editTools.validClicks + 1;
+				});
+
 				//created a new object
 				map.on('editable:drawing:end', (e) => {
-					const feature = createFeature(-1, e.layer);
-					//if you wannt to keep the edit handles on just do
-					// feature.inEditMode = true;
+					console.log('editable:drawing:end', e);
 
-					onFeatureCreation(feature);
-					{
-						//switch off editing
-						//e.layer.toggleEdit();
-						// e.layer.on('dblclick', L.DomEvent.stop).on('dblclick', e.layer.toggleEdit);
-						// e.layer.on('click', L.DomEvent.stop).on('click', () => {
-						// 	console.log('e.layer', e);
-						// 	props.onSelect(e.layer);
-						// });
-						//remove the object since it is stored in a feature collection
+					if (e.editTools.validClicks > 0) {
+						const feature = createFeature(-1, e.layer);
+						//if you wannt to keep the edit handles on just do
+						// feature.inEditMode = true;
+						if (feature !== undefined) {
+							onFeatureCreation(feature);
+						}
+						{
+							//switch off editing
+							//e.layer.toggleEdit();
+							// e.layer.on('dblclick', L.DomEvent.stop).on('dblclick', e.layer.toggleEdit);
+							// e.layer.on('click', L.DomEvent.stop).on('click', () => {
+							// 	console.log('e.layer', e);
+							// 	props.onSelect(e.layer);
+							// });
+							//remove the object since it is stored in a feature collection
+						}
+
+						if (map.editTools.mode.locked === false) {
+							map.editTools.mode.name = undefined;
+						} else {
+							map.editTools.validClicks = 0;
+							if (
+								map.editTools.mode.callback !== null &&
+								map.editTools.mode.callback !== undefined
+							) {
+								map.editTools.mode.callback.call(map.editTools);
+							}
+						}
 					}
 					e.layer.remove();
 				});
 				map.on('editable:drawing:click', () => {
 					console.log('click');
 				});
+				if (props.mapReady !== undefined) {
+					props.mapReady(map);
+				}
 			}}
 		>
 			{props.children}

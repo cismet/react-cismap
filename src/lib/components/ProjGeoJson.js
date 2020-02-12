@@ -49,7 +49,6 @@ class ProjGeoJson extends Path {
 
 					layer.feature.inEditMode = layer.editEnabled();
 					props.editModeStatusChanged(layer.feature);
-					console.log('layer.editor.map.mySnap', layer.editor.map.mySnap);
 
 					if (layer.feature.inEditMode === false) {
 					}

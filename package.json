@@ -33,6 +33,7 @@
 		"leaflet-extra-markers": "^1.2.1",
 		"leaflet-fullscreen-custom-container-fork": "^1.0.7",
 		"leaflet-snap": "^0.0.4",
+		"leaflet-toolbar": "^0.4.0-alpha.2",
 		"leaflet.locatecontrol": "^0.63.0",
 		"leaflet.markercluster": "^1.4.0",
 		"leaflet.path.drag": "^0.0.6",
@@ -44,7 +45,8 @@
 		"react-leaflet": "^1.6.4",
 		"react-leaflet-markercluster": "^1.1.8",
 		"reproject": "^1.2.5",
-		"url-search-params-polyfill": "^5.0.0"
+		"url-search-params-polyfill": "^5.0.0",
+		"watchjs": "^0.0.0"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.7.0",

@@ -16,6 +16,7 @@ import L from 'leaflet';
 import 'leaflet-snap';
 import 'leaflet-geometryutil';
 import '../tools/leaflet-geometryutil-workaround'; //see https://github.com/makinacorpus/Leaflet.GeometryUtil/issues/59
+import { watch, unwatch, callWatchers } from 'watchjs';
 
 L.EditControl = L.Control.extend({
 	options: {
@@ -33,21 +34,35 @@ L.EditControl = L.Control.extend({
 		link.title = 'Create a new ' + this.options.kind;
 		link.innerHTML = this.options.html;
 		L.DomEvent.disableClickPropagation(link);
+		console.log('map.editTools.mode.name:', map.editTools.mode.name);
+		watch(map.editTools.mode, 'name', () => {
+			if (map.editTools.mode.name === this.options.kind) {
+				link.innerHTML = `<span style="padding:2px; padding-right:4px; padding-left:4px; border-radius:4px; border: 3px solid #008AFA;" clasxs="fa-layers" >
+									${this.options.html}
+								 </span>`;
+			} else {
+				link.innerHTML = this.options.html;
+			}
+		});
 
 		L.DomEvent.on(link, 'click', L.DomEvent.stop).on(
 			link,
 			'click',
 			function(e) {
-				if (map.editTools.mode === undefined) {
-					map.editTools.mode = this.options.kind;
-					map.editTools.keepMode = false;
-					link.innerHTML = this.options.htmlOn;
+				console.log('click on button ' + this.options.kind);
+
+				if (map.editTools.mode.name !== this.options.kind) {
+					map.editTools.stopDrawing();
+					map.editTools.mode.name = this.options.kind;
+					map.editTools.validClicks = 0;
+					map.editTools.mode.callback = this.options.callback;
 					window.LAYER = this.options.callback.call(map.editTools);
 				} else {
-					map.editTools.keepMode = false;
-					map.editTools.mode = undefined;
-					link.innerHTML = this.options.html;
+					map.editTools.validClicks = 0;
 					map.editTools.stopDrawing();
+					//if (map.editTools.mode.locked === false) {
+					map.editTools.mode.name = undefined;
+					//}
 				}
 			},
 			this
@@ -69,6 +84,13 @@ export class RoutedMap extends React.Component {
 		// this.leafletMap.editable = true;
 
 		const map = leafletMap.leafletElement;
+
+		map.editTools.mode = {
+			name: undefined,
+			locked: true,
+			callback: null
+		};
+
 		//Do sstuff after panning is over
 		map.on('moveend', () => {
 			if (typeof leafletMap !== 'undefined' && leafletMap !== null) {
