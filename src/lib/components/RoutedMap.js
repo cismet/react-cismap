@@ -6,6 +6,7 @@ import proj4 from 'proj4';
 import 'url-search-params-polyfill';
 
 import * as MappingConstants from '../constants/mapping';
+import { projectionData } from '../tools/mappingHelpers';
 
 import getLayersByNames from '../tools/layerFactory';
 import FullscreenControl from './/FullscreenControl';
@@ -16,67 +17,8 @@ import L from 'leaflet';
 import 'leaflet-snap';
 import 'leaflet-geometryutil';
 import '../tools/leaflet-geometryutil-workaround'; //see https://github.com/makinacorpus/Leaflet.GeometryUtil/issues/59
-import { watch, unwatch, callWatchers } from 'watchjs';
-
-L.EditControl = L.Control.extend({
-	options: {
-		position: 'topleft',
-		callback: null,
-		kind: '',
-		html: ''
-	},
-
-	onAdd: function(map) {
-		var container = L.DomUtil.create('div', 'leaflet-control leaflet-bar'),
-			link = L.DomUtil.create('a', '', container);
-
-		link.href = '#';
-		link.title = 'Create a new ' + this.options.kind;
-		link.innerHTML = this.options.html;
-
-		//Demo for proper Toolbar Styling
-		// var link2 = L.DomUtil.create('a', '', container);
-		// link2.href = '#';
-		// link2.title = 'Create a new ' + this.options.kind;
-		// link2.innerHTML = this.options.html;
-		L.DomEvent.disableClickPropagation(link);
-		console.log('map.editTools.mode.name:', map.editTools.mode.name);
-		watch(map.editTools.mode, 'name', () => {
-			if (map.editTools.mode.name === this.options.kind) {
-				link.innerHTML = `<span style="padding:2px; padding-right:4px; padding-left:4px; border-radius:4px; border: 3px solid #008AFA;" clasxs="fa-layers" >
-									${this.options.html}
-								 </span>`;
-			} else {
-				link.innerHTML = this.options.html;
-			}
-		});
-
-		L.DomEvent.on(link, 'click', L.DomEvent.stop).on(
-			link,
-			'click',
-			function(e) {
-				console.log('click on button ' + this.options.kind);
-
-				if (map.editTools.mode.name !== this.options.kind) {
-					map.editTools.stopDrawing();
-					map.editTools.mode.name = this.options.kind;
-					map.editTools.validClicks = 0;
-					map.editTools.mode.callback = this.options.callback;
-					window.LAYER = this.options.callback.call(map.editTools);
-				} else {
-					map.editTools.validClicks = 0;
-					map.editTools.stopDrawing();
-					//if (map.editTools.mode.locked === false) {
-					map.editTools.mode.name = undefined;
-					//}
-				}
-			},
-			this
-		);
-
-		return container;
-	}
-});
+import { reproject } from 'reproject';
+import './editcontrols/createEditControlBaseClass';
 
 export class RoutedMap extends React.Component {
 	constructor(props) {
@@ -143,6 +85,7 @@ export class RoutedMap extends React.Component {
 		map.mysnap = snap;
 		const that = this;
 
+		//Snapping
 		map.on('editable:dragstart', function(e) {
 			if (that.props.snappingEnabled && e.layer.feature.geometry.type === 'Point') {
 				//remove the the layer from the guides if it is in there
@@ -248,6 +191,51 @@ export class RoutedMap extends React.Component {
 
 				//snap.removeGuideLayer(e.layer);
 			}
+		});
+		// Snapping End
+
+		//regular editing and creation
+		//moved whole object
+		map.on('editable:dragend', (e) => {
+			this.props.onFeatureChangeAfterEditing(
+				this.props.createFeatureFromEditLayer(e.layer.feature.id, e.layer)
+			);
+		});
+
+		//moved only the handles of an object
+		map.on('editable:vertex:dragend', (e) => {
+			this.props.onFeatureChangeAfterEditing(
+				this.props.createFeatureFromEditLayer(e.layer.feature.id, e.layer)
+			);
+		});
+
+		map.on('editable:drawing:click', (e) => {
+			e.editTools.validClicks = e.editTools.validClicks + 1;
+		});
+
+		//created a new object
+		map.on('editable:drawing:end', (e) => {
+			if (e.editTools.validClicks > 0) {
+				const feature = this.props.createFeatureFromEditLayer(-1, e.layer);
+				//if you wannt to keep the edit handles on just do
+				// feature.inEditMode = true;
+				if (feature !== undefined) {
+					this.props.onFeatureCreation(feature);
+				}
+
+				if (map.editTools.mode.locked === false) {
+					map.editTools.mode.name = undefined;
+				} else {
+					map.editTools.validClicks = 0;
+					if (
+						map.editTools.mode.callback !== null &&
+						map.editTools.mode.callback !== undefined
+					) {
+						map.editTools.mode.callback.call(map.editTools);
+					}
+				}
+			}
+			e.layer.remove();
 		});
 
 		this.storeBoundingBox(leafletMap);
@@ -458,7 +446,10 @@ RoutedMap.propTypes = {
 	zoomSnap: PropTypes.number,
 	zoomDelta: PropTypes.number,
 	editable: PropTypes.bool,
-	mapReady: PropTypes.func
+	mapReady: PropTypes.func,
+	onFeatureCreation: PropTypes.func,
+	onFeatureChangeAfterEditing: PropTypes.func,
+	createFeatureFromEditLayer: PropTypes.func
 };
 
 RoutedMap.defaultProps = {
@@ -466,6 +457,8 @@ RoutedMap.defaultProps = {
 	gazeteerHitTrigger: function() {},
 	searchButtonTrigger: function() {},
 	featureClickHandler: function() {},
+	onFeatureCreation: function() {},
+	onFeatureChangeAfterEditing: function() {},
 	ondblclick: function() {},
 	onclick: function() {},
 	locationChangedHandler: function() {},
@@ -486,7 +479,24 @@ RoutedMap.defaultProps = {
 	zoomSnap: 1,
 	zoomDelta: 1,
 	editable: false,
-	mapReady: (map) => {}
+	mapReady: (map) => {},
+	createFeatureFromEditLayer: (id, layer) => {
+		try {
+			const wgs84geoJSON = layer.toGeoJSON();
+			const reprojectedGeoJSON = reproject(
+				wgs84geoJSON,
+				proj4.WGS84,
+				projectionData['25832'].def
+			);
+			console.log('reprojectedGeoJSON', JSON.stringify(reprojectedGeoJSON));
+
+			reprojectedGeoJSON.id = id;
+			return reprojectedGeoJSON;
+		} catch (e) {
+			console.log('excepotion in create feature', e);
+			return undefined;
+		}
+	}
 };
 
 export default RoutedMap;

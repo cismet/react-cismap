@@ -44,9 +44,7 @@ class ProjGeoJson extends Path {
 			// console.log('toggleEdit', layer.toggleEdit);
 			if (props.editable === true) {
 				layer.on('dblclick', L.DomEvent.stop).on('dblclick', () => {
-					console.log('layer of dblclick', layer);
 					layer.toggleEdit();
-
 					layer.feature.inEditMode = layer.editEnabled();
 					props.editModeStatusChanged(layer.feature);
 

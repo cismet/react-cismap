@@ -110,90 +110,8 @@ const Comp = (props) => {
 		<RoutedMap
 			ref={mapRef}
 			{...props}
-			mapReady={(map) => {
-				const createFeature = (id, layer) => {
-					try {
-						const wgs84geoJSON = layer.toGeoJSON();
-						const reprojectedGeoJSON = reproject(
-							wgs84geoJSON,
-							proj4.WGS84,
-							projectionData['25832'].def
-						);
-						// console.log('wgs84geoJSON', JSON.stringify(wgs84geoJSON));
-						console.log('reprojectedGeoJSON', JSON.stringify(reprojectedGeoJSON));
-
-						reprojectedGeoJSON.id = id;
-						return reprojectedGeoJSON;
-					} catch (e) {
-						console.log('excepotion in create feature', e);
-						return undefined;
-					}
-				};
-
-				//moved whole object
-				map.on('editable:dragend', (e) => {
-					onFeatureChange(createFeature(e.layer.feature.id, e.layer));
-				});
-
-				//moved only the handles of an object
-				map.on('editable:vertex:dragend', (e) => {
-					onFeatureChange(createFeature(e.layer.feature.id, e.layer));
-				});
-
-				map.on('editable:drawing:click', (e) => {
-					console.log('editable:drawing:click e', e);
-
-					console.log(
-						' editable:drawing:click e.layer.editTools.validClick',
-						e.editTools.validClicks
-					);
-
-					e.editTools.validClicks = e.editTools.validClicks + 1;
-				});
-
-				//created a new object
-				map.on('editable:drawing:end', (e) => {
-					console.log('editable:drawing:end', e);
-
-					if (e.editTools.validClicks > 0) {
-						const feature = createFeature(-1, e.layer);
-						//if you wannt to keep the edit handles on just do
-						// feature.inEditMode = true;
-						if (feature !== undefined) {
-							onFeatureCreation(feature);
-						}
-						{
-							//switch off editing
-							//e.layer.toggleEdit();
-							// e.layer.on('dblclick', L.DomEvent.stop).on('dblclick', e.layer.toggleEdit);
-							// e.layer.on('click', L.DomEvent.stop).on('click', () => {
-							// 	console.log('e.layer', e);
-							// 	props.onSelect(e.layer);
-							// });
-							//remove the object since it is stored in a feature collection
-						}
-
-						if (map.editTools.mode.locked === false) {
-							map.editTools.mode.name = undefined;
-						} else {
-							map.editTools.validClicks = 0;
-							if (
-								map.editTools.mode.callback !== null &&
-								map.editTools.mode.callback !== undefined
-							) {
-								map.editTools.mode.callback.call(map.editTools);
-							}
-						}
-					}
-					e.layer.remove();
-				});
-				map.on('editable:drawing:click', () => {
-					console.log('click');
-				});
-				if (props.mapReady !== undefined) {
-					props.mapReady(map);
-				}
-			}}
+			onFeatureCreation={onFeatureCreation}
+			onFeatureChangeAfterEditing={onFeatureChange}
 		>
 			{props.children}
 
@@ -206,7 +124,7 @@ const Comp = (props) => {
 					snappingGuides={true}
 					editModeStatusChanged={onFeatureChange}
 					customType='annotation'
-					key={'annotation'}
+					key={'annotations_' + JSON.stringify(annotations)}
 					featureCollection={annotations}
 					boundingBox={{
 						left: 343647.19856823067,
@@ -215,32 +133,46 @@ const Comp = (props) => {
 						bottom: 5652273.416315537
 					}}
 					featureClickHandler={(event, feature) => {
-						console.log('click', event, feature);
-
-						if (feature.selected === undefined || feature.selected === false) {
-							feature.selected = true;
-						} else {
-							feature.selected = false;
-						}
+						// console.log('click', event, feature);
+						// if (feature.selected === undefined || feature.selected === false) {
+						// 	feature.selected = true;
+						// } else {
+						// 	feature.selected = false;
+						// }
+						// onFeatureChange(feature);
 					}}
 					style={(feature) => {
-						console.log('feature', feature);
+						console.log('style feature', feature.selected);
 						const currentColor = '#ffff00';
 
-						const borderColor = '#990100';
-						const fillColor = '#B90504';
+						let opacity,
+							lineColor,
+							fillColor = '#B90504',
+							markerColor,
+							weight = 2;
+
+						if (feature.selected === true) {
+							opacity = 0.9;
+							lineColor = '#0C7D9D';
+							markerColor = 'blue';
+						} else {
+							opacity = 1;
+							lineColor = '#990100';
+							markerColor = 'red';
+						}
+
 						return {
-							color: borderColor,
+							color: lineColor,
 							radius: 8,
-							weight: 2,
-							opacity: 1.0,
+							weight,
+							opacity,
 							fillColor,
 							fillOpacity: 0.6,
 							className: 'annotation-' + feature.id,
 							defaultMarker: true,
 							customMarker: L.ExtraMarkers.icon({
 								icon: feature.inEditMode === true ? 'fa-square' : undefined,
-								markerColor: 'red',
+								markerColor,
 								shape: 'circle',
 								prefix: 'fa'
 							})
