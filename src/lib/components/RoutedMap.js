@@ -8,6 +8,7 @@ import '@fortawesome/fontawesome-free/js/all.js';
 import L from 'leaflet';
 import 'leaflet-editable';
 import 'leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css';
+import 'leaflet-extra-markers/';
 import 'leaflet.path.drag';
 import * as MappingConstants from '../constants/mapping';
 import { projectionData } from '../tools/mappingHelpers';
