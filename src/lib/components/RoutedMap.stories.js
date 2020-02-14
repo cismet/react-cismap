@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
-
+import 'leaflet-editable';
+import 'leaflet.path.drag';
 import { RoutedMap, MappingConstants } from '../../lib';
 
 storiesOf('RoutedMap', module)
@@ -21,6 +22,7 @@ storiesOf('RoutedMap', module)
 				<br />
 
 				<RoutedMap
+					editable={false}
 					style={mapStyle}
 					key={'leafletRoutedMap'}
 					referenceSystem={MappingConstants.crs25832}
