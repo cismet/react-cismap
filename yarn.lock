@@ -8713,7 +8713,7 @@ leaflet.path.drag@^0.0.6:
   resolved "https://registry.yarnpkg.com/leaflet.path.drag/-/leaflet.path.drag-0.0.6.tgz#6d9c3af0b9d7b032544ae16bfde688f0160514a0"
   integrity sha1-bZw68LnXsDJUSuFr/eaI8BYFFKA=
 
-leaflet@>=0.7.0, leaflet@^1.0.1, leaflet@^1.2.0:
+leaflet@>=0.7.0, leaflet@^1.0.1, leaflet@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.6.0.tgz#aecbb044b949ec29469eeb31c77a88e2f448f308"
   integrity sha512-CPkhyqWUKZKFJ6K8umN5/D2wrJ2+/8UIpXppY7QDnUZW5bZL5+SEI2J7GBpwh4LIupOKqbNSQXgqmrEJopHVNQ==

@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 import { MapControl } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet-editable';
-import { convertPolygonLatLngsToGeoJson } from '../../tools/mappingHelpers';
+import 'leaflet.path.drag';
+import { createEditControlBaseClass } from './createEditControlBaseClass';
 
 export default class Control extends MapControl {
 	createLeafletElement(props) {
 		const { map } = this.context;
-
+		if (L.EditControl === undefined) {
+			createEditControlBaseClass();
+		}
 		return new L.EditControl({
 			position: this.props.position,
 			onSelect: this.props.onSelect,

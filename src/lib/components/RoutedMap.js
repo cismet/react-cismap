@@ -22,7 +22,6 @@ import 'leaflet-snap';
 import 'leaflet-geometryutil';
 import { overrideClosestFromGeometryUtils } from '../tools/leaflet-geometryutil-workaround'; //see https://github.com/makinacorpus/Leaflet.GeometryUtil/issues/59
 import { reproject } from 'reproject';
-import './editcontrols/createEditControlBaseClass';
 
 export class RoutedMap extends React.Component {
 	constructor(props) {
@@ -35,213 +34,220 @@ export class RoutedMap extends React.Component {
 		const leafletMap = this.leafletMap;
 		// this.leafletMap.editable = true;
 		overrideClosestFromGeometryUtils();
+
 		const map = leafletMap.leafletElement;
+		map.editable = this.props.editable;
 
-		map.editTools.mode = {
-			name: undefined,
-			locked: false,
-			callback: null
-		};
-
-		//Do sstuff after panning is over
-		map.on('moveend', () => {
-			if (typeof leafletMap !== 'undefined' && leafletMap !== null) {
-				const zoom = leafletMap.leafletElement.getZoom();
-				const center = leafletMap.leafletElement.getCenter();
-				const latFromUrl = parseFloat(this.props.urlSearchParams.get('lat'));
-				const lngFromUrl = parseFloat(this.props.urlSearchParams.get('lng'));
-				const zoomFromUrl = parseInt(this.props.urlSearchParams.get('zoom'), 10);
-				let lat = center.lat;
-				let lng = center.lng;
-				if (Math.abs(latFromUrl - center.lat) < 0.000001) {
-					lat = latFromUrl;
-				}
-				if (Math.abs(lngFromUrl - center.lng) < 0.000001) {
-					lng = lngFromUrl;
-				}
-
-				if (lng !== lngFromUrl || lat !== latFromUrl || zoomFromUrl !== zoom) {
-					this.props.locationChangedHandler({
-						lat: lat,
-						lng: lng,
-						zoom: zoom
-					});
-				}
-				this.storeBoundingBox(leafletMap);
-			} else {
-				console.warn('leafletMap ref is null. this could lead to update problems. ');
+		if (map.editable === true) {
+			if (map.editTools.mode === undefined) {
+				map.editTools.mode = {
+					name: undefined,
+					locked: false,
+					callback: null
+				};
 			}
-		});
 
-		//Do stuff for snapping
-		console.log('this.props.snappingEnabled', this.props.snappingEnabled);
+			//Do sstuff after panning is over
+			map.on('moveend', () => {
+				if (typeof leafletMap !== 'undefined' && leafletMap !== null) {
+					const zoom = leafletMap.leafletElement.getZoom();
+					const center = leafletMap.leafletElement.getCenter();
+					const latFromUrl = parseFloat(this.props.urlSearchParams.get('lat'));
+					const lngFromUrl = parseFloat(this.props.urlSearchParams.get('lng'));
+					const zoomFromUrl = parseInt(this.props.urlSearchParams.get('zoom'), 10);
+					let lat = center.lat;
+					let lng = center.lng;
+					if (Math.abs(latFromUrl - center.lat) < 0.000001) {
+						lat = latFromUrl;
+					}
+					if (Math.abs(lngFromUrl - center.lng) < 0.000001) {
+						lng = lngFromUrl;
+					}
 
-		this.snap = new L.Handler.MarkerSnap(map);
-		const snap = this.snap;
-		var snapMarker = L.marker(map.getCenter(), {
-			icon: map.editTools.createVertexIcon({
-				className: 'leaflet-div-icon leaflet-drawing-icon'
-			}),
-			opacity: 1,
-			zIndexOffset: 1000
-		});
-		snap.watchMarker(snapMarker);
-		map.mysnap = snap;
-		const that = this;
-
-		//Snapping
-		map.on('editable:dragstart', function(e) {
-			if (that.props.snappingEnabled && e.layer.feature.geometry.type === 'Point') {
-				//remove the the layer from the guides if it is in there
-				// no need to add it, because of the conversion ot a feature after editing
-
-				const hitIndex = snap._guides.indexOf(e.layer);
-				if (hitIndex !== -1) {
-					snap._guides.splice(hitIndex, 1);
-				}
-
-				//snapMarker.addTo(map);
-				snap.watchMarker(e.layer);
-			}
-		});
-		map.on('editable:drag', function(e) {
-			if (that.props.snappingEnabled && e.layer.feature.geometry.type === 'Point') {
-				snapMarker.setLatLng(e.latlng);
-			}
-		});
-
-		map.on('editable:dragend', function(e) {
-			if (that.props.snappingEnabled && e.layer.feature.geometry.type === 'Point') {
-				snap.unwatchMarker(e.layer);
-				snapMarker.remove();
-
-				//
-				//need to add it here again if it would not be converted to a feature
-				// snap.addGuideLayer(e.layer);
-			}
-		});
-
-		map.on('editable:vertex:dragstart', function(e) {
-			if (that.props.snappingEnabled) {
-				//remove the the layer from the guides if it is in there
-				// no need to add it, because of the conversion ot a feature after editing
-				const hitIndex = snap._guides.indexOf(e.layer);
-				if (hitIndex !== -1) {
-					snap._guides.splice(hitIndex, 1);
-				}
-				console.log('snap.watchMarker(e.vertex)', e);
-
-				snap.watchMarker(e.vertex);
-			}
-		});
-		map.on('editable:vertex:dragend', function(e) {
-			if (that.props.snappingEnabled) {
-				snap.unwatchMarker(e.vertex);
-				// need to add it here again if it would not be converted to a feature
-				// snap.addGuideLayer(e.layer);
-			}
-		});
-		map.on('editable:drawing:start', function() {
-			if (that.props.snappingEnabled) {
-				this.on('mousemove', followMouse);
-			}
-		});
-		map.on('editable:drawing:end', function() {
-			if (that.props.snappingEnabled) {
-				this.off('mousemove', followMouse);
-				snapMarker.remove();
-			}
-			console.log('map.editTools.mode', map.editTools.mode);
-		});
-		map.on('editable:drawing:click', function(e) {
-			if (that.props.snappingEnabled) {
-				// Leaflet copy event data to another object when firing,
-				// so the event object we have here is not the one fired by
-				// Leaflet.Editable; it's not a deep copy though, so we can change
-				// the other objects that have a reference here.
-				var latlng = snapMarker.getLatLng();
-				e.latlng.lat = latlng.lat;
-				e.latlng.lng = latlng.lng;
-			}
-		});
-		snapMarker.on('snap', function(e) {
-			if (that.props.snappingEnabled) {
-				snapMarker.addTo(map);
-			}
-		});
-		snapMarker.on('unsnap', function(e) {
-			if (that.props.snappingEnabled) {
-				snapMarker.remove();
-			}
-		});
-		var followMouse = function(e) {
-			if (that.props.snappingEnabled) {
-				snapMarker.setLatLng(e.latlng);
-			}
-		};
-
-		map.on('layeradd', function(e) {
-			if (e.layer.snappingGuide === true) {
-				snap.addGuideLayer(e.layer);
-			}
-		});
-		map.on('layerremove', function(e) {
-			if (e.layer.snappingGuide === true) {
-				const hitIndex = snap._guides.indexOf(e.layer);
-				if (hitIndex !== -1) {
-					snap._guides.splice(hitIndex, 1);
-					// console.log('removeGuideLayer');
-				}
-
-				//snap.removeGuideLayer(e.layer);
-			}
-		});
-		// Snapping End
-
-		//regular editing and creation
-		//moved whole object
-		map.on('editable:dragend', (e) => {
-			this.props.onFeatureChangeAfterEditing(
-				this.props.createFeatureFromEditLayer(e.layer.feature.id, e.layer)
-			);
-		});
-
-		//moved only the handles of an object
-		map.on('editable:vertex:dragend', (e) => {
-			this.props.onFeatureChangeAfterEditing(
-				this.props.createFeatureFromEditLayer(e.layer.feature.id, e.layer)
-			);
-		});
-
-		map.on('editable:drawing:click', (e) => {
-			e.editTools.validClicks = e.editTools.validClicks + 1;
-		});
-
-		//created a new object
-		map.on('editable:drawing:end', (e) => {
-			if (e.editTools.validClicks > 0) {
-				const feature = this.props.createFeatureFromEditLayer(-1, e.layer);
-				//if you wannt to keep the edit handles on just do
-				// feature.inEditMode = true;
-				if (feature !== undefined) {
-					this.props.onFeatureCreation(feature);
-				}
-
-				if (map.editTools.mode.locked === false) {
-					map.editTools.mode.name = undefined;
+					if (lng !== lngFromUrl || lat !== latFromUrl || zoomFromUrl !== zoom) {
+						this.props.locationChangedHandler({
+							lat: lat,
+							lng: lng,
+							zoom: zoom
+						});
+					}
+					this.storeBoundingBox(leafletMap);
 				} else {
-					map.editTools.validClicks = 0;
-					if (
-						map.editTools.mode.callback !== null &&
-						map.editTools.mode.callback !== undefined
-					) {
-						map.editTools.mode.callback.call(map.editTools);
+					console.warn('leafletMap ref is null. this could lead to update problems. ');
+				}
+			});
+
+			//Do stuff for snapping
+			console.log('this.props.snappingEnabled', this.props.snappingEnabled);
+
+			this.snap = new L.Handler.MarkerSnap(map);
+			const snap = this.snap;
+			var snapMarker = L.marker(map.getCenter(), {
+				icon: map.editTools.createVertexIcon({
+					className: 'leaflet-div-icon leaflet-drawing-icon'
+				}),
+				opacity: 1,
+				zIndexOffset: 1000
+			});
+			snap.watchMarker(snapMarker);
+			map.mysnap = snap;
+			const that = this;
+
+			//Snapping
+			map.on('editable:dragstart', function(e) {
+				if (that.props.snappingEnabled && e.layer.feature.geometry.type === 'Point') {
+					//remove the the layer from the guides if it is in there
+					// no need to add it, because of the conversion ot a feature after editing
+
+					const hitIndex = snap._guides.indexOf(e.layer);
+					if (hitIndex !== -1) {
+						snap._guides.splice(hitIndex, 1);
+					}
+
+					//snapMarker.addTo(map);
+					snap.watchMarker(e.layer);
+				}
+			});
+			map.on('editable:drag', function(e) {
+				if (that.props.snappingEnabled && e.layer.feature.geometry.type === 'Point') {
+					snapMarker.setLatLng(e.latlng);
+				}
+			});
+
+			map.on('editable:dragend', function(e) {
+				if (that.props.snappingEnabled && e.layer.feature.geometry.type === 'Point') {
+					snap.unwatchMarker(e.layer);
+					snapMarker.remove();
+
+					//
+					//need to add it here again if it would not be converted to a feature
+					// snap.addGuideLayer(e.layer);
+				}
+			});
+
+			map.on('editable:vertex:dragstart', function(e) {
+				if (that.props.snappingEnabled) {
+					//remove the the layer from the guides if it is in there
+					// no need to add it, because of the conversion ot a feature after editing
+					const hitIndex = snap._guides.indexOf(e.layer);
+					if (hitIndex !== -1) {
+						snap._guides.splice(hitIndex, 1);
+					}
+					console.log('snap.watchMarker(e.vertex)', e);
+
+					snap.watchMarker(e.vertex);
+				}
+			});
+			map.on('editable:vertex:dragend', function(e) {
+				if (that.props.snappingEnabled) {
+					snap.unwatchMarker(e.vertex);
+					// need to add it here again if it would not be converted to a feature
+					// snap.addGuideLayer(e.layer);
+				}
+			});
+			map.on('editable:drawing:start', function() {
+				if (that.props.snappingEnabled) {
+					this.on('mousemove', followMouse);
+				}
+			});
+			map.on('editable:drawing:end', function() {
+				if (that.props.snappingEnabled) {
+					this.off('mousemove', followMouse);
+					snapMarker.remove();
+				}
+				console.log('map.editTools.mode', map.editTools.mode);
+			});
+			map.on('editable:drawing:click', function(e) {
+				if (that.props.snappingEnabled) {
+					// Leaflet copy event data to another object when firing,
+					// so the event object we have here is not the one fired by
+					// Leaflet.Editable; it's not a deep copy though, so we can change
+					// the other objects that have a reference here.
+					var latlng = snapMarker.getLatLng();
+					e.latlng.lat = latlng.lat;
+					e.latlng.lng = latlng.lng;
+				}
+			});
+			snapMarker.on('snap', function(e) {
+				if (that.props.snappingEnabled) {
+					snapMarker.addTo(map);
+				}
+			});
+			snapMarker.on('unsnap', function(e) {
+				if (that.props.snappingEnabled) {
+					snapMarker.remove();
+				}
+			});
+			var followMouse = function(e) {
+				if (that.props.snappingEnabled) {
+					snapMarker.setLatLng(e.latlng);
+				}
+			};
+
+			map.on('layeradd', function(e) {
+				if (e.layer.snappingGuide === true) {
+					snap.addGuideLayer(e.layer);
+				}
+			});
+			map.on('layerremove', function(e) {
+				if (e.layer.snappingGuide === true) {
+					const hitIndex = snap._guides.indexOf(e.layer);
+					if (hitIndex !== -1) {
+						snap._guides.splice(hitIndex, 1);
+						// console.log('removeGuideLayer');
+					}
+
+					//snap.removeGuideLayer(e.layer);
+				}
+			});
+			// Snapping End
+
+			//regular editing and creation
+			//moved whole object
+			map.on('editable:dragend', (e) => {
+				this.props.onFeatureChangeAfterEditing(
+					this.props.createFeatureFromEditLayer(e.layer.feature.id, e.layer)
+				);
+			});
+
+			//moved only the handles of an object
+			map.on('editable:vertex:dragend', (e) => {
+				this.props.onFeatureChangeAfterEditing(
+					this.props.createFeatureFromEditLayer(e.layer.feature.id, e.layer)
+				);
+			});
+
+			map.on('editable:drawing:click', (e) => {
+				e.editTools.validClicks = e.editTools.validClicks + 1;
+			});
+
+			//created a new object
+			map.on('editable:drawing:end', (e) => {
+				if (e.editTools.validClicks > 0) {
+					const feature = this.props.createFeatureFromEditLayer(-1, e.layer);
+					//if you wannt to keep the edit handles on just do
+					// feature.inEditMode = true;
+					if (feature !== undefined) {
+						this.props.onFeatureCreation(feature);
+					}
+
+					if (map.editTools.mode.locked === false) {
+						map.editTools.mode.name = undefined;
+					} else {
+						map.editTools.validClicks = 0;
+						if (
+							map.editTools.mode.callback !== null &&
+							map.editTools.mode.callback !== undefined
+						) {
+							map.editTools.mode.callback.call(map.editTools);
+						}
 					}
 				}
-			}
-			e.layer.remove();
-		});
-
+				e.layer.remove();
+			});
+		} else {
+			console.log('map not editable', map);
+		}
 		this.storeBoundingBox(leafletMap);
 		this.props.mapReady(map);
 	}

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
-import EditControl from './NewPolygonControl';
+import NewPoly from './NewPolygonControl';
 import {
 	RoutedMap,
 	MappingConstants,
@@ -58,10 +58,7 @@ storiesOf('EditControl', module)
 					zoomSnap={0.5}
 					zoomDelta={0.5}
 				>
-					<EditControl
-						onSelect={action('onSelectAction')}
-						onCreation={action('onCreationAction')}
-					/>
+					<NewPoly />
 				</RoutedMap>
 			</div>
 		);
@@ -202,7 +199,7 @@ storiesOf('EditControl', module)
 						lng: 7.19929425724872
 					}}
 				>
-					<EditControl
+					<NewPoly
 						onSelect={(e) => {
 							action('onSelectAction')(e);
 							const x = {

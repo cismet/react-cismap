@@ -7,6 +7,8 @@ import 'leaflet-toolbar/dist/leaflet.toolbar.css';
 import { MappingConstants } from './lib';
 import AnnotatedMap from './lib/components/AnnotatedMap';
 import RoutedMap from './lib/components/RoutedMap';
+import NewPoly from './lib/components/editcontrols/NewPolygonControl';
+
 const mapStyle = {
 	height: window.innerHeight,
 	cursor: 'crosshair'

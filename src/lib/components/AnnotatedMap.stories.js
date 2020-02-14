@@ -3,14 +3,13 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
 
-import { AnnotatedMap, MappingConstants, FeatureCollectionDisplay } from '../../lib';
-
-import {
-	kassenzeichen,
-	flaechenStyle,
-	getMarkerStyleFromFeatureConsideringSelection
-} from './editcontrols/Editing.Storybook.data';
 import { withKnobs, text, boolean, number, select } from '@storybook/addon-knobs';
+import 'leaflet-toolbar';
+import 'leaflet-editable';
+import 'leaflet.path.drag';
+import 'leaflet-toolbar/dist/leaflet.toolbar.css';
+import { MappingConstants } from '../';
+import AnnotatedMap from './AnnotatedMap';
 
 const stories = storiesOf('AnnotatedMap', module).add('Simple', () => {
 	const mapStyle = {
@@ -18,8 +17,6 @@ const stories = storiesOf('AnnotatedMap', module).add('Simple', () => {
 		cursor: 'pointer',
 		clear: 'both'
 	};
-
-	let urlSearchParams = new URLSearchParams('');
 
 	const allAnnotationsInEditModeOverride = select(
 		'allAnnotationsInEditModeOverride',
@@ -32,6 +29,7 @@ const stories = storiesOf('AnnotatedMap', module).add('Simple', () => {
 	);
 	const editableAnnotations = boolean('Editable', true);
 	const snappingEnabled = boolean('Snapping', true);
+	let urlSearchParams = new URLSearchParams(window.location.href);
 
 	return (
 		<div>
@@ -40,9 +38,8 @@ const stories = storiesOf('AnnotatedMap', module).add('Simple', () => {
 
 			<AnnotatedMap
 				style={mapStyle}
-				editable={editableAnnotations}
-				allAnnotationsInEditModeOverride={allAnnotationsInEditModeOverride}
-				snappingEnabled={snappingEnabled}
+				editable={true}
+				snappingEnabled={true}
 				key={'leafletRoutedMap'}
 				referenceSystem={MappingConstants.crs25832}
 				referenceSystemDefinition={MappingConstants.proj4crs25832def}
@@ -68,22 +65,8 @@ const stories = storiesOf('AnnotatedMap', module).add('Simple', () => {
 					lat: 51.27278821188484,
 					lng: 7.19929425724872
 				}}
+				mapReady={() => {}}
 			>
-				<FeatureCollectionDisplay
-					editable={false}
-					key={'ds'}
-					featureCollection={kassenzeichen}
-					boundingBox={{
-						left: 343647.19856823067,
-						top: 5695957.177980389,
-						right: 398987.6070465423,
-						bottom: 5652273.416315537
-					}}
-					style={flaechenStyle}
-					showMarkerCollection={true}
-					markerStyle={getMarkerStyleFromFeatureConsideringSelection}
-					snappingGuides={true}
-				/>
 				}
 			</AnnotatedMap>
 		</div>

@@ -85,6 +85,8 @@ const Comp = (props) => {
 	);
 
 	const onFeatureCreation = (feature) => {
+		console.log('feature created', feature);
+
 		setAnnotations((oldAnno) => {
 			feature.id = oldAnno.length;
 			return [ ...oldAnno, feature ];
@@ -109,11 +111,13 @@ const Comp = (props) => {
 
 			{editable && <NewPolyControl />}
 			{editable && <NewMarkerControl />}
-			{editable && <RemoveControl />}
+			{/* {editable && <RemoveControl />} */}
 			{editable && (
 				<FeatureCollectionDisplay
 					editable={true}
 					snappingGuides={true}
+					onFeatureCreation={onFeatureCreation}
+					onFeatureChangeAfterEditing={onFeatureChange}
 					editModeStatusChanged={onFeatureChange}
 					customType='annotation'
 					key={'annotations_' + JSON.stringify(annotations)}
