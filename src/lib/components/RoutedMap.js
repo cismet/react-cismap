@@ -38,6 +38,36 @@ export class RoutedMap extends React.Component {
 		const map = leafletMap.leafletElement;
 		map.editable = this.props.editable;
 
+		//Do sstuff after panning is over
+		map.on('moveend', () => {
+			if (typeof leafletMap !== 'undefined' && leafletMap !== null) {
+				const zoom = leafletMap.leafletElement.getZoom();
+				const center = leafletMap.leafletElement.getCenter();
+				const latFromUrl = parseFloat(this.props.urlSearchParams.get('lat'));
+				const lngFromUrl = parseFloat(this.props.urlSearchParams.get('lng'));
+				const zoomFromUrl = parseInt(this.props.urlSearchParams.get('zoom'), 10);
+				let lat = center.lat;
+				let lng = center.lng;
+				if (Math.abs(latFromUrl - center.lat) < 0.000001) {
+					lat = latFromUrl;
+				}
+				if (Math.abs(lngFromUrl - center.lng) < 0.000001) {
+					lng = lngFromUrl;
+				}
+
+				if (lng !== lngFromUrl || lat !== latFromUrl || zoomFromUrl !== zoom) {
+					this.props.locationChangedHandler({
+						lat: lat,
+						lng: lng,
+						zoom: zoom
+					});
+				}
+				this.storeBoundingBox(leafletMap);
+			} else {
+				console.warn('leafletMap ref is null. this could lead to update problems. ');
+			}
+		});
+
 		if (map.editable === true) {
 			if (map.editTools.mode === undefined) {
 				map.editTools.mode = {
@@ -46,36 +76,6 @@ export class RoutedMap extends React.Component {
 					callback: null
 				};
 			}
-
-			//Do sstuff after panning is over
-			map.on('moveend', () => {
-				if (typeof leafletMap !== 'undefined' && leafletMap !== null) {
-					const zoom = leafletMap.leafletElement.getZoom();
-					const center = leafletMap.leafletElement.getCenter();
-					const latFromUrl = parseFloat(this.props.urlSearchParams.get('lat'));
-					const lngFromUrl = parseFloat(this.props.urlSearchParams.get('lng'));
-					const zoomFromUrl = parseInt(this.props.urlSearchParams.get('zoom'), 10);
-					let lat = center.lat;
-					let lng = center.lng;
-					if (Math.abs(latFromUrl - center.lat) < 0.000001) {
-						lat = latFromUrl;
-					}
-					if (Math.abs(lngFromUrl - center.lng) < 0.000001) {
-						lng = lngFromUrl;
-					}
-
-					if (lng !== lngFromUrl || lat !== latFromUrl || zoomFromUrl !== zoom) {
-						this.props.locationChangedHandler({
-							lat: lat,
-							lng: lng,
-							zoom: zoom
-						});
-					}
-					this.storeBoundingBox(leafletMap);
-				} else {
-					console.warn('leafletMap ref is null. this could lead to update problems. ');
-				}
-			});
 
 			//Do stuff for snapping
 			console.log('this.props.snappingEnabled', this.props.snappingEnabled);

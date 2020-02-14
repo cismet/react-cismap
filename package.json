@@ -33,7 +33,6 @@
 		"leaflet-extra-markers": "^1.2.1",
 		"leaflet-fullscreen-custom-container-fork": "^1.0.7",
 		"leaflet-snap": "^0.0.4",
-		"leaflet-toolbar": "^0.4.0-alpha.2",
 		"leaflet.locatecontrol": "^0.63.0",
 		"leaflet.markercluster": "^1.4.0",
 		"leaflet.path.drag": "^0.0.6",

@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import L from 'leaflet';
-import 'leaflet-toolbar';
-import 'leaflet-toolbar/dist/leaflet.toolbar.css';
 import { MappingConstants } from './lib';
 import AnnotatedMap from './lib/components/AnnotatedMap';
 import RoutedMap from './lib/components/RoutedMap';

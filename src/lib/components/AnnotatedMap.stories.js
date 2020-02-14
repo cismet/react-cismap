@@ -4,12 +4,16 @@ import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
 
 import { withKnobs, text, boolean, number, select } from '@storybook/addon-knobs';
-import 'leaflet-toolbar';
 import 'leaflet-editable';
 import 'leaflet.path.drag';
-import 'leaflet-toolbar/dist/leaflet.toolbar.css';
-import { MappingConstants } from '../';
+import { MappingConstants, FeatureCollectionDisplay } from '../';
 import AnnotatedMap from './AnnotatedMap';
+import {
+	kassenzeichen,
+	flaechenStyle,
+	getMarkerStyleFromFeatureConsideringSelection
+} from './editcontrols/Editing.Storybook.data';
+import L from 'leaflet';
 
 const stories = storiesOf('AnnotatedMap', module).add('Simple', () => {
 	const mapStyle = {
@@ -67,7 +71,21 @@ const stories = storiesOf('AnnotatedMap', module).add('Simple', () => {
 				}}
 				mapReady={() => {}}
 			>
-				}
+				<FeatureCollectionDisplay
+					editable={false}
+					key={'ds'}
+					featureCollection={kassenzeichen}
+					boundingBox={{
+						left: 343647.19856823067,
+						top: 5695957.177980389,
+						right: 398987.6070465423,
+						bottom: 5652273.416315537
+					}}
+					style={flaechenStyle}
+					showMarkerCollection={true}
+					markerStyle={getMarkerStyleFromFeatureConsideringSelection}
+					snappingGuides={true}
+				/>
 			</AnnotatedMap>
 		</div>
 	);
