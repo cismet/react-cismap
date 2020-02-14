@@ -1,11 +1,13 @@
 import L from 'leaflet';
+import 'leaflet-editable';
+import 'leaflet.path.drag';
+
 import { isFunction } from 'lodash';
 import PropTypes from 'prop-types';
 import 'proj4leaflet';
 
 import { Path } from 'react-leaflet';
-import 'leaflet-editable';
-import 'leaflet.path.drag';
+
 require('react-leaflet-markercluster/dist/styles.min.css');
 
 // need to have this import

@@ -1,7 +1,7 @@
 import '@fortawesome/fontawesome-free/js/all.js';
 import L from 'leaflet';
-import 'leaflet-editable';
 import 'leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css';
+import 'leaflet-editable';
 import 'leaflet.path.drag';
 import React, { useEffect, useRef, useState } from 'react';
 import NewMarkerControl from './editcontrols/NewMarkerControl';
