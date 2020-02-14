@@ -182,11 +182,13 @@ const createPolygonMarkerGeometry = (coordinates, viewBBox, markerPos) => {
 		pointOnPolygon = polylabel(coordinates);
 	}
 	let offset = [];
+
 	if (markerPos.includes(pointOnPolygon[0] + '-' + pointOnPolygon[1])) {
 		offset = [ 2, 2 ];
 	} else {
-		offset = [ -2, -2 ];
+		offset = [ 0, 0 ]; //check with b-plan regression (it was before [-2,-2])
 	}
+
 	markerPos.push(pointOnPolygon[0] + '-' + pointOnPolygon[1]);
 
 	return {

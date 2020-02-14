@@ -841,7 +841,7 @@ export const getMarkerStyleFromFeatureConsideringSelection = (feature) => {
 	}
 
 	const style = {
-		radius: 10,
+		radius: 2,
 		color: linecolor,
 		weight: weight,
 		opacity: 1.0,
