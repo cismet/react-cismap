@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+
 import { MapControl } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet-editable';

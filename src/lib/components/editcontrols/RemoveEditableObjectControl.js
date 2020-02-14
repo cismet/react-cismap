@@ -1,12 +1,17 @@
 import PropTypes from 'prop-types';
+
 import { MapControl } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet-editable';
+import 'leaflet.path.drag';
+import { createEditControlBaseClass } from './createEditControlBaseClass';
 
 export default class Control extends MapControl {
 	createLeafletElement(props) {
 		const { map } = this.context;
-
+		if (L.EditControl === undefined) {
+			createEditControlBaseClass();
+		}
 		L.NewPolygonControl = L.EditControl.extend({
 			options: {
 				position: this.props.position,
