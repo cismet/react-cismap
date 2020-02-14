@@ -16,7 +16,7 @@ import { getInternetExplorerVersion } from '../tools/browserHelper';
 import L from 'leaflet';
 import 'leaflet-snap';
 import 'leaflet-geometryutil';
-import '../tools/leaflet-geometryutil-workaround'; //see https://github.com/makinacorpus/Leaflet.GeometryUtil/issues/59
+import { overrideClosestFromGeometryUtils } from '../tools/leaflet-geometryutil-workaround'; //see https://github.com/makinacorpus/Leaflet.GeometryUtil/issues/59
 import { reproject } from 'reproject';
 import './editcontrols/createEditControlBaseClass';
 
@@ -30,7 +30,7 @@ export class RoutedMap extends React.Component {
 	componentDidMount() {
 		const leafletMap = this.leafletMap;
 		// this.leafletMap.editable = true;
-
+		overrideClosestFromGeometryUtils();
 		const map = leafletMap.leafletElement;
 
 		map.editTools.mode = {
