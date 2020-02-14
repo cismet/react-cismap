@@ -4,7 +4,11 @@ import { Map, ZoomControl } from 'react-leaflet';
 import 'proj4leaflet';
 import proj4 from 'proj4';
 import 'url-search-params-polyfill';
-
+import '@fortawesome/fontawesome-free/js/all.js';
+import L from 'leaflet';
+import 'leaflet-editable';
+import 'leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css';
+import 'leaflet.path.drag';
 import * as MappingConstants from '../constants/mapping';
 import { projectionData } from '../tools/mappingHelpers';
 
@@ -13,7 +17,6 @@ import FullscreenControl from './/FullscreenControl';
 import NewWindowControl from './NewWindowControl';
 import LocateControl from '../components/LocateControl';
 import { getInternetExplorerVersion } from '../tools/browserHelper';
-import L from 'leaflet';
 import 'leaflet-snap';
 import 'leaflet-geometryutil';
 import { overrideClosestFromGeometryUtils } from '../tools/leaflet-geometryutil-workaround'; //see https://github.com/makinacorpus/Leaflet.GeometryUtil/issues/59

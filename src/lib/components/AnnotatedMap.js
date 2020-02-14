@@ -1,22 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-import ProjGeoJson from './ProjGeoJson';
-import RoutedMap from './RoutedMap';
-import FeatureCollectionDisplay from './FeatureCollectionDisplay';
-import NewPolyControl from './editcontrols/NewPolygonControl';
-import NewMarkerControl from './editcontrols/NewMarkerControl';
-import RemoveControl from './editcontrols/RemoveEditableObjectControl';
-import { convertFeatureCollectionToMarkerPositionCollection } from '../tools/mappingHelpers';
-import { convertPolygonLatLngsToGeoJson, projectionData } from '../tools/mappingHelpers';
-import { reproject } from 'reproject';
-import 'leaflet-editable';
-import 'leaflet.path.drag';
-import proj4 from 'proj4';
 import '@fortawesome/fontawesome-free/js/all.js';
 import L from 'leaflet';
+import 'leaflet-editable';
 import 'leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css';
-import ExtraMarkers from 'leaflet-extra-markers';
-import NewWindowControl from './NewWindowControl';
+import 'leaflet.path.drag';
+import React, { useEffect, useRef, useState } from 'react';
+import NewMarkerControl from './editcontrols/NewMarkerControl';
+import NewPolyControl from './editcontrols/NewPolygonControl';
+import RemoveControl from './editcontrols/RemoveEditableObjectControl';
+import FeatureCollectionDisplay from './FeatureCollectionDisplay';
+import RoutedMap from './RoutedMap';
 // Since this component is simple and static, there's no parent container for it.
 const Comp = (props) => {
 	const { editable, allAnnotationsInEditModeOverride } = props;
