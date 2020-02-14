@@ -4,7 +4,8 @@ import './index.css';
 import L from 'leaflet';
 import 'leaflet-toolbar';
 import 'leaflet-toolbar/dist/leaflet.toolbar.css';
-import { AnnotatedMap, MappingConstants } from './lib';
+import { MappingConstants } from './lib';
+import AnnotatedMap from './lib/components/AnnotatedMap';
 const mapStyle = {
 	height: window.innerHeight,
 	cursor: 'crosshair'
