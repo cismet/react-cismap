@@ -267,8 +267,8 @@ Layers.set('rvrSchrift', (options = DEFAULT_LAYER_OPTIONS) => {
 	return (
 		<StyledWMSTileLayer
 			key={'stadtplan_rvr_schrift' + JSON.stringify(options)}
-			url='https://rvr.demo.omniscale.net/mapproxy/service'
-			layers='schrift_rvr'
+			url='https://wupp-plan-live.cismet.de'
+			layers='spw2_schrift_overlay'
 			format='image/png'
 			tiled='false'
 			transparent='true'
