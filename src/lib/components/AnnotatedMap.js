@@ -109,8 +109,8 @@ const Comp = (props) => {
 		>
 			{props.children}
 
-			{editable && <NewPolyControl />}
-			{editable && <NewMarkerControl />}
+			{editable && <NewPolyControl tooltip='Anmerkung anlegen (Polygon)' />}
+			{editable && <NewMarkerControl tooltip='Anmerkung anlegen (Punkt)' />}
 			{/* {editable && <RemoveControl />} */}
 			{editable && (
 				<FeatureCollectionDisplay

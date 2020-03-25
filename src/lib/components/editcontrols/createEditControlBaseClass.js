@@ -15,7 +15,13 @@ export function createEditControlBaseClass() {
 				link = L.DomUtil.create('a', '', container);
 
 			link.href = '#';
-			link.title = 'Create a new ' + this.options.kind;
+
+			if (this.options.tooltip === undefined) {
+				link.title = this.options.kind + ' anlegen';
+			} else {
+				link.title = this.options.tooltip;
+			}
+
 			link.innerHTML = this.options.html;
 
 			//Demo for proper Toolbar Styling

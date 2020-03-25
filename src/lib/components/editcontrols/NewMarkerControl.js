@@ -16,7 +16,8 @@ export default class Control extends MapControl {
 			position: this.props.position,
 			onSelect: this.props.onSelect,
 			callback: map.editTools.startMarker,
-			kind: 'marker',
+			kind: 'Punkt',
+			tooltip: this.props.tooltip,
 			html: '<i class="fas fa-map-marker"></i>'
 		});
 	}
@@ -26,7 +27,8 @@ Control.propTypes = {
 	position: PropTypes.string,
 	onSelect: PropTypes.func,
 	onFeatureCreation: PropTypes.func,
-	onFeatureChange: PropTypes.func
+	onFeatureChange: PropTypes.func,
+	tooltip: PropTypes.string
 };
 
 Control.defaultProps = {
