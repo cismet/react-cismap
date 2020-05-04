@@ -58,7 +58,12 @@ storiesOf('EditControl', module)
 					zoomSnap={0.5}
 					zoomDelta={0.5}
 				>
-					<NewPoly tooltip='neues Polygon anlegen' />
+					<NewPoly
+						tooltip='neues Polygon anlegen'
+						onSelect={() => {
+							console.log('onSelect');
+						}}
+					/>
 				</RoutedMap>
 			</div>
 		);

@@ -7,7 +7,8 @@ export function createEditControlBaseClass() {
 			position: 'topleft',
 			callback: null,
 			kind: '',
-			html: ''
+			html: '',
+			onSelect: undefined
 		},
 
 		onAdd: function(map) {
@@ -54,6 +55,9 @@ export function createEditControlBaseClass() {
 				'click',
 				function(e) {
 					console.log('click on button ' + this.options.kind);
+					if (this.options.onSelect !== undefined) {
+						this.options.onSelect();
+					}
 
 					if (map.editTools.mode.name !== this.options.kind) {
 						map.editTools.stopDrawing();
