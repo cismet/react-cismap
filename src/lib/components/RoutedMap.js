@@ -254,8 +254,6 @@ export class RoutedMap extends React.Component {
 
 	//Handle a autoFit Command if needed
 	componentDidUpdate() {
-		console.log('this.props.autoFitConfigurationxxx', this.props.autoFitConfiguration);
-
 		if (typeof this.leafletMap !== 'undefined' && this.leafletMap != null) {
 			if (this.props.autoFitConfiguration.autoFitBounds) {
 				if (

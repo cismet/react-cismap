@@ -39,7 +39,7 @@ export function createEditControlBaseClass() {
 					callback: null
 				};
 			}
-			console.log('map.editTools.mode.name:', map.editTools.mode.name);
+			// console.log('map.editTools.mode.name:', map.editTools.mode.name);
 			watch(map.editTools.mode, 'name', () => {
 				if (map.editTools.mode.name === this.options.kind) {
 					link.innerHTML = `<span style="padding:2px; padding-right:4px; padding-left:4px; border-radius:4px; border: 3px solid #008AFA;" >
