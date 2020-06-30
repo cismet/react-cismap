@@ -78,7 +78,7 @@ export class RoutedMap extends React.Component {
 			}
 
 			//Do stuff for snapping
-			console.log('this.props.snappingEnabled', this.props.snappingEnabled);
+			// console.log('this.props.snappingEnabled', this.props.snappingEnabled);
 
 			this.snap = new L.Handler.MarkerSnap(map);
 			const snap = this.snap;

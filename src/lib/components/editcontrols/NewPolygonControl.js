@@ -12,7 +12,6 @@ export default class Control extends MapControl {
 		if (L.EditControl === undefined) {
 			createEditControlBaseClass();
 		}
-		console.log('this.props', this.props);
 
 		L.NewPolygonControl = L.EditControl.extend({
 			options: {
