@@ -40,7 +40,12 @@ export class RoutedMap extends React.Component {
 
 		//Do sstuff after panning is over
 		map.on('moveend', () => {
-			if (typeof leafletMap !== 'undefined' && leafletMap !== null) {
+			if (
+				typeof leafletMap !== 'undefined' &&
+				leafletMap !== null &&
+				leafletMap.leafletElement !== undefined &&
+				leafletMap.leafletElement !== null
+			) {
 				const zoom = leafletMap.leafletElement.getZoom();
 				const center = leafletMap.leafletElement.getCenter();
 				const latFromUrl = parseFloat(this.props.urlSearchParams.get('lat'));
