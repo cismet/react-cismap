@@ -46,28 +46,30 @@ export class RoutedMap extends React.Component {
 				leafletMap.leafletElement !== undefined &&
 				leafletMap.leafletElement !== null
 			) {
-				const zoom = leafletMap.leafletElement.getZoom();
-				const center = leafletMap.leafletElement.getCenter();
-				const latFromUrl = parseFloat(this.props.urlSearchParams.get('lat'));
-				const lngFromUrl = parseFloat(this.props.urlSearchParams.get('lng'));
-				const zoomFromUrl = parseInt(this.props.urlSearchParams.get('zoom'), 10);
-				let lat = center.lat;
-				let lng = center.lng;
-				if (Math.abs(latFromUrl - center.lat) < 0.000001) {
-					lat = latFromUrl;
-				}
-				if (Math.abs(lngFromUrl - center.lng) < 0.000001) {
-					lng = lngFromUrl;
-				}
+				try {
+					const zoom = leafletMap.leafletElement.getZoom();
+					const center = leafletMap.leafletElement.getCenter();
+					const latFromUrl = parseFloat(this.props.urlSearchParams.get('lat'));
+					const lngFromUrl = parseFloat(this.props.urlSearchParams.get('lng'));
+					const zoomFromUrl = parseInt(this.props.urlSearchParams.get('zoom'), 10);
+					let lat = center.lat;
+					let lng = center.lng;
+					if (Math.abs(latFromUrl - center.lat) < 0.000001) {
+						lat = latFromUrl;
+					}
+					if (Math.abs(lngFromUrl - center.lng) < 0.000001) {
+						lng = lngFromUrl;
+					}
 
-				if (lng !== lngFromUrl || lat !== latFromUrl || zoomFromUrl !== zoom) {
-					this.props.locationChangedHandler({
-						lat: lat,
-						lng: lng,
-						zoom: zoom
-					});
-				}
-				this.storeBoundingBox(leafletMap);
+					if (lng !== lngFromUrl || lat !== latFromUrl || zoomFromUrl !== zoom) {
+						this.props.locationChangedHandler({
+							lat: lat,
+							lng: lng,
+							zoom: zoom
+						});
+					}
+					this.storeBoundingBox(leafletMap);
+				} catch (e) {}
 			} else {
 				console.warn('leafletMap ref is null. this could lead to update problems. ');
 			}
