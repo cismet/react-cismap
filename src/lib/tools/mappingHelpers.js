@@ -5,6 +5,26 @@ import proj4 from 'proj4';
 import intersect from '@turf/intersect';
 import * as turfHelpers from '@turf/helpers';
 import bboxPolygon from '@turf/bbox-polygon';
+export const projectionData = {
+	'25832': {
+		def: '+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs',
+		geojson: {
+			type: 'name',
+			properties: {
+				name: 'urn:ogc:def:crs:EPSG::25832'
+			}
+		}
+	},
+	'4326': {
+		def: '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs',
+		geojson: {
+			type: 'name',
+			properties: {
+				name: 'urn:ogc:def:crs:EPSG::4326'
+			}
+		}
+	}
+};
 
 export function getPolygonfromBBox(bbox) {
 	return (
@@ -162,15 +182,50 @@ const createPolygonMarkerGeometry = (coordinates, viewBBox, markerPos) => {
 		pointOnPolygon = polylabel(coordinates);
 	}
 	let offset = [];
+
 	if (markerPos.includes(pointOnPolygon[0] + '-' + pointOnPolygon[1])) {
 		offset = [ 2, 2 ];
 	} else {
-		offset = [ -2, -2 ];
+		offset = [ 0, 0 ]; //check with b-plan regression (it was before [-2,-2])
 	}
+
 	markerPos.push(pointOnPolygon[0] + '-' + pointOnPolygon[1]);
 
 	return {
 		type: 'Point',
 		coordinates: [ pointOnPolygon[0] - offset[0], pointOnPolygon[1] - offset[1] ]
 	};
+};
+
+export const convertPolygonLatLngsToGeoJson = ({
+	id,
+	latlngs,
+	crs = '25832',
+	type = 'Feature',
+	properties
+}) => {
+	const feature = {
+		id,
+		type,
+		geometry: {
+			type: 'Polygon',
+			coordinates: []
+		},
+		crs: projectionData[crs].geojson,
+		properties
+	};
+
+	for (const firstLevel of latlngs) {
+		const resultArray = [];
+		for (const latlng of firstLevel) {
+			const coord = proj4(proj4.defs('EPSG:4326'), projectionData[crs].def, [
+				latlng.lng,
+				latlng.lat
+			]);
+			resultArray.push(coord);
+		}
+		feature.geometry.coordinates.push(resultArray);
+	}
+
+	return feature;
 };

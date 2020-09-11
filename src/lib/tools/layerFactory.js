@@ -21,18 +21,20 @@ export default function getLayers(
 		const layerAndNamedStyleArray = layerWithNamedStyleExtension.split('.');
 		let namedStyleOptions = {};
 
-
-    if (layerAndNamedStyleArray.length > 1) {
+		if (layerAndNamedStyleArray.length > 1) {
 			//the last named style is overriding the ones before
-      let first=true;
-      for (const element of layerAndNamedStyleArray) {
-        if (first){
-          first=false;
-        }
-        else {
-          namedStyleOptions = objectAssign({}, namedStyleOptions, namedStylesConfig[element]); 
-        }
-      }
+			let first = true;
+			for (const element of layerAndNamedStyleArray) {
+				if (first) {
+					first = false;
+				} else {
+					namedStyleOptions = objectAssign(
+						{},
+						namedStyleOptions,
+						namedStylesConfig[element]
+					);
+				}
+			}
 		}
 		let mergedOptions = objectAssign({}, namedStyleOptions, options);
 		const layerGetter = Layers.get(layerAndNamedStyleArray[0]);

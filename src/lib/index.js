@@ -8,6 +8,8 @@ import RoutedMap from './components/RoutedMap';
 import getLayersByName from './tools/layerFactory';
 import FullscreenControl from './components/FullscreenControl';
 import LocateControl from './components/LocateControl';
+import NewPolyControl from './components/editcontrols/NewPolygonControl';
+import NewMarkerControl from './components/editcontrols/NewMarkerControl';
 export {
 	MappingHelpers,
 	MappingConstants,
@@ -18,5 +20,7 @@ export {
 	getLayersByName,
 	FullscreenControl,
 	LocateControl,
-	Layers
+	Layers,
+	NewPolyControl,
+	NewMarkerControl
 };

@@ -10,13 +10,13 @@ class NewWindowControl extends MapControl {
 	componentWillMount() {
 		let that = this;
 		this.leafletElement = L.easyButton(
-			'fa-external-link-square',
+			'fa-external-link-square-alt',
 			function(btn, map) {
 				window.open(window.location.href);
 			},
 			this.props.title,
 			{
-				position: this.props.position
+				position: this.props.position || 'topleft'
 			}
 		);
 	}

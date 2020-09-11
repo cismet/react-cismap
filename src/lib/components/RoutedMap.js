@@ -4,14 +4,24 @@ import { Map, ZoomControl } from 'react-leaflet';
 import 'proj4leaflet';
 import proj4 from 'proj4';
 import 'url-search-params-polyfill';
-
+import '@fortawesome/fontawesome-free/js/all.js';
+import L from 'leaflet';
+import 'leaflet-editable';
+import 'leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css';
+import 'leaflet-extra-markers/';
+import 'leaflet.path.drag';
 import * as MappingConstants from '../constants/mapping';
+import { projectionData } from '../tools/mappingHelpers';
 
 import getLayersByNames from '../tools/layerFactory';
 import FullscreenControl from './/FullscreenControl';
 import NewWindowControl from './NewWindowControl';
 import LocateControl from '../components/LocateControl';
 import { getInternetExplorerVersion } from '../tools/browserHelper';
+import 'leaflet-snap';
+import 'leaflet-geometryutil';
+import { overrideClosestFromGeometryUtils } from '../tools/leaflet-geometryutil-workaround'; //see https://github.com/makinacorpus/Leaflet.GeometryUtil/issues/59
+import { reproject } from 'reproject';
 
 export class RoutedMap extends React.Component {
 	constructor(props) {
@@ -22,35 +32,231 @@ export class RoutedMap extends React.Component {
 	// add a handler for detecting map changes
 	componentDidMount() {
 		const leafletMap = this.leafletMap;
-		this.leafletMap.leafletElement.on('moveend', () => {
-			if (typeof leafletMap !== 'undefined' && leafletMap !== null) {
-				const zoom = leafletMap.leafletElement.getZoom();
-				const center = leafletMap.leafletElement.getCenter();
-				const latFromUrl = parseFloat(this.props.urlSearchParams.get('lat'));
-				const lngFromUrl = parseFloat(this.props.urlSearchParams.get('lng'));
-				const zoomFromUrl = parseInt(this.props.urlSearchParams.get('zoom'), 10);
-				let lat = center.lat;
-				let lng = center.lng;
-				if (Math.abs(latFromUrl - center.lat) < 0.000001) {
-					lat = latFromUrl;
-				}
-				if (Math.abs(lngFromUrl - center.lng) < 0.000001) {
-					lng = lngFromUrl;
-				}
+		// this.leafletMap.editable = true;
+		overrideClosestFromGeometryUtils();
 
-				if (lng !== lngFromUrl || lat !== latFromUrl || zoomFromUrl !== zoom) {
-					this.props.locationChangedHandler({
-						lat: lat,
-						lng: lng,
-						zoom: zoom
-					});
-				}
-				this.storeBoundingBox(leafletMap);
+		const map = leafletMap.leafletElement;
+		map.editable = this.props.editable;
+
+		//Do sstuff after panning is over
+		map.on('moveend', () => {
+			if (
+				typeof leafletMap !== 'undefined' &&
+				leafletMap !== null &&
+				leafletMap.leafletElement !== undefined &&
+				leafletMap.leafletElement !== null
+			) {
+				try {
+					const zoom = leafletMap.leafletElement.getZoom();
+					const center = leafletMap.leafletElement.getCenter();
+					const latFromUrl = parseFloat(this.props.urlSearchParams.get('lat'));
+					const lngFromUrl = parseFloat(this.props.urlSearchParams.get('lng'));
+					const zoomFromUrl = parseInt(this.props.urlSearchParams.get('zoom'), 10);
+					let lat = center.lat;
+					let lng = center.lng;
+					if (Math.abs(latFromUrl - center.lat) < 0.000001) {
+						lat = latFromUrl;
+					}
+					if (Math.abs(lngFromUrl - center.lng) < 0.000001) {
+						lng = lngFromUrl;
+					}
+
+					if (lng !== lngFromUrl || lat !== latFromUrl || zoomFromUrl !== zoom) {
+						this.props.locationChangedHandler({
+							lat: lat,
+							lng: lng,
+							zoom: zoom
+						});
+					}
+					this.storeBoundingBox(leafletMap);
+				} catch (e) {}
 			} else {
 				console.warn('leafletMap ref is null. this could lead to update problems. ');
 			}
 		});
+
+		if (map.editable === true) {
+			if (map.editTools.mode === undefined) {
+				map.editTools.mode = {
+					name: undefined,
+					locked: false,
+					callback: null
+				};
+			}
+
+			//Do stuff for snapping
+			// console.log('this.props.snappingEnabled', this.props.snappingEnabled);
+
+			this.snap = new L.Handler.MarkerSnap(map);
+			const snap = this.snap;
+			var snapMarker = L.marker(map.getCenter(), {
+				icon: map.editTools.createVertexIcon({
+					className: 'leaflet-div-icon leaflet-drawing-icon'
+				}),
+				opacity: 1,
+				zIndexOffset: 1000
+			});
+			snap.watchMarker(snapMarker);
+			map.mysnap = snap;
+			const that = this;
+
+			//Snapping
+			map.on('editable:dragstart', function(e) {
+				if (that.props.snappingEnabled && e.layer.feature.geometry.type === 'Point') {
+					//remove the the layer from the guides if it is in there
+					// no need to add it, because of the conversion ot a feature after editing
+
+					const hitIndex = snap._guides.indexOf(e.layer);
+					if (hitIndex !== -1) {
+						snap._guides.splice(hitIndex, 1);
+					}
+
+					//snapMarker.addTo(map);
+					snap.watchMarker(e.layer);
+				}
+			});
+			map.on('editable:drag', function(e) {
+				if (that.props.snappingEnabled && e.layer.feature.geometry.type === 'Point') {
+					snapMarker.setLatLng(e.latlng);
+				}
+			});
+
+			map.on('editable:dragend', function(e) {
+				if (that.props.snappingEnabled && e.layer.feature.geometry.type === 'Point') {
+					snap.unwatchMarker(e.layer);
+					snapMarker.remove();
+
+					//
+					//need to add it here again if it would not be converted to a feature
+					// snap.addGuideLayer(e.layer);
+				}
+			});
+
+			map.on('editable:vertex:dragstart', function(e) {
+				if (that.props.snappingEnabled) {
+					//remove the the layer from the guides if it is in there
+					// no need to add it, because of the conversion ot a feature after editing
+					const hitIndex = snap._guides.indexOf(e.layer);
+					if (hitIndex !== -1) {
+						snap._guides.splice(hitIndex, 1);
+					}
+					console.log('snap.watchMarker(e.vertex)', e);
+
+					snap.watchMarker(e.vertex);
+				}
+			});
+			map.on('editable:vertex:dragend', function(e) {
+				if (that.props.snappingEnabled) {
+					snap.unwatchMarker(e.vertex);
+					// need to add it here again if it would not be converted to a feature
+					// snap.addGuideLayer(e.layer);
+				}
+			});
+			map.on('editable:drawing:start', function() {
+				if (that.props.snappingEnabled) {
+					this.on('mousemove', followMouse);
+				}
+			});
+			map.on('editable:drawing:end', function() {
+				if (that.props.snappingEnabled) {
+					this.off('mousemove', followMouse);
+					snapMarker.remove();
+				}
+				console.log('map.editTools.mode', map.editTools.mode);
+			});
+			map.on('editable:drawing:click', function(e) {
+				if (that.props.snappingEnabled) {
+					// Leaflet copy event data to another object when firing,
+					// so the event object we have here is not the one fired by
+					// Leaflet.Editable; it's not a deep copy though, so we can change
+					// the other objects that have a reference here.
+					var latlng = snapMarker.getLatLng();
+					e.latlng.lat = latlng.lat;
+					e.latlng.lng = latlng.lng;
+				}
+			});
+			snapMarker.on('snap', function(e) {
+				if (that.props.snappingEnabled) {
+					snapMarker.addTo(map);
+				}
+			});
+			snapMarker.on('unsnap', function(e) {
+				if (that.props.snappingEnabled) {
+					snapMarker.remove();
+				}
+			});
+			var followMouse = function(e) {
+				if (that.props.snappingEnabled) {
+					snapMarker.setLatLng(e.latlng);
+				}
+			};
+
+			map.on('layeradd', function(e) {
+				if (e.layer.snappingGuide === true) {
+					snap.addGuideLayer(e.layer);
+				}
+			});
+			map.on('layerremove', function(e) {
+				if (e.layer.snappingGuide === true) {
+					const hitIndex = snap._guides.indexOf(e.layer);
+					if (hitIndex !== -1) {
+						snap._guides.splice(hitIndex, 1);
+						// console.log('removeGuideLayer');
+					}
+
+					//snap.removeGuideLayer(e.layer);
+				}
+			});
+			// Snapping End
+
+			//regular editing and creation
+			//moved whole object
+			map.on('editable:dragend', (e) => {
+				this.props.onFeatureChangeAfterEditing(
+					this.props.createFeatureFromEditLayer(e.layer.feature.id, e.layer)
+				);
+			});
+
+			//moved only the handles of an object
+			map.on('editable:vertex:dragend', (e) => {
+				this.props.onFeatureChangeAfterEditing(
+					this.props.createFeatureFromEditLayer(e.layer.feature.id, e.layer)
+				);
+			});
+
+			map.on('editable:drawing:click', (e) => {
+				e.editTools.validClicks = e.editTools.validClicks + 1;
+			});
+
+			//created a new object
+			map.on('editable:drawing:end', (e) => {
+				if (e.editTools.validClicks > 0) {
+					const feature = this.props.createFeatureFromEditLayer(-1, e.layer);
+					//if you wannt to keep the edit handles on just do
+					// feature.inEditMode = true;
+					if (feature !== undefined) {
+						this.props.onFeatureCreation(feature);
+					}
+
+					if (map.editTools.mode.locked === false) {
+						map.editTools.mode.name = undefined;
+					} else {
+						map.editTools.validClicks = 0;
+						if (
+							map.editTools.mode.callback !== null &&
+							map.editTools.mode.callback !== undefined
+						) {
+							map.editTools.mode.callback.call(map.editTools);
+						}
+					}
+				}
+				e.layer.remove();
+			});
+		} else {
+			console.log('map not editable', map);
+		}
 		this.storeBoundingBox(leafletMap);
+		this.props.mapReady(map);
 	}
 
 	//Handle a autoFit Command if needed
@@ -195,6 +401,7 @@ export class RoutedMap extends React.Component {
 					ref={(leafletMap) => {
 						this.leafletMap = leafletMap;
 					}}
+					editable={this.props.editable}
 					key={'leafletMap'}
 					crs={this.props.referenceSystem}
 					style={this.props.style}
@@ -215,6 +422,7 @@ export class RoutedMap extends React.Component {
 						zoomInTitle='Vergr&ouml;ßern'
 						zoomOutTitle='Verkleinern'
 					/>
+
 					{fullscreenControl}
 					{locateControl}
 					{getLayersByNames(
@@ -253,7 +461,12 @@ RoutedMap.propTypes = {
 	minZoom: PropTypes.number,
 	maxZoom: PropTypes.number,
 	zoomSnap: PropTypes.number,
-	zoomDelta: PropTypes.number
+	zoomDelta: PropTypes.number,
+	editable: PropTypes.bool,
+	mapReady: PropTypes.func,
+	onFeatureCreation: PropTypes.func,
+	onFeatureChangeAfterEditing: PropTypes.func,
+	createFeatureFromEditLayer: PropTypes.func
 };
 
 RoutedMap.defaultProps = {
@@ -261,6 +474,8 @@ RoutedMap.defaultProps = {
 	gazeteerHitTrigger: function() {},
 	searchButtonTrigger: function() {},
 	featureClickHandler: function() {},
+	onFeatureCreation: function() {},
+	onFeatureChangeAfterEditing: function() {},
 	ondblclick: function() {},
 	onclick: function() {},
 	locationChangedHandler: function() {},
@@ -279,7 +494,26 @@ RoutedMap.defaultProps = {
 	minZoom: 7,
 	maxZoom: 18,
 	zoomSnap: 1,
-	zoomDelta: 1
+	zoomDelta: 1,
+	editable: false,
+	mapReady: (map) => {},
+	createFeatureFromEditLayer: (id, layer) => {
+		try {
+			const wgs84geoJSON = layer.toGeoJSON();
+			const reprojectedGeoJSON = reproject(
+				wgs84geoJSON,
+				proj4.WGS84,
+				projectionData['25832'].def
+			);
+			console.log('reprojectedGeoJSON', JSON.stringify(reprojectedGeoJSON));
+
+			reprojectedGeoJSON.id = id;
+			return reprojectedGeoJSON;
+		} catch (e) {
+			console.log('excepotion in create feature', e);
+			return undefined;
+		}
+	}
 };
 
 export default RoutedMap;

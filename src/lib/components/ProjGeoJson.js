@@ -1,4 +1,7 @@
 import L from 'leaflet';
+import 'leaflet-editable';
+import 'leaflet.path.drag';
+
 import { isFunction } from 'lodash';
 import PropTypes from 'prop-types';
 import 'proj4leaflet';
@@ -24,15 +27,33 @@ class ProjGeoJson extends Path {
 
 			//TODO set a offset so that the Tooltip is shown in the current map
 			layer.feature = feature;
+			if (props.snappingGuides === true) {
+				layer.snappingGuide = true;
+			}
+			if (props.customType !== undefined) {
+				layer.customType = props.customType;
+			}
 
 			//new
 			//layer.on('click',props.featureClickHandler);
 
 			//old
-			layer.on('click', function(event) {
-				props.featureClickHandler(event, feature, layer);
-			});
+			if (props.featureClickHandler !== undefined) {
+				layer.on('click', function(event) {
+					props.featureClickHandler(event, feature, layer);
+				});
+			}
+			// console.log('toggleEdit', layer.toggleEdit);
+			if (props.editable === true) {
+				layer.on('dblclick', L.DomEvent.stop).on('dblclick', () => {
+					layer.toggleEdit();
+					layer.feature.inEditMode = layer.editEnabled();
+					props.editModeStatusChanged(layer.feature);
 
+					if (layer.feature.inEditMode === false) {
+					}
+				});
+			}
 			let zoffset = new L.point(0, 0);
 			if (feature.selected) {
 				//ugly winning: a direct call of bringToFront has no effect -.-
@@ -77,20 +98,32 @@ class ProjGeoJson extends Path {
 					layer.closePopup();
 				});
 			}
+
+			// console.log('report layer for snapping', layer);
 		};
 
 		props.pointToLayer = (feature, latlng) => {
 			if (props.style) {
 				let theStyle = props.style(feature);
 				let marker = null;
-				if (theStyle.svg) {
-					let divIcon = L.divIcon({
-						className: 'leaflet-data-marker',
-						html: theStyle.svg,
-						iconAnchor: [ theStyle.svgSize / 2, theStyle.svgSize / 2 ],
-						iconSize: [ theStyle.svgSize, theStyle.svgSize ]
-					});
-					marker = L.marker(latlng, { icon: divIcon });
+				if (
+					theStyle.svg ||
+					theStyle.defaultMarker === true ||
+					theStyle.customMarker !== undefined
+				) {
+					if (theStyle.customMarker !== undefined) {
+						marker = L.marker(latlng, { icon: theStyle.customMarker });
+					} else if (theStyle.svg !== undefined) {
+						let divIcon = L.divIcon({
+							className: 'leaflet-data-marker',
+							html: theStyle.svg,
+							iconAnchor: [ theStyle.svgSize / 2, theStyle.svgSize / 2 ],
+							iconSize: [ theStyle.svgSize, theStyle.svgSize ]
+						});
+						marker = L.marker(latlng, { icon: divIcon });
+					} else {
+						marker = L.marker(latlng);
+					}
 				} else {
 					marker = L.circleMarker(latlng, { radius: 2 });
 				}
@@ -191,11 +224,14 @@ ProjGeoJson.propTypes = {
 	mapRef: PropTypes.object,
 	featureStylerScalableImageSize: PropTypes.number,
 	clusteringEnabled: PropTypes.bool,
-	clusterOptions: PropTypes.object
+	clusterOptions: PropTypes.object,
+	customType: PropTypes.string,
+	editModeStatusChanged: PropTypes.func
 };
 
 ProjGeoJson.defaultProps = {
 	featureStylerScalableImageSize: 32,
 	clusterOptions: {},
-	clusteringEnabled: false
+	clusteringEnabled: false,
+	editModeStatusChanged: (feature) => {}
 };
