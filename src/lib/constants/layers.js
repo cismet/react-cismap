@@ -390,6 +390,21 @@ Layers.set('trueOrtho2018', (options = DEFAULT_LAYER_OPTIONS) => {
 		/>
 	);
 });
+Layers.set('trueOrtho2020', (options = DEFAULT_LAYER_OPTIONS) => {
+	return (
+		<StyledWMSTileLayer
+			key={'trueOrtho2020' + JSON.stringify(options)}
+			url='https://maps.wuppertal.de/deegree/wms'
+			layers='R102:trueortho202010'
+			format='image/png'
+			tiled='true'
+			maxZoom={19}
+			transparent='true'
+			opacity={options.opacity}
+			cssFilter={options['css-filter']}
+		/>
+	);
+});
 
 Layers.set('hillshade', (options = DEFAULT_LAYER_OPTIONS) => {
 	return (
@@ -417,6 +432,21 @@ Layers.set('trueOrtho2018Cached', (options = DEFAULT_LAYER_OPTIONS) => {
 			tiled='true'
 			transparent='true'
 			maxZoom={19}
+			opacity={options.opacity}
+			cssFilter={options['css-filter']}
+		/>
+	);
+});
+Layers.set('trueOrtho2020Cached', (options = DEFAULT_LAYER_OPTIONS) => {
+	return (
+		<StyledWMSTileLayer
+			key={'trueOrtho2020' + JSON.stringify(options)}
+			url='https://wunda-geoportal-cache.cismet.de/geoportal'
+			layers='R102:trueortho202010'
+			format='image/png'
+			tiled='true'
+			maxZoom={19}
+			transparent='true'
 			opacity={options.opacity}
 			cssFilter={options['css-filter']}
 		/>

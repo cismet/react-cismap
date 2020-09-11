@@ -47,6 +47,86 @@ storiesOf('RoutedMap', module)
 			</div>
 		);
 	})
+	.add('True Ortho 2018', () => {
+		const mapStyle = {
+			height: window.innerHeight - 100,
+			cursor: 'pointer',
+			clear: 'both'
+		};
+
+		let urlSearchParams = new URLSearchParams('');
+
+		return (
+			<div>
+				<div>Simple Map</div>
+				<br />
+
+				<RoutedMap
+					editable={false}
+					style={mapStyle}
+					key={'leafletRoutedMap'}
+					referenceSystem={MappingConstants.crs25832}
+					referenceSystemDefinition={MappingConstants.proj4crs25832def}
+					ref={(leafletMap) => {
+						// this.leafletRoutedMap = leafletMap;
+					}}
+					layers=''
+					doubleClickZoom={false}
+					onclick={(e) => console.log('click', e)}
+					ondblclick={(e) => console.log('doubleclick', e)}
+					autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
+					backgroundlayers={'trueOrtho2018@100'}
+					urlSearchParams={urlSearchParams}
+					fullScreenControlEnabled={false}
+					locateControlEnabled={false}
+					minZoom={7}
+					maxZoom={18}
+					zoomSnap={0.5}
+					zoomDelta={0.5}
+				/>
+			</div>
+		);
+	})
+	.add('True Ortho 2020', () => {
+		const mapStyle = {
+			height: window.innerHeight - 100,
+			cursor: 'pointer',
+			clear: 'both'
+		};
+
+		let urlSearchParams = new URLSearchParams('');
+
+		return (
+			<div>
+				<div>Simple Map</div>
+				<br />
+
+				<RoutedMap
+					editable={false}
+					style={mapStyle}
+					key={'leafletRoutedMap'}
+					referenceSystem={MappingConstants.crs25832}
+					referenceSystemDefinition={MappingConstants.proj4crs25832def}
+					ref={(leafletMap) => {
+						// this.leafletRoutedMap = leafletMap;
+					}}
+					layers=''
+					doubleClickZoom={false}
+					onclick={(e) => console.log('click', e)}
+					ondblclick={(e) => console.log('doubleclick', e)}
+					autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
+					backgroundlayers={'trueOrtho2020@100'}
+					urlSearchParams={urlSearchParams}
+					fullScreenControlEnabled={false}
+					locateControlEnabled={false}
+					minZoom={7}
+					maxZoom={18}
+					zoomSnap={0.5}
+					zoomDelta={0.5}
+				/>
+			</div>
+		);
+	})
 	.add('With simulated Url', () => {
 		const mapStyle = {
 			height: window.innerHeight - 100,
