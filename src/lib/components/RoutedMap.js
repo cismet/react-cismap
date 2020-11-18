@@ -27,6 +27,8 @@ export class RoutedMap extends React.Component {
 	constructor(props) {
 		super(props);
 		this.featureClick = this.featureClick.bind(this);
+		this.storeBoundingBox = this.storeBoundingBox.bind(this);
+		this.getBoundingBoxForLeafletMap = this.getBoundingBoxForLeafletMap.bind(this);
 	}
 
 	// add a handler for detecting map changes
@@ -300,8 +302,11 @@ export class RoutedMap extends React.Component {
 		}
 	}
 
-	storeBoundingBox(leafletMap) {
-		//store the projected bounds in the store
+	getBoundingBox() {
+		return this.getBoundingBoxForLeafletMap(this.leafletMap);
+	}
+
+	getBoundingBoxForLeafletMap(leafletMap) {
 		const bounds = leafletMap.leafletElement.getBounds();
 		const projectedNE = proj4(proj4.defs('EPSG:4326'), this.props.referenceSystemDefinition, [
 			bounds._northEast.lng,
@@ -311,14 +316,18 @@ export class RoutedMap extends React.Component {
 			bounds._southWest.lng,
 			bounds._southWest.lat
 		]);
-		const bbox = {
+		return {
 			left: projectedSW[0],
 			top: projectedNE[1],
 			right: projectedNE[0],
 			bottom: projectedSW[1]
 		};
-		//console.log(getPolygon(bbox));
+	}
 
+	storeBoundingBox(leafletMap) {
+		//store the projected bounds in the store
+		//console.log(getPolygon(bbox));
+		const bbox = this.getBoundingBoxForLeafletMap(leafletMap);
 		this.props.boundingBoxChangedHandler(bbox);
 	}
 
