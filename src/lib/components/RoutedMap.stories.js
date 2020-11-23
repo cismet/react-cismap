@@ -232,7 +232,10 @@ storiesOf('RoutedMap', module)
 					}}
 					layers=''
 					doubleClickZoom={false}
-					onclick={(e) => console.log('click', leafletRoutedMapRef.getBoundingBox())}
+					onclick={(e) => {
+						console.log('click', leafletRoutedMapRef.getBoundingBox());
+						console.log('new L.Proj.CRS()', L.Proj.CRS);
+					}}
 					ondblclick={(e) => console.log('doubleclick', e)}
 					autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
 					backgroundlayers={'ruhrWMSlight@40|trueOrtho2018@10|rvrSchrift@100'}

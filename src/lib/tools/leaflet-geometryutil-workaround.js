@@ -1,6 +1,7 @@
 import L from 'leaflet';
 import 'leaflet-snap';
 import 'leaflet-geometryutil';
+import 'proj4leaflet';
 
 export function overrideClosestFromGeometryUtils() {
 	L.GeometryUtil.closest = (map, layer, latlng, vertices) => {
