@@ -6,16 +6,15 @@ import { withInfo } from '@storybook/addon-info';
 import { withKnobs, text, boolean, number, select } from '@storybook/addon-knobs';
 import 'leaflet-editable';
 import 'leaflet.path.drag';
-import { MappingConstants, FeatureCollectionDisplay } from '../';
+import { MappingConstants, FeatureCollectionDisplay } from '../index';
 import AnnotatedMap from './AnnotatedMap';
 import {
 	kassenzeichen,
 	flaechenStyle,
 	getMarkerStyleFromFeatureConsideringSelection
 } from './editcontrols/Editing.Storybook.data';
-import L from 'leaflet';
 
-const stories = storiesOf('AnnotatedMap', module).add('Simple', () => {
+const stories = storiesOf('Deprecated/AnnotatedMap', module).add('Simple', () => {
 	const mapStyle = {
 		height: window.innerHeight - 100,
 		cursor: 'pointer',

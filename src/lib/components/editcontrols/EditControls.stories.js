@@ -8,7 +8,7 @@ import {
 	LocateControl,
 	FeatureCollectionDisplayWithTooltipLabels,
 	FeatureCollectionDisplay
-} from '../..';
+} from '../../index';
 import 'leaflet-editable';
 import 'leaflet.path.drag';
 import '@fortawesome/fontawesome-free/js/all.js';
@@ -21,7 +21,7 @@ import { convertPolygonLatLngsToGeoJson } from '../../tools/mappingHelpers';
 
 import L from 'leaflet';
 
-storiesOf('EditControl', module)
+storiesOf('Deprecated/EditControl', module)
 	// .addDecorator(withInfo) // At your stories directly.
 	.add('Simple Editing', () => {
 		const mapStyle = {

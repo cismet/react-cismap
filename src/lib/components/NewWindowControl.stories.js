@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react';
 import { RoutedMap, MappingConstants } from '../';
 import NewWindowControl from './NewWindowControl';
 import '@fortawesome/fontawesome-free/js/all.js';
-storiesOf('NewWindowControl', module)
+storiesOf('Deprecated/NewWindowControl', module)
 	// .addDecorator(withInfo) // At your stories directly.
 	.add('Simple', () => {
 		const mapStyle = {

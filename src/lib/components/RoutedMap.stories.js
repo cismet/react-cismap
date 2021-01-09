@@ -3,9 +3,9 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import 'leaflet-editable';
 import 'leaflet.path.drag';
-import { RoutedMap, MappingConstants } from '../../lib';
-
-storiesOf('RoutedMap', module)
+import { RoutedMap, MappingConstants } from '../index';
+import L from 'leaflet';
+storiesOf('Deprecated/RoutedMap', module)
 	// .addDecorator(withInfo) // At your stories directly.
 	.add('Simple', () => {
 		const mapStyle = {

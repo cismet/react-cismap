@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 
-import { RoutedMap, MappingConstants } from '../../lib';
+import { RoutedMap, MappingConstants } from '../index';
 
-storiesOf('LocateControl', module)
+storiesOf('Deprecated/LocateControl', module)
 	// .addDecorator(withInfo) // At your stories directly.
 	.add('Simple', () => {
 		const mapStyle = {

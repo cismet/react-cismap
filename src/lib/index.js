@@ -10,6 +10,7 @@ import FullscreenControl from './components/FullscreenControl';
 import LocateControl from './components/LocateControl';
 import NewPolyControl from './components/editcontrols/NewPolygonControl';
 import NewMarkerControl from './components/editcontrols/NewMarkerControl';
+const ID = 3;
 export {
 	MappingHelpers,
 	MappingConstants,
@@ -24,3 +25,5 @@ export {
 	NewPolyControl,
 	NewMarkerControl
 };
+
+export { ID };

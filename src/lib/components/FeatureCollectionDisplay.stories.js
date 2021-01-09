@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
-import { RoutedMap, MappingConstants, FeatureCollectionDisplayWithTooltipLabels } from '../../lib';
+import { RoutedMap, MappingConstants, FeatureCollectionDisplayWithTooltipLabels } from '../index';
 import EditControl from './editcontrols/NewPolygonControl';
 import 'leaflet-editable';
 import 'leaflet.path.drag';
@@ -476,7 +476,7 @@ const uwz = [
 	}
 ];
 
-storiesOf('FeatureCollectionDisplayWithTooltipLabels', module)
+storiesOf('Deprecated/FeatureCollectionDisplayWithTooltipLabels', module)
 	// .addDecorator(withInfo) // At your stories directly.
 	.add('Simple FCD in 25832', () =>
 		React.createElement(() => {

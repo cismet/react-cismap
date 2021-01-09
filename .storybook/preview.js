@@ -1,7 +1,11 @@
-import { withInfo } from '@storybook/addon-info';
+// import { withInfo } from '@storybook/addon-info';
 
-addDecorator(
-	withInfo({
-		header: false
-	})
-);
+// addDecorator(
+// 	withInfo({
+// 		header: false
+// 	})
+// );
+
+export const parameters = {
+	actions: { argTypesRegex: '^on[A-Z].*' }
+};

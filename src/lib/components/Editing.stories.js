@@ -1,20 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import 'leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css';
 import L from 'leaflet';
-
 import 'leaflet-editable';
 import 'leaflet.path.drag';
-import { RoutedMap, MappingConstants } from '../../lib';
+import { RoutedMap, MappingConstants } from '../index';
 import NewMarkerControl from './editcontrols/NewMarkerControl';
 import NewPolyControl from './editcontrols/NewPolygonControl';
 import RemoveControl from './editcontrols/RemoveEditableObjectControl';
 import FeatureCollectionDisplay from './FeatureCollectionDisplay';
 
-storiesOf('Editing', module)
+storiesOf('Deprecated/Editing', module)
 	// .addDecorator(withInfo) // At your stories directly.
-	.add('Simple', () => {
+	.add('Simple+', () => {
 		return React.createElement(() => {
 			const mapStyle = {
 				height: window.innerHeight - 100,
@@ -116,7 +114,7 @@ storiesOf('Editing', module)
 				<div>
 					<RoutedMap
 						ref={mapRef}
-						editable={false}
+						editable={true}
 						style={mapStyle}
 						key={'leafletRoutedMap'}
 						referenceSystem={MappingConstants.crs25832}
@@ -136,11 +134,11 @@ storiesOf('Editing', module)
 						{editable && <NewPolyControl />}
 						{editable && <NewMarkerControl />}
 						{editable && <RemoveControl />}
-						{editable && (
+						{true && (
 							<FeatureCollectionDisplay
 								editable={true}
-								snappingGuides={true}
-								editModeStatusChanged={onFeatureChange}
+								//snappingGuides={true}
+								//editModeStatusChanged={onFeatureChange}
 								customType='annotation'
 								key={'annotations_' + JSON.stringify(annotations)}
 								featureCollection={annotations}
@@ -160,7 +158,7 @@ storiesOf('Editing', module)
 									// onFeatureChange(feature);
 								}}
 								style={(feature) => {
-									console.log('style feature', feature.selected);
+									console.log('style feature', feature);
 									const currentColor = '#ffff00';
 
 									let opacity,
