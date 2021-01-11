@@ -1,11 +1,11 @@
 {
 	"name": "react-cismap",
 	"description": "our (cismet) mapping (pattern) library for better reusability in different projects",
-	"version": "0.6.0-SNAPSHOT-1",
-	"main": "dist/index.js",
-	"module": "dist/index.js",
+	"version": "0.6.0-SNAPSHOT-4",
+	"main": "index.js",
+	"module": "index.js",
 	"files": [
-		"dist",
+		"*",
 		"README.md"
 	],
 	"browserslist": [
@@ -19,6 +19,9 @@
 		"type": "git",
 		"url": "git@github.com:cismet/react-cismap.git"
 	},
+	"publishConfig": {
+		"registry": "https://registry.npmjs.org"
+	},
 	"dependencies": {
 		"@fortawesome/fontawesome-free": "^5.12.0",
 		"@fortawesome/fontawesome-svg-core": "^1.2.26",
@@ -26,9 +29,13 @@
 		"@fortawesome/free-regular-svg-icons": "^5.14.0",
 		"@fortawesome/free-solid-svg-icons": "^5.12.0",
 		"@fortawesome/react-fontawesome": "^0.1.8",
+		"@mapbox/polylabel": "^1.0.2",
+		"@turf/bbox": "^6.0.1",
 		"@turf/bbox-polygon": "^6.0.1",
+		"@turf/helpers": "^6.1.4",
 		"@turf/intersect": "^6.1.3",
 		"babel-polyfill": "^6.26.0",
+		"bootstrap": "^4.5.3",
 		"leaflet": "^1.6.0",
 		"leaflet-easybutton": "^2.3.0",
 		"leaflet-editable": "^1.2.0",
@@ -38,13 +45,17 @@
 		"leaflet.locatecontrol": "^0.63.0",
 		"leaflet.markercluster": "^1.4.0",
 		"leaflet.path.drag": "^0.0.6",
-		"polylabel": "^1.0.2",
+		"object-assign": "^4.1.1",
+		"polylabel": "mapbox/polylabel",
 		"proj4": "^2.5.0",
 		"proj4leaflet": "^1.0.2",
 		"react": "^16.11",
+		"react-bootstrap": "^1.4.3",
+		"react-bootstrap-typeahead": "3.4.7",
 		"react-dom": "^16.11",
 		"react-fa": "^5.0.0",
 		"react-leaflet": "^1.6.4",
+		"react-leaflet-control": "1.4.1",
 		"react-leaflet-markercluster": "^1.1.8",
 		"reproject": "^1.2.5",
 		"url-search-params-polyfill": "^5.0.0",
@@ -53,7 +64,6 @@
 	"devDependencies": {
 		"@babel/cli": "^7.7.0",
 		"@babel/core": "^7.3.3",
-		"babel-loader": "^8.0.0-beta.6",
 		"@babel/preset-env": "^7.3.1",
 		"@fortawesome/fontawesome-free": "^5.12.0",
 		"@storybook/addon-actions": "^6.1.11",
@@ -63,6 +73,7 @@
 		"@storybook/addon-links": "^6.1.11",
 		"@storybook/preset-create-react-app": "^3.1.5",
 		"@storybook/react": "^6.1.11",
+		"babel-loader": "8.1.0",
 		"chai": "^4.1.2",
 		"cypress": "3.4.1",
 		"mocha": "^3.5.0",
@@ -77,13 +88,18 @@
 		"start": "start-storybook -p 9009 -s public",
 		"start-cra": "react-scripts start",
 		"build-cra": "react-scripts build ",
-		"build": "rm -rf dist/* && NODE_ENV=production babel src/lib --out-dir dist --copy-files  --source-maps both --ignore *.stories.js,__tests__,spec.js,test.js,__snapshots__",
+		"build": "rm -rf dist/* && NODE_ENV=production babel src/lib --out-dir dist --copy-files  --source-maps both --ignore *.stories.js,__tests__,spec.js,test.js,__snapshots__ && yarn run copypackage",
 		"test": "react-scripts test --env=jsdom",
 		"eject-dont-do": "react-scripts eject",
 		"storybook": "start-storybook -p 9009 -s public",
 		"build-storybook": "build-storybook -s public",
 		"cy": "cypress open",
-		"cy-run": "cypress run"
+		"cy-run": "cypress run",
+		"copypackage": "cp -rf package.json dist",
+		"dist": "cd dist && bash -c 'npm publish'",
+		"linkdist": "cd dist && bash -c 'yarn link'",
+		"unlinkdist": "cd dist && bash -c 'yarn unlink'",
+		"testls": "npm config ls"
 	},
 	"babel": {
 		"presets": [

@@ -10,17 +10,17 @@ import 'leaflet-editable';
 import 'leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css';
 import 'leaflet-extra-markers/';
 import 'leaflet.path.drag';
-import * as MappingConstants from '../constants/mapping';
-import { projectionData } from '../tools/mappingHelpers';
+import * as MappingConstants from './constants/mapping';
+import { projectionData } from './tools/mappingHelpers';
 
-import getLayersByNames from '../tools/layerFactory';
-import FullscreenControl from './/FullscreenControl';
+import getLayersByNames from './tools/layerFactory';
+import FullscreenControl from './FullscreenControl';
 import NewWindowControl from './NewWindowControl';
-import LocateControl from '../components/LocateControl';
-import { getInternetExplorerVersion } from '../tools/browserHelper';
+import LocateControl from './LocateControl';
+import { getInternetExplorerVersion } from './tools/browserHelper';
 import 'leaflet-snap';
 import 'leaflet-geometryutil';
-import { overrideClosestFromGeometryUtils } from '../tools/leaflet-geometryutil-workaround'; //see https://github.com/makinacorpus/Leaflet.GeometryUtil/issues/59
+import { overrideClosestFromGeometryUtils } from './tools/leaflet-geometryutil-workaround'; //see https://github.com/makinacorpus/Leaflet.GeometryUtil/issues/59
 import { reproject } from 'reproject';
 
 export class RoutedMap extends React.Component {

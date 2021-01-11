@@ -1,6 +1,6 @@
 import React from 'react';
 import { TileLayer } from 'react-leaflet';
-import StyledWMSTileLayer from '../components/StyledWMSTileLayer';
+import StyledWMSTileLayer from '../StyledWMSTileLayer';
 
 const Layers = new Map();
 export default Layers;

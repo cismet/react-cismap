@@ -1,6 +1,7 @@
 import Icon from './Icon';
 import React from 'react';
-import { Well } from 'react-bootstrap';
+import Well from './Well';
+import Button from 'react-bootstrap/Button';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 const COMP = ({
@@ -16,7 +17,7 @@ const COMP = ({
 		</div>
 	),
 	upButton = (
-		<h4 style={{ margin: 2 }}>
+		<h4 style={{ margin: 2, fontSize: '18px' }}>
 			<Icon
 				title='vollständige Info-Box'
 				style={{ color: '#7e7e7e' }}
@@ -25,7 +26,7 @@ const COMP = ({
 		</h4>
 	),
 	downButton = (
-		<h4 style={{ margin: 2 }}>
+		<h4 style={{ margin: 2, fontSize: '18px' }}>
 			<Icon
 				title='kompakte Info-Box'
 				style={{ color: '#7e7e7e' }}
@@ -97,7 +98,6 @@ const COMP = ({
 	// 		divWhenLarge={divWhenLarge}
 	// 	/>
 	// );
-
 	if (fixedRow) {
 		return (
 			<Well onClick={onClick} key={keyToUse} bsSize={bsSize} style={style}>

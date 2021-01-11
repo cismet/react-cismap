@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
-import { RoutedMap, MappingConstants, FeatureCollectionDisplayWithTooltipLabels } from '../index';
+import { RoutedMap, MappingConstants, FeatureCollectionDisplayWithTooltipLabels } from './index';
 import EditControl from './editcontrols/NewPolygonControl';
 import 'leaflet-editable';
 import 'leaflet.path.drag';

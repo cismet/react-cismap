@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import L from 'leaflet';
 import { MappingConstants } from './lib';
-import AnnotatedMap from './lib/components/AnnotatedMap';
-import RoutedMap from './lib/components/RoutedMap';
-import NewPoly from './lib/components/editcontrols/NewPolygonControl';
+import AnnotatedMap from './lib/AnnotatedMap';
+import RoutedMap from './lib/RoutedMap';
+import NewPoly from './lib/editcontrols/NewPolygonControl';
+import GazetteerSearchControl from './lib/GazetteerSearchControl';
 
 const mapStyle = {
 	height: window.innerHeight,
@@ -84,6 +85,7 @@ ReactDOM.render(
 			mapReady={() => {}}
 		>
 			}
+			<GazetteerSearchControl />
 		</AnnotatedMap>
 	</div>,
 	document.getElementById('root')

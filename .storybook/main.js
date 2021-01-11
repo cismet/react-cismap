@@ -25,7 +25,7 @@ module.exports = {
 		'@storybook/addon-essentials',
 		'@storybook/preset-create-react-app',
 		'@storybook/addon-knobs',
-		// '@storybook/addon-info',
+		// '@storybook/addon-info', //problems with version
 		'@storybook/addon-docs',
 		'@storybook/addon-actions'
 	],

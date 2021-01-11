@@ -20,7 +20,14 @@ const SimpleLinkButton = (props) => {
 	//	return <a {...props}>{props.children}</a>; //to compare outcome
 	return (
 		<button
-			style={{ border: 0, padding: 0, wordWrap: 'break-word', textAlign: 'left' }}
+			style={{
+				border: 0,
+				backgroundColor: 'white',
+				padding: 0,
+				wordWrap: 'break-word',
+				textAlign: 'left',
+				outline: 0
+			}}
 			class='btn-link'
 			{...props}
 		>

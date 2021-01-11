@@ -17,7 +17,7 @@ import {
 	flaechenStyle,
 	getMarkerStyleFromFeatureConsideringSelection
 } from './Editing.Storybook.data';
-import { convertPolygonLatLngsToGeoJson } from '../../tools/mappingHelpers';
+import { convertPolygonLatLngsToGeoJson } from '../tools/mappingHelpers';
 
 import L from 'leaflet';
 

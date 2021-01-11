@@ -1,5 +1,5 @@
 import React from 'react';
-import { Well } from 'react-bootstrap';
+import Well from './Well';
 import Icon from './Icon';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -23,7 +23,7 @@ const COMP = ({
 		<h4 style={{ margin: 2 }}>
 			<Icon
 				title='vollständige Info-Box'
-				style={{ color: '#7e7e7e' }}
+				style={{ color: '#7e7e7e', fontSize: '18px' }}
 				name='chevron-circle-up'
 			/>
 		</h4>
@@ -32,7 +32,7 @@ const COMP = ({
 		<h4 style={{ margin: 2 }}>
 			<Icon
 				title='kompakte Info-Box'
-				style={{ color: '#7e7e7e' }}
+				style={{ color: '#7e7e7e', fontSize: '18px' }}
 				name='chevron-circle-down'
 			/>
 		</h4>
@@ -44,7 +44,7 @@ const COMP = ({
 		cursor: 'pointer'
 	},
 	bsSize = 'small',
-	style = { pointerEvents: 'auto', padding: 0 },
+	style = { pointerEvents: 'auto', padding: '0px' },
 	onClick = () => {},
 	keyToUse,
 	debugBorder = 0,

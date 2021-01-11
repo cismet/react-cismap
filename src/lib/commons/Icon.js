@@ -37,7 +37,7 @@ import { faBitbucket } from '@fortawesome/free-brands-svg-icons';
 import React from 'react';
 import { Icon } from 'react-fa';
 
-const nameMap = {
+export const nameMap = {
 	clock: faClock,
 	phone: faPhone,
 	search: faSearch,

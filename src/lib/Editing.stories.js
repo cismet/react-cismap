@@ -4,7 +4,7 @@ import 'leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css';
 import L from 'leaflet';
 import 'leaflet-editable';
 import 'leaflet.path.drag';
-import { RoutedMap, MappingConstants } from '../index';
+import { RoutedMap, MappingConstants } from './index';
 import NewMarkerControl from './editcontrols/NewMarkerControl';
 import NewPolyControl from './editcontrols/NewPolygonControl';
 import RemoveControl from './editcontrols/RemoveEditableObjectControl';

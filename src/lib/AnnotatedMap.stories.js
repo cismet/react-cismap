@@ -6,7 +6,7 @@ import { withInfo } from '@storybook/addon-info';
 import { withKnobs, text, boolean, number, select } from '@storybook/addon-knobs';
 import 'leaflet-editable';
 import 'leaflet.path.drag';
-import { MappingConstants, FeatureCollectionDisplay } from '../index';
+import { MappingConstants, FeatureCollectionDisplay } from './index';
 import AnnotatedMap from './AnnotatedMap';
 import {
 	kassenzeichen,

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ProjGeoJson from '../components/ProjGeoJson';
+import ProjGeoJson from './ProjGeoJson';
 import { Marker, Tooltip } from 'react-leaflet';
 import L from 'leaflet';
 import * as turfHelpers from '@turf/helpers';
@@ -8,9 +8,9 @@ import bboxPolygon from '@turf/bbox-polygon';
 import intersect from '@turf/intersect';
 import polylabel from 'polylabel';
 import proj4 from 'proj4';
-import { proj4crs25832def } from '../constants/mapping';
+import { proj4crs25832def } from './constants/mapping';
 
-import * as mappingHelpers from '../tools/mappingHelpers';
+import * as mappingHelpers from './tools/mappingHelpers';
 
 // Since this component is simple and static, there's no parent container for it.
 const FeatureCollectionDisplay = ({

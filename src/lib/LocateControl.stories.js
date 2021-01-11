@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 
-import { RoutedMap, MappingConstants } from '../index';
+import { RoutedMap, MappingConstants } from './index';
 
 storiesOf('Deprecated/LocateControl', module)
 	// .addDecorator(withInfo) // At your stories directly.
