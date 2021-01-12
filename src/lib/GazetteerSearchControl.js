@@ -85,9 +85,8 @@ const COMP = ({
 
 	console.log('mapRef', mapRef);
 
-	const typeahead = useRef(null);
+	const typeaheadRef = useRef(null);
 	const searchOverlay = useRef(null);
-	const gazClearOverlay = useRef(null);
 	const controlRef = useRef(null);
 	useEffect(() => {
 		if (controlRef.current !== null) {
@@ -101,6 +100,7 @@ const COMP = ({
 		}
 		if (searchInProgress === false && searchButtonTrigger !== undefined) {
 			clear();
+			setGazetteerHit(null);
 			gazetteerHitAction(null);
 			searchButtonTrigger(event);
 		} else {
@@ -108,73 +108,73 @@ const COMP = ({
 		}
 	};
 	const internalClearButtonTrigger = (event) => {
-		if (gazClearOverlay) {
-			gazClearOverlay.current.hide();
-		}
 		if (overlayFeature !== null) {
 			setOverlayFeature(null);
 		}
 
 		clear();
+		setGazetteerHit(null);
 		gazetteerHitAction(null);
 	};
 
 	const clear = () => {
-		typeahead.current.clear();
+		typeaheadRef.current.clear();
 	};
 	let firstbutton;
 	// check for overlayFeature and gazetteerHit because of the new behaviour to show the delete button always
 	// if there is a gaz hit in the map
-	if (searchAfterGazetteer === true && overlayFeature === null && gazetteerHit === null) {
-		firstbutton = (
-			<InputGroup.Prepend
-				disabled={searchInProgress || !searchAllowed}
-				onClick={(e) => {
-					if (searchAllowed) {
-						internalSearchButtonTrigger(e);
-					} else {
-						// Hier kann noch eine Meldung angezeigt werden.
-					}
-				}}
-			>
-				<OverlayTrigger
-					ref={searchOverlay}
-					placement='top'
-					overlay={searchTooltipProvider()}
-				>
-					<Button
-						d
-						style={{ backgroundColor: 'grey', border: 0 }}
-						isabled={searchInProgress || !searchAllowed}
-					>
-						{searchIcon}
-					</Button>
-				</OverlayTrigger>
-			</InputGroup.Prepend>
-		);
-	} else {
-		// check for overlayFeature and gazetteerHit because of the new behaviour to show the delete button always
-		// if there is a gaz hit in the map
-		if (!searchAllowed || overlayFeature !== null || gazetteerHit !== null) {
-			firstbutton = (
-				<InputGroup.Prepend onClick={internalClearButtonTrigger}>
-					<OverlayTrigger
-						ref={gazClearOverlay}
-						placement='top'
-						overlay={gazClearTooltipProvider()}
-					>
-						<Button
-							style={{ backgroundColor: 'grey', border: 0 }}
-							disabled={overlayFeature === null && gazetteerHit === null}
-						>
-							<Icon style={{ color: 'black' }} name='times' />
-						</Button>
-					</OverlayTrigger>
-				</InputGroup.Prepend>
-			);
-		}
-	}
+	// if (searchAfterGazetteer === true && overlayFeature === null && gazetteerHit === null) {
+	// 	firstbutton = (
+	// 		<InputGroup.Prepend
+	// 			disabled={searchInProgress || !searchAllowed}
+	// 			onClick={(e) => {
+	// 				if (searchAllowed) {
+	// 					internalSearchButtonTrigger(e);
+	// 				} else {
+	// 					// Hier kann noch eine Meldung angezeigt werden.
+	// 				}
+	// 			}}
+	// 		>
+	// 			<OverlayTrigger
+	// 				ref={searchOverlay}
+	// 				placement='top'
+	// 				overlay={searchTooltipProvider()}
+	// 			>
+	// 				<Button
+	// 					d
+	// 					style={{ backgroundColor: 'grey', border: 0 }}
+	// 					isabled={searchInProgress || !searchAllowed}
+	// 				>
+	// 					{searchIcon}
+	// 				</Button>
+	// 			</OverlayTrigger>
+	// 		</InputGroup.Prepend>
+	// 	);
+	// } else {
+	// 	// check for overlayFeature and gazetteerHit because of the new behaviour to show the delete button always
+	// 	// if there is a gaz hit in the map
+	// 	if (!searchAllowed || overlayFeature !== null || gazetteerHit !== null) {
+	// 		firstbutton = (
+	// 			<InputGroup.Prepend onClick={internalClearButtonTrigger}>
+	// 				<OverlayTrigger
+	// 					ref={(r) => (gazClearOverlayRef = r)} //{gazClearOverlayRef}
+	// 					placement='top'
+	// 					overlay={gazClearTooltipProvider()}
+	// 				>
+	// 					<Button
+	// 						style={{ backgroundColor: 'grey', border: 0 }}
+	// 						disabled={overlayFeature === null && gazetteerHit === null}
+	// 					>
+	// 						<Icon style={{ color: 'black' }} name='times' />
+	// 					</Button>
+	// 				</OverlayTrigger>
+	// 			</InputGroup.Prepend>
+	// 		);
+	// 	}
+	// }
 	console.log('firstbutton', firstbutton);
+	console.log('controlRef', controlRef);
+	console.log('typeaheadRef', typeaheadRef);
 
 	return (
 		<Control
@@ -191,10 +191,24 @@ const COMP = ({
 			>
 				<FormGroup>
 					<InputGroup>
-						{firstbutton}
+						{/* {firstbutton} */}
+						<InputGroup.Prepend onClick={internalClearButtonTrigger}>
+							<OverlayTrigger
+								placement='top'
+								rootClose={true}
+								overlay={gazClearTooltipProvider()}
+							>
+								<Button
+									style={{ backgroundColor: 'grey', border: 0 }}
+									disabled={overlayFeature === null && gazetteerHit === null}
+								>
+									<Icon style={{ color: 'black' }} name='times' />
+								</Button>
+							</OverlayTrigger>
+						</InputGroup.Prepend>
 						<Typeahead
 							id='haz-search-typeahead'
-							ref={typeahead}
+							ref={typeaheadRef}
 							style={{ width: `${pixelwidth}px` }}
 							labelKey='string'
 							options={gazData}

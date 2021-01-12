@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ExtraMarker from './ExtraMarker';
-import { proj4crs25832def } from '../constants/gis';
+import { proj4crs25832def } from './constants/gis';
 import proj4 from 'proj4';
 
 const GazetteerHitDisplay = ({ gazetteerHit }) => {

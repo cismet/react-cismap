@@ -45,6 +45,7 @@
 		"leaflet.locatecontrol": "^0.63.0",
 		"leaflet.markercluster": "^1.4.0",
 		"leaflet.path.drag": "^0.0.6",
+		"localforage": "^1.9.0",
 		"object-assign": "^4.1.1",
 		"polylabel": "mapbox/polylabel",
 		"proj4": "^2.5.0",
