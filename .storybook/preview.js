@@ -11,5 +11,16 @@ import './index.css';
 // );
 
 export const parameters = {
-	actions: { argTypesRegex: '^on[A-Z].*' }
+	actions: { argTypesRegex: '^on[A-Z].*' },
+	options: {
+		storySort: {
+			order: [
+				'Mapping Components',
+				'TopicMap Components',
+				'Common Components',
+				'Storybook Testing',
+				'Deprecated'
+			]
+		}
+	}
 };

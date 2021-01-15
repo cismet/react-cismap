@@ -3,28 +3,13 @@ import { isFunction } from 'lodash';
 import PropTypes from 'prop-types';
 import 'proj4leaflet';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { actions as mappingActions } from '../redux/modules/mapping';
 import { Path } from 'react-leaflet';
 
 import Terraformer from 'terraformer-wkt-parser';
 
 require('react-leaflet-markercluster/dist/styles.min.css');
 
-function mapStateToProps(state) {
-	return {
-		mapping: state.mapping
-	};
-}
-
-function mapDispatchToProps(dispatch) {
-	return {
-		mappingActions: bindActionCreators(mappingActions, dispatch)
-	};
-}
-
-export class ProjSingleGeoJson_ extends Path {
+export class ProjSingleGeoJson extends Path {
 	componentWillMount() {
 		super.componentWillMount();
 		const { geoJson, ...props } = this.props;
@@ -37,14 +22,17 @@ export class ProjSingleGeoJson_ extends Path {
 				layer.on('click', props.featureClickHandler);
 			}
 		};
-
-		//let maskingPolygon=getPolygonfromBBox(this.props.mapping.boundingBox);
-		const big = Terraformer.parse(this.props.maskingPolygon);
-		const geoJsonIverted = JSON.parse(JSON.stringify(geoJson));
-		const polyCoords = geoJsonIverted.geometry.coordinates[0];
-		const bigCoords = big.coordinates[0];
-		geoJsonIverted.geometry.coordinates = [ bigCoords, polyCoords ];
-		const geojson = L.Proj.geoJson(geoJsonIverted, props);
+		let geojson;
+		if (props.masked === true) {
+			const big = Terraformer.parse(this.props.maskingPolygon);
+			const geoJsonIverted = JSON.parse(JSON.stringify(geoJson));
+			const polyCoords = geoJsonIverted.geometry.coordinates[0];
+			const bigCoords = big.coordinates[0];
+			geoJsonIverted.geometry.coordinates = [ bigCoords, polyCoords ];
+			geojson = L.Proj.geoJson(geoJsonIverted, props);
+		} else {
+			geojson = L.Proj.geoJson(geoJson, props);
+		}
 		this.leafletElement = geojson;
 	}
 
@@ -63,7 +51,6 @@ export class ProjSingleGeoJson_ extends Path {
 	}
 }
 
-const ProjSingleGeoJson = connect(mapStateToProps, mapDispatchToProps)(ProjSingleGeoJson_);
 export default ProjSingleGeoJson;
 
 ProjSingleGeoJson.propTypes = {

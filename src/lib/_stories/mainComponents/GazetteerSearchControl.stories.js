@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { RoutedMap, MappingConstants } from './index';
-import GazetteerSearchControl from './GazetteerSearchControl';
-import Icon from './commons/Icon';
-import GazetteerHitDisplay from './GazetteerHitDisplay';
-import { md5FetchText } from './tools/fetching';
-import { getGazDataForTopicIds } from './tools/gazetteerHelper';
+import { RoutedMap, MappingConstants } from '../../index';
+import GazetteerSearchControl from '../../GazetteerSearchControl';
+import GazetteerHitDisplay from '../../GazetteerHitDisplay';
+import { md5FetchText } from '../../tools/fetching';
+import { getGazDataForTopicIds } from '../../tools/gazetteerHelper';
+import ProjSingleGeoJson from '../../ProjSingleGeoJson';
+import { storiesCategory } from './StoriesConf';
 export default {
-	title: 'Mapping Components/GazetteerSearchControl'
+	title: storiesCategory + 'GazetteerSearchControl'
 };
 
 const getGazData = async (setData) => {
@@ -78,6 +79,14 @@ export const SimpleMapWithGazetteerSearchBox = () => {
 				zoomSnap={0.5}
 				zoomDelta={0.5}
 			>
+				{overlayFeature && (
+					<ProjSingleGeoJson
+						key={JSON.stringify(overlayFeature)}
+						geoJson={overlayFeature}
+						masked={true}
+						mapRef={mapRef}
+					/>
+				)}
 				<GazetteerHitDisplay
 					key={'gazHit' + JSON.stringify(gazetteerHit)}
 					gazetteerHit={gazetteerHit}

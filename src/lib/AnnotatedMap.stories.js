@@ -12,7 +12,7 @@ import {
 	kassenzeichen,
 	flaechenStyle,
 	getMarkerStyleFromFeatureConsideringSelection
-} from './editcontrols/Editing.Storybook.data';
+} from './_stories/_data/Editing.Storybook.data';
 
 const stories = storiesOf('Deprecated/AnnotatedMap', module).add('Simple', () => {
 	const mapStyle = {

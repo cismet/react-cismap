@@ -16,7 +16,7 @@ import {
 	kassenzeichen,
 	flaechenStyle,
 	getMarkerStyleFromFeatureConsideringSelection
-} from './Editing.Storybook.data';
+} from '../_stories/_data/Editing.Storybook.data';
 import { convertPolygonLatLngsToGeoJson } from '../tools/mappingHelpers';
 
 import L from 'leaflet';
