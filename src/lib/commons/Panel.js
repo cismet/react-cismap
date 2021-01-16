@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
 
-// Since this component is simple and static, there's no parent container for it.
+//Acting like a Bootstrap3 Panel
 const Comp = (props) => {
 	let headerStyle;
 	switch (props.bsStyle) {

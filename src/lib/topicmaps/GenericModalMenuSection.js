@@ -38,17 +38,6 @@ const GenericModalMenuSection = ({
 				}
 			}}
 		>
-			{/* <Card>
-				<Card.Header>
-					<Accordion.Toggle as={Button} variant='link' eventKey={sectionKey}>
-						{sectionTitle}
-					</Accordion.Toggle>
-				</Card.Header>
-				<Accordion.Collapse eventKey={sectionKey}>
-					<Card.Body>{sectionContent}</Card.Body>
-				</Accordion.Collapse>
-			</Card> */}
-
 			<Panel header={sectionTitle} eventKey={sectionKey} bsStyle={sectionBsStyle}>
 				{sectionContent}
 			</Panel>
