@@ -1,6 +1,6 @@
 import React from 'react';
-import { Accordion, Panel } from 'react-bootstrap';
-
+import { Accordion } from 'react-bootstrap';
+import Panel from '../commons/Panel';
 // Since this component is simple and static, there's no parent container for it.
 const Comp = ({ header = 'Header', bsStyle = 'success', content }) => {
 	return (

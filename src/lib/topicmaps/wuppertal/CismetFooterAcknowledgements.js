@@ -1,6 +1,7 @@
 import React from 'react';
-import { getTopicMapVersion } from '../../constants/versions';
+// import { getTopicMapVersion } from '../../constants/versions';
 
+const getTopicMapVersion = () => '0.0';
 // Since this component is simple and static, there's no parent container for it.
 const Component = () => {
 	return (

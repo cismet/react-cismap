@@ -1,9 +1,9 @@
-import Icon from 'components/commons/Icon';
+import Icon from '../commons/Icon';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import CismetFooterAcks from 'components/commons/CismetFooterAcknowledgements';
-import GenericRVRStadtplanwerkMenuFooter from './GenericRVRStadtplanwerkMenuFooter';
+import CismetFooterAcks from './wuppertal/CismetFooterAcknowledgements';
+import GenericRVRStadtplanwerkMenuFooter from './wuppertal/GenericRVRStadtplanwerkMenuFooter';
 const Comp = ({
 	visible,
 	uiHeight,
@@ -33,7 +33,7 @@ const Comp = ({
 				zIndex: 2900000000
 			}}
 			height='100%'
-			bsSize='large'
+			size='xl'
 			show={visible}
 			onHide={close}
 			keyboard={false}
