@@ -478,6 +478,33 @@ export const featureDefaults = {
 	selected: false
 };
 
+export const parkscheinautomat = [
+	{
+		index: 0,
+		id: 0,
+		type: 'Feature',
+		properties: {
+			Nummer: 2023,
+			Standort: 'Opernhaus - Parkplatz West',
+			Bezirk: 'W-Barmen',
+			Anzahl: 105,
+			Dauer_Ges: 'keine Festlegung getroffen',
+			Gebuehr: '0,50 € je 30 Minuten',
+			Tagtarif: '3,00 €',
+			Abendtarif: '2,00 €',
+			info: {
+				title: 'Opernhaus - Parkplatz West',
+				subtitle: '0,50 € je 30 Minuten',
+				additionalInfo: '105 Plätze'
+			}
+		},
+		geometry: {
+			type: 'Point',
+			coordinates: [ 373876.519697561, 5681046.66445972 ]
+		},
+		text: 2023
+	}
+];
 export const parkscheinautomaten = [
 	{
 		index: 0,

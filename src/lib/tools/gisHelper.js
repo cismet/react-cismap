@@ -63,3 +63,5 @@ export function convertPoint(x, y) {
 	const projectedPoint = proj4(proj4.defs('EPSG:4326'), proj4crs25832def, [ yval, xval ]);
 	return projectedPoint;
 }
+
+export function getNamedlayers() {}

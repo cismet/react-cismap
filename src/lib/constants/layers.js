@@ -18,22 +18,6 @@ export const namedStyles = {
 };
 const DEFAULT_LAYER_OPTIONS = namedStyles.default;
 
-Layers.set('nrwDOP20', (options = DEFAULT_LAYER_OPTIONS) => {
-	return (
-		<StyledWMSTileLayer
-			key={'nrwDOP20' + JSON.stringify(options)}
-			url='https://wunda-geoportal-cache.cismet.de/nrwDOP20'
-			layers='nw_dop20'
-			format='image/png'
-			tiled='true'
-			//crs={L.CRS.EPSG3857}
-			maxZoom={19}
-			opacity={options.opacity}
-			cssFilter={options['css-filter']}
-		/>
-	);
-});
-
 Layers.set('osm', (options = DEFAULT_LAYER_OPTIONS) => {
 	return (
 		<StyledWMSTileLayer
@@ -247,22 +231,6 @@ Layers.set('webatlas', (options = DEFAULT_LAYER_OPTIONS) => {
 	);
 });
 
-Layers.set('rvrWMS', (options = DEFAULT_LAYER_OPTIONS) => {
-	return (
-		<StyledWMSTileLayer
-			key={'stadtplan_rvr' + JSON.stringify(options)}
-			url='https://rvr.demo.omniscale.net/mapproxy/service'
-			layers='stadtplan_rvr'
-			format='image/png'
-			tiled='false'
-			version='1.3.0'
-			maxZoom={19}
-			opacity={options.opacity}
-			cssFilter={options['css-filter']}
-		/>
-	);
-});
-
 Layers.set('rvrSchrift', (options = DEFAULT_LAYER_OPTIONS) => {
 	return (
 		<StyledWMSTileLayer
@@ -317,22 +285,6 @@ Layers.set('wupp-plan-live', (options = DEFAULT_LAYER_OPTIONS) => {
 		<StyledWMSTileLayer
 			key={'wupp-plan-live' + JSON.stringify(options)}
 			url='https://wupp-plan-live.cismet.de'
-			layers='stadtplan_rvr'
-			format='image/png'
-			tiled='false'
-			version='1.3.0'
-			maxZoom={19}
-			opacity={options.opacity}
-			cssFilter={options['css-filter']}
-		/>
-	);
-});
-
-Layers.set('wupp-plan-live2', (options = DEFAULT_LAYER_OPTIONS) => {
-	return (
-		<StyledWMSTileLayer
-			key={'wupp-plan-live' + JSON.stringify(options)}
-			url='https://wildcardtest.cismet.de'
 			layers='stadtplan_rvr'
 			format='image/png'
 			tiled='false'
@@ -485,21 +437,21 @@ Layers.set('ESRILayer', (options = DEFAULT_LAYER_OPTIONS) => {
 	);
 });
 
-Layers.set('CartoLayer', (options = DEFAULT_LAYER_OPTIONS) => {
-	return (
-		<TileLayer
-			key={'CartoLayer' + JSON.stringify(options)}
-			urlBW='http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
-			urlE='http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
-			urlH='http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png'
-			url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-			attribution='&copy; <a href=&quot;http://www.openstreetmap.org/copyright&quot;>OpenStreetMap</a> contributors, &copy; <a href=&quot;https://carto.com/attributions&quot;>CARTO</a>'
-			maxNativeZoom={19}
-			maxZoom={22}
-			opacity={options.opacity}
-		/>
-	);
-});
+// Layers.set('CartoLayer', (options = DEFAULT_LAYER_OPTIONS) => {
+// 	return (
+// 		<TileLayer
+// 			key={'CartoLayer' + JSON.stringify(options)}
+// 			urlBW='http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
+// 			urlE='http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+// 			urlH='http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png'
+// 			url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+// 			attribution='&copy; <a href=&quot;http://www.openstreetmap.org/copyright&quot;>OpenStreetMap</a> contributors, &copy; <a href=&quot;https://carto.com/attributions&quot;>CARTO</a>'
+// 			maxNativeZoom={19}
+// 			maxZoom={22}
+// 			opacity={options.opacity}
+// 		/>
+// 	);
+// });
 
 Layers.set('CartoLayer', (options = DEFAULT_LAYER_OPTIONS) => {
 	return (

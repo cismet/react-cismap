@@ -84,7 +84,7 @@ const FeatureCollectionDisplay = ({
 					}
 				}
 			} else if (currentFeature.geometry.type === 'Point') {
-				console.log('createMarker');
+				// console.log('createMarker');
 				let marker = createPointMarker(
 					currentFeature,
 					currentFeature.geometry.coordinates,
@@ -122,11 +122,13 @@ const FeatureCollectionDisplay = ({
 };
 
 function createPointMarker(currentFeature, coordinates, labeler) {
-	console.log(coordinates);
+	// console.log(coordinates);
 	let pointWGS84 = proj4(proj4crs25832def, proj4.defs('EPSG:4326'), [
 		coordinates[0],
 		coordinates[1]
 	]);
+	// console.log('pointWGS84', pointWGS84);
+
 	return (
 		<Marker
 			key={'marker.' + currentFeature.id}

@@ -436,7 +436,9 @@ export class RoutedMap extends React.Component {
 					{locateControl}
 					{getLayersByNames(
 						this.props.backgroundlayers,
-						this.props.urlSearchParams.get('mapStyle')
+						this.props.urlSearchParams.get('mapStyle'),
+						undefined,
+						this.props.namedLayerConf
 					)}
 					{this.props.children}
 				</Map>

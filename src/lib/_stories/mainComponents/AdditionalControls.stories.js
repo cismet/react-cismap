@@ -144,15 +144,15 @@ export const Combination = (args) => {
 				ondblclick={(e) => console.log('doubleclick', e)}
 				autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
 				backgroundlayers={'ruhrWMSlight@40|trueOrtho2018@10|rvrSchrift@100'}
-				fullScreenControlEnabled={boolean('FullScreen', false)}
-				locateControlEnabled={boolean('LocateControl', false)}
+				fullScreenControlEnabled={args.FullScreen}
+				locateControlEnabled={args.LocateControl}
 				minZoom={7}
 				maxZoom={18}
 				zoomSnap={0.5}
 				zoomDelta={0.5}
 			>
-				{boolean('NewWindowControl', false) && <NewWindowControl />}
-				{boolean('ContactButton', false) && (
+				{args.NewWindowControl && <NewWindowControl />}
+				{args.ContactButton && (
 					<ContactButton
 						title='Cooltip ;-)'
 						action={() => {
@@ -163,4 +163,11 @@ export const Combination = (args) => {
 			</RoutedMap>
 		</div>
 	);
+};
+
+Combination.args = {
+	FullScreen: false,
+	LocateControl: false,
+	NewWindowControl: false,
+	ContactButton: false
 };

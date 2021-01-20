@@ -5,7 +5,6 @@ import ProjGeoJson from '../../ProjGeoJson';
 import { parkscheinautomaten, featureDefaults } from '../_data/Demo';
 import { uwz } from '../_data/Demo';
 import ProjSingleGeoJson from '../../ProjSingleGeoJson';
-import { text, boolean, number, object } from '@storybook/addon-knobs';
 
 export default {
 	title: storiesCategory + 'ProjGeoJson'
@@ -23,7 +22,6 @@ export const GeoJSONCollectionInTheMap = () => {
 		psa = { ...featureDefaults, ...psa };
 		psas.push(psa);
 	}
-	let data = object('TestData', {});
 	return (
 		<div>
 			<div>Simple Map with projected GeoJSON Collection</div>

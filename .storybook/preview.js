@@ -11,6 +11,8 @@ import './index.css';
 // );
 
 export const parameters = {
+	// controls: { expanded: true },
+	controls: { hideNoControlsWarning: true },
 	actions: { argTypesRegex: '^on[A-Z].*' },
 	options: {
 		storySort: {

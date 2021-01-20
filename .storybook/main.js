@@ -24,7 +24,8 @@ module.exports = {
 		'@storybook/addon-links',
 		'@storybook/addon-essentials',
 		'@storybook/preset-create-react-app',
-		'@storybook/addon-knobs',
+		// '@storybook/addon-knobs',
+		'@storybook/addon-controls',
 		// '@storybook/addon-info', //problems with version
 		'@storybook/addon-docs',
 		'@storybook/addon-actions'
@@ -36,5 +37,6 @@ module.exports = {
 
 		webpackConfig.resolve.plugins.splice(scopePluginIndex, 1);
 		return webpackConfig;
-	}
+	},
+	devtool: 'source-map'
 };
