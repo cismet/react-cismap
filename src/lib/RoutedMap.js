@@ -458,7 +458,7 @@ RoutedMap.propTypes = {
 	onclick: PropTypes.func,
 	children: PropTypes.array,
 	locationChangedHandler: PropTypes.func,
-	boundingBoxChangedHandler: PropTypes.func,
+	boundingBoxChangedHandler: PropTypes.func, //gets called with the projected boundingbox
 	autoFitConfiguration: PropTypes.object,
 	autoFitProcessedHandler: PropTypes.func,
 	urlSearchParams: PropTypes.object,

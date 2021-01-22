@@ -2,16 +2,20 @@ import React, { useState, useRef, useEffect } from 'react';
 import { RoutedMap, MappingConstants } from '../../index';
 import GazetteerSearchControl from '../../GazetteerSearchControl';
 import GazetteerHitDisplay from '../../GazetteerHitDisplay';
-import { md5FetchText } from '../../tools/fetching';
+import { md5FetchText, fetchJSON } from '../../tools/fetching';
 import { getGazDataForTopicIds } from '../../tools/gazetteerHelper';
 import ProjSingleGeoJson from '../../ProjSingleGeoJson';
 import { storiesCategory } from './StoriesConf';
 import TopicMapComponent from '../../topicmaps/TopicMapComponent';
+import useFilteredPointFeatureCollection from '../../hooks/useFilteredPointFeatureCollection';
+import FeatureCollectionDisplay from '../../FeatureCollectionDisplay';
+import getGTMFeatureStyler from '../../topicmaps/generic/GTMStyler';
+
 export default {
 	title: storiesCategory + 'TopicMapComponent'
 };
 
-const getGazData = async (setData) => {
+const getGazData = async (setGazData) => {
 	const prefix = 'GazDataForStories';
 	const sources = {};
 
@@ -39,71 +43,43 @@ const getGazData = async (setData) => {
 		'adressen'
 	]);
 
-	setData(gazData);
+	setGazData(gazData);
 };
 
 export const SimpleTopicMap = () => {
 	const mapStyle = {
-		height: 600,
+		height: 700,
 		cursor: 'pointer'
 	};
-	let urlSearchParams = new URLSearchParams(window.location.href);
-	const mapRef = useRef(null);
-	const [ gazetteerHit, setGazetteerHit ] = useState(null);
-	const [ overlayFeature, setOverlayFeature ] = useState(null);
+
 	const [ gazData, setGazData ] = useState([]);
+	const [ data, setData ] = useState([]);
 	useEffect(() => {
 		getGazData(setGazData);
+		// getData(setData);
 	}, []);
+	const [
+		features,
+		selectedFeature,
+		setSelectedFeatureIndex
+	] = useFilteredPointFeatureCollection({
+		name: 'DataForTopicMapStories',
+		itemsUrl: 'https://wunda-geoportal.cismet.de/data/parkscheinautomatenfeatures.json'
+	});
+	console.log('xxx ', selectedFeature);
 
 	return (
 		<div>
 			<h3>Simple TopicMap </h3>
 			<br />
 
-			<TopicMapComponent gazData={gazData} />
-			{/* <RoutedMap
-				style={mapStyle}
-				key={'leafletRoutedMap'}
-				referenceSystem={MappingConstants.crs25832}
-				referenceSystemDefinition={MappingConstants.proj4crs25832def}
-				ref={mapRef}
-				layers=''
-				doubleClickZoom={false}
-				onclick={(e) => console.log('gazetteerHit', gazetteerHit)}
-				ondblclick={(e) => console.log('doubleclick', e)}
-				autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
-				backgroundlayers={'ruhrWMSlight@40|trueOrtho2018@10|rvrSchrift@100'}
-				urlSearchParams={urlSearchParams}
-				fullScreenControlEnabled={false}
-				locateControlEnabled={false}
-				minZoom={7}
-				maxZoom={18}
-				zoomSnap={0.5}
-				zoomDelta={0.5}
-			>
-				{overlayFeature && (
-					<ProjSingleGeoJson
-						key={JSON.stringify(overlayFeature)}
-						geoJson={overlayFeature}
-						masked={true}
-						mapRef={mapRef}
-					/>
-				)}
-				<GazetteerHitDisplay
-					key={'gazHit' + JSON.stringify(gazetteerHit)}
-					gazetteerHit={gazetteerHit}
+			<TopicMapComponent mapStyle={mapStyle} gazData={gazData}>
+				<FeatureCollectionDisplay
+					style={getGTMFeatureStyler()}
+					featureCollection={features}
+					showMarkerCollection={false}
 				/>
-				<GazetteerSearchControl
-					mapRef={mapRef}
-					gazetteerHit={gazetteerHit}
-					setGazetteerHit={setGazetteerHit}
-					overlayFeature={overlayFeature}
-					setOverlayFeature={setOverlayFeature}
-					gazData={gazData}
-					enabled={gazData.length > 0}
-				/>
-			</RoutedMap> */}
+			</TopicMapComponent>
 		</div>
 	);
 };
