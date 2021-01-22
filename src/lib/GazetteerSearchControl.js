@@ -176,6 +176,7 @@ const COMP = ({
 	console.log('controlRef', controlRef);
 	console.log('typeaheadRef', typeaheadRef);
 
+	const buttonDisabled = overlayFeature === null && gazetteerHit === null;
 	return (
 		<Control
 			ref={controlRef}
@@ -199,8 +200,18 @@ const COMP = ({
 								overlay={gazClearTooltipProvider()}
 							>
 								<Button
-									style={{ backgroundColor: 'grey', border: 0 }}
-									disabled={overlayFeature === null && gazetteerHit === null}
+									style={
+										buttonDisabled === false ? (
+											{
+												backgroundImage:
+													'linear-gradient(to bottom,#fff 0,#e0e0e0 100%)'
+											}
+										) : (
+											{ backgroundColor: '#e0e0e0', borderColor: '#ffffff00' }
+										)
+									}
+									//style={{ backgroundColor: 'grey', border: 0 }}
+									disabled={buttonDisabled}
 								>
 									<Icon style={{ color: 'black' }} name='times' />
 								</Button>

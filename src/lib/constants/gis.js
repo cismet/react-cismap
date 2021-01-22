@@ -38,3 +38,6 @@ export const crs25832 = new L.Proj.CRS('EPSG:25832', proj4crs25832def, {
 		return value * 0.00028;
 	})
 });
+
+export const AUTO_FIT_MODE_STRICT = 'MAPPING/AUTO_FIT_MODE_STRICT';
+export const AUTO_FIT_MODE_NO_ZOOM_IN = 'MAPPING/AUTO_FIT_MODE_NO_ZOOM_IN';

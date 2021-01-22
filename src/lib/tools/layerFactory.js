@@ -1,5 +1,4 @@
 import React from 'react';
-import Layers from '../constants/layers';
 import { namedStyles } from '../constants/layers';
 import objectAssign from 'object-assign';
 import { TileLayer } from 'react-leaflet';

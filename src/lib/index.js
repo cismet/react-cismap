@@ -1,5 +1,5 @@
 import * as MappingHelpers from './tools/mappingHelpers';
-import * as MappingConstants from './constants/mapping';
+import * as MappingConstants from './constants/gis';
 import Layers from './constants/layers';
 import ProjGeoJson from './ProjGeoJson';
 import FeatureCollectionDisplay from './FeatureCollectionDisplay';

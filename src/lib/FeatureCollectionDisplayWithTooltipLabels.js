@@ -8,7 +8,7 @@ import bboxPolygon from '@turf/bbox-polygon';
 import intersect from '@turf/intersect';
 import polylabel from 'polylabel';
 import proj4 from 'proj4';
-import { proj4crs25832def } from './constants/mapping';
+import { proj4crs25832def } from './constants/gis';
 
 import * as mappingHelpers from './tools/mappingHelpers';
 
