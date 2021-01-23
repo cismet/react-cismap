@@ -14,15 +14,14 @@ import * as mappingHelpers from './tools/mappingHelpers';
 
 // Since this component is simple and static, there's no parent container for it.
 const FeatureCollectionDisplay = ({
-	featureCollection,
+	featureCollection = [],
 	boundingBox,
 	style,
 	labeler,
 	hoverer,
 	featureClickHandler,
 	mapRef,
-	selectionSpiderfyMinZoom,
-	clusterOptions,
+	clusterOptions = {},
 	clusteringEnabled,
 	editable = false
 }) => {
@@ -31,7 +30,7 @@ const FeatureCollectionDisplay = ({
 	let bbox = [ boundingBox.left, boundingBox.bottom, boundingBox.right, boundingBox.top ];
 	let view = bboxPolygon(bbox);
 	let selectedMarkers = [];
-
+	let selectionSpiderfyMinZoom = clusterOptions.selectionSpiderfyMinZoom;
 	if (labeler && featureCollection.length > 0) {
 		for (let currentfeatureIdx in featureCollection) {
 			let currentFeature = featureCollection[currentfeatureIdx];

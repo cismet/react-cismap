@@ -7,10 +7,9 @@ import { getGazDataForTopicIds } from '../../tools/gazetteerHelper';
 import ProjSingleGeoJson from '../../ProjSingleGeoJson';
 import { storiesCategory } from './StoriesConf';
 import TopicMapComponent from '../../topicmaps/TopicMapComponent';
-import useFilteredPointFeatureCollection from '../../hooks/useFilteredPointFeatureCollection';
 import FeatureCollectionDisplay from '../../FeatureCollectionDisplay';
 import getGTMFeatureStyler from '../../topicmaps/generic/GTMStyler';
-
+import FeatureCollection from '../../FeatureCollection';
 export default {
 	title: storiesCategory + 'TopicMapComponent'
 };
@@ -58,15 +57,6 @@ export const SimpleTopicMap = () => {
 		getGazData(setGazData);
 		// getData(setData);
 	}, []);
-	const [
-		features,
-		selectedFeature,
-		setSelectedFeatureIndex
-	] = useFilteredPointFeatureCollection({
-		name: 'DataForTopicMapStories',
-		itemsUrl: 'https://wunda-geoportal.cismet.de/data/parkscheinautomatenfeatures.json'
-	});
-	console.log('xxx ', selectedFeature);
 
 	return (
 		<div>
@@ -74,9 +64,14 @@ export const SimpleTopicMap = () => {
 			<br />
 
 			<TopicMapComponent mapStyle={mapStyle} gazData={gazData}>
-				<FeatureCollectionDisplay
+				{/* <FeatureCollectionDisplay
 					style={getGTMFeatureStyler()}
 					featureCollection={features}
+					showMarkerCollection={false}
+				/> */}
+				<FeatureCollection
+					itemsUrl='https://wunda-geoportal.cismet.de/data/parkscheinautomatenfeatures.json'
+					style={getGTMFeatureStyler()}
 					showMarkerCollection={false}
 				/>
 			</TopicMapComponent>

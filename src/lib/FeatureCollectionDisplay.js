@@ -11,8 +11,7 @@ const FeatureCollectionDisplay = ({
 	hoverer,
 	featureClickHandler,
 	mapRef,
-	selectionSpiderfyMinZoom,
-	clusterOptions,
+	clusterOptions = {},
 	clusteringEnabled,
 	showMarkerCollection,
 	markerCollectionTransformation,
@@ -22,6 +21,8 @@ const FeatureCollectionDisplay = ({
 	customType,
 	editModeStatusChanged
 }) => {
+	let selectionSpiderfyMinZoom = clusterOptions.selectionSpiderfyMinZoom;
+
 	let markers;
 	if (showMarkerCollection) {
 		markers = (

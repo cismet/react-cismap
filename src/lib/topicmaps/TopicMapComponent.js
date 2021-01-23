@@ -12,6 +12,7 @@ import RoutedMap from '../RoutedMap';
 import Loadable from 'react-loading-overlay';
 import GazetteerSearchControl from '../GazetteerSearchControl';
 import { createBrowserHistory, createHashHistory } from 'history';
+import CismapContext from '../contexts/CismapContext';
 let history = createHashHistory();
 
 const TopicMapComponent = (props) => {
@@ -42,7 +43,7 @@ const TopicMapComponent = (props) => {
 		autoFitBoundsTarget = null,
 		setAutoFit = () => {},
 		urlSearchParams,
-		mappingBoundsChanged = () => {},
+		mappingBoundsChanged = (boundingbox) => {},
 		backgroundlayers = 'ruhrWMSlight@40',
 		fullScreenControl = true,
 		locatorControl = false,
@@ -92,6 +93,8 @@ const TopicMapComponent = (props) => {
 
 	const [ gazetteerHit, setGazetteerHit ] = useState(null);
 	const [ overlayFeature, setOverlayFeature ] = useState(null);
+	const [ boundingBox, setBoundingBox ] = useState();
+	const [ location, setLocation ] = useState();
 
 	return (
 		<div>
@@ -103,129 +106,133 @@ const TopicMapComponent = (props) => {
 			>
 				<div>
 					{photoLightBox}
-					<RoutedMap
-						key={'leafletRoutedMap'}
-						referenceSystem={MappingConstants.crs25832}
-						referenceSystemDefinition={MappingConstants.proj4crs25832def}
-						ref={leafletRoutedMapRef}
-						minZoom={minZoom}
-						maxZoom={maxZoom}
-						layers=''
-						style={mapStyle}
-						fallbackPosition={{
-							lat: homeCenter[0],
-							lng: homeCenter[1]
-						}}
-						ondblclick={ondblclick}
-						onclick={onclick}
-						locationChangedHandler={(location) => {
-							const q = modifyQueryPart(history.location.search, location);
-							pushToHistory(q);
-							locationChangedHandler(location);
-						}}
-						autoFitConfiguration={{
-							autoFitBounds: autoFitBounds,
-							autoFitMode: autoFitMode,
-							autoFitBoundsTarget: autoFitBoundsTarget
-						}}
-						autoFitProcessedHandler={() => setAutoFit(false)}
-						urlSearchParams={_urlSearchParams}
-						boundingBoxChangedHandler={(bbox) => {
-							mappingBoundsChanged(bbox);
-							//localMappingBoundsChanged(bbox);
-						}}
-						backgroundlayers={backgroundlayers}
-						fallbackZoom={homeZoom}
-						fullScreenControlEnabled={fullScreenControl}
-						locateControlEnabled={locatorControl}
-					>
-						{overlayFeature && (
-							<ProjSingleGeoJson
-								key={JSON.stringify(overlayFeature)}
-								geoJson={overlayFeature}
-								masked={true}
-								mapRef={leafletRoutedMapRef}
-							/>
-						)}
-						<GazetteerHitDisplay
-							key={'gazHit' + JSON.stringify(gazetteerHit)}
-							gazetteerHit={gazetteerHit}
-						/>
-						{featureCollectionDisplay}
-
-						<GazetteerSearchControl
-							mapRef={leafletRoutedMapRef}
-							gazetteerHit={gazetteerHit}
-							setGazetteerHit={setGazetteerHit}
-							overlayFeature={overlayFeature}
-							setOverlayFeature={setOverlayFeature}
-							gazData={gazData}
-							enabled={gazData.length > 0}
-							pixelwidth={searchControlWidth}
-						/>
-
-						<Control
-							key={
-								'InfoBoxElements.' +
-								infoBoxControlPosition +
-								'.' +
-								searchControlPosition
-							}
-							id={
-								'InfoBoxElements.' +
-								infoBoxControlPosition +
-								'.' +
-								searchControlPosition
-							}
-							position={infoBoxControlPosition}
+					<CismapContext.Provider value={{ location, boundingBox }}>
+						<RoutedMap
+							key={'leafletRoutedMap'}
+							referenceSystem={MappingConstants.crs25832}
+							referenceSystemDefinition={MappingConstants.proj4crs25832def}
+							ref={leafletRoutedMapRef}
+							minZoom={minZoom}
+							maxZoom={maxZoom}
+							layers=''
+							style={mapStyle}
+							fallbackPosition={{
+								lat: homeCenter[0],
+								lng: homeCenter[1]
+							}}
+							ondblclick={ondblclick}
+							onclick={onclick}
+							locationChangedHandler={(location) => {
+								setLocation(location);
+								const q = modifyQueryPart(history.location.search, location);
+								pushToHistory(q);
+								locationChangedHandler(location);
+							}}
+							autoFitConfiguration={{
+								autoFitBounds: autoFitBounds,
+								autoFitMode: autoFitMode,
+								autoFitBoundsTarget: autoFitBoundsTarget
+							}}
+							autoFitProcessedHandler={() => setAutoFit(false)}
+							urlSearchParams={_urlSearchParams}
+							boundingBoxChangedHandler={(bbox) => {
+								setBoundingBox(bbox);
+								mappingBoundsChanged(bbox);
+								//localMappingBoundsChanged(bbox);
+							}}
+							backgroundlayers={backgroundlayers}
+							fallbackZoom={homeZoom}
+							fullScreenControlEnabled={fullScreenControl}
+							locateControlEnabled={locatorControl}
 						>
-							<div style={{ ...infoStyle, marginBottom: infoBoxBottomMargin }}>
-								{infoBox}
-							</div>
-						</Control>
+							{overlayFeature && (
+								<ProjSingleGeoJson
+									key={JSON.stringify(overlayFeature)}
+									geoJson={overlayFeature}
+									masked={true}
+									mapRef={leafletRoutedMapRef}
+								/>
+							)}
+							<GazetteerHitDisplay
+								key={'gazHit' + JSON.stringify(gazetteerHit)}
+								gazetteerHit={gazetteerHit}
+							/>
+							{featureCollectionDisplay}
 
-						{secondaryInfoBoxElements.map((element, index) => (
+							<GazetteerSearchControl
+								mapRef={leafletRoutedMapRef}
+								gazetteerHit={gazetteerHit}
+								setGazetteerHit={setGazetteerHit}
+								overlayFeature={overlayFeature}
+								setOverlayFeature={setOverlayFeature}
+								gazData={gazData}
+								enabled={gazData.length > 0}
+								pixelwidth={searchControlWidth}
+							/>
+
 							<Control
 								key={
-									'secondaryInfoBoxElements.' +
-									index +
+									'InfoBoxElements.' +
+									infoBoxControlPosition +
+									'.' +
+									searchControlPosition
+								}
+								id={
+									'InfoBoxElements.' +
 									infoBoxControlPosition +
 									'.' +
 									searchControlPosition
 								}
 								position={infoBoxControlPosition}
 							>
-								<div style={{ opacity: 0.9 }}>{element}</div>
+								<div style={{ ...infoStyle, marginBottom: infoBoxBottomMargin }}>
+									{infoBox}
+								</div>
 							</Control>
-						))}
 
-						<Control position='topright'>
-							<OverlayTrigger
-								placement='left'
-								overlay={
-									<Tooltip style={{ zIndex: 3000000000 }} id='helpTooltip'>
-										{applicationMenuTooltipString}
-									</Tooltip>
-								}
-							>
-								<Button
-									variant='light'
-									style={{
-										backgroundImage:
-											'linear-gradient(to bottom,#fff 0,#e0e0e0 100%)',
-										borderColor: '#CCCCCC'
-									}}
-									id='cmdShowModalApplicationMenu'
-									onClick={() => {
-										showModalApplicationMenu();
-									}}
+							{secondaryInfoBoxElements.map((element, index) => (
+								<Control
+									key={
+										'secondaryInfoBoxElements.' +
+										index +
+										infoBoxControlPosition +
+										'.' +
+										searchControlPosition
+									}
+									position={infoBoxControlPosition}
 								>
-									<Icon name={applicationMenuIconname} />
-								</Button>
-							</OverlayTrigger>
-						</Control>
-						{props.children}
-					</RoutedMap>
+									<div style={{ opacity: 0.9 }}>{element}</div>
+								</Control>
+							))}
+
+							<Control position='topright'>
+								<OverlayTrigger
+									placement='left'
+									overlay={
+										<Tooltip style={{ zIndex: 3000000000 }} id='helpTooltip'>
+											{applicationMenuTooltipString}
+										</Tooltip>
+									}
+								>
+									<Button
+										variant='light'
+										style={{
+											backgroundImage:
+												'linear-gradient(to bottom,#fff 0,#e0e0e0 100%)',
+											borderColor: '#CCCCCC'
+										}}
+										id='cmdShowModalApplicationMenu'
+										onClick={() => {
+											showModalApplicationMenu();
+										}}
+									>
+										<Icon name={applicationMenuIconname} />
+									</Button>
+								</OverlayTrigger>
+							</Control>
+							{props.children}
+						</RoutedMap>
+					</CismapContext.Provider>
 				</div>
 			</Loadable>
 		</div>
