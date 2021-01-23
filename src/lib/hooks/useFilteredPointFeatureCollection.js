@@ -121,13 +121,17 @@ const useFilteredPointFeatureCollection = ({
 			setSelectedIndex(0);
 		} else if (selectedFeature !== undefined) {
 			const found = features.find((testfeature) => selectedFeature.id === testfeature.id);
-			if (found !== undefined) {
-				console.log('yyy found', found.index);
-			}
 
-			if (found !== undefined && found.index !== selectedIndex) {
-				setSelectedIndex(found.index);
-				return [ features, selectedFeature, setSelectedIndex ];
+			if (found !== undefined) {
+				if (found.index !== selectedIndex) {
+					setSelectedIndex(found.index);
+					return [ features, selectedFeature, setSelectedIndex ];
+				}
+			} else {
+				if (0 !== selectedIndex) {
+					setSelectedIndex(0);
+					return [ features, selectedFeature, setSelectedIndex ];
+				}
 			}
 		}
 	}
