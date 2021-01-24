@@ -8,6 +8,8 @@ const fallbackSVG = `
 `;
 const getColorFromProperties = (props) => props.color;
 
+// export const getClusterIconCreatorFunction = ()
+
 const getFeatureStyler = (svgSize = 24, colorizer = getColorFromProperties) => {
 	const styler = (feature) => {
 		var color = new Color(colorizer(feature.properties));

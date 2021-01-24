@@ -151,8 +151,6 @@ const useFilteredPointFeatureCollection = ({
 	}
 
 	const ret = [ features, selectedFeature, setSelectedFeatureIndex ];
-	console.log('yyy selectedIndexSTate', selectedIndexState);
-
 	return ret;
 };
 

@@ -11,7 +11,7 @@ const FeatureCollectionDisplay = ({
 	hoverer,
 	featureClickHandler,
 	mapRef,
-	clusterOptions = {},
+	clusterOptions,
 	clusteringEnabled,
 	showMarkerCollection,
 	markerCollectionTransformation,

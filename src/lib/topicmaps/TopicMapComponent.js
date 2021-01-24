@@ -106,7 +106,13 @@ const TopicMapComponent = (props) => {
 			>
 				<div>
 					{photoLightBox}
-					<CismapContext.Provider value={{ location, boundingBox }}>
+					<CismapContext.Provider
+						value={{
+							location,
+							boundingBox,
+							routedMapRef: (leafletRoutedMapRef || {}).current
+						}}
+					>
 						<RoutedMap
 							key={'leafletRoutedMap'}
 							referenceSystem={MappingConstants.crs25832}

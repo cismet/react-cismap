@@ -60,19 +60,12 @@ export const SimpleTopicMap = () => {
 
 	return (
 		<div>
-			<h3>Simple TopicMap </h3>
-			<br />
-
 			<TopicMapComponent mapStyle={mapStyle} gazData={gazData}>
-				{/* <FeatureCollectionDisplay
-					style={getGTMFeatureStyler()}
-					featureCollection={features}
-					showMarkerCollection={false}
-				/> */}
 				<FeatureCollection
 					itemsUrl='https://wunda-geoportal.cismet.de/data/parkscheinautomatenfeatures.json'
 					style={getGTMFeatureStyler()}
 					showMarkerCollection={false}
+					clusteringEnabled={true}
 				/>
 			</TopicMapComponent>
 		</div>

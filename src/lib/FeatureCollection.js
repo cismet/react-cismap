@@ -6,6 +6,7 @@ import { FeatureCollectionDisplayWithTooltipLabels } from '.';
 import FeatureCollectionDisplay from './FeatureCollectionDisplay';
 import CismapContext from './contexts/CismapContext';
 import useFilteredPointFeatureCollection from './hooks/useFilteredPointFeatureCollection';
+import { getClusterIconCreatorFunction } from './tools/uiHelper';
 
 // Since this component is simple and static, there's no parent container for it.
 const FeatureCollection = (props) => {
@@ -37,6 +38,29 @@ const FeatureCollection = (props) => {
 	} = props;
 	const cismapContext = useContext(CismapContext);
 	const boundingBox = cismapContext.boundingBox;
+	const _mapRef = mapRef || cismapContext.routedMapRef;
+
+	const _clusterOptions = {
+		spiderfyOnMaxZoom: false,
+		showCoverageOnHover: false,
+		zoomToBoundsOnClick: false,
+		maxClusterRadius: 40,
+		disableClusteringAtZoom: 19,
+		animate: false,
+		cismapZoomTillSpiderfy: 12,
+		selectionSpiderfyMinZoom: 12,
+		colorizer: (props) => props.color,
+		clusterIconSize: 30,
+		...clusterOptions
+	};
+
+	if (_clusterOptions.iconCreateFunction === undefined) {
+		_clusterOptions.iconCreateFunction = getClusterIconCreatorFunction(
+			_clusterOptions.clusterIconSize,
+			_clusterOptions.colorizer
+		);
+	}
+
 	const [
 		features,
 		selectedFeature,
@@ -78,13 +102,13 @@ const FeatureCollection = (props) => {
 				}
 				featureCollection={featureCollection}
 				boundingBox={boundingBox || cismapContext.boundingBox}
-				clusterOptions={clusterOptions}
+				clusterOptions={_clusterOptions}
 				clusteringEnabled={clusteringEnabled}
 				style={style}
 				labeler={featureLabeler}
 				hoverer={featureHoverer}
 				featureClickHandler={internalFeatureClickHandler}
-				mapRef={(mapRef || {}).leafletMap}
+				mapRef={(_mapRef || {}).leafletMap}
 			/>
 		);
 	} else {
@@ -101,15 +125,15 @@ const FeatureCollection = (props) => {
 				featureCollection={featureCollection}
 				boundingBox={boundingBox || cismapContext.boundingBox}
 				clusteringEnabled={clusteringEnabled}
+				clusterOptions={_clusterOptions}
 				style={style}
 				hoverer={featureHoverer}
 				labeler={featureLabeler}
 				featureStylerScalableImageSize={32}
 				featureClickHandler={internalFeatureClickHandler}
-				mapRef={(mapRef || {}).leafletMap}
+				mapRef={(_mapRef || {}).leafletMap}
 				showMarkerCollection={showMarkerCollection}
 				markerStyle={markerStyle}
-				clusterOptions={clusterOptions}
 			/>
 		);
 	}
