@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { RoutedMap, MappingConstants } from '../../index';
 import GazetteerSearchControl from '../../GazetteerSearchControl';
 import GazetteerHitDisplay from '../../GazetteerHitDisplay';
@@ -7,9 +7,14 @@ import { getGazDataForTopicIds } from '../../tools/gazetteerHelper';
 import ProjSingleGeoJson from '../../ProjSingleGeoJson';
 import { storiesCategory } from './StoriesConf';
 import TopicMapComponent from '../../topicmaps/TopicMapComponent';
+import GenericInfoBoxFromfeature from '../../topicmaps/GenericInfoBoxFromFeature';
 import FeatureCollectionDisplay from '../../FeatureCollectionDisplay';
 import getGTMFeatureStyler from '../../topicmaps/generic/GTMStyler';
 import FeatureCollection from '../../FeatureCollection';
+import InfoBox from '../../topicmaps/InfoBox';
+import CismapContext from '../../contexts/CismapContext';
+import Control from 'react-leaflet-control';
+
 export default {
 	title: storiesCategory + 'TopicMapComponent'
 };
@@ -58,13 +63,41 @@ export const SimpleTopicMap = () => {
 		// getData(setData);
 	}, []);
 
+	const MyInfoBox = () => {
+		const cismapContext = useContext(CismapContext);
+		console.log('cismapContext in MyInfoBox', cismapContext.selectedFeature);
+		if (cismapContext !== undefined) {
+			return (
+				<GenericInfoBoxFromfeature
+					title={(cismapContext.selectedFeature || {}).text}
+					isCollabsible={false}
+					header='Parkscheinautomat'
+					config={{
+						city: 'Wuppertal',
+						pixelwidth: 300,
+						header: 'Wasserstofftankstelle',
+						navigator: {
+							noun: {
+								singular: 'Wasserstofftankstelle',
+								plural: 'Wasserstofftankstellen'
+							}
+						},
+						noCurrentFeatureTitle: 'Keine Wasserstofftankstelle gefunden',
+						noCurrentFeatureContent: ''
+					}}
+				/>
+			);
+		} else {
+			return null;
+		}
+	};
+
 	return (
 		<div>
-			<TopicMapComponent mapStyle={mapStyle} gazData={gazData}>
+			<TopicMapComponent mapStyle={mapStyle} gazData={gazData} infoBox={<MyInfoBox />}>
 				<FeatureCollection
 					itemsUrl='https://wunda-geoportal.cismet.de/data/parkscheinautomatenfeatures.json'
 					style={getGTMFeatureStyler()}
-					showMarkerCollection={false}
 					clusteringEnabled={true}
 				/>
 			</TopicMapComponent>

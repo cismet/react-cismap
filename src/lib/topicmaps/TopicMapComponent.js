@@ -61,17 +61,7 @@ const TopicMapComponent = (props) => {
 		secondaryInfoBoxElements = [],
 		applicationMenuTooltipString = 'Einstellungen | Anleitung',
 		showModalApplicationMenu = () => {},
-		applicationMenuIconname = 'bars',
-		clusterOptions = {
-			spiderfyOnMaxZoom: false,
-			showCoverageOnHover: false,
-			zoomToBoundsOnClick: false,
-			maxClusterRadius: 40,
-			disableClusteringAtZoom: 19,
-			animate: false,
-			cismapZoomTillSpiderfy: 12,
-			selectionSpiderfyMinZoom: 12
-		}
+		applicationMenuIconname = 'bars'
 	} = props;
 
 	const [ url, setUrl ] = useState(undefined);
@@ -95,6 +85,11 @@ const TopicMapComponent = (props) => {
 	const [ overlayFeature, setOverlayFeature ] = useState(null);
 	const [ boundingBox, setBoundingBox ] = useState();
 	const [ location, setLocation ] = useState();
+	const [ items, setItems ] = useState([]);
+	const [ selectedFeature, setSelectedFeature ] = useState(undefined);
+	const [ features, setFeatures ] = useState(undefined);
+	const [ selectNext, setSelectNext ] = useState(undefined);
+	const [ selectPrev, setSelectPrev ] = useState(undefined);
 
 	return (
 		<div>
@@ -105,14 +100,25 @@ const TopicMapComponent = (props) => {
 				text={initialLoadingText + ' ' + statusPostfix + '...'}
 			>
 				<div>
-					{photoLightBox}
 					<CismapContext.Provider
 						value={{
 							location,
 							boundingBox,
-							routedMapRef: (leafletRoutedMapRef || {}).current
+							routedMapRef: (leafletRoutedMapRef || {}).current,
+							items,
+							setItems,
+							selectedFeature,
+							setSelectedFeature,
+							setFeatures,
+							features,
+							setSelectNext,
+							setSelectPrev,
+							selectNext,
+							selectPrev
 						}}
 					>
+						{' '}
+						{photoLightBox}
 						<RoutedMap
 							key={'leafletRoutedMap'}
 							referenceSystem={MappingConstants.crs25832}
@@ -164,7 +170,6 @@ const TopicMapComponent = (props) => {
 								gazetteerHit={gazetteerHit}
 							/>
 							{featureCollectionDisplay}
-
 							<GazetteerSearchControl
 								mapRef={leafletRoutedMapRef}
 								gazetteerHit={gazetteerHit}
@@ -175,8 +180,7 @@ const TopicMapComponent = (props) => {
 								enabled={gazData.length > 0}
 								pixelwidth={searchControlWidth}
 							/>
-
-							<Control
+							{/* <Control
 								key={
 									'InfoBoxElements.' +
 									infoBoxControlPosition +
@@ -195,7 +199,6 @@ const TopicMapComponent = (props) => {
 									{infoBox}
 								</div>
 							</Control>
-
 							{secondaryInfoBoxElements.map((element, index) => (
 								<Control
 									key={
@@ -209,8 +212,8 @@ const TopicMapComponent = (props) => {
 								>
 									<div style={{ opacity: 0.9 }}>{element}</div>
 								</Control>
-							))}
-
+							))} */}
+							{infoBox}
 							<Control position='topright'>
 								<OverlayTrigger
 									placement='left'

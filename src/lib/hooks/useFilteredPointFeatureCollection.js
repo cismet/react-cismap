@@ -50,17 +50,18 @@ const useFilteredPointFeatureCollection = ({
 	caching = true,
 	withMD5Check = true,
 	convertItemToFeature = (item) => item,
-	boundingBox
+	boundingBox,
+	mapContext
 }) => {
 	const [ items, setItems ] = useState(undefined);
 	const [ allFeatures, setAllFeatures ] = useState(undefined);
+	const [ shownFeatures, setShownFeatures ] = useState(undefined);
 	const [ selectedFeature, setSelectedFeature ] = useState(undefined);
 	const [ featureIndex, setFeatureIndex ] = useState(undefined);
 	const [ selectedIndexState, setSelectedIndexState ] = useState({
 		selectedIndex: 0,
 		forced: false
 	});
-
 	const setSelectedFeatureIndex = (selectedIndex) => {
 		setSelectedIndexState({ selectedIndex, forced: true }); //overrules keep index when boundingbox is changed
 	};
@@ -83,6 +84,23 @@ const useFilteredPointFeatureCollection = ({
 			);
 		},
 		[ setItems, itemsUrl, name, caching, withMD5Check ]
+	);
+
+	useEffect(
+		() => {
+			if (mapContext !== undefined) {
+				if (mapContext.setItems !== undefined) {
+					mapContext.setItems(items);
+				}
+				if (mapContext.setFeatures !== undefined) {
+					mapContext.setFeatures(shownFeatures);
+				}
+				if (mapContext.setSelectedFeature !== undefined) {
+					mapContext.setSelectedFeature(selectedFeature);
+				}
+			}
+		},
+		[ items, shownFeatures, selectedFeature ]
 	);
 
 	let features = [];
@@ -151,6 +169,9 @@ const useFilteredPointFeatureCollection = ({
 	}
 
 	const ret = [ features, selectedFeature, setSelectedFeatureIndex ];
+	if (JSON.stringify(features) !== JSON.stringify(shownFeatures)) {
+		setShownFeatures(features);
+	}
 	return ret;
 };
 

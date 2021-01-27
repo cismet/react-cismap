@@ -24,7 +24,7 @@ const FeatureCollection = (props) => {
 		selectionSpiderfyMinZoom,
 		clusterOptions,
 		clusteringEnabled,
-		showMarkerCollection,
+		showMarkerCollection = false,
 		markerCollectionTransformation,
 		markerStyle,
 		editable = false,
@@ -72,15 +72,14 @@ const FeatureCollection = (props) => {
 		caching,
 		withMD5Check,
 		convertItemToFeature,
-		boundingBox
+		boundingBox,
+		mapContext: cismapContext
 	});
 
 	let getFeatureCollectionForData = () => {};
 
 	const internalFeatureClickHandler = (event) => {
 		const feature = event.sourceTarget.feature;
-		console.log('xxx featureClick', feature);
-
 		if (handleSelectionInternaly === true) {
 			setSelectedFeatureIndex(feature.index);
 		}

@@ -1,10 +1,18 @@
 html {
   font-size: 14px;
 }
-.leaflet-container a {
+
+.h5, h5 {
+  font-size: 14px;
+}
+
+.h6, h6 {
+  font-size: 12px;
+}
+/* .leaflet-container a {
   color:rgba(0, 0, 0);
-} 
-:hover,
+}  */
+:hover
 *:focus,
 *:active
  {

@@ -4,7 +4,6 @@ const Comp = (props) => {
 	return (
 		<div
 			style={{
-				fontSize: '14px',
 				minHeight: '20px',
 				padding: '9px',
 				marginBottom: '0px',

@@ -1,10 +1,11 @@
-import React, {useState}from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import Color from 'color';
-import CollapsibleWell from './CollapsibleWell';
+import CollapsibleWell from '../commons/CollapsibleWell';
+import CismapContext from '../contexts/CismapContext';
+import Control from 'react-leaflet-control';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
-
 
 // Since this component is simple and static, there's no parent container for it.
 const InfoBox = ({
@@ -24,26 +25,40 @@ const InfoBox = ({
 	zoomToAllLabel,
 	currentlyShownCountLabel,
 	fotoPreview,
-	collapsedInfoBox ,
+	collapsedInfoBox,
 	setCollapsedInfoBox,
 	noCurrentFeatureTitle,
 	noCurrentFeatureContent,
 	isCollapsible = true,
-	hideNavigator=false
+	hideNavigator = false,
+	infoBoxControlPosition = 'bottomright',
+	searchControlPosition = 'bottomleft',
+	infoStyle = {},
+	infoBoxBottomMargin = 0,
+	secondaryInfoBoxElements = [],
+	colorizer = (props) => ((props || {}).properties || {}).color
 }) => {
+	const cismapContext = useContext(CismapContext);
+
 	// Use this line to enable the collabsible modus even when no object is visible
 	// isCollapsible = true;
 
-	const currentFeature = featureCollection[selectedIndex];
-	const [localMinified,setLocalMinify]=useState(false)
+	let _currentFeature;
+	if (cismapContext != undefined) {
+		_currentFeature = cismapContext.selectedFeature;
+	} else {
+		_currentFeature = featureCollection[selectedIndex];
+	}
+	let infoBoxStyle = {
+		opacity: '0.9',
+		width: pixelwidth,
+		...infoStyle
+	};
+	const [ localMinified, setLocalMinify ] = useState(false);
+	const minified = collapsedInfoBox || localMinified;
+	const minify = setCollapsedInfoBox || setLocalMinify;
 
-	
-
-	const minified=collapsedInfoBox||localMinified;
-	const minify=setCollapsedInfoBox||setLocalMinify;
-
-	// if (currentFeature) {
-	let headerBackgroundColor = Color(headerColor);
+	let headerBackgroundColor = Color(headerColor || colorizer(_currentFeature));
 
 	let textColor = 'black';
 	if (headerBackgroundColor.isDark()) {
@@ -74,7 +89,7 @@ const InfoBox = ({
 
 	let alwaysVisibleDiv, collapsibleDiv;
 
-	if (currentFeature) {
+	if (_currentFeature) {
 		alwaysVisibleDiv = (
 			<table border={0} style={{ width: '100%' }}>
 				<tbody>
@@ -107,14 +122,17 @@ const InfoBox = ({
 										<tr>
 											<td style={{ textAlign: 'left' }}>
 												<h6>
-													{additionalInfo!==undefined && additionalInfo.split('\n').map((item, key) => {
-														return (
-															<span key={key}>
-																{item}
-																<br />
-															</span>
-														);
-													})}
+													{additionalInfo !== undefined &&
+														additionalInfo
+															.split('\n')
+															.map((item, key) => {
+																return (
+																	<span key={key}>
+																		{item}
+																		<br />
+																	</span>
+																);
+															})}
 												</h6>
 												<p>{subtitle}</p>
 											</td>
@@ -125,43 +143,49 @@ const InfoBox = ({
 						</tr>
 					</tbody>
 				</table>
-				{hideNavigator===false &&
-				<div>
-				<table style={{ width: '100%' }}>
-					<tbody>
-						<tr>
-							<td />
-							<td style={{ textAlign: 'center', verticalAlign: 'center' }}>
-								<a onClick={fitAll}>{zoomToAllLabel}</a>
-							</td>
-							<td />
-						</tr>
-					</tbody>
-				</table>
-				<table style={{ width: '100%', marginBottom: 9 }}>
-					<tbody>
-						<tr>
-							<td
-								title='vorheriger Treffer'
-								style={{ textAlign: 'left', verticalAlign: 'center' }}
-							>
-								<a onClick={previous}>&lt;&lt;</a>
-							</td>
-							<td style={{ textAlign: 'center', verticalAlign: 'center' }}>
-								{currentlyShownCountLabel}
-							</td>
+				{hideNavigator === false && (
+					<div>
+						<table style={{ width: '100%' }}>
+							<tbody>
+								<tr>
+									<td />
+									<td style={{ textAlign: 'center', verticalAlign: 'center' }}>
+										<a className='renderAsProperLink' onClick={fitAll}>
+											{zoomToAllLabel}
+										</a>
+									</td>
+									<td />
+								</tr>
+							</tbody>
+						</table>
+						<table style={{ width: '100%', marginBottom: 9 }}>
+							<tbody>
+								<tr>
+									<td
+										title='vorheriger Treffer'
+										style={{ textAlign: 'left', verticalAlign: 'center' }}
+									>
+										<a className='renderAsProperLink' onClick={previous}>
+											&lt;&lt;
+										</a>
+									</td>
+									<td style={{ textAlign: 'center', verticalAlign: 'center' }}>
+										{currentlyShownCountLabel}
+									</td>
 
-							<td
-								title='nächster Treffer'
-								style={{ textAlign: 'right', verticalAlign: 'center' }}
-							>
-								<a onClick={next}>&gt;&gt;</a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				</div>
-				}
+									<td
+										title='nächster Treffer'
+										style={{ textAlign: 'right', verticalAlign: 'center' }}
+									>
+										<a className='renderAsProperLink' onClick={next}>
+											&gt;&gt;
+										</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				)}
 			</div>
 		);
 	} else {
@@ -170,28 +194,54 @@ const InfoBox = ({
 	}
 
 	return (
-		<>
-			{fotoPreview}
-			{llVis}	
-			<CollapsibleWell
-				collapsed={minified}
-				setCollapsed={minify}
-				style={{
-					pointerEvents: 'auto',
-					padding: 0,
-					paddingLeft: 9
-				}}
-				debugBorder={0}
-				tableStyle={{ margin: 0 }}
-				fixedRow={true}
-				alwaysVisibleDiv={alwaysVisibleDiv}
-				collapsibleDiv={collapsibleDiv}
-				collapseButtonAreaStyle={{ background: '#cccccc', opacity: '0.9', width: 25 }}
-				onClick={panelClick}
-				pixelwidth={pixelwidth}
-				isCollapsible={isCollapsible}
-			/>
-		</>
+		<div>
+			<Control
+				key={'InfoBoxElements.' + infoBoxControlPosition + '.' + searchControlPosition}
+				id={'InfoBoxElements.' + infoBoxControlPosition + '.' + searchControlPosition}
+				position={infoBoxControlPosition}
+			>
+				<div style={{ ...infoBoxStyle, marginBottom: infoBoxBottomMargin }}>
+					{fotoPreview}
+					{llVis}
+					<CollapsibleWell
+						collapsed={minified}
+						setCollapsed={minify}
+						style={{
+							pointerEvents: 'auto',
+							padding: 0,
+							paddingLeft: 9
+						}}
+						debugBorder={0}
+						tableStyle={{ margin: 0 }}
+						fixedRow={true}
+						alwaysVisibleDiv={alwaysVisibleDiv}
+						collapsibleDiv={collapsibleDiv}
+						collapseButtonAreaStyle={{
+							background: '#cccccc',
+							opacity: '0.9',
+							width: 25
+						}}
+						onClick={panelClick}
+						pixelwidth={pixelwidth}
+						isCollapsible={isCollapsible}
+					/>
+				</div>
+			</Control>
+			{secondaryInfoBoxElements.map((element, index) => (
+				<Control
+					key={
+						'secondaryInfoBoxElements.' +
+						index +
+						infoBoxControlPosition +
+						'.' +
+						searchControlPosition
+					}
+					position={infoBoxControlPosition}
+				>
+					<div style={{ opacity: 0.9 }}>{element}</div>
+				</Control>
+			))}
+		</div>
 	);
 };
 
