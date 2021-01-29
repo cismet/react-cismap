@@ -12,6 +12,12 @@ html {
 /* .leaflet-container a {
   color:rgba(0, 0, 0);
 }  */
+
+.dropdown-menu a {
+  color:rgba(0, 0, 0);
+} 
+
+
 :hover
 *:focus,
 *:active

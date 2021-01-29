@@ -98,9 +98,15 @@ const useFilteredPointFeatureCollection = ({
 				if (mapContext.setSelectedFeature !== undefined) {
 					mapContext.setSelectedFeature(selectedFeature);
 				}
+				if (
+					mapContext.setFeatureIndexSelector !== undefined &&
+					mapContext.featureIndexSelector === undefined
+				) {
+					// mapContext.setFeatureIndexSelector(setSelectedFeatureIndex);
+				}
 			}
 		},
-		[ items, shownFeatures, selectedFeature ]
+		[ items, shownFeatures, selectedFeature, setSelectedFeatureIndex ]
 	);
 
 	let features = [];

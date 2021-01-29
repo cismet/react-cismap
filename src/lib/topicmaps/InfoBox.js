@@ -4,6 +4,7 @@ import Color from 'color';
 import CollapsibleWell from '../commons/CollapsibleWell';
 import CismapContext from '../contexts/CismapContext';
 import Control from 'react-leaflet-control';
+import { FeatureCollectionContext } from '../contexts/FeatureCollectionContextProvider';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -36,16 +37,41 @@ const InfoBox = ({
 	infoStyle = {},
 	infoBoxBottomMargin = 0,
 	secondaryInfoBoxElements = [],
+
 	colorizer = (props) => ((props || {}).properties || {}).color
 }) => {
-	const cismapContext = useContext(CismapContext);
+	const featureCollectionContext = useContext(FeatureCollectionContext);
+	const { shownFeatures = [], selectedFeature, items = [] } = featureCollectionContext;
 
 	// Use this line to enable the collabsible modus even when no object is visible
 	// isCollapsible = true;
+	let _next, _previous;
 
 	let _currentFeature;
-	if (cismapContext != undefined) {
-		_currentFeature = cismapContext.selectedFeature;
+	if (featureCollectionContext != undefined) {
+		_currentFeature = selectedFeature;
+		console.log('next is undefined', next);
+
+		if (next === undefined) {
+			_next = () => {
+				console.log('_next', next);
+
+				// cismapContext.featureIndexSelector(
+				// 	(_currentFeature.index + 1) % cismapContext.features.length
+				// );
+			};
+		} else {
+			_next = next;
+		}
+		if (previous === undefined) {
+			_previous = () => {
+				// cismapContext.featureIndexSelector(
+				// 	(_currentFeature.index - 1) % cismapContext.features.length
+				// );
+			};
+		} else {
+			_previous = previous;
+		}
 	} else {
 		_currentFeature = featureCollection[selectedIndex];
 	}
@@ -165,7 +191,7 @@ const InfoBox = ({
 										title='vorheriger Treffer'
 										style={{ textAlign: 'left', verticalAlign: 'center' }}
 									>
-										<a className='renderAsProperLink' onClick={previous}>
+										<a className='renderAsProperLink' onClick={_previous}>
 											&lt;&lt;
 										</a>
 									</td>
@@ -177,7 +203,7 @@ const InfoBox = ({
 										title='nächster Treffer'
 										style={{ textAlign: 'right', verticalAlign: 'center' }}
 									>
-										<a className='renderAsProperLink' onClick={next}>
+										<a className='renderAsProperLink' onClick={_next}>
 											&gt;&gt;
 										</a>
 									</td>
@@ -246,23 +272,21 @@ const InfoBox = ({
 };
 
 export default InfoBox;
-InfoBox.propTypes = {
-	featureCollection: PropTypes.array.isRequired,
-	filteredPOIs: PropTypes.array.isRequired,
-	selectedIndex: PropTypes.number.isRequired,
-	next: PropTypes.func.isRequired,
-	previous: PropTypes.func.isRequired,
-	fitAll: PropTypes.func.isRequired,
-	showModalMenu: PropTypes.func.isRequired,
-	panelClick: PropTypes.func.isRequired
-};
+// InfoBox.propTypes = {
+// 	featureCollection: PropTypes.array.isRequired,
+// 	filteredPOIs: PropTypes.array.isRequired,
+// 	selectedIndex: PropTypes.number.isRequired,
+// 	next: PropTypes.func.isRequired,
+// 	previous: PropTypes.func.isRequired,
+// 	fitAll: PropTypes.func.isRequired,
+// 	showModalMenu: PropTypes.func.isRequired,
+// 	panelClick: PropTypes.func.isRequired
+// };
 
-InfoBox.defaultProps = {
-	featureCollection: [],
-	filteredPOIs: [],
-	selectedIndex: 0,
-	next: () => {},
-	previous: () => {},
-	fitAll: () => {},
-	showModalMenu: () => {}
-};
+// InfoBox.defaultProps = {
+// 	featureCollection: [],
+// 	filteredPOIs: [],
+// 	selectedIndex: 0,
+// 	fitAll: () => {},
+// 	showModalMenu: () => {}
+// };

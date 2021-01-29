@@ -3,22 +3,24 @@ import InfoBox from './InfoBox';
 import CismapContext from '../contexts/CismapContext';
 import { getActionLinksForFeature } from '../tools/uiHelper';
 import Icon from '../commons/Icon';
+import { FeatureCollectionContext } from '../contexts/FeatureCollectionContextProvider';
 export const getColorForProperties = (props = { color: '#dddddd' }) => {
 	return props.color;
 };
 
 const Component = (props) => {
 	const { config } = props;
-	const cismapContext = useContext(CismapContext);
-	console.log('cismapContext in GenericInfoBox', cismapContext.selectedFeature);
+	const featureCollectionContext = useContext(FeatureCollectionContext);
+	const { shownFeatures = [], selectedFeature, items = [] } = featureCollectionContext;
 
-	let currentFeature, items, featureCollection, next, prev;
+	console.log('selectedFeature in GenericInfoBox', selectedFeature);
+
+	let currentFeature, featureCollection, next, prev;
 	next = () => {};
 	prev = () => {};
-	if (cismapContext !== undefined) {
-		currentFeature = cismapContext.selectedFeature;
-		items = cismapContext.items || [];
-		featureCollection = cismapContext.features || [];
+	if (featureCollectionContext !== undefined) {
+		currentFeature = selectedFeature;
+		featureCollection = shownFeatures || [];
 	}
 	let links = [];
 
@@ -99,12 +101,6 @@ const Component = (props) => {
 					</div>
 				</div>
 			}
-			next={() => {
-				next();
-			}}
-			previous={() => {
-				prev();
-			}}
 			hideNavigator={featureCollection.length <= 1}
 			fitAll={fitAll}
 		/>

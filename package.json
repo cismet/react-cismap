@@ -40,6 +40,7 @@
 		"create-svg-pie": "^1.0.0",
 		"flatbush": "^3.3.0",
 		"history": "^5.0.0",
+		"immer": "^8.0.1",
 		"kdbush": "^3.0.0",
 		"leaflet": "^1.6.0",
 		"leaflet-easybutton": "^2.3.0",
@@ -72,6 +73,7 @@
 		"svg-create-element": "^1.0.0",
 		"terraformer-wkt-parser": "^1.2.1",
 		"url-search-params-polyfill": "^5.0.0",
+		"use-immer": "^0.4.2",
 		"watchjs": "^0.0.0"
 	},
 	"devDependencies": {

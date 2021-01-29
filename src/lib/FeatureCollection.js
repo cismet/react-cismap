@@ -5,8 +5,13 @@ import { convertFeatureCollectionToMarkerPositionCollection } from './tools/mapp
 import { FeatureCollectionDisplayWithTooltipLabels } from '.';
 import FeatureCollectionDisplay from './FeatureCollectionDisplay';
 import CismapContext from './contexts/CismapContext';
+import { TMStateContext } from './contexts/TopicMapContextProvider';
 import useFilteredPointFeatureCollection from './hooks/useFilteredPointFeatureCollection';
 import { getClusterIconCreatorFunction } from './tools/uiHelper';
+import {
+	FeatureCollectionContext,
+	FeatureCollectionDispatchContext
+} from './contexts/FeatureCollectionContextProvider';
 
 // Since this component is simple and static, there's no parent container for it.
 const FeatureCollection = (props) => {
@@ -37,8 +42,11 @@ const FeatureCollection = (props) => {
 		handleSelectionInternaly = true
 	} = props;
 	const cismapContext = useContext(CismapContext);
-	const boundingBox = cismapContext.boundingBox;
-	const _mapRef = mapRef || cismapContext.routedMapRef;
+	const { routedMapRef, boundingBox } = useContext(TMStateContext);
+	const { shownFeatures } = useContext(FeatureCollectionContext);
+	const { setSelectedFeatureIndex } = useContext(FeatureCollectionDispatchContext);
+
+	const _mapRef = mapRef || routedMapRef;
 
 	const _clusterOptions = {
 		spiderfyOnMaxZoom: false,
@@ -61,20 +69,20 @@ const FeatureCollection = (props) => {
 		);
 	}
 
-	const [
-		features,
-		selectedFeature,
-		setSelectedFeatureIndex
-	] = useFilteredPointFeatureCollection({
-		name,
-		itemsUrl,
-		itemLoader,
-		caching,
-		withMD5Check,
-		convertItemToFeature,
-		boundingBox,
-		mapContext: cismapContext
-	});
+	// const [
+	// 	features,
+	// 	selectedFeature,
+	// 	setSelectedFeatureIndex
+	// ] = useFilteredPointFeatureCollection({
+	// 	name,
+	// 	itemsUrl,
+	// 	itemLoader,
+	// 	caching,
+	// 	withMD5Check,
+	// 	convertItemToFeature,
+	// 	boundingBox,
+	// 	mapContext: cismapContext
+	// });
 
 	let getFeatureCollectionForData = () => {};
 
@@ -86,7 +94,7 @@ const FeatureCollection = (props) => {
 		featureClickHandler(event);
 	};
 
-	let featureCollection = features;
+	let featureCollection = shownFeatures;
 
 	if (props.featureLabeler) {
 		return (

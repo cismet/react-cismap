@@ -14,7 +14,11 @@ import FeatureCollection from '../../FeatureCollection';
 import InfoBox from '../../topicmaps/InfoBox';
 import CismapContext from '../../contexts/CismapContext';
 import Control from 'react-leaflet-control';
-
+import { TopicMapContextProvider } from '../../contexts/TopicMapContextProvider';
+import {
+	FeatureCollectionContext,
+	FeatureCollectionDispatchContext
+} from '../../contexts/FeatureCollectionContextProvider';
 export default {
 	title: storiesCategory + 'TopicMapComponent'
 };
@@ -64,12 +68,13 @@ export const SimpleTopicMap = () => {
 	}, []);
 
 	const MyInfoBox = () => {
-		const cismapContext = useContext(CismapContext);
-		console.log('cismapContext in MyInfoBox', cismapContext.selectedFeature);
-		if (cismapContext !== undefined) {
+		// const cismapContext = useContext(CismapContext);
+		const featureCollectionContext = useContext(FeatureCollectionContext);
+		const { shownFeatures, selectedFeature, items } = featureCollectionContext;
+		if (featureCollectionContext !== undefined) {
 			return (
 				<GenericInfoBoxFromfeature
-					title={(cismapContext.selectedFeature || {}).text}
+					title={(selectedFeature || {}).text}
 					isCollabsible={false}
 					header='Parkscheinautomat'
 					config={{
@@ -93,7 +98,7 @@ export const SimpleTopicMap = () => {
 	};
 
 	return (
-		<div>
+		<TopicMapContextProvider>
 			<TopicMapComponent mapStyle={mapStyle} gazData={gazData} infoBox={<MyInfoBox />}>
 				<FeatureCollection
 					itemsUrl='https://wunda-geoportal.cismet.de/data/parkscheinautomatenfeatures.json'
@@ -101,6 +106,6 @@ export const SimpleTopicMap = () => {
 					clusteringEnabled={true}
 				/>
 			</TopicMapComponent>
-		</div>
+		</TopicMapContextProvider>
 	);
 };
