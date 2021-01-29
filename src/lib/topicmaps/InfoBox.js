@@ -4,7 +4,10 @@ import Color from 'color';
 import CollapsibleWell from '../commons/CollapsibleWell';
 import CismapContext from '../contexts/CismapContext';
 import Control from 'react-leaflet-control';
-import { FeatureCollectionContext } from '../contexts/FeatureCollectionContextProvider';
+import {
+	FeatureCollectionContext,
+	FeatureCollectionDispatchContext
+} from '../contexts/FeatureCollectionContextProvider';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -42,7 +45,10 @@ const InfoBox = ({
 }) => {
 	const featureCollectionContext = useContext(FeatureCollectionContext);
 	const { shownFeatures = [], selectedFeature, items = [] } = featureCollectionContext;
+	const featureCollectionDispatchContext = useContext(FeatureCollectionDispatchContext);
 
+	const gotoPrevious = featureCollectionDispatchContext.prev;
+	const gotoNext = featureCollectionDispatchContext.next;
 	// Use this line to enable the collabsible modus even when no object is visible
 	// isCollapsible = true;
 	let _next, _previous;
@@ -54,20 +60,16 @@ const InfoBox = ({
 
 		if (next === undefined) {
 			_next = () => {
-				console.log('_next', next);
-
-				// cismapContext.featureIndexSelector(
-				// 	(_currentFeature.index + 1) % cismapContext.features.length
-				// );
+				console.log('_next');
+				gotoNext();
 			};
 		} else {
 			_next = next;
 		}
 		if (previous === undefined) {
 			_previous = () => {
-				// cismapContext.featureIndexSelector(
-				// 	(_currentFeature.index - 1) % cismapContext.features.length
-				// );
+				console.log('_previous');
+				gotoPrevious();
 			};
 		} else {
 			_previous = previous;

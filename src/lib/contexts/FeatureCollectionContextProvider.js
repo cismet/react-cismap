@@ -67,7 +67,7 @@ const FeatureCollectionContextProvider = ({ children, enabled = true }) => {
 			});
 		};
 	};
-	const { featureIndex, allFeatures, selectedIndexState, selectedFeature } = state;
+	const { featureIndex, allFeatures, shownFeatures, selectedIndexState, selectedFeature } = state;
 	const selectedIndex = selectedIndexState.selectedIndex;
 
 	const setX = {
@@ -86,6 +86,19 @@ const FeatureCollectionContextProvider = ({ children, enabled = true }) => {
 	const setSelectedIndex = (selectedIndex) => {
 		setX.setSelectedIndexState({ selectedIndex, forced: false });
 	};
+
+	const next = () => {
+		const newIndex = (selectedFeature.index + 1) % shownFeatures.length;
+		setSelectedFeatureIndex(newIndex);
+	};
+	const prev = () => {
+		let newIndex = (selectedFeature.index - 1) % shownFeatures.length;
+		if (newIndex === -1) {
+			newIndex = shownFeatures.length - 1;
+		}
+		setSelectedFeatureIndex(newIndex);
+	};
+
 	useEffect(
 		() => {
 			console.log('boundingBox changed in FeatureCollection', boundingBox);
@@ -173,7 +186,9 @@ const FeatureCollectionContextProvider = ({ children, enabled = true }) => {
 						dispatch,
 						...setX,
 						load,
-						setSelectedFeatureIndex
+						setSelectedFeatureIndex,
+						next,
+						prev
 					}}
 				>
 					{children}
