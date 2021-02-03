@@ -56,11 +56,8 @@ const InfoBox = ({
 	let _currentFeature;
 	if (featureCollectionContext != undefined) {
 		_currentFeature = selectedFeature;
-		console.log('next is undefined', next);
-
 		if (next === undefined) {
 			_next = () => {
-				console.log('_next');
 				gotoNext();
 			};
 		} else {

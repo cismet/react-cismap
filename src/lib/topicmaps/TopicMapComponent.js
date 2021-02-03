@@ -87,6 +87,9 @@ const TopicMapComponent = (props) => {
 	const [ overlayFeature, setOverlayFeature ] = useState(null);
 
 	const { setBoundingBox, setLocation, setRoutedMapRef } = useContext(TMDispatchContext);
+	if (leafletRoutedMapRef.current!==null){
+		setRoutedMapRef(leafletRoutedMapRef.current)
+	}
 	return (
 		<div>
 			{modalMenu}
@@ -96,21 +99,7 @@ const TopicMapComponent = (props) => {
 				text={initialLoadingText + ' ' + statusPostfix + '...'}
 			>
 				<div>
-					{/* <CismapContext.Provider
-						value={{
-							location,
-							boundingBox,
-							routedMapRef: (leafletRoutedMapRef || {}).current,
-							items,
-							setItems,
-							selectedFeature,
-							setSelectedFeature,
-							setFeatures,
-							features,
-							featureIndexSelector,
-							setFeatureIndexSelector
-						}}
-					> */}{' '}
+				
 					{photoLightBox}
 					<RoutedMap
 						key={'leafletRoutedMap'}
@@ -173,39 +162,7 @@ const TopicMapComponent = (props) => {
 							enabled={gazData.length > 0}
 							pixelwidth={searchControlWidth}
 						/>
-						{/* <Control
-								key={
-									'InfoBoxElements.' +
-									infoBoxControlPosition +
-									'.' +
-									searchControlPosition
-								}
-								id={
-									'InfoBoxElements.' +
-									infoBoxControlPosition +
-									'.' +
-									searchControlPosition
-								}
-								position={infoBoxControlPosition}
-							>
-								<div style={{ ...infoStyle, marginBottom: infoBoxBottomMargin }}>
-									{infoBox}
-								</div>
-							</Control>
-							{secondaryInfoBoxElements.map((element, index) => (
-								<Control
-									key={
-										'secondaryInfoBoxElements.' +
-										index +
-										infoBoxControlPosition +
-										'.' +
-										searchControlPosition
-									}
-									position={infoBoxControlPosition}
-								>
-									<div style={{ opacity: 0.9 }}>{element}</div>
-								</Control>
-							))} */}
+					
 						{infoBox}
 						<Control position='topright'>
 							<OverlayTrigger

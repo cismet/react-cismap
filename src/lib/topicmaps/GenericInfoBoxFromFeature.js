@@ -4,6 +4,7 @@ import CismapContext from '../contexts/CismapContext';
 import { getActionLinksForFeature } from '../tools/uiHelper';
 import Icon from '../commons/Icon';
 import { FeatureCollectionContext } from '../contexts/FeatureCollectionContextProvider';
+import { TMDispatchContext } from '../contexts/TopicMapContextProvider';
 export const getColorForProperties = (props = { color: '#dddddd' }) => {
 	return props.color;
 };
@@ -11,13 +12,11 @@ export const getColorForProperties = (props = { color: '#dddddd' }) => {
 const Component = (props) => {
 	const { config } = props;
 	const featureCollectionContext = useContext(FeatureCollectionContext);
+	const {zoomToFeature,gotoHome} = useContext(TMDispatchContext);
 	const { shownFeatures = [], selectedFeature, items = [] } = featureCollectionContext;
 
-	console.log('selectedFeature in GenericInfoBox', selectedFeature);
+	let currentFeature, featureCollection
 
-	let currentFeature, featureCollection, next, prev;
-	next = () => {};
-	prev = () => {};
 	if (featureCollectionContext !== undefined) {
 		currentFeature = selectedFeature;
 		featureCollection = shownFeatures || [];
@@ -31,7 +30,7 @@ const Component = (props) => {
 		links = getActionLinksForFeature(currentFeature, {
 			entityClassName: config.navigator.noun.singular,
 			displayZoomToFeature: true,
-			zoomToFeature: () => {}, //TODO
+			zoomToFeature, 
 			displaySecondaryInfoAction:
 				config.displaySecondaryInfoAction === true ||
 				config.displaySecondaryInfoAction === undefined,
@@ -48,7 +47,6 @@ const Component = (props) => {
 	const minify = undefined;
 
 	//TODO
-	const fitAll = () => {};
 
 	return (
 		<InfoBox
@@ -89,7 +87,7 @@ const Component = (props) => {
 					)}
 
 					<div align='center'>
-						<a onClick={fitAll}>
+						<a className="pleaseRenderLikeALinkEvenWithoutAnHrefAttribute" onClick={gotoHome}>
 							{items.length}{' '}
 							{items.length === 1 ? (
 								config.navigator.noun.singular
@@ -102,7 +100,7 @@ const Component = (props) => {
 				</div>
 			}
 			hideNavigator={featureCollection.length <= 1}
-			fitAll={fitAll}
+			fitAll={gotoHome}
 		/>
 	);
 };

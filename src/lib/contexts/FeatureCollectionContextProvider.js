@@ -148,10 +148,12 @@ const FeatureCollectionContextProvider = ({ children, enabled = true }) => {
 					if (found !== undefined) {
 						if (found.index !== selectedIndex) {
 							setSelectedIndex(found.index);
+							return;
 						}
 					} else {
 						if (0 !== selectedIndex) {
 							setSelectedIndex(0);
+							return;
 						}
 					}
 				}
@@ -163,7 +165,9 @@ const FeatureCollectionContextProvider = ({ children, enabled = true }) => {
 				sf.selected = true;
 			} catch (e) {}
 			setX.setSelectedFeature(sf);
-
+			if (selectedIndexState.forced === true) {
+				setSelectedIndex(selectedIndex); //set forced=false
+			}
 			setX.setShownFeatures(_shownFeatures);
 		},
 		[ boundingBox, featureIndex, allFeatures, selectedIndexState ]

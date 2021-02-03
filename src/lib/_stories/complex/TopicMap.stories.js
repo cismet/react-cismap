@@ -27,7 +27,6 @@ const getGazData = async (setGazData) => {
 	const prefix = 'GazDataForStories';
 	const sources = {};
 
-	// gazData.push(await md5FetchJSON(prefix, 'https://updates.cismet.de/test/adressen.json'));
 	sources.adressen = await md5FetchText(
 		prefix,
 		'https://wunda-geoportal.cismet.de/data/adressen.json'
@@ -80,14 +79,14 @@ export const SimpleTopicMap = () => {
 					config={{
 						city: 'Wuppertal',
 						pixelwidth: 300,
-						header: 'Wasserstofftankstelle',
+						header: 'Parkscheinautomat',
 						navigator: {
 							noun: {
-								singular: 'Wasserstofftankstelle',
-								plural: 'Wasserstofftankstellen'
+								singular: 'Parkscheinautomat',
+								plural: 'Parkscheinautomaten'
 							}
 						},
-						noCurrentFeatureTitle: 'Keine Wasserstofftankstelle gefunden',
+						noCurrentFeatureTitle: 'Keine Parkscheinautomaten gefunden',
 						noCurrentFeatureContent: ''
 					}}
 				/>
