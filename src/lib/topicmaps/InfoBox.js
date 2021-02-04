@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import Color from 'color';
 import CollapsibleWell from '../commons/CollapsibleWell';
-import CismapContext from '../contexts/CismapContext';
+import { ResponsiveTopicMapContext } from '../contexts/ResponsiveTopicMapContextProvider';
 import Control from 'react-leaflet-control';
 import {
 	FeatureCollectionContext,
@@ -35,10 +35,9 @@ const InfoBox = ({
 	noCurrentFeatureContent,
 	isCollapsible = true,
 	hideNavigator = false,
-	infoBoxControlPosition = 'bottomright',
-	searchControlPosition = 'bottomleft',
+	handleResponsiveDesign = true,
 	infoStyle = {},
-	infoBoxBottomMargin = 0,
+
 	secondaryInfoBoxElements = [],
 
 	colorizer = (props) => ((props || {}).properties || {}).color
@@ -46,13 +45,21 @@ const InfoBox = ({
 	const featureCollectionContext = useContext(FeatureCollectionContext);
 	const { shownFeatures = [], selectedFeature, items = [] } = featureCollectionContext;
 	const featureCollectionDispatchContext = useContext(FeatureCollectionDispatchContext);
-
+	const { responsiveState, searchBoxPixelWidth, gap, windowSize } = useContext(
+		ResponsiveTopicMapContext
+	);
 	const gotoPrevious = featureCollectionDispatchContext.prev;
 	const gotoNext = featureCollectionDispatchContext.next;
 	// Use this line to enable the collabsible modus even when no object is visible
 	// isCollapsible = true;
-	let _next, _previous;
-
+	let _next, _previous, infoBoxBottomMargin;
+	if (handleResponsiveDesign === true) {
+		if (responsiveState === 'small') {
+			infoBoxBottomMargin = 5;
+		} else {
+			infoBoxBottomMargin = 0;
+		}
+	}
 	let _currentFeature;
 	if (featureCollectionContext != undefined) {
 		_currentFeature = selectedFeature;
@@ -65,7 +72,6 @@ const InfoBox = ({
 		}
 		if (previous === undefined) {
 			_previous = () => {
-				console.log('_previous');
 				gotoPrevious();
 			};
 		} else {
@@ -76,9 +82,10 @@ const InfoBox = ({
 	}
 	let infoBoxStyle = {
 		opacity: '0.9',
-		width: pixelwidth,
+		width: responsiveState === 'normal' ? pixelwidth : windowSize.width - gap,
 		...infoStyle
 	};
+
 	const [ localMinified, setLocalMinify ] = useState(false);
 	const minified = collapsedInfoBox || localMinified;
 	const minify = setCollapsedInfoBox || setLocalMinify;
@@ -221,9 +228,9 @@ const InfoBox = ({
 	return (
 		<div>
 			<Control
-				key={'InfoBoxElements.' + infoBoxControlPosition + '.' + searchControlPosition}
-				id={'InfoBoxElements.' + infoBoxControlPosition + '.' + searchControlPosition}
-				position={infoBoxControlPosition}
+				key={'InfoBoxElements.' + responsiveState}
+				id={'InfoBoxElements.' + responsiveState}
+				position={responsiveState === 'normal' ? 'bottomright' : 'bottomleft'}
 			>
 				<div style={{ ...infoBoxStyle, marginBottom: infoBoxBottomMargin }}>
 					{fotoPreview}
@@ -254,14 +261,8 @@ const InfoBox = ({
 			</Control>
 			{secondaryInfoBoxElements.map((element, index) => (
 				<Control
-					key={
-						'secondaryInfoBoxElements.' +
-						index +
-						infoBoxControlPosition +
-						'.' +
-						searchControlPosition
-					}
-					position={infoBoxControlPosition}
+					key={'secondaryInfoBoxElements.' + index + '.' + responsiveState}
+					position={responsiveState === 'normal' ? 'bottomright' : 'bottomleft'}
 				>
 					<div style={{ opacity: 0.9 }}>{element}</div>
 				</Control>

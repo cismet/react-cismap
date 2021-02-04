@@ -10,12 +10,12 @@ export const getColorForProperties = (props = { color: '#dddddd' }) => {
 };
 
 const Component = (props) => {
-	const { config } = props;
+	const { config, pixelwidth } = props;
 	const featureCollectionContext = useContext(FeatureCollectionContext);
-	const {zoomToFeature,gotoHome} = useContext(TMDispatchContext);
+	const { zoomToFeature, gotoHome } = useContext(TMDispatchContext);
 	const { shownFeatures = [], selectedFeature, items = [] } = featureCollectionContext;
 
-	let currentFeature, featureCollection
+	let currentFeature, featureCollection;
 
 	if (featureCollectionContext !== undefined) {
 		currentFeature = selectedFeature;
@@ -23,14 +23,12 @@ const Component = (props) => {
 	}
 	let links = [];
 
-	console.log('currentFeature', currentFeature);
-
 	let header, title, subtitle, additionalInfo;
 	if (currentFeature !== undefined) {
 		links = getActionLinksForFeature(currentFeature, {
 			entityClassName: config.navigator.noun.singular,
 			displayZoomToFeature: true,
-			zoomToFeature, 
+			zoomToFeature,
 			displaySecondaryInfoAction:
 				config.displaySecondaryInfoAction === true ||
 				config.displaySecondaryInfoAction === undefined,
@@ -55,7 +53,7 @@ const Component = (props) => {
 			// selectedIndex={selectedIndex} //?
 			showModalMenu={() => {}}
 			colorize={getColorForProperties}
-			pixelwidth={config.pixelwidth}
+			pixelwidth={pixelwidth}
 			header={header}
 			// headerColor={headerColor}
 			links={links}
@@ -87,7 +85,10 @@ const Component = (props) => {
 					)}
 
 					<div align='center'>
-						<a className="pleaseRenderLikeALinkEvenWithoutAnHrefAttribute" onClick={gotoHome}>
+						<a
+							className='pleaseRenderLikeALinkEvenWithoutAnHrefAttribute'
+							onClick={gotoHome}
+						>
 							{items.length}{' '}
 							{items.length === 1 ? (
 								config.navigator.noun.singular

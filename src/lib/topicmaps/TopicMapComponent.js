@@ -14,11 +14,14 @@ import GazetteerSearchControl from '../GazetteerSearchControl';
 import { createBrowserHistory, createHashHistory } from 'history';
 import CismapContext from '../contexts/CismapContext';
 import { TMDispatchContext } from '../contexts/TopicMapContextProvider';
+import { useWindowSize } from '@react-hook/window-size';
 
 let history = createHashHistory();
 
 const TopicMapComponent = (props) => {
 	const leafletRoutedMapRef = useRef(null);
+	const [ windowWidth, windowHeight ] = useWindowSize();
+	const infoBoxRef = useRef(null);
 	let {
 		modalMenu = <div />,
 		statusPostfix = '',
@@ -28,10 +31,7 @@ const TopicMapComponent = (props) => {
 		initialLoadingText = 'Laden der Daten ...',
 		minZoom = 5,
 		maxZoom = 19,
-		mapStyle = {
-			height: 600,
-			cursor: 'pointer'
-		},
+		mapStyle,
 		homeCenter = [ 51.25861849982617, 7.15101022370511 ],
 		homeZoom = 8,
 		ondblclick = () => {},
@@ -54,8 +54,7 @@ const TopicMapComponent = (props) => {
 		// // gazetteerHit = undefined,
 		// setGazetteerHit =undefined,
 		gazData = [],
-		infoBoxControlPosition = 'bottomright',
-		searchControlPosition = 'bottomleft',
+
 		searchControlWidth = 300,
 		infoStyle,
 		infoBoxBottomMargin,
@@ -87,9 +86,29 @@ const TopicMapComponent = (props) => {
 	const [ overlayFeature, setOverlayFeature ] = useState(null);
 
 	const { setBoundingBox, setLocation, setRoutedMapRef } = useContext(TMDispatchContext);
-	if (leafletRoutedMapRef.current!==null){
-		setRoutedMapRef(leafletRoutedMapRef.current)
+	if (leafletRoutedMapRef.current !== null) {
+		setRoutedMapRef(leafletRoutedMapRef.current);
 	}
+	const _mapStyle = {
+		width: windowWidth,
+		height: windowHeight,
+		cursor: 'pointer',
+		...mapStyle
+	};
+
+	//responsive behaviour
+	let widthRight = infoBox.props.pixelwidth;
+	let width = _mapStyle.width;
+	let gap = 25;
+
+	let infoBoxControlPosition = 'bottomright';
+	let searchControlPosition = 'bottomleft';
+	let widthLeft = searchControlWidth;
+	let _infoStyle = {
+		opacity: '0.9',
+		width: infoBox.props.pixelwidth
+	};
+
 	return (
 		<div>
 			{modalMenu}
@@ -99,7 +118,6 @@ const TopicMapComponent = (props) => {
 				text={initialLoadingText + ' ' + statusPostfix + '...'}
 			>
 				<div>
-				
 					{photoLightBox}
 					<RoutedMap
 						key={'leafletRoutedMap'}
@@ -109,7 +127,7 @@ const TopicMapComponent = (props) => {
 						minZoom={minZoom}
 						maxZoom={maxZoom}
 						layers=''
-						style={mapStyle}
+						style={_mapStyle}
 						fallbackPosition={{
 							lat: homeCenter[0],
 							lng: homeCenter[1]
@@ -162,7 +180,7 @@ const TopicMapComponent = (props) => {
 							enabled={gazData.length > 0}
 							pixelwidth={searchControlWidth}
 						/>
-					
+
 						{infoBox}
 						<Control position='topright'>
 							<OverlayTrigger

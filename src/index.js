@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'leaflet/dist/leaflet.css';
 
 import './index.css';
-import { SimpleTopicMap } from './lib/_stories/complex/TopicMap.stories';
+import { MostSimpleTopicMap,SimpleTopicMap } from './lib/_stories/complex/TopicMap.stories';
 
 const TestContext = React.createContext();
 
@@ -40,6 +40,7 @@ const TestComponent = ({ display }) => {
 
 ReactDOM.render(
 	<div>
+		{/* <MostSimpleTopicMap /> */}
 		<SimpleTopicMap />
 		{/* <TestComponent display={<ContextDisplay />} /> */}
 	</div>,

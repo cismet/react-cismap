@@ -49,8 +49,6 @@ const Comp = (props) => {
 
 	useEffect(
 		() => {
-			console.log('annotations', annotations);
-
 			const map = mapRef.current.leafletMap.leafletElement;
 			for (const layerkey of Object.keys(map._layers)) {
 				const layer = map._layers[layerkey];

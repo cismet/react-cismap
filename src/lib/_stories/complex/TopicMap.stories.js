@@ -53,12 +53,15 @@ const getGazData = async (setGazData) => {
 	setGazData(gazData);
 };
 
-export const SimpleTopicMap = () => {
-	const mapStyle = {
-		height: 700,
-		cursor: 'pointer'
-	};
+export const MostSimpleTopicMap = () => {
+	return (
+		<TopicMapContextProvider>
+			<TopicMapComponent gazData={[]} />
+		</TopicMapContextProvider>
+	);
+};
 
+export const SimpleTopicMap = () => {
 	const [ gazData, setGazData ] = useState([]);
 	const [ data, setData ] = useState([]);
 	useEffect(() => {
@@ -67,7 +70,6 @@ export const SimpleTopicMap = () => {
 	}, []);
 
 	const MyInfoBox = () => {
-		// const cismapContext = useContext(CismapContext);
 		const featureCollectionContext = useContext(FeatureCollectionContext);
 		const { shownFeatures, selectedFeature, items } = featureCollectionContext;
 		if (featureCollectionContext !== undefined) {
@@ -76,9 +78,9 @@ export const SimpleTopicMap = () => {
 					title={(selectedFeature || {}).text}
 					isCollabsible={false}
 					header='Parkscheinautomat'
+					pixelwidth={300}
 					config={{
 						city: 'Wuppertal',
-						pixelwidth: 300,
 						header: 'Parkscheinautomat',
 						navigator: {
 							noun: {
@@ -98,7 +100,7 @@ export const SimpleTopicMap = () => {
 
 	return (
 		<TopicMapContextProvider>
-			<TopicMapComponent mapStyle={mapStyle} gazData={gazData} infoBox={<MyInfoBox />}>
+			<TopicMapComponent gazData={gazData} infoBox={<MyInfoBox pixelwidth={300} />}>
 				<FeatureCollection
 					itemsUrl='https://wunda-geoportal.cismet.de/data/parkscheinautomatenfeatures.json'
 					style={getGTMFeatureStyler()}

@@ -101,7 +101,6 @@ const FeatureCollectionContextProvider = ({ children, enabled = true }) => {
 
 	useEffect(
 		() => {
-			console.log('boundingBox changed in FeatureCollection', boundingBox);
 			let features = [];
 			if (boundingBox !== undefined && featureIndex !== undefined) {
 				let resultIds = featureIndex.range(
@@ -179,8 +178,6 @@ const FeatureCollectionContextProvider = ({ children, enabled = true }) => {
 	useEffect(() => {
 		load('https://wunda-geoportal.cismet.de/data/parkscheinautomatenfeatures.json');
 	}, []);
-
-	console.log('zzz FeatureCollectionState', state);
 
 	if (enabled === true) {
 		return (

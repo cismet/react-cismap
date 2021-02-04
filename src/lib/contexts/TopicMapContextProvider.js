@@ -1,6 +1,7 @@
 import React from 'react';
 import { useImmer } from 'use-immer';
 import FeatureCollectionContextProvider from './FeatureCollectionContextProvider';
+import ResponsiveTopicMapContextProvider from './ResponsiveTopicMapContextProvider';
 import proj4 from 'proj4';
 import { proj4crs25832def } from '../constants/gis';
 const defaultState = {
@@ -12,7 +13,11 @@ const defaultState = {
 const StateContext = React.createContext();
 const DispatchContext = React.createContext();
 
-const TopicMapContextProvider = ({ children, featureCollectionEnabled = true }) => {
+const TopicMapContextProvider = ({
+	children,
+	featureCollectionEnabled = true,
+	responsiveContextEnabled = true
+}) => {
 	const [ state, dispatch ] = useImmer({ ...defaultState });
 
 	const set = (prop) => {
@@ -27,7 +32,6 @@ const TopicMapContextProvider = ({ children, featureCollectionEnabled = true }) 
 		setBoundingBox: set('boundingBox'),
 		setLocation: set('location'),
 		setRoutedMapRef: set('routedMapRef')
-
 	};
 	return (
 		<StateContext.Provider value={state}>
@@ -47,21 +51,24 @@ const TopicMapContextProvider = ({ children, featureCollectionEnabled = true }) 
 							);
 						}
 					},
-					
-					gotoHome: ()=>{
+
+					gotoHome: () => {
 						if (state.routedMapRef !== undefined) {
-							console.log("state.routedMapRef",state.routedMapRef.props)
 							state.routedMapRef.leafletMap.leafletElement.setView(
-								[ state.routedMapRef.props.fallbackPosition.lat, state.routedMapRef.props.fallbackPosition.lng ],
+								[
+									state.routedMapRef.props.fallbackPosition.lat,
+									state.routedMapRef.props.fallbackPosition.lng
+								],
 								state.routedMapRef.props.fallbackZoom
 							);
 						}
 					}
-
 				}}
 			>
 				<FeatureCollectionContextProvider enabled={featureCollectionEnabled}>
-					{children}
+					<ResponsiveTopicMapContextProvider enabled={responsiveContextEnabled}>
+						{children}
+					</ResponsiveTopicMapContextProvider>
 				</FeatureCollectionContextProvider>
 			</DispatchContext.Provider>
 		</StateContext.Provider>

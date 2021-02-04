@@ -24,7 +24,7 @@ export const builtInGazetteerHitTrigger = (
 		if (logGazetteerHit === '' || logGazetteerHit === true) {
 			let url = window.location.href.split('?')[0];
 
-			console.log(url + '?gazHit=' + window.btoa(JSON.stringify(hit[0])));
+			// console.log(url + '?gazHit=' + window.btoa(JSON.stringify(hit[0])));
 		}
 
 		const pos = proj4(proj4crs25832def, proj4.defs('EPSG:4326'), [ hit[0].x, hit[0].y ]);

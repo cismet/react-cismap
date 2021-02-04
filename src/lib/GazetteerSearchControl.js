@@ -1,8 +1,9 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
 import Icon from './commons/Icon';
 import { builtInGazetteerHitTrigger } from './tools/gazetteerHelper';
+import { ResponsiveTopicMapContext } from './contexts/ResponsiveTopicMapContextProvider';
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //import { faSun } from '@fortawesome/free-solid-svg-icons';
@@ -73,6 +74,10 @@ const COMP = ({
 		);
 	}
 }) => {
+	const { responsiveState, searchBoxPixelWidth, gap, windowSize } = useContext(
+		ResponsiveTopicMapContext
+	);
+
 	const internalGazetteerHitTrigger = (hit) => {
 		builtInGazetteerHitTrigger(
 			hit,
@@ -130,7 +135,10 @@ const COMP = ({
 		>
 			<Form
 				style={{
-					width: pixelwidth + 'px'
+					width:
+						responsiveState === 'normal'
+							? pixelwidth + 'px'
+							: windowSize.width - gap + 'px'
 				}}
 				action='#'
 			>
