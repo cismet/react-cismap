@@ -40,12 +40,13 @@ export class RoutedMap extends React.Component {
 		const map = leafletMap.leafletElement;
 		map.editable = this.props.editable;
 
+		
 		//Do sstuff after panning is over
 		map.on('moveend', () => {
 			if (
 				typeof leafletMap !== 'undefined' &&
 				leafletMap !== null &&
-				leafletMap.leafletElement !== undefined &&
+		leafletMap.leafletElement !== undefined &&
 				leafletMap.leafletElement !== null
 			) {
 				try {

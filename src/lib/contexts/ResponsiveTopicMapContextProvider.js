@@ -1,6 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState,useLayoutEffect } from 'react';
 import { useImmer } from 'use-immer';
-import { useWindowSize } from '@react-hook/window-size';
+// import { useWindowSize } from '@react-hook/window-size';
+
+function useWindowSize() {
+	const [size, setSize] = useState([0, 0]);
+	useLayoutEffect(() => {
+	  function updateSize() {
+		setSize([window.innerWidth, window.innerHeight]);
+	  }
+	  window.addEventListener('resize', updateSize);
+	  updateSize();
+	  return () => window.removeEventListener('resize', updateSize);
+	}, []);
+	return size;
+  }
 
 const StateContext = React.createContext();
 const DispatchContext = React.createContext();
@@ -36,15 +49,12 @@ const ResponsiveTopicMapContextProvider = ({ children, enabled = true }) => {
 		setResponsiveState: set('responsiveState')
 	};
 
-	useEffect(
-		() => {
-			setX.setWindowSize(windowSize);
-		},
-		[ windowSize ]
-	);
+
+
 
 	useEffect(
-		() => {
+		() => {		
+			setX.setWindowSize(windowSize);
 			let widthRight = state.infoBoxPixelWidth;
 			let width = windowSize.width;
 			let gap = 25;
@@ -56,8 +66,24 @@ const ResponsiveTopicMapContextProvider = ({ children, enabled = true }) => {
 				setX.setResponsiveState('normal');
 			}
 		},
-		[ state.windowSize, state.searchBoxPixelWidth, state.infoBoxPixelWidth ]
+		[ windowSize ]
 	);
+
+	// useEffect(
+	// 	() => {
+	// 		let widthRight = state.infoBoxPixelWidth;
+	// 		let width = windowSize.width;
+	// 		let gap = 25;
+	// 		let widthLeft = state.searchBoxPixelWidth;
+
+	// 		if (width - gap - widthLeft - widthRight <= 0) {
+	// 			setX.setResponsiveState('small');
+	// 		} else {
+	// 			setX.setResponsiveState('normal');
+	// 		}
+	// 	},
+	// 	[ state.windowSize, state.searchBoxPixelWidth, state.infoBoxPixelWidth ]
+	// );
 
 	if (enabled === true) {
 		return (

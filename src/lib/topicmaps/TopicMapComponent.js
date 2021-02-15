@@ -14,13 +14,12 @@ import GazetteerSearchControl from '../GazetteerSearchControl';
 import { createBrowserHistory, createHashHistory } from 'history';
 import CismapContext from '../contexts/CismapContext';
 import { TMDispatchContext } from '../contexts/TopicMapContextProvider';
-import { useWindowSize } from '@react-hook/window-size';
+import { ResponsiveTopicMapContext } from '../contexts/ResponsiveTopicMapContextProvider';
 
 let history = createHashHistory();
 
 const TopicMapComponent = (props) => {
 	const leafletRoutedMapRef = useRef(null);
-	const [ windowWidth, windowHeight ] = useWindowSize();
 	const infoBoxRef = useRef(null);
 	let {
 		modalMenu = <div />,
@@ -86,20 +85,31 @@ const TopicMapComponent = (props) => {
 	const [ overlayFeature, setOverlayFeature ] = useState(null);
 
 	const { setBoundingBox, setLocation, setRoutedMapRef } = useContext(TMDispatchContext);
+	 const { responsiveState, searchBoxPixelWidth, gap, windowSize } = useContext(
+		ResponsiveTopicMapContext
+	);
 	if (leafletRoutedMapRef.current !== null) {
 		setRoutedMapRef(leafletRoutedMapRef.current);
 	}
+
 	const _mapStyle = {
-		width: windowWidth,
-		height: windowHeight,
 		cursor: 'pointer',
 		...mapStyle
 	};
 
+	if (windowSize){
+		_mapStyle.width= windowSize.width;
+		_mapStyle.height=windowSize.height;
+	}
+	else {
+		_mapStyle.width= window.innerWidth;
+		_mapStyle.height=window.innerHeight;
+	}
+
 	//responsive behaviour
 	let widthRight = infoBox.props.pixelwidth;
 	let width = _mapStyle.width;
-	let gap = 25;
+	
 
 	let infoBoxControlPosition = 'bottomright';
 	let searchControlPosition = 'bottomleft';

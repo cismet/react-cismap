@@ -55,7 +55,7 @@ const getGazData = async (setGazData) => {
 
 export const MostSimpleTopicMap = () => {
 	return (
-		<TopicMapContextProvider>
+		<TopicMapContextProvider >
 			<TopicMapComponent gazData={[]} />
 		</TopicMapContextProvider>
 	);
