@@ -17,15 +17,15 @@ html {
   color:rgba(0, 0, 0);
 } 
 
-
 :hover
 *:focus,
 *:active
  {
   outline: none;
   box-shadow: none !important;
-  -webkit-appearance: none;
+  /* -webkit-appearance: none; */
 }
+
 
 btn:focus, a:focus
 {
@@ -36,7 +36,7 @@ btn:focus, a:focus
          outline: none !important;
          box-shadow: none;
 }
-
+ 
 
 body {
   margin: 0;
