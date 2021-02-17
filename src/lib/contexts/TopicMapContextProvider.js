@@ -29,6 +29,7 @@ const TopicMapContextProvider = ({
   getColorFromProperties,
   clusteringEnabled = true,
   clusteringOptions,
+  getSymbolSVG,
 }) => {
   const [state, dispatch] = useImmer({ ...defaultState, history });
 
@@ -81,6 +82,7 @@ const TopicMapContextProvider = ({
             getColorFromProperties={getColorFromProperties}
             clusteringEnabled={clusteringEnabled}
             clusteringOptions={clusteringOptions}
+            getSymbolSVG={getSymbolSVG}
           >
             <ResponsiveTopicMapContextProvider enabled={responsiveContextEnabled}>
               <UIContextProvider enabled={uiContextEnabled}>{children}</UIContextProvider>

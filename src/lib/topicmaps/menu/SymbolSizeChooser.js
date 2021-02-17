@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { Form, Radio, ControlLabel } from "react-bootstrap";
 import objectAssign from "object-assign";
+import { getSymbolSVGGetter } from "../../tools/uiHelper";
+
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 // Since this component is simple and static, there's no parent container for it.
@@ -9,7 +11,7 @@ const SymbolSizeChooser = ({
   title,
   changeMarkerSymbolSize,
   currentMarkerSize,
-  getSymbolSVG,
+  getSymbolSVG = getSymbolSVGGetter(),
   symbolColor,
   additionalConfig,
   sizeMulitplier,
@@ -21,6 +23,8 @@ const SymbolSizeChooser = ({
   };
 
   const config = objectAssign({}, defaultConfig, additionalConfig);
+
+  console.log("xxx _currentMarkerSize", currentMarkerSize);
 
   return (
     <Form.Group>
@@ -65,6 +69,7 @@ const SymbolSizeChooser = ({
             <td style={{ textAlign: "center" }}>
               <Form.Check
                 type="radio"
+                id="symbolSizeSmall"
                 style={{ marginTop: "0px", marginLeft: "6px" }}
                 readOnly={true}
                 onClick={() => changeMarkerSymbolSize(config.smallSize)}
@@ -75,6 +80,7 @@ const SymbolSizeChooser = ({
             <td style={{ textAlign: "center" }}>
               <Form.Check
                 type="radio"
+                id="symbolSizeMid"
                 style={{ marginTop: "0px", marginLeft: "6px" }}
                 readOnly={true}
                 onClick={() => changeMarkerSymbolSize(config.midSize)}
@@ -87,6 +93,7 @@ const SymbolSizeChooser = ({
             <td style={{ textAlign: "center" }}>
               <Form.Check
                 type="radio"
+                id="symbolSizeLarge"
                 style={{ marginTop: "0px", marginLeft: "7px" }}
                 readOnly={true}
                 onClick={() => changeMarkerSymbolSize(config.largeSize)}

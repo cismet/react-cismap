@@ -13,6 +13,9 @@ html {
   color:rgba(0, 0, 0);
 }  */
 
+.form-label {
+  font-weight: 700;
+}
 .dropdown-menu a {
   color:rgba(0, 0, 0);
 } 

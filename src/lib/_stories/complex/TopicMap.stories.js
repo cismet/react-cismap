@@ -143,7 +143,7 @@ export const SimpleTopicMap = () => {
       >
         <FeatureCollection
           itemsUrl="https://wunda-geoportal.cismet.de/data/parkscheinautomatenfeatures.json"
-          style={getGTMFeatureStyler()}
+          styler={getGTMFeatureStyler}
         />
       </TopicMapComponent>
     </TopicMapContextProvider>

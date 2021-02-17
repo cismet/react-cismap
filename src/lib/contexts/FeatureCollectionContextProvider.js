@@ -68,6 +68,7 @@ const FeatureCollectionContextProvider = ({
   enabled = true,
   getFeatureStyler,
   getColorFromProperties,
+  getSymbolSVG,
   clusteringEnabled = false,
   clusteringOptions,
 }) => {
@@ -77,6 +78,7 @@ const FeatureCollectionContextProvider = ({
     getColorFromProperties,
     clusteringEnabled,
     clusteringOptions,
+    getSymbolSVG,
   });
   const { boundingBox } = useContext(TopicMapContext);
   const set = (prop) => {

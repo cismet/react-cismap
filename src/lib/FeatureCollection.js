@@ -11,6 +11,10 @@ import {
   FeatureCollectionContext,
   FeatureCollectionDispatchContext,
 } from "./contexts/FeatureCollectionContextProvider";
+import {
+  TopicMapStylingContext,
+  TopicMapStylingDispatchContext,
+} from "./contexts/TopicMapStylingContextProvider";
 
 // Since this component is simple and static, there's no parent container for it.
 const FeatureCollection = (props) => {
@@ -21,7 +25,7 @@ const FeatureCollection = (props) => {
     caching,
     withMD5Check,
     convertItemToFeature,
-    style,
+    styler,
     featureHoverer,
     featureClickHandler = () => {},
     mapRef,
@@ -41,17 +45,20 @@ const FeatureCollection = (props) => {
     handleSelectionInternaly = true,
   } = props;
   const { routedMapRef, boundingBox } = useContext(TopicMapContext);
+  const { markerSymbolSize } = useContext(TopicMapStylingContext);
   const {
     shownFeatures,
     clusteringOptions: clusteringOptionsFromContext,
     clusteringEnabled: clusteringEnabledFromContext,
     getFeatureStyler,
+    getColorFromProperties,
   } = useContext(FeatureCollectionContext);
+
   const { setSelectedFeatureIndex } = useContext(FeatureCollectionDispatchContext);
 
   const _mapRef = mapRef || routedMapRef;
 
-  let _style = style || getFeatureStyler();
+  let _style = getFeatureStyler(markerSymbolSize, getColorFromProperties);
 
   const _clusterOptions = {
     spiderfyOnMaxZoom: false,
@@ -118,6 +125,7 @@ const FeatureCollection = (props) => {
           featureKeySuffixGenerator() +
           "clustered:" +
           _clusteringEnabled +
+          markerSymbolSize +
           ".customPostfix:" +
           featureCollectionKeyPostfix
         }
@@ -128,7 +136,7 @@ const FeatureCollection = (props) => {
         style={_style}
         hoverer={featureHoverer}
         labeler={featureLabeler}
-        featureStylerScalableImageSize={32}
+        featureStylerScalableImageSize={markerSymbolSize}
         featureClickHandler={internalFeatureClickHandler}
         mapRef={(_mapRef || {}).leafletMap}
         showMarkerCollection={showMarkerCollection}

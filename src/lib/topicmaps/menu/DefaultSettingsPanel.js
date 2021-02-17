@@ -25,6 +25,8 @@ const SettingsPanel = (props) => {
   const { setAppMenuActiveMenuSection, setAppMenuVisible } = useContext(UIDispatchContext);
   const { activeMenuSection } = useContext(UIContext);
   const { routedMapRef } = useContext(TopicMapContext);
+  const { setMarkerSymbolSize } = useContext(TopicMapStylingDispatchContext);
+  const { markerSymbolSize } = useContext(TopicMapStylingContext);
   const {
     allFeatures,
     getFeatureStyler,
@@ -51,8 +53,8 @@ const SettingsPanel = (props) => {
     activeLayerKey,
     backgroundModes,
     changeMarkerSymbolSize,
-    currentMarkerSize = 24,
-    getSymbolSVG = () => {},
+    currentMarkerSize,
+    getSymbolSVG,
     symbolColor = "#2664D8",
 
     // previewMapLat = 51.25910046459786,
@@ -66,6 +68,8 @@ const SettingsPanel = (props) => {
     previewMapClusteringEnabled,
     previewMapClusteringOptions,
   } = props;
+  const _changeMarkerSymbolSize = changeMarkerSymbolSize || setMarkerSymbolSize;
+  const _markerSymbolSize = currentMarkerSize || markerSymbolSize;
   let namedMapStyleFromUrl = new URLSearchParams(window.location.href).get("mapStyle") || "default";
 
   const _namedMapStyle = namedMapStyleFromUrl;
@@ -100,7 +104,7 @@ const SettingsPanel = (props) => {
         {getLayersByName(backgroundsFromMode, _namedMapStyle)}
         <FeatureCollectionDisplay
           key={
-            "FeatureCollectionDisplayPreview." + currentMarkerSize + clusteringEnabled
+            "FeatureCollectionDisplayPreview." + _markerSymbolSize + clusteringEnabled
             // +
             //   this.props.featureKeySuffixCreator() +
             //   "clustered:" +
@@ -111,14 +115,14 @@ const SettingsPanel = (props) => {
           featureCollection={previewFeatureCollection || allFeatures}
           clusteringEnabled={previewMapClusteringEnabled || clusteringEnabled}
           clusterOptions={previewMapClusteringOptions || clusteringOptions}
-          style={getFeatureStyler(currentMarkerSize, getColorFromProperties)}
+          style={getFeatureStyler(_markerSymbolSize, getColorFromProperties)}
           featureStylerScalableImageSize={currentMarkerSize}
           //mapRef={previewMapRef} // commented out because there cannot be a ref in a functional comp and it is bnot needed
           showMarkerCollection={false}
         />
       </Map>
     );
-  }, [backgroundsFromMode, _namedMapStyle, clusteringEnabled]);
+  }, [backgroundsFromMode, _namedMapStyle, clusteringEnabled, _markerSymbolSize]);
 
   const preview = (
     <div>
@@ -142,7 +146,7 @@ const SettingsPanel = (props) => {
           preview={preview}
           settingsSections={[
             <Form>
-              <Form.Label>Einstellungen :</Form.Label>
+              <Form.Label>Einstellungen:</Form.Label>
               <br />
               {/* <Form.Check
                 type="check"
@@ -198,8 +202,8 @@ const SettingsPanel = (props) => {
               activeLayerKey={activeLayerKey}
             />,
             <SymbolSizeChooser
-              changeMarkerSymbolSize={changeMarkerSymbolSize}
-              currentMarkerSize={currentMarkerSize}
+              changeMarkerSymbolSize={_changeMarkerSymbolSize}
+              currentMarkerSize={_markerSymbolSize}
               getSymbolSVG={getSymbolSVG}
               symbolColor={symbolColor}
             />,

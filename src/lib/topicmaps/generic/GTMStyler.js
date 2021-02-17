@@ -11,6 +11,8 @@ export const getColorFromProperties = (props) => props.color;
 // export const getClusterIconCreatorFunction = ()
 
 const getFeatureStyler = (svgSize = 24, colorizer = getColorFromProperties) => {
+  console.log("xxx getFeatureStyler", svgSize, colorizer);
+
   const styler = (feature) => {
     var color = new Color(colorizer(feature.properties));
     let radius = svgSize / 2; //needed for the Tooltip Positioning
