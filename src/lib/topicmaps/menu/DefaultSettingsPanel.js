@@ -20,6 +20,7 @@ import {
   TopicMapStylingContext,
   TopicMapStylingDispatchContext,
 } from "../../contexts/TopicMapStylingContextProvider";
+import { getSymbolSVGGetter } from "../../tools/uiHelper";
 
 const SettingsPanel = (props) => {
   const { setAppMenuActiveMenuSection, setAppMenuVisible } = useContext(UIDispatchContext);
@@ -33,6 +34,7 @@ const SettingsPanel = (props) => {
     getColorFromProperties,
     clusteringEnabled,
     clusteringOptions,
+    getSymbolSVG: getSymbolSVGFromContext,
   } = useContext(FeatureCollectionContext);
   const { setClusteringEnabled } = useContext(FeatureCollectionDispatchContext);
   const { windowSize } = useContext(ResponsiveTopicMapContext);
@@ -71,6 +73,31 @@ const SettingsPanel = (props) => {
   const _changeMarkerSymbolSize = changeMarkerSymbolSize || setMarkerSymbolSize;
   const _markerSymbolSize = currentMarkerSize || markerSymbolSize;
   let namedMapStyleFromUrl = new URLSearchParams(window.location.href).get("mapStyle") || "default";
+  let _getSymbolSVG = getSymbolSVG || getSymbolSVGFromContext;
+  console.log("xxx _getSymbolSVG", _getSymbolSVG);
+  if (_getSymbolSVG === undefined) {
+    try {
+      if (
+        allFeatures?.length > 0 &&
+        allFeatures[0]?.properties?.svgBadge &&
+        allFeatures[0]?.properties?.svgBadgeDimension
+      ) {
+        // console.log(
+        //   "xxx try to set getSymbolSVG from featurecollection for ",
+        //   allFeatures[0]?.properties?.svgBadge,
+        //   allFeatures[0]?.properties?.svgBadgeDimension
+        // );
+
+        _getSymbolSVG = getSymbolSVGGetter(
+          allFeatures[0]?.properties?.svgBadge,
+          allFeatures[0]?.properties?.svgBadgeDimension
+        );
+      }
+    } catch (e) {
+      // console.log("xxx error when trying to get getSymbolSVG from featurecollection", e);
+      //in this case a default Icon is shown
+    }
+  }
 
   const _namedMapStyle = namedMapStyleFromUrl;
   const layers = routedMapRef?.props?.backgroundlayers;
@@ -204,7 +231,7 @@ const SettingsPanel = (props) => {
             <SymbolSizeChooser
               changeMarkerSymbolSize={_changeMarkerSymbolSize}
               currentMarkerSize={_markerSymbolSize}
-              getSymbolSVG={getSymbolSVG}
+              getSymbolSVG={_getSymbolSVG}
               symbolColor={symbolColor}
             />,
           ]}

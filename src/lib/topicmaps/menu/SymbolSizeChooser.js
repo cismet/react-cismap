@@ -11,7 +11,7 @@ const SymbolSizeChooser = ({
   title,
   changeMarkerSymbolSize,
   currentMarkerSize,
-  getSymbolSVG = getSymbolSVGGetter(),
+  getSymbolSVG,
   symbolColor,
   additionalConfig,
   sizeMulitplier,
@@ -24,7 +24,7 @@ const SymbolSizeChooser = ({
 
   const config = objectAssign({}, defaultConfig, additionalConfig);
 
-  console.log("xxx _currentMarkerSize", currentMarkerSize);
+  let _getSymbolSVG = getSymbolSVG || getSymbolSVGGetter();
 
   return (
     <Form.Group>
