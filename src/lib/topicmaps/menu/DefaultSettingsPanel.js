@@ -74,7 +74,6 @@ const SettingsPanel = (props) => {
   const _markerSymbolSize = currentMarkerSize || markerSymbolSize;
   let namedMapStyleFromUrl = new URLSearchParams(window.location.href).get("mapStyle") || "default";
   let _getSymbolSVG = getSymbolSVG || getSymbolSVGFromContext;
-  console.log("xxx _getSymbolSVG", _getSymbolSVG);
   if (_getSymbolSVG === undefined) {
     try {
       if (

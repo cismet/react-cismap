@@ -91,7 +91,7 @@ const GenericModalApplicationMenu = ({
               <td>
                 <Button
                   id="cmdCloseModalApplicationMenu"
-                  bsStyle="primary"
+                  variant="primary"
                   type="submit"
                   onClick={close}
                 >

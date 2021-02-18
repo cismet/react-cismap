@@ -15,9 +15,6 @@ const GenericModalMenuSection = ({
   activeSectionKey,
   setActiveSectionKey = () => {},
 }) => {
-  console.log("sectionKey", sectionKey);
-  console.log("activeSectionKey", activeSectionKey);
-
   return (
     <Accordion
       key={sectionKey + "." + activeSectionKey}

@@ -43,7 +43,6 @@ const NamedMapStyleChooser = ({
       history.push(url);
     });
   let location = history?.location?.pathname;
-  console.log("zzz location", location);
 
   if (location === "undefined") {
     location = "/";
@@ -53,19 +52,14 @@ const NamedMapStyleChooser = ({
   const _search = search || history?.location?.search;
   const _activeLayerKey = activeLayerKey || selectedBackground;
   const _setLayerByKey = setLayerByKey || setSelectedBackground;
-  console.log("zzz _setLayerByKey", _setLayerByKey);
 
   const _modes = modes || backgroundModes;
-  console.log("yyy currentNamedMapStyle", currentNamedMapStyle);
-  console.log("yyy _activeLayerKey", _activeLayerKey);
   return (
     <Form.Group>
       <Form.Label>{title}</Form.Label>
       <br />
       {children !== undefined && beforelayerradios === true && children}
       {_modes.map((item, key) => {
-        console.log("yyy item.layerKey", item.layerKey);
-
         return (
           <span key={"radiobutton.nr." + key}>
             <Form.Check
@@ -76,8 +70,6 @@ const NamedMapStyleChooser = ({
               onClick={(e) => {
                 if (e.target.checked === true) {
                   if (item.layerKey) {
-                    console.log("zzz setLayerByKey", item.layerKey);
-
                     _setLayerByKey(item.layerKey);
                   }
                   if (item.mode === "default") {
@@ -111,12 +103,3 @@ const NamedMapStyleChooser = ({
 };
 
 export default NamedMapStyleChooser;
-NamedMapStyleChooser.propTypes = {
-  title: PropTypes.string,
-  vertical: PropTypes.bool,
-  currentNamedMapStyle: PropTypes.string.isRequired,
-  pathname: PropTypes.string.isRequired,
-  search: PropTypes.string.isRequired,
-  pushNewRoute: PropTypes.func.isRequired,
-  modes: PropTypes.array,
-};

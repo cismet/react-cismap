@@ -83,32 +83,6 @@ const FeatureCollectionContextProvider = ({
     getSymbolSVG,
   });
 
-  //   if (state.getSymbolSVG === undefined) {
-  //     try {
-  //       if (
-  //         state?.allFeatures?.length > 0 &&
-  //         state?.allFeatures[0]?.properties?.svgBadge &&
-  //         state?.allFeatures[0]?.properties?.svgBadgeDimension
-  //       ) {
-  //         console.log(
-  //           "xxx try to set getSymbolSVG from featurecollection for ",
-  //           state?.allFeatures[0]?.properties?.svgBadge,
-  //           state?.allFeatures[0]?.properties?.svgBadgeDimension
-  //         );
-
-  //         dispatch((state) => {
-  //           state.getSymbolSVG = getSymbolSVGGetter(
-  //             state?.allFeatures[0]?.properties?.svgBadge,
-  //             state?.allFeatures[0]?.properties?.svgBadgeDimension
-  //           );
-  //         });
-  //       } else {
-  //       }
-  //     } catch (e) {
-  //       console.log("xxx error when trying to get getSymbolSVG from featurecollection", e);
-  //     }
-  //   }
-
   const { boundingBox } = useContext(TopicMapContext);
   const set = (prop) => {
     return (x) => {

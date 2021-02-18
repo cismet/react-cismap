@@ -91,8 +91,6 @@ const FAQEntry = ({
   content,
   showOnSeperatePage,
 }) => {
-  console.log("faqEntryContent", content);
-
   return (
     <div>
       <div name={id}>

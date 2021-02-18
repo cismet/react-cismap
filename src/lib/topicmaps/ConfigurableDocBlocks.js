@@ -35,14 +35,10 @@ const ConfigurableDocBlocks = ({
   ],
   style,
 }) => {
-  console.log("xxx configs", configs);
-
   const blocks = [];
   for (const block of configs) {
     blocks.push(getBlock4Config(block));
   }
-  console.log("xxx blocks", configs);
-
   return <div style={style}>{blocks}</div>;
 };
 
@@ -125,13 +121,6 @@ const getBlock4Config = (block, key) => {
       let i = 0;
       for (const faqConfig of block.configs) {
         let key = "DOCBLOCKSTYLES.FAQS." + i;
-        console.log("FAQ", faqConfig.contentBlockConf);
-        console.log(
-          "FAQ2",
-          getBlock4Config(faqConfig.contentBlockConf, key),
-          faqConfig.contentBlockConf
-        );
-
         if (faqConfig.contentBlockConf !== undefined) {
           faqConfig.content = getBlock4Config(faqConfig.contentBlockConf, key);
         }

@@ -33,9 +33,10 @@ const AppMenu = (props) => {
   );
 
   let _sections = {
-    _00settings: <DefaultSettingsPanel />,
+    _00settings: <DefaultSettingsPanel key="settings" />,
     _99help: (
       <Section
+        key="help"
         sectionKey="HelpSection"
         sectionTitle="Kompaktanleitung"
         sectionBsStyle="success"

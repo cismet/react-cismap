@@ -87,8 +87,6 @@ const TopicMapComponent = (props) => {
   } else {
     _urlSearchParams = urlSearchParams;
   }
-  console.log("yyy selectedBackground", selectedBackground);
-
   let backgroundsFromMode;
   try {
     backgroundsFromMode = backgroundConfigurations[selectedBackground].layerkey;
@@ -108,9 +106,11 @@ const TopicMapComponent = (props) => {
   const { appMenuVisible, appMenuActiveMenuSelection } = uiContext;
   const { setAppMenuVisible, setAppMenuActiveMenuSection } = useContext(UIDispatchContext);
 
-  if (leafletRoutedMapRef.current !== null) {
-    setRoutedMapRef(leafletRoutedMapRef.current);
-  }
+  useEffect(() => {
+    if (leafletRoutedMapRef.current !== null) {
+      setRoutedMapRef(leafletRoutedMapRef.current);
+    }
+  }, [leafletRoutedMapRef, setRoutedMapRef]);
 
   const _mapStyle = {
     cursor: "pointer",
