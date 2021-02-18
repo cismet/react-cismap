@@ -30,6 +30,9 @@ const TopicMapContextProvider = ({
   clusteringEnabled = true,
   clusteringOptions,
   getSymbolSVG,
+  featureItemsURL,
+  convertItemToFeature,
+  featureCollectionName,
 }) => {
   const [state, dispatch] = useImmer({ ...defaultState, history });
 
@@ -83,6 +86,9 @@ const TopicMapContextProvider = ({
             clusteringEnabled={clusteringEnabled}
             clusteringOptions={clusteringOptions}
             getSymbolSVG={getSymbolSVG}
+            itemsURL={featureItemsURL}
+            convertItemToFeature={convertItemToFeature}
+            featureCollectionName={featureCollectionName}
           >
             <ResponsiveTopicMapContextProvider enabled={responsiveContextEnabled}>
               <UIContextProvider enabled={uiContextEnabled}>{children}</UIContextProvider>

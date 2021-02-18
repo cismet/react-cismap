@@ -1,18 +1,41 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import InfoBox from "./InfoBox";
 import { getActionLinksForFeature } from "../tools/uiHelper";
 import Icon from "../commons/Icon";
 import { FeatureCollectionContext } from "../contexts/FeatureCollectionContextProvider";
 import { TopicMapDispatchContext } from "../contexts/TopicMapContextProvider";
+import { ResponsiveTopicMapDispatchContext } from "../contexts/ResponsiveTopicMapContextProvider";
+
 export const getColorForProperties = (props = { color: "#dddddd" }) => {
   return props.color;
 };
 
+const defaultConfig = {
+  city: "gesamtem Bereich verfügbar",
+  header: "Information zum Objekt",
+  navigator: {
+    noun: {
+      singular: "Objekt",
+      plural: "Objekte",
+    },
+  },
+  noCurrentFeatureTitle: "Keine Objekte gefunden",
+  noCurrentFeatureContent: "",
+};
+
 const Component = (props) => {
-  const { config, pixelwidth } = props;
+  let { config, pixelwidth = 300 } = props;
   const featureCollectionContext = useContext(FeatureCollectionContext);
   const { zoomToFeature, gotoHome } = useContext(TopicMapDispatchContext);
-  const { shownFeatures = [], selectedFeature, items = [] } = featureCollectionContext;
+  const { setInfoBoxPixelWidth } = useContext(ResponsiveTopicMapDispatchContext);
+  const {
+    shownFeatures = [],
+    selectedFeature,
+    allFeatures = 0,
+    items = [],
+  } = featureCollectionContext;
+
+  config = { ...defaultConfig, ...config };
 
   let currentFeature, featureCollection;
 
@@ -21,6 +44,9 @@ const Component = (props) => {
     featureCollection = shownFeatures || [];
   }
   let links = [];
+  useEffect(() => {
+    setInfoBoxPixelWidth(pixelwidth);
+  }, [pixelwidth]);
 
   let header, title, subtitle, additionalInfo;
   if (currentFeature !== undefined) {
@@ -33,10 +59,10 @@ const Component = (props) => {
         config.displaySecondaryInfoAction === undefined,
       setVisibleStateOfSecondaryInfo: (vis) => this.setState({ secondaryInfoVisible: vis }),
     });
-    header = <span>{currentFeature.properties.info.header || config.header}</span>;
-    title = currentFeature.properties.info.title;
-    subtitle = currentFeature.properties.info.subtitle;
-    additionalInfo = currentFeature.properties.info.additionalInfo;
+    header = <span>{currentFeature?.properties?.info?.header || config.header}</span>;
+    title = currentFeature?.properties?.info?.title;
+    subtitle = currentFeature?.properties?.info?.subtitle;
+    additionalInfo = currentFeature?.properties?.info?.additionalInfo;
   }
   const headerColor = getColorForProperties((currentFeature || {}).properties);
 
@@ -92,7 +118,7 @@ const Component = (props) => {
           </div>
         </div>
       }
-      hideNavigator={featureCollection.length <= 1}
+      hideNavigator={allFeatures?.length === 1}
       fitAll={gotoHome}
     />
   );

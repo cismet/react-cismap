@@ -1,7 +1,7 @@
 {
 	"name": "react-cismap",
 	"description": "our (cismet) mapping (pattern) library for better reusability in different projects",
-	"version": "0.9.0-experimental-3",
+	"version": "0.9.0-experimental-5",
 	"main": "index.js",
 	"module": "index.js",
 	"files": [
@@ -82,6 +82,7 @@
 	"devDependencies": {
 		"@babel/cli": "^7.7.0",
 		"@babel/core": "^7.3.3",
+		"@babel/plugin-proposal-optional-chaining": "^7.12.16",
 		"@babel/preset-env": "^7.3.1",
 		"@fortawesome/fontawesome-free": "^5.12.0",
 		"@storybook/addon-actions": "^6.1.11",
@@ -124,6 +125,9 @@
 	"babel": {
 		"presets": [
 			"@babel/react"
+		],
+		"plugins": [
+			"@babel/plugin-proposal-optional-chaining"
 		]
 	}
 }

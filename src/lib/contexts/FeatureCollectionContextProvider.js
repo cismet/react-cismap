@@ -48,7 +48,7 @@ const getItems = async ({
   const features = [];
   let id = 0;
   for (const item of items) {
-    const f = convertItemToFeature(item);
+    const f = await convertItemToFeature(item);
     f.selected = false;
     f.id = id++;
 
@@ -73,6 +73,9 @@ const FeatureCollectionContextProvider = ({
   getSymbolSVG,
   clusteringEnabled = false,
   clusteringOptions,
+  itemsURL,
+  featureCollectionName,
+  convertItemToFeature,
 }) => {
   const [state, dispatch] = useImmer({
     ...defaultState,
@@ -193,10 +196,12 @@ const FeatureCollectionContextProvider = ({
   }, [boundingBox, featureIndex, allFeatures, selectedIndexState]);
 
   const load = (url) => {
-    getItems({ itemsUrl: url, ...setX });
+    getItems({ itemsUrl: url, ...setX, name: featureCollectionName, convertItemToFeature });
   };
   useEffect(() => {
-    load("https://wunda-geoportal.cismet.de/data/parkscheinautomatenfeatures.json");
+    if (itemsURL) {
+      load(itemsURL);
+    }
   }, []);
 
   if (enabled === true) {

@@ -21,9 +21,9 @@ export const getDefaultFeatureStyler = (size = 24, colorizer = () => "#2664D8") 
   return (feature) => {
     let color;
     if (feature.selected === true) {
-      color = new Color(colorizer(feature));
+      color = new Color("#2664D8");
     } else {
-      color = new Color("#85D259");
+      color = new Color(colorizer(feature.properties));
     }
     return {
       radius: size / 2.4,
@@ -83,7 +83,10 @@ const FeatureCollection = (props) => {
   } else if (getFeatureStyler !== undefined) {
     _style = getFeatureStyler(markerSymbolSize, getColorFromProperties || ((props) => props.color));
   } else {
-    _style = getDefaultFeatureStyler(markerSymbolSize, getColorFromProperties);
+    _style = getDefaultFeatureStyler(
+      markerSymbolSize,
+      getColorFromProperties || ((props) => props.color)
+    );
   }
 
   const _clusterOptions = {

@@ -18,7 +18,7 @@ import {
   TopicMapStylingContext,
   TopicMapStylingDispatchContext,
 } from "../contexts/TopicMapStylingContextProvider";
-
+import DefaultAppMenu from "./menu/DefaultAppMenu";
 const TopicMapComponent = (props) => {
   const leafletRoutedMapRef = useRef(null);
   const infoBoxRef = useRef(null);
@@ -145,9 +145,10 @@ const TopicMapComponent = (props) => {
     width: infoBox.props.pixelwidth,
   };
 
+  const _modalMenu = modalMenu || <DefaultAppMenu />;
   return (
     <div>
-      {modalMenu}
+      {_modalMenu}
       <Loadable
         active={pendingLoader > 0 && !noInitialLoadingText}
         spinner

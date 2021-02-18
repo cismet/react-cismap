@@ -120,7 +120,7 @@ const SettingsPanel = (props) => {
 
     setMapPreview(
       <Map
-        key={"map" + allFeatures.length + selectedBackground + _namedMapStyle}
+        key={"map" + allFeatures?.length + selectedBackground + _namedMapStyle}
         crs={MappingConstants.crs25832}
         style={{ height: 300 }}
         center={{
@@ -211,14 +211,9 @@ const SettingsPanel = (props) => {
                     console.log("xxx onClick", e);
                   }}
                   onChange={(e) => {
-                    console.log("xxx e", e);
-
                     if (e.target.checked === false) {
-                      console.log("xxx  setClusteringEnabled(false)");
                       setClusteringEnabled(false);
                     } else {
-                      console.log("xxx  setClusteringEnabled(false)");
-
                       setClusteringEnabled(true);
                     }
                   }}

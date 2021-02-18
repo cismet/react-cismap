@@ -1,0 +1,3094 @@
+[
+    {
+        "beschreibung": "Photovoltaikanlage (115 kWp) auf dem Parkplatz des Campus Freudenberg. Der Strom wird für das Laden von Elektrofahrzeugen genutzt. ",
+        "website": "https://ema.uni-wuppertal.de/de/photovoltaikanlage.php",
+        "kategorien": [
+            "Sonnenenergie"
+        ],
+        "thema": {
+            "id": 3,
+            "name": "Anlagen_Erneuerbare Energie",
+            "icon": "Klima_Icon_Anlagen_Energie_farbig.svg",
+            "farbe": "#57AF36"
+        },
+        "standort": {
+            "name": "Bergische Universität Wuppertal (Campus Freudenberg) - Photovoltaikanlage",
+            "plz": "42119",
+            "stadt": "Wuppertal",
+            "strasse": "Rainer-Gruenter-Straße",
+            "hausnummer": "20",
+            "erreichbarkeit": "Radwanderwege: R4a / R4 / R3 / R2",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371664.740999999979977,
+                    5678032.088999999687076
+                ]
+            },
+            "id": 75
+        },
+        "id": 9
+    },
+    {
+        "beschreibung": "Zwei Photovoltaikanlagen (je 5,5 kWp). Der Strom wird in das Hausnetz der Bergischen Universität eingespeist.",
+        "website": "https://www.wsw-online.de/wsw-energie-wasser/privatkunden/nachhaltigkeit/erneuerbare-energien/",
+        "kategorien": [
+            "Sonnenenergie"
+        ],
+        "thema": {
+            "id": 3,
+            "name": "Anlagen_Erneuerbare Energie",
+            "icon": "Klima_Icon_Anlagen_Energie_farbig.svg",
+            "farbe": "#57AF36"
+        },
+        "standort": {
+            "name": "Bergische Universität Wuppertal (Campus Grifflenberg)",
+            "plz": "42119",
+            "stadt": "Wuppertal",
+            "strasse": "Gaußstraße",
+            "hausnummer": "20",
+            "erreichbarkeit": "Radwanderwege: R4 / R4a ",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370865.596000000019558,
+                    5678778.593999999575317
+                ]
+            },
+            "id": 34
+        },
+        "id": 10
+    },
+    {
+        "beschreibung": "Gesamtsanierung",
+        "website": "https://www.wuppertal.de/microsite/gmw/gebaeude_erleben/aktuelle_projekte/Berufskolleg-Haspel.php",
+        "kategorien": [
+            "klimagerechtes Gebäude"
+        ],
+        "thema": {
+            "id": 7,
+            "name": "Klimasiedlung_Klimagerechte Gebäude",
+            "icon": "Klima_Icon_Klimasiedlung_farbig.svg",
+            "farbe": "#556C2F"
+        },
+        "standort": {
+            "name": "Berufskolleg am Haspel ",
+            "plz": "42285",
+            "stadt": "Wuppertal",
+            "strasse": "Haspeler Straße",
+            "hausnummer": "25",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371975.924999999988358,
+                    5680236.807000000029802
+                ]
+            },
+            "id": 40
+        },
+        "id": 12
+    },
+    {
+        "beschreibung": "Nachbarschaftliche Projekte mit den Schwerpunkten Kunst, Klimaschutz, Kultur und Gemeinschaft.",
+        "website": "http://bob-kulturwerk.de/",
+        "kategorien": [
+            "Klimaschutz",
+            "Quartiersentwicklung"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Bob Kulturwerk e.V.",
+            "plz": "42277",
+            "stadt": "Wuppertal",
+            "strasse": "Wichlinghauser Straße ",
+            "hausnummer": "38",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / R2 / R5",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    375743.137999999977183,
+                    5682251.968999999575317
+                ]
+            },
+            "id": 88
+        },
+        "id": 13
+    },
+    {
+        "beschreibung": "Lehrveranstaltungen, Ausstellungen und Führungen, z. B. zu kultivierten, gefährdeten Pflanzenarten.",
+        "website": "http://www.botanischer-garten-wuppertal.de/wordpress/",
+        "kategorien": [
+            "Umweltbildung"
+        ],
+        "thema": {
+            "id": 6,
+            "name": "Erwachsenenbildung",
+            "icon": "Klima_Icon_Bildungseinrichtung_Erw_farbig.svg",
+            "farbe": "#BBAA1E"
+        },
+        "standort": {
+            "name": "Botanischer Garten Wuppertal",
+            "plz": "42107",
+            "stadt": "Wuppertal",
+            "strasse": "Elisenhöhe",
+            "hausnummer": "1",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371649.510999999998603,
+                    5680416.358000000007451
+                ]
+            },
+            "id": 20
+        },
+        "id": 14
+    },
+    {
+        "beschreibung": "Natur- und Artenschutzprojekte",
+        "website": "http://www.bund-kgwuppertal.de/startseite/",
+        "kategorien": [
+            "Naturschutz",
+            "Umweltschutz",
+            "Klimaschutz"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Bund für Umwelt- und Naturschutz (BUND) Kreisgruppe Wuppertal",
+            "plz": "42369",
+            "stadt": "Wuppertal",
+            "strasse": "Luhnsfelder Höhe ",
+            "hausnummer": "27",
+            "erreichbarkeit": "Radwanderwege: R4a / R2 / R3 / R4",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    373362.430999999982305,
+                    5676884.121000000275671
+                ]
+            },
+            "id": 67
+        },
+        "id": 15
+    },
+    {
+        "beschreibung": "Windenergieanlage (600 kW) auf den Südhöhen (Cronenberg) der Stadt Wuppertal. Der Strom wird in das Stromnetz eingespeist. ",
+        "website": "https://talmarkt.wsw-online.de/producers/8f1f5727-4d28-4473-8275-447027202ba1",
+        "kategorien": [
+            "Windenergie"
+        ],
+        "thema": {
+            "id": 3,
+            "name": "Anlagen_Erneuerbare Energie",
+            "icon": "Klima_Icon_Anlagen_Energie_farbig.svg",
+            "farbe": "#57AF36"
+        },
+        "standort": {
+            "name": "Bürgerwind Cronenberg",
+            "plz": "42349",
+            "stadt": "Wuppertal",
+            "strasse": "Korzert",
+            "hausnummer": "15",
+            "erreichbarkeit": "Radwanderwege: Sambatrasse /  R4 / R4a / R3 / R3a",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370319.534999999974389,
+                    5676519.546000000089407
+                ]
+            },
+            "id": 60
+        },
+        "id": 16
+    },
+    {
+        "beschreibung": "Mitmachnetzwerk zur Quartiersentwicklung mit Arbeitsgruppen z.B. zu Mobilität, Urban Gardening und Photovoltaik.",
+        "website": "https://cronenberg-will-mehr.de/",
+        "kategorien": [
+            "Klimaschutz",
+            "Quartiersentwicklung"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Cronenberg will mehr: Mitmachnetzwerk Cronenberg",
+            "plz": "42349",
+            "stadt": "Wuppertal",
+            "strasse": "Hauptstraße",
+            "hausnummer": "39",
+            "erreichbarkeit": "Radwanderwege: Sambatrasse / R3 / R3a u. R4",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    369530.108000000007451,
+                    5674463.987999999895692
+                ]
+            },
+            "id": 41
+        },
+        "id": 17
+    },
+    {
+        "beschreibung": "Denkmalgeschützte gründerzeitliche Freitreppe im Stadtbezirk Barmen, die in die Barmer Anlagen führt.",
+        "kategorien": [
+            "Fuß- / Radweg"
+        ],
+        "thema": {
+            "id": 2,
+            "name": "Orte der Mobilität",
+            "icon": "Klima_Icon_Ort_Mobilitaet_farbig.svg",
+            "farbe": "#695656"
+        },
+        "standort": {
+            "name": "Dicke-Ibach-Treppe",
+            "plz": "42289",
+            "stadt": "Wuppertal",
+            "strasse": "Joseph-Haydn-Straße",
+            "hausnummer": "25",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / R2 / R5",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    374999.518999999971129,
+                    5680774.55599999986589
+                ]
+            },
+            "id": 55
+        },
+        "id": 18
+    },
+    {
+        "beschreibung": "Denkmalgeschützte Freitreppe im Stadtbezirk Elberfeld. Die Treppe verbindet die tallagige Straße Hofkamp mit der höher gelegenen Elisenstraße.",
+        "kategorien": [
+            "Fuß- / Radweg"
+        ],
+        "thema": {
+            "id": 2,
+            "name": "Orte der Mobilität",
+            "icon": "Klima_Icon_Ort_Mobilitaet_farbig.svg",
+            "farbe": "#695656"
+        },
+        "standort": {
+            "name": "Elisentreppe",
+            "plz": "42103",
+            "stadt": "Wuppertal",
+            "strasse": "Hofkamp",
+            "hausnummer": "165",
+            "erreichbarkeit": "Radwanderweg: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371620.952999999979511,
+                    5680077.105999999679625
+                ]
+            },
+            "id": 48
+        },
+        "id": 19
+    },
+    {
+        "beschreibung": "Operative Plattform zur Energieberatung im Auftrag der Landesregierung NRW.",
+        "website": "https://www.energieagentur.nrw/eanrw",
+        "kategorien": [
+            "Energieberatung"
+        ],
+        "thema": {
+            "id": 5,
+            "name": "Beratung",
+            "icon": "Klima_Icon_Beratung_farbig.svg",
+            "farbe": "#538DD5"
+        },
+        "standort": {
+            "name": "EnergieAgentur.NRW",
+            "plz": "42103",
+            "stadt": "Wuppertal",
+            "strasse": "Kasinostraße",
+            "hausnummer": "19",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370384.695999999996275,
+                    5679990.946999999694526
+                ]
+            },
+            "id": 57
+        },
+        "id": 20
+    },
+    {
+        "beschreibung": "Denkmalgeschützte Freitreppe im Stadtbezirk Elberfeld. Die Treppe verbindet die tallagige Straße Am Engelnberg mit der höher gelegenen Hagenauer Straße.",
+        "kategorien": [
+            "Fuß- / Radweg"
+        ],
+        "thema": {
+            "id": 2,
+            "name": "Orte der Mobilität",
+            "icon": "Klima_Icon_Ort_Mobilitaet_farbig.svg",
+            "farbe": "#695656"
+        },
+        "standort": {
+            "name": "Engelnbergtreppe",
+            "plz": "42107",
+            "stadt": "Wuppertal",
+            "strasse": "Am Engelnberg",
+            "hausnummer": "20",
+            "erreichbarkeit": "Radwanderweg: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371246.846000000019558,
+                    5680906.294999999925494
+                ]
+            },
+            "id": 5
+        },
+        "id": 21
+    },
+    {
+        "beschreibung": "Fienchen-Garage: Garage für kostenlosen Lasten-Fahrrad-Verleih.",
+        "website": "https://fahrradstadtwuppertal.de/projekte/fienchen-garage/",
+        "kategorien": [
+            "Mobilität"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Fahrradstadt Wuppertal e.V.",
+            "plz": "42283",
+            "stadt": "Wuppertal",
+            "strasse": "Rödiger Straße",
+            "hausnummer": "23",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    373841.549999999988358,
+                    5681649.314000000245869
+                ]
+            },
+            "id": 76
+        },
+        "id": 22
+    },
+    {
+        "beschreibung": "Finanzierung von Veranstaltungen und Projekten der Station Natur und Umwelt.",
+        "website": "https://www.stnu.de",
+        "kategorien": [
+            "Naturschutz",
+            "Umweltschutz"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Förderverein Station Natur und Umwelt e. V.",
+            "plz": "42349",
+            "stadt": "Wuppertal",
+            "strasse": "Jägerhofstraße",
+            "hausnummer": "229",
+            "erreichbarkeit": "Radwanderwege: R4 / R4a / R3 / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370940.292000000015832,
+                    5677250.826999999582767
+                ]
+            },
+            "id": 50
+        },
+        "id": 23
+    },
+    {
+        "beschreibung": "Großflächige extensive Flachdachbegrünung und effektive Fassadendämmung.",
+        "website": "https://www.gepa.de/home/meldungen/rathausempfang-klimagerechtigkeit-2017.html",
+        "kategorien": [
+            "begrüntes Gebäude",
+            "klimagerechtes Gebäude"
+        ],
+        "thema": {
+            "id": 7,
+            "name": "Klimasiedlung_Klimagerechte Gebäude",
+            "icon": "Klima_Icon_Klimasiedlung_farbig.svg",
+            "farbe": "#556C2F"
+        },
+        "standort": {
+            "name": "GEPA - The Fair Trade Company",
+            "plz": "42327",
+            "stadt": "Wuppertal",
+            "strasse": "GEPA-Weg",
+            "hausnummer": "1",
+            "erreichbarkeit": "Radwanderwege: R1 / Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    365438.690999999991618,
+                    5679156.850999999791384
+                ]
+            },
+            "id": 38
+        },
+        "id": 24
+    },
+    {
+        "beschreibung": "Blockheizkraftwerk, das mit Bio-Rapsöl Wärme und Strom (KWK - Kraft Wärme Kopplung) erzeugt. Der Strom wird ins öffentliche Energienetz eingespeist. ",
+        "website": "https://www.gepa.de/home/meldungen/rathausempfang-klimagerechtigkeit-2017.html",
+        "kategorien": [
+            "andere Energien"
+        ],
+        "thema": {
+            "id": 3,
+            "name": "Anlagen_Erneuerbare Energie",
+            "icon": "Klima_Icon_Anlagen_Energie_farbig.svg",
+            "farbe": "#57AF36"
+        },
+        "standort": {
+            "name": "GEPA - The Fair Trade Company",
+            "plz": "42327",
+            "stadt": "Wuppertal",
+            "strasse": "GEPA-Weg",
+            "hausnummer": "1",
+            "erreichbarkeit": "Radwanderwege: R1 / Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    365438.690999999991618,
+                    5679156.850999999791384
+                ]
+            },
+            "id": 38
+        },
+        "id": 25
+    },
+    {
+        "beschreibung": "Projekt \"energie gewinnt\": Integration von Klimaschutz und Energiesparen in den Schulalltag.",
+        "website": "https://www.wuppertal.de/microsite/gmw/energie_managen/energie-gewinnt/energie-gewinnt-Startseite.php",
+        "kategorien": [
+            "Klimabildung"
+        ],
+        "thema": {
+            "id": 4,
+            "name": "Kinder- und Jugendbildung",
+            "icon": "Klima_Icon_Bildungseinrichtung_KiJu_farbig.svg",
+            "farbe": "#FFC000"
+        },
+        "standort": {
+            "name": "Gebäudemanagement der Stadt Wuppertal - Team Energie",
+            "plz": "42285",
+            "stadt": "Wuppertal",
+            "strasse": "Müngstener Straße",
+            "hausnummer": "10",
+            "erreichbarkeit": "Radwanderwege: R4a",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    373619.223999999987427,
+                    5678858.766999999992549
+                ]
+            },
+            "id": 73
+        },
+        "id": 26
+    },
+    {
+        "beschreibung": "Gemeinnütziger Verein zur Erhaltung und Pflege des Naturschutzgebietes Gelpetal.",
+        "website": "http://www.gelpe.wtal.de/",
+        "kategorien": [
+            "Naturschutz"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Gelpe Verein e.V.",
+            "plz": "42349",
+            "stadt": "Wuppertal",
+            "strasse": "Mühlenberg",
+            "hausnummer": "4",
+            "erreichbarkeit": "Radwanderwege: Sambatrasse / R3",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371283.047000000020489,
+                    5675745.951000000350177
+                ]
+            },
+            "id": 72
+        },
+        "id": 27
+    },
+    {
+        "beschreibung": "Der Neubau an der Windstraße 20 wurde mit einer Photovoltaikanlage (28 kWp) ausgestattet.",
+        "website": "https://www.energieagentur.nrw/gebaeude/schulprojekte/else-lasker-schueler_gesamtschule",
+        "kategorien": [
+            "Sonnenenergie"
+        ],
+        "thema": {
+            "id": 3,
+            "name": "Anlagen_Erneuerbare Energie",
+            "icon": "Klima_Icon_Anlagen_Energie_farbig.svg",
+            "farbe": "#57AF36"
+        },
+        "standort": {
+            "name": "Gesamtschule Else Lasker-Schüler ",
+            "plz": "42107",
+            "stadt": "Wuppertal",
+            "strasse": "Windstraße",
+            "hausnummer": "20",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371067.128000000026077,
+                    5680709.950000000186265
+                ]
+            },
+            "id": 90
+        },
+        "id": 28
+    },
+    {
+        "beschreibung": "Der Neubau (Nebengebäude an der Windstraße 20) erfüllt die Anforderungen an ein Passivhaus.",
+        "website": "https://www.energieagentur.nrw/gebaeude/energieeffiziente-nichtwohngebaeude/schulprojekte/else-lasker-schueler_gesamtschule",
+        "kategorien": [
+            "klimagerechtes Gebäude"
+        ],
+        "thema": {
+            "id": 7,
+            "name": "Klimasiedlung_Klimagerechte Gebäude",
+            "icon": "Klima_Icon_Klimasiedlung_farbig.svg",
+            "farbe": "#556C2F"
+        },
+        "standort": {
+            "name": "Gesamtschule Else Lasker-Schüler ",
+            "plz": "42107",
+            "stadt": "Wuppertal",
+            "strasse": "Windstraße",
+            "hausnummer": "20",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371067.128000000026077,
+                    5680709.950000000186265
+                ]
+            },
+            "id": 90
+        },
+        "id": 29
+    },
+    {
+        "beschreibung": "Energetische Sanierung Gebäudehülle Haus 1 ",
+        "website": "https://www.wuppertal.de/microsite/gmw/gebaeude_erleben/aktuelle_projekte/Gesamtschule-Heinrich-Boell-Strasse-Gebaeudehuelle-Haus1.php",
+        "kategorien": [
+            "klimagerechtes Gebäude"
+        ],
+        "thema": {
+            "id": 7,
+            "name": "Klimasiedlung_Klimagerechte Gebäude",
+            "icon": "Klima_Icon_Klimasiedlung_farbig.svg",
+            "farbe": "#556C2F"
+        },
+        "standort": {
+            "name": "Gesamtschule Wuppertal-Langerfeld",
+            "plz": "42277",
+            "stadt": "Wuppertal",
+            "strasse": "Heinrich-Böll-Straße",
+            "hausnummer": "240",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / R2 / R5",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    376993.045999999972992,
+                    5682899.463999999687076
+                ]
+            },
+            "id": 43
+        },
+        "id": 30
+    },
+    {
+        "beschreibung": "Ehrenamtliche Gruppe mit Projekten zu lokalem und globalem Umwelt- und Klimaschutz.",
+        "website": "https://www.greenpeace.de/gruppen/wuppertal",
+        "kategorien": [
+            "Umweltschutz",
+            "Klimaschutz"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Greenpeace Gruppe Wuppertal",
+            "plz": "42103",
+            "stadt": "Wuppertal",
+            "strasse": "Döppersberg",
+            "hausnummer": "20",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371196.684999999997672,
+                    5679821.525999999605119
+                ]
+            },
+            "id": 16
+        },
+        "id": 31
+    },
+    {
+        "beschreibung": "Zooschule, Hummelschule: Projekte, Forschung und Lehre zum Schutz von Tieren, Pflanzen und Lebensräumen.",
+        "website": "https://www.wuppertal.de/microsite/zoo/index.php",
+        "kategorien": [
+            "Umweltbildung"
+        ],
+        "thema": {
+            "id": 4,
+            "name": "Kinder- und Jugendbildung",
+            "icon": "Klima_Icon_Bildungseinrichtung_KiJu_farbig.svg",
+            "farbe": "#FFC000"
+        },
+        "standort": {
+            "name": "Grüner Zoo Wuppertal",
+            "plz": "42117",
+            "stadt": "Wuppertal",
+            "strasse": "Hubertusallee ",
+            "hausnummer": "30",
+            "erreichbarkeit": "Radwanderwege: Sambatrasse / R4 / R3a",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    368047.320000000006985,
+                    5678339.682000000029802
+                ]
+            },
+            "id": 49
+        },
+        "id": 32
+    },
+    {
+        "beschreibung": "Teilsanierung: Umbau des Eingangsbereiches",
+        "website": "https://www.wuppertal.de/microsite/gmw/gebaeude_erleben/aktuelle_projekte/gymnasium-bayreuther-strasse.php",
+        "kategorien": [
+            "klimagerechtes Gebäude"
+        ],
+        "thema": {
+            "id": 7,
+            "name": "Klimasiedlung_Klimagerechte Gebäude",
+            "icon": "Klima_Icon_Klimasiedlung_farbig.svg",
+            "farbe": "#556C2F"
+        },
+        "standort": {
+            "name": "Gymansium Bayreuther Straße ",
+            "plz": "42115",
+            "stadt": "Wuppertal",
+            "strasse": "Bayreuther Straße",
+            "hausnummer": "35",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    369478.897999999986496,
+                    5680593.690000000409782
+                ]
+            },
+            "id": 9
+        },
+        "id": 33
+    },
+    {
+        "beschreibung": "Denkmalgeschützte Freitreppe im Stadtbezirk Uellendahl-Katernberg. Die Treppe verbindet die tallagige Eschenbeeker Straße mit der höher gelegenen Hamburger Straße",
+        "kategorien": [
+            "Fuß- / Radweg"
+        ],
+        "thema": {
+            "id": 2,
+            "name": "Orte der Mobilität",
+            "icon": "Klima_Icon_Ort_Mobilitaet_farbig.svg",
+            "farbe": "#695656"
+        },
+        "standort": {
+            "name": "Hamburger Treppe",
+            "plz": "42109",
+            "stadt": "Wuppertal",
+            "strasse": "Eschenbeeker Straße",
+            "hausnummer": "9c",
+            "erreichbarkeit": "Radwanderweg: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370762.978999999992084,
+                    5681564.860000000335276
+                ]
+            },
+            "id": 22
+        },
+        "id": 34
+    },
+    {
+        "beschreibung": "Gemeinschaftliche Reperaturen defekter Alltagsgeräte, Hilfe zur Selbsthilfe durch Freiwillige.",
+        "website": "https://heckinghausen-aktiv.de/reparatur-cafe/",
+        "kategorien": [
+            "Reparatur-Service"
+        ],
+        "thema": {
+            "id": 8,
+            "name": "Reparaturcafés",
+            "icon": "Klima_Icon_Reparaturcafe_farbig.svg",
+            "farbe": "#B27A08"
+        },
+        "standort": {
+            "name": "Heckinghausen a(ttra)ktiv",
+            "plz": "42289",
+            "stadt": "Wuppertal",
+            "strasse": "Bockmühle",
+            "hausnummer": "17",
+            "erreichbarkeit": "Radwanderwege: R2 / R5 / Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    376610.141999999992549,
+                    5681286.099000000394881
+                ]
+            },
+            "id": 11
+        },
+        "id": 35
+    },
+    {
+        "beschreibung": "Gesamtsanierung",
+        "website": "https://www.wuppertal.de/microsite/gmw/gebaeude_erleben/abgeschlossene_projekte/Realschule-Helmholtzstrasse-Sanierung.php",
+        "kategorien": [
+            "klimagerechtes Gebäude"
+        ],
+        "thema": {
+            "id": 7,
+            "name": "Klimasiedlung_Klimagerechte Gebäude",
+            "icon": "Klima_Icon_Klimasiedlung_farbig.svg",
+            "farbe": "#556C2F"
+        },
+        "standort": {
+            "name": "Hermann von Helmholtz Realschule",
+            "plz": "42105",
+            "stadt": "Wuppertal",
+            "strasse": "Helmholtzstraße",
+            "hausnummer": "40",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370432.505000000004657,
+                    5680982.473000000230968
+                ]
+            },
+            "id": 45
+        },
+        "id": 36
+    },
+    {
+        "beschreibung": "Landwirtschaftliche Hofgemeinschaft",
+        "website": "https://www.hof-kotthausen.de/",
+        "kategorien": [
+            "Naturschutz",
+            "Umweltschutz",
+            "Klimaschutz"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Hof Kotthausen",
+            "plz": "42399",
+            "stadt": "Wuppertal",
+            "strasse": "Kotthausen",
+            "hausnummer": "1",
+            "erreichbarkeit": "Radwanderwege: R5 / R5a",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    381452.618000000016764,
+                    5676793.381000000052154
+                ]
+            },
+            "id": 61
+        },
+        "id": 37
+    },
+    {
+        "beschreibung": "Außerschulischer Lernort mit bauernhofpädagogische Angeboten.",
+        "website": "https://www.hof-kotthausen.de/",
+        "kategorien": [
+            "Umweltbildung"
+        ],
+        "thema": {
+            "id": 4,
+            "name": "Kinder- und Jugendbildung",
+            "icon": "Klima_Icon_Bildungseinrichtung_KiJu_farbig.svg",
+            "farbe": "#FFC000"
+        },
+        "standort": {
+            "name": "Hof Kotthausen",
+            "plz": "42399",
+            "stadt": "Wuppertal",
+            "strasse": "Kotthausen",
+            "hausnummer": "1",
+            "erreichbarkeit": "Radwanderwege: R5 / R5a",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    381452.618000000016764,
+                    5676793.381000000052154
+                ]
+            },
+            "id": 61
+        },
+        "id": 38
+    },
+    {
+        "beschreibung": "Freitreppe im Stadtbezirk Elberfeld. Die Treppe verbindet die tallagige Straße Gathe und Uellendahler Straße mit der höher gelegenen Holsteiner Straße.",
+        "kategorien": [
+            "Fuß- / Radweg"
+        ],
+        "thema": {
+            "id": 2,
+            "name": "Orte der Mobilität",
+            "icon": "Klima_Icon_Ort_Mobilitaet_farbig.svg",
+            "farbe": "#695656"
+        },
+        "standort": {
+            "name": "Holsteiner Treppe",
+            "plz": "42107",
+            "stadt": "Wuppertal",
+            "strasse": "Gathe",
+            "hausnummer": "1",
+            "erreichbarkeit": "Radwanderweg: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370748.619000000006054,
+                    5680916.270999999716878
+                ]
+            },
+            "id": 32
+        },
+        "id": 39
+    },
+    {
+        "beschreibung": "Freitreppe im Stadtbezirk Elberfeld-West. Die Treppe verbindet die tallagige Friedrich-Ebert-Straße mit der tiefer gelegene Nützenberger Straße auf dem Nützenberg.",
+        "kategorien": [
+            "Fuß- / Radweg"
+        ],
+        "thema": {
+            "id": 2,
+            "name": "Orte der Mobilität",
+            "icon": "Klima_Icon_Ort_Mobilitaet_farbig.svg",
+            "farbe": "#695656"
+        },
+        "standort": {
+            "name": "Jakobstreppe",
+            "plz": "42117",
+            "stadt": "Wuppertal",
+            "strasse": "Friedrich-Ebert-Straße",
+            "hausnummer": "162",
+            "erreichbarkeit": "Radwanderweg: Sambatrasse / Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    369173.954000000027008,
+                    5679288.169999999925494
+                ]
+            },
+            "id": 24
+        },
+        "id": 41
+    },
+    {
+        "beschreibung": "Forscherplattform Bergisches Land: Verschiedene Projekte und Lehrveranstaltungen auf Altersklassen zugeschnitten.",
+        "website": "https://www.junioruni-wuppertal.de/de/",
+        "kategorien": [
+            "Umweltbildung",
+            "Klimabildung"
+        ],
+        "thema": {
+            "id": 4,
+            "name": "Kinder- und Jugendbildung",
+            "icon": "Klima_Icon_Bildungseinrichtung_KiJu_farbig.svg",
+            "farbe": "#FFC000"
+        },
+        "standort": {
+            "name": "Junior Uni Wuppertal",
+            "plz": "42283",
+            "stadt": "Wuppertal",
+            "strasse": "Am Brögel",
+            "hausnummer": "31",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse ",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    373180.673999999999069,
+                    5681062.370000000111759
+                ]
+            },
+            "id": 4
+        },
+        "id": 42
+    },
+    {
+        "beschreibung": "Verein Aufbruch am Arrenberg plant, das Wohnviertel mit Mehrfamilienhäusern und Gewerbeflächen im Zentrum des Arrenbergs bis 2030 klimaneutral umzubauen. ",
+        "website": "http://www.aufbruch-am-arrenberg.de/site/home/aktuell/",
+        "kategorien": [
+            "Klimaquartier"
+        ],
+        "thema": {
+            "id": 7,
+            "name": "Klimasiedlung_Klimagerechte Gebäude",
+            "icon": "Klima_Icon_Klimasiedlung_farbig.svg",
+            "farbe": "#556C2F"
+        },
+        "standort": {
+            "name": "Klimaquartier Arrenberg",
+            "plz": "42117",
+            "stadt": "Wuppertal",
+            "strasse": "Fröbelstraße",
+            "hausnummer": "1a",
+            "erreichbarkeit": "Radwanderwege: Sambatrasse / R4 / R3a / R3 / R4a",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    369340.847000000008848,
+                    5679027.31900000013411
+                ]
+            },
+            "id": 28
+        },
+        "id": 43
+    },
+    {
+        "beschreibung": "Ziel des Programms: Reduktion des CO2- Ausstoßes durch Sanierungsmaßnahmen im Gebäudebestand, Anpassung der Kälte- und Wärmeversorgung ",
+        "website": "https://www.quartier-entwicklung.de/klimaquartier-wichlinghausen-sued/",
+        "kategorien": [
+            "Klimaquartier"
+        ],
+        "thema": {
+            "id": 7,
+            "name": "Klimasiedlung_Klimagerechte Gebäude",
+            "icon": "Klima_Icon_Klimasiedlung_farbig.svg",
+            "farbe": "#556C2F"
+        },
+        "standort": {
+            "name": "Klimaquartier Wichlinghausen-Süd",
+            "plz": "42281",
+            "stadt": "Wuppertal",
+            "strasse": "Bromberger Straße",
+            "hausnummer": "39",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    373579.521999999997206,
+                    5682226.407999999821186
+                ]
+            },
+            "id": 12
+        },
+        "id": 44
+    },
+    {
+        "beschreibung": "Energetisches Konzept: Elektrische Energieerzeugung mit Blockheizkraftwerk (20 kW) und Photovoltaikanlage (32 kW), Ladesäule für E-Autos",
+        "website": "https://www.tenbrinke.com/de/referenzen/referenzen-details/der-eulenhorst-we1404.html",
+        "kategorien": [
+            "Klimaschutzsiedlung"
+        ],
+        "thema": {
+            "id": 7,
+            "name": "Klimasiedlung_Klimagerechte Gebäude",
+            "icon": "Klima_Icon_Klimasiedlung_farbig.svg",
+            "farbe": "#556C2F"
+        },
+        "standort": {
+            "name": "Klimaschutzsiedlung Eulenhorst",
+            "plz": "42109",
+            "stadt": "Wuppertal",
+            "strasse": "Hermann-Ehlers-Straße",
+            "hausnummer": "21",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / R1",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371123.153999999980442,
+                    5682901.16399999987334
+                ]
+            },
+            "id": 47
+        },
+        "id": 46
+    },
+    {
+        "beschreibung": "Projekte mit Bürger*innen, Schulen und Vereinen zur Förderung eines nachhaltigen, sozialen Miteinanders.",
+        "website": "http://ideaalwerk.de/",
+        "kategorien": [
+            "Quartiersentwicklung"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Ideaalwerk",
+            "plz": "42277",
+            "stadt": "Wuppertal",
+            "strasse": "Wichlinghauser Straße ",
+            "hausnummer": "38",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / R2 / R5",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    375743.137999999977183,
+                    5682251.968999999575317
+                ]
+            },
+            "id": 89
+        },
+        "id": 40
+    },
+    {
+        "beschreibung": "Energetisches Konzept: Lüftungsanlagen mit Wärmerückgewinnung, Wärmepumpe für Heizung und Warmwasser, Photovoltaikanlage (ca. 20 kWp).",
+        "website": "https://www.energieagentur.nrw/gebaeude/klimaschutzsiedlungen/klimaschutzsiedlung_wuppertal-pelerinenviertel",
+        "kategorien": [
+            "Klimaschutzsiedlung"
+        ],
+        "thema": {
+            "id": 7,
+            "name": "Klimasiedlung_Klimagerechte Gebäude",
+            "icon": "Klima_Icon_Klimasiedlung_farbig.svg",
+            "farbe": "#556C2F"
+        },
+        "standort": {
+            "name": "Klimaschutzsiedlung Pelerinenviertel",
+            "plz": "42107",
+            "stadt": "Wuppertal",
+            "strasse": "Friesenstraße",
+            "hausnummer": "39",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371577,
+                    5680742
+                ]
+            },
+            "id": 26
+        },
+        "id": 47
+    },
+    {
+        "beschreibung": "Zusammenschluss von Organisationen zur politischen Durchsetzung von Natur- Umweltschutzmaßnahmen.",
+        "website": "https://www.lnu.wtal.de",
+        "kategorien": [
+            "Naturschutz",
+            "Umweltschutz"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Landesgemeinschaft Naturschutz und Umwelt NRW e.V. (LNU)",
+            "plz": "42283",
+            "stadt": "Wuppertal",
+            "strasse": "Sudhoffstraße",
+            "hausnummer": "48",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    372905.048999999999069,
+                    5682025.389999999664724
+                ]
+            },
+            "id": 83
+        },
+        "id": 49
+    },
+    {
+        "beschreibung": "Freitreppe in Stadtbezirk Oberbarmen. Die Treppe verbindet die tallagige Berliner Straße mit der höher gelegenen Langobardenstraße.",
+        "kategorien": [
+            "Fuß- / Radweg"
+        ],
+        "thema": {
+            "id": 2,
+            "name": "Orte der Mobilität",
+            "icon": "Klima_Icon_Ort_Mobilitaet_farbig.svg",
+            "farbe": "#695656"
+        },
+        "standort": {
+            "name": "Langobardentreppe",
+            "plz": "42277",
+            "stadt": "Wuppertal",
+            "strasse": "Langobardenstraße",
+            "hausnummer": "18",
+            "erreichbarkeit": "Radwanderwege: R2 / R5 / Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    376019.994000000006054,
+                    5682015.627999999560416
+                ]
+            },
+            "id": 62
+        },
+        "id": 50
+    },
+    {
+        "beschreibung": "Fahrradreparaturcafé: Kostenfreie Unterstützung bei der Reparatur von Fahrrädern an jedem ersten Sonntag im Monat.",
+        "website": "https://de-de.facebook.com/MirkerSchrauba",
+        "kategorien": [
+            "Mobilität"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Mirker Schrauba (Utopiastadt)",
+            "plz": "42105",
+            "stadt": "Wuppertal",
+            "strasse": "Mirker Straße",
+            "hausnummer": "48",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370592.592999999993481,
+                    5681120.440000000409782
+                ]
+            },
+            "id": 69
+        },
+        "id": 51
+    },
+    {
+        "beschreibung": "Lokale Initiative, die sich für die Mobilitätswende im Quartier Ölberg einsetzt.",
+        "website": "https://www.nord-stadt.de/?page_id=3312",
+        "kategorien": [
+            "Mobilität"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Mobiler Ölberg",
+            "plz": "42105",
+            "stadt": "Wuppertal",
+            "strasse": "Zimmerstraße",
+            "hausnummer": "40",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370084.039999999979045,
+                    5680249.040000000037253
+                ]
+            },
+            "id": 91
+        },
+        "id": 52
+    },
+    {
+        "beschreibung": "Zusammenschluss von Verkehrsinitiativen, Wissenschaftler*innen und Bürger*innen zum Vorantrieb der Verkehrswende.",
+        "website": "https://mobiles-wuppertal.org/home",
+        "kategorien": [
+            "Mobilität"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Mobiles Wuppertal",
+            "plz": "42107",
+            "stadt": "Wuppertal",
+            "strasse": "Gartenheim",
+            "hausnummer": "16",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371360.369999999995343,
+                    5681290.251000000163913
+                ]
+            },
+            "id": 31
+        },
+        "id": 53
+    },
+    {
+        "beschreibung": "Erste öffentliche Fahrradgarage in Wuppertal; beherbergt 12 Fahrräder.",
+        "kategorien": [
+            "Mobilität",
+            "Fahrradgarage"
+        ],
+        "thema": {
+            "id": 2,
+            "name": "Orte der Mobilität",
+            "icon": "Klima_Icon_Ort_Mobilitaet_farbig.svg",
+            "farbe": "#695656"
+        },
+        "standort": {
+            "name": "Mobilitätsstation Mobiler Ölberg",
+            "plz": "42105",
+            "stadt": "Wuppertal",
+            "strasse": "Schneiderstraße",
+            "hausnummer": "5",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    369960.416000000026543,
+                    5680225.745000000111759
+                ]
+            },
+            "id": 80
+        },
+        "id": 54
+    },
+    {
+        "beschreibung": "Ehrenamtsjobbörse zur Unterstützung von Naturschutzprojekten.",
+        "website": "https://www.nabu-wuppertal.de/",
+        "kategorien": [
+            "Naturschutz",
+            "Umweltschutz"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "NABU Stadtverband Wuppertal e.V.",
+            "plz": "42349",
+            "stadt": "Wuppertal",
+            "strasse": "Jägerhofstraße",
+            "hausnummer": "229",
+            "erreichbarkeit": "Radwanderwege: R4 / R4a / R3 / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370940.292000000015832,
+                    5677250.826999999582767
+                ]
+            },
+            "id": 51
+        },
+        "id": 55
+    },
+    {
+        "beschreibung": "Kindergruppe: Bildung und Mitarbeit an Naturschutzmaßnahmen in Cronenberg.",
+        "website": "https://www.nabu-wuppertal.de/kindergruppe/",
+        "kategorien": [
+            "Umweltbildung"
+        ],
+        "thema": {
+            "id": 4,
+            "name": "Kinder- und Jugendbildung",
+            "icon": "Klima_Icon_Bildungseinrichtung_KiJu_farbig.svg",
+            "farbe": "#FFC000"
+        },
+        "standort": {
+            "name": "NABU Stadtverband Wuppertal e.V.",
+            "plz": "42349",
+            "stadt": "Wuppertal",
+            "strasse": "Jägerhofstraße",
+            "hausnummer": "229",
+            "erreichbarkeit": "Radwanderwege: R4 / R4a / R3 / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370940.292000000015832,
+                    5677250.826999999582767
+                ]
+            },
+            "id": 51
+        },
+        "id": 56
+    },
+    {
+        "beschreibung": "Veranstaltungen zu den Themenschwerpunkten Natur, Kultur und Politik.",
+        "website": "https://www.naturfreunde-wuppertal.de",
+        "kategorien": [
+            "Naturschutz"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Naturfreunde Wuppertal e.V.",
+            "plz": "42369",
+            "stadt": "Wuppertal",
+            "strasse": "Luhnsfelder Höhe",
+            "hausnummer": "7",
+            "erreichbarkeit": "Radwanderwege: R4a / R2 / R3 / R4",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    373504.722000000008848,
+                    5677019.31900000013411
+                ]
+            },
+            "id": 66
+        },
+        "id": 57
+    },
+    {
+        "beschreibung": "Gemeinschaftliche Reperaturen defekter Alltagsgeräte, Hilfe zur Selbsthilfe durch Freiwillige.",
+        "website": "https://www.reparatur-initiativen.de/reparatur-cafe-wuppertal",
+        "kategorien": [
+            "Reparatur-Service"
+        ],
+        "thema": {
+            "id": 8,
+            "name": "Reparaturcafés",
+            "icon": "Klima_Icon_Reparaturcafe_farbig.svg",
+            "farbe": "#B27A08"
+        },
+        "standort": {
+            "name": "Netzwerk Reperatur-Initiativen",
+            "plz": "42105",
+            "stadt": "Wuppertal",
+            "strasse": "Mirker Straße",
+            "hausnummer": "48",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370592.592999999993481,
+                    5681120.440000000409782
+                ]
+            },
+            "id": 70
+        },
+        "id": 58
+    },
+    {
+        "beschreibung": "Wandelgarten: mobiler Schaugarten nach Urban Gardening Konzept.",
+        "website": "www.arbeit-kultur-wtal.de",
+        "kategorien": [
+            "Naturschutz"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Neue Arbeit - Neue Kultur Bergische Region e.V.",
+            "plz": "42107",
+            "stadt": "Wuppertal",
+            "strasse": "Hagenauer Straße",
+            "hausnummer": "30",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370925.494999999995343,
+                    5681040.002999999560416
+                ]
+            },
+            "id": 39
+        },
+        "id": 59
+    },
+    {
+        "beschreibung": "Denkmalgeschützte Freitreppe im Stadtbezirk Elberfeld. Die Treppe verbindet die tiefer gelegene Frankenstraße mit der höher gelegenen Friesenstraße. ",
+        "kommentar": "Der tiefer gelegene Treppe grenzt an die Klimaschutzsiedlung Pelerinenviertel.",
+        "kategorien": [
+            "Fuß- / Radweg"
+        ],
+        "thema": {
+            "id": 2,
+            "name": "Orte der Mobilität",
+            "icon": "Klima_Icon_Ort_Mobilitaet_farbig.svg",
+            "farbe": "#695656"
+        },
+        "standort": {
+            "name": "Pelerinentreppe",
+            "plz": "42107",
+            "stadt": "Wuppertal",
+            "strasse": "Friesenstraße",
+            "hausnummer": "39",
+            "erreichbarkeit": "Radwanderweg: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371577,
+                    5680742
+                ]
+            },
+            "id": 27
+        },
+        "id": 61
+    },
+    {
+        "beschreibung": "Gemeinnützige Förderung von und Bildung zu alternativen Gestaltungs- und Anbaumethoden sowie Energiekonzepten.",
+        "website": "https://vormeichholz.de/",
+        "kategorien": [
+            "Naturschutz",
+            "Umweltschutz",
+            "Klimaschutz"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Permakulturhof Vorm Eichholz e.V",
+            "plz": "42119",
+            "stadt": "Wuppertal",
+            "strasse": "Dorner Weg",
+            "hausnummer": "6a",
+            "erreichbarkeit": "Radwanderwege: R4a / R4 / R3",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371746.449000000022352,
+                    5677732.46999999973923
+                ]
+            },
+            "id": 19
+        },
+        "id": 62
+    },
+    {
+        "beschreibung": "Lehrveranstaltungen zu alternativen Anbaumethoden, nachhaltigem Wirtschaften und Energiekonzepten.",
+        "website": "https://vormeichholz.de/",
+        "kategorien": [
+            "Umweltbildung",
+            "Klimabildung"
+        ],
+        "thema": {
+            "id": 6,
+            "name": "Erwachsenenbildung",
+            "icon": "Klima_Icon_Bildungseinrichtung_Erw_farbig.svg",
+            "farbe": "#BBAA1E"
+        },
+        "standort": {
+            "name": "Permakulturhof Vorm Eichholz e.V",
+            "plz": "42119",
+            "stadt": "Wuppertal",
+            "strasse": "Dorner Weg",
+            "hausnummer": "6a",
+            "erreichbarkeit": "Radwanderwege: R4a / R4 / R3",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371746.449000000022352,
+                    5677732.46999999973923
+                ]
+            },
+            "id": 19
+        },
+        "id": 63
+    },
+    {
+        "beschreibung": "Informationen zu umweltrelevanten Themen für Bürger*innen, Schulen und Vereine.",
+        "website": "https://www.wuppertal.de/rathaus-buergerservice/umweltschutz/umweltinformationen/umweltberatung.php",
+        "kategorien": [
+            "Umweltberatung"
+        ],
+        "thema": {
+            "id": 5,
+            "name": "Beratung",
+            "icon": "Klima_Icon_Beratung_farbig.svg",
+            "farbe": "#538DD5"
+        },
+        "standort": {
+            "name": "Rathaus & Bürgerservice",
+            "plz": "42275",
+            "stadt": "Wuppertal",
+            "strasse": "Johannes-Rau-Platz",
+            "hausnummer": "1",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / R2 / R5",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    374448.831000000005588,
+                    5681605.929999999701977
+                ]
+            },
+            "id": 53
+        },
+        "id": 64
+    },
+    {
+        "beschreibung": "Die Photovoltaikanlage produziert etwa 3870 kWh Strom im Jahr. Der Strom wird in das öffentliche Stromnetz eingespeist.",
+        "website": "https://www.rudolf-steiner-schule-wuppertal.de/photovoltaikanlage.html",
+        "kategorien": [
+            "Sonnenenergie"
+        ],
+        "thema": {
+            "id": 3,
+            "name": "Anlagen_Erneuerbare Energie",
+            "icon": "Klima_Icon_Anlagen_Energie_farbig.svg",
+            "farbe": "#57AF36"
+        },
+        "standort": {
+            "name": "Rudolf-Steiner-Schule",
+            "plz": "42285",
+            "stadt": "Wuppertal",
+            "strasse": "Schluchtstraße",
+            "hausnummer": "21",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / R2 / R5",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    373161.816999999980908,
+                    5680267.929999999701977
+                ]
+            },
+            "id": 79
+        },
+        "id": 65
+    },
+    {
+        "beschreibung": "Bergsport- und Naturschutzverband mit Fokus auf Schutz des Alpenraums.",
+        "website": "https://dav-barmen-wuppertal.de/",
+        "kategorien": [
+            "Naturschutz"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Sektion Wuppertal des Deutschen Alpenverein",
+            "plz": "42389",
+            "stadt": "Wuppertal",
+            "strasse": "Badische Straße",
+            "hausnummer": "76",
+            "erreichbarkeit": "Radwanderwege: R5 / R2 / Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    376938.553000000014435,
+                    5681162.567999999970198
+                ]
+            },
+            "id": 8
+        },
+        "id": 68
+    },
+    {
+        "beschreibung": "Umweltbildung und -erziehung in eigenem Naturlehrgebiet, z.B. Waldspielgruppen und Ferienfreizeiten.",
+        "website": "https://www.stnu.de/index.php?id=15",
+        "kategorien": [
+            "Umweltbildung"
+        ],
+        "thema": {
+            "id": 4,
+            "name": "Kinder- und Jugendbildung",
+            "icon": "Klima_Icon_Bildungseinrichtung_KiJu_farbig.svg",
+            "farbe": "#FFC000"
+        },
+        "standort": {
+            "name": "Station Natur und Umwelt",
+            "plz": "42349",
+            "stadt": "Wuppertal",
+            "strasse": "Jägerhofstraße",
+            "hausnummer": "229",
+            "erreichbarkeit": "Radwanderwege: R4 / R4a / R3 / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370940.292000000015832,
+                    5677250.826999999582767
+                ]
+            },
+            "id": 52
+        },
+        "id": 69
+    },
+    {
+        "beschreibung": "Vertikalachsen Windenergieanlage (1000W) auf 16 Meter hohem Skulp-Turm.",
+        "website": "https://www.stnu.de/index.php?id=15",
+        "kommentar": "Die Windenergieanlage ist zurzeit außer Betrieb.",
+        "kategorien": [
+            "Windenergie"
+        ],
+        "thema": {
+            "id": 3,
+            "name": "Anlagen_Erneuerbare Energie",
+            "icon": "Klima_Icon_Anlagen_Energie_farbig.svg",
+            "farbe": "#57AF36"
+        },
+        "standort": {
+            "name": "Station Natur und Umwelt",
+            "plz": "42349",
+            "stadt": "Wuppertal",
+            "strasse": "Jägerhofstraße",
+            "hausnummer": "229",
+            "erreichbarkeit": "Radwanderwege: R4 / R4a / R3 / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370940.292000000015832,
+                    5677250.826999999582767
+                ]
+            },
+            "id": 52
+        },
+        "id": 70
+    },
+    {
+        "beschreibung": "Studentische unabhängige, überparteiliche, selbst organisierte Klima- und Jugendbewegung.",
+        "website": "http://leute.uni-wuppertal.de/~162534/",
+        "kategorien": [
+            "Klimaschutz"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Students For Future Wuppertal",
+            "plz": "42119",
+            "stadt": "Wuppertal",
+            "strasse": "Gaußstraße",
+            "hausnummer": "20",
+            "erreichbarkeit": "Radwanderwege: R4 / R4a ",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370865.596000000019558,
+                    5678778.593999999575317
+                ]
+            },
+            "id": 35
+        },
+        "id": 71
+    },
+    {
+        "beschreibung": "Freitreppe im Stadtbezirk Elberfeld. Die Treppe verbindet das Luisenviertel mit dem Ölberg, den südlichen Teil der Nordstadt.",
+        "kategorien": [
+            "Fuß- / Radweg"
+        ],
+        "thema": {
+            "id": 2,
+            "name": "Orte der Mobilität",
+            "icon": "Klima_Icon_Ort_Mobilitaet_farbig.svg",
+            "farbe": "#695656"
+        },
+        "standort": {
+            "name": "Tippen-Tappen-Tönchen",
+            "plz": "42105",
+            "stadt": "Wuppertal",
+            "strasse": "Am Kasinogarten",
+            "hausnummer": "9",
+            "erreichbarkeit": "Radwanderweg: Nordbahntrasse / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370157.402999999991152,
+                    5680141.184999999590218
+                ]
+            },
+            "id": 6
+        },
+        "id": 72
+    },
+    {
+        "beschreibung": "Freitreppe im Stadtbezirk Langerfeld-Beyenburg. Die Treppe verbindet die höher gelegene Straße Beyenburger Freiheit mit der tiefer gelegenen Straße Am Obergraben",
+        "kommentar": "Gegenüber der Klosterkirche Sankt Maria Magdalena.",
+        "kategorien": [
+            "Fuß- / Radweg"
+        ],
+        "thema": {
+            "id": 2,
+            "name": "Orte der Mobilität",
+            "icon": "Klima_Icon_Ort_Mobilitaet_farbig.svg",
+            "farbe": "#695656"
+        },
+        "standort": {
+            "name": "Treppe am Obergraben",
+            "plz": "42399",
+            "stadt": "Wuppertal",
+            "strasse": "Beyenburger Freiheit",
+            "hausnummer": "41",
+            "erreichbarkeit": "Radwanderweg: R5 / R5a / R2",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    381385.842000000004191,
+                    5678999.445000000298023
+                ]
+            },
+            "id": 10
+        },
+        "id": 73
+    },
+    {
+        "beschreibung": "Geologielehrpfad Wuppertal-Barmen: Lehrpfad zur Gesteinskunde und Klimaentwicklung. ",
+        "website": "http://www.geopfad-wuppertal.de/",
+        "kategorien": [
+            "Umweltbildung",
+            "Klimabildung"
+        ],
+        "thema": {
+            "id": 4,
+            "name": "Kinder- und Jugendbildung",
+            "icon": "Klima_Icon_Bildungseinrichtung_KiJu_farbig.svg",
+            "farbe": "#FFC000"
+        },
+        "standort": {
+            "name": "Unsere alte Penne - Förderverein des Gymnasiums Sedanstraße",
+            "plz": "42289",
+            "stadt": "Wuppertal",
+            "strasse": "Heckinghauser Straße",
+            "hausnummer": "103",
+            "erreichbarkeit": "Radwanderwege: R2 / R5 / Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    375489.367000000027474,
+                    5681513.49100000038743
+                ]
+            },
+            "id": 42
+        },
+        "id": 74
+    },
+    {
+        "beschreibung": "Vielseitige, gemeinschaftliche Entwicklung eines nachhaltigen Quartiers an der Nordbahntrasse.",
+        "website": "https://www.utopiastadt.eu",
+        "kategorien": [
+            "Mobilität",
+            "Klimaschutz",
+            "Quartiersentwicklung"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Utopiastadt",
+            "plz": "42105",
+            "stadt": "Wuppertal",
+            "strasse": "Mirker Straße",
+            "hausnummer": "48",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370592.592999999993481,
+                    5681120.440000000409782
+                ]
+            },
+            "id": 71
+        },
+        "id": 75
+    },
+    {
+        "beschreibung": "Touren durch Wuppertal in abgasfreien e-Bike-Taxis.",
+        "website": "https://velotaxi-wuppertal.de/",
+        "kategorien": [
+            "Mobilität"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Velotaxi",
+            "plz": "42115",
+            "stadt": "Wuppertal",
+            "strasse": "Otto-Hausmann-Ring ",
+            "hausnummer": "101",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / R3a",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    368226.229999999981374,
+                    5680325.281999999657273
+                ]
+            },
+            "id": 74
+        },
+        "id": 76
+    },
+    {
+        "beschreibung": "Beratung zu privaten Anliegen im Bereich Energiesparen, Umweltschutz und Nachhaltigkeit.",
+        "website": "https://www.verbraucherzentrale.nrw/beratungsstellen/wuppertal",
+        "kategorien": [
+            "Energieberatung",
+            "Umweltberatung"
+        ],
+        "thema": {
+            "id": 5,
+            "name": "Beratung",
+            "icon": "Klima_Icon_Beratung_farbig.svg",
+            "farbe": "#538DD5"
+        },
+        "standort": {
+            "name": "Verbraucherzentrale.NRW",
+            "plz": "42103",
+            "stadt": "Wuppertal",
+            "strasse": "Schloßbleiche",
+            "hausnummer": "20",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370723.621999999973923,
+                    5679907.634999999776483
+                ]
+            },
+            "id": 78
+        },
+        "id": 77
+    },
+    {
+        "beschreibung": "Unterstützung des Botanischen Gartens durch Veranstaltungsangebote und Finanzierung von Projekten.",
+        "website": "http://www.botanischer-garten-wuppertal.de/wordpress/",
+        "kategorien": [
+            "Naturschutz"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Verein der Freunde und Förderer des Botanischen Gartens Wuppertal e.V.",
+            "plz": "42107",
+            "stadt": "Wuppertal",
+            "strasse": "Elisenhöhe",
+            "hausnummer": "1",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371649.510999999998603,
+                    5680416.358000000007451
+                ]
+            },
+            "id": 21
+        },
+        "id": 78
+    },
+    {
+        "beschreibung": "Zusammenschluss von Vereinen zur Förderung erneuerbarer Energien und zur umweltgerechten Stadtentwicklung.",
+        "website": "https://klimaschutzvereinigung.de/home.html",
+        "kategorien": [
+            "Klimaschutz",
+            "Quartiersentwicklung"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Verein für Klimaschutz regen e.V.",
+            "plz": "42369",
+            "stadt": "Wuppertal",
+            "strasse": "Kornmühle",
+            "hausnummer": "27",
+            "erreichbarkeit": "Radwanderwege: R4a",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    374402.724999999976717,
+                    5676171.86699999962002
+                ]
+            },
+            "id": 58
+        },
+        "id": 79
+    },
+    {
+        "beschreibung": "Gebäudekomplex nach Passivhausstandard, das seinen Strom durch ein Netzwerk aus Photovoltaik, Blockheizkraftwerk und Brennstoffzelle selbst produziert.",
+        "website": "https://www.villamedia.de/Zielgruppen/Home/",
+        "kategorien": [
+            "klimagerechtes Gebäude"
+        ],
+        "thema": {
+            "id": 7,
+            "name": "Klimasiedlung_Klimagerechte Gebäude",
+            "icon": "Klima_Icon_Klimasiedlung_farbig.svg",
+            "farbe": "#556C2F"
+        },
+        "standort": {
+            "name": "Villa Media",
+            "plz": "42117",
+            "stadt": "Wuppertal",
+            "strasse": "Viehhofstraße ",
+            "hausnummer": "123",
+            "erreichbarkeit": "Radwanderwege: Sambatrasse / R4 / R3 / R4a / R3a /  Nordbahntrasse ",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    369656.695000000006985,
+                    5678766.760999999940395
+                ]
+            },
+            "id": 84
+        },
+        "id": 80
+    },
+    {
+        "beschreibung": "Denkmalgeschützte Freitreppe im Stadtbezirk Elberfeld-West. Die Treppe verbindet die tallagige Friedrich-Ebert-Straße mit der höher gelegenen Straße Vogelsaue. ",
+        "kategorien": [
+            "Fuß- / Radweg"
+        ],
+        "thema": {
+            "id": 2,
+            "name": "Orte der Mobilität",
+            "icon": "Klima_Icon_Ort_Mobilitaet_farbig.svg",
+            "farbe": "#695656"
+        },
+        "standort": {
+            "name": "Vogelsauer Treppe",
+            "plz": "42115",
+            "stadt": "Wuppertal",
+            "strasse": "Vogelsaue",
+            "hausnummer": "53",
+            "erreichbarkeit": "Radwanderwege: Sambatrasse / R4 / R3a / Nordbahntrasse ",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    368857.427000000025146,
+                    5679260.400000000372529
+                ]
+            },
+            "id": 85
+        },
+        "id": 81
+    },
+    {
+        "beschreibung": "In der Turbine im Wasserwerk Herbringhausen werden zwischen 320.000 und 790.000 kWh pro Jahr erzeugt. Rund 200 Haushalte können damit ihren Strombedarf decken.",
+        "website": "https://www.wsw-online.de/wsw-energie-wasser/privatkunden/nachhaltigkeit/erneuerbare-energien/",
+        "kategorien": [
+            "Wasserkraft"
+        ],
+        "thema": {
+            "id": 3,
+            "name": "Anlagen_Erneuerbare Energie",
+            "icon": "Klima_Icon_Anlagen_Energie_farbig.svg",
+            "farbe": "#57AF36"
+        },
+        "standort": {
+            "name": "WSW - Wasserwerk Herbringhausen",
+            "plz": "42399",
+            "stadt": "Wuppertal",
+            "strasse": "Herbringhauser Talsperre",
+            "hausnummer": "1",
+            "erreichbarkeit": "Radwanderweg: R5a / R2",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    379551.989000000001397,
+                    5676858.99100000038743
+                ]
+            },
+            "id": 46
+        },
+        "id": 82
+    },
+    {
+        "beschreibung": "Der in der Müllverbrennungsanlage erzeugte Strom der AWG wird für die Herstellung von Wasserstoff genutzt. Der Wasserstoff wird u.a.für die Betankung von WSW-Brennstoffzellen-Linienbussen genutzt.",
+        "website": "https://awg.wuppertal.de/ueber-uns/muell-macht-mobil.html",
+        "kategorien": [
+            "Mobilität",
+            "Klimaschutz"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "AWG Wuppertal",
+            "plz": "42349",
+            "stadt": "Wuppertal",
+            "strasse": "Korzert",
+            "hausnummer": "15",
+            "erreichbarkeit": "Radwanderwege: Sambatrasse /  R4 / R4a / R3 / R3a",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370319.534999999974389,
+                    5676519.546000000089407
+                ]
+            },
+            "id": 59
+        },
+        "id": 1
+    },
+    {
+        "beschreibung": "Der in der Müllverbrennungsanlage erzeugte Strom der AWG wird u.a. für die Herstellung von Wasserstoff genutzt. Der Wasserstoff wird für die Betankung von WSW-Brennstoffzellen-Linienbusse genutzt.",
+        "kategorien": [
+            "Wasserstoff"
+        ],
+        "thema": {
+            "id": 2,
+            "name": "Orte der Mobilität",
+            "icon": "Klima_Icon_Ort_Mobilitaet_farbig.svg",
+            "farbe": "#695656"
+        },
+        "standort": {
+            "name": "AWG Wuppertal",
+            "plz": "42349",
+            "stadt": "Wuppertal",
+            "strasse": "Korzert",
+            "hausnummer": "15",
+            "erreichbarkeit": "Radwanderwege: Sambatrasse /  R4 / R4a / R3 / R3a",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370319.534999999974389,
+                    5676519.546000000089407
+                ]
+            },
+            "id": 59
+        },
+        "id": 2
+    },
+    {
+        "beschreibung": "Müllheizkraftwerk-Strom-, Fernwärme: Die bei der Verbrennung der Abfälle freiwerdende Energie dient der Strom- und Fernwärmeversorgung in Wuppertal.",
+        "website": "http://www.awg.wuppertal.de/ueber-uns/muell-macht-mobil.html",
+        "kategorien": [
+            "andere Energien"
+        ],
+        "thema": {
+            "id": 3,
+            "name": "Anlagen_Erneuerbare Energie",
+            "icon": "Klima_Icon_Anlagen_Energie_farbig.svg",
+            "farbe": "#57AF36"
+        },
+        "standort": {
+            "name": "AWG Wuppertal",
+            "plz": "42349",
+            "stadt": "Wuppertal",
+            "strasse": "Korzert",
+            "hausnummer": "15",
+            "erreichbarkeit": "Radwanderwege: Sambatrasse /  R4 / R4a / R3 / R3a",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370319.534999999974389,
+                    5676519.546000000089407
+                ]
+            },
+            "id": 59
+        },
+        "id": 3
+    },
+    {
+        "beschreibung": "Gesundes Kinderhaus: Projekte mit Bezug zum Urban Gardening, z.B. Nutzgarten.",
+        "website": "https://www.altefeuerwache-wuppertal.de/wir-mit-dem-quartier/der-nutzgarten",
+        "kategorien": [
+            "Umweltbildung",
+            "Klimabildung"
+        ],
+        "thema": {
+            "id": 4,
+            "name": "Kinder- und Jugendbildung",
+            "icon": "Klima_Icon_Bildungseinrichtung_KiJu_farbig.svg",
+            "farbe": "#FFC000"
+        },
+        "standort": {
+            "name": "Alte Feuerwache",
+            "plz": "42107",
+            "stadt": "Wuppertal",
+            "strasse": "Gathe",
+            "hausnummer": "6",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse ",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370702.771999999997206,
+                    5680842.524000000208616
+                ]
+            },
+            "id": 33
+        },
+        "id": 4
+    },
+    {
+        "beschreibung": "Entstehung eines sogenannten Klimaquartiers mit dem Ziel eines besseren und nachhaltigeren Miteinanders.",
+        "website": "http://www.aufbruch-am-arrenberg.de/site/home/aktuell/",
+        "kategorien": [
+            "Mobilität",
+            "Klimaschutz",
+            "Quartiersentwicklung"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Aufbruch am Arrenberg e.V.",
+            "plz": "42117",
+            "stadt": "Wuppertal",
+            "strasse": "Fröbelstraße",
+            "hausnummer": "1a ",
+            "erreichbarkeit": "Radwanderwege: Sambatrasse / R3a / R4",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    369340.847000000008848,
+                    5679027.31900000013411
+                ]
+            },
+            "id": 29
+        },
+        "id": 5
+    },
+    {
+        "beschreibung": "Finanzierung, Bau und Verpachtung von Photovoltaikanlagen durch Zusammenschluss von Bürger*innen.",
+        "website": "https://www.bbeg.de/",
+        "kategorien": [
+            "Klimaschutz"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Bergische Bürgerenergiegenossenschaft",
+            "plz": "42117",
+            "stadt": "Wuppertal",
+            "strasse": "Fröbelstraße",
+            "hausnummer": "1a ",
+            "erreichbarkeit": "Radwanderwege: Sambatrasse / R4 / R3a",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    369340.847000000008848,
+                    5679027.31900000013411
+                ]
+            },
+            "id": 30
+        },
+        "id": 6
+    },
+    {
+        "beschreibung": "Hilfestellung bei Ausbau von Energiesparpotenzialen in Betrieben und Verbesserung der Energieeffizenz.",
+        "website": "https://www.bergische.ihk.de/innovation-und-umwelt",
+        "kategorien": [
+            "Energieberatung"
+        ],
+        "thema": {
+            "id": 5,
+            "name": "Beratung",
+            "icon": "Klima_Icon_Beratung_farbig.svg",
+            "farbe": "#538DD5"
+        },
+        "standort": {
+            "name": "Bergische IHK ",
+            "plz": "42103",
+            "stadt": "Wuppertal",
+            "strasse": "Heinrich-Kamp-Platz",
+            "hausnummer": "2",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370510.636999999987893,
+                    5679842.277999999932945
+                ]
+            },
+            "id": 44
+        },
+        "id": 7
+    },
+    {
+        "beschreibung": "Masterstudiengang \"Sustainability Management\" (Nachhaltigkeitsmanagement)",
+        "website": "https://www.uni-wuppertal.de/",
+        "kategorien": [
+            "Studium und Forschung"
+        ],
+        "thema": {
+            "id": 6,
+            "name": "Erwachsenenbildung",
+            "icon": "Klima_Icon_Bildungseinrichtung_Erw_farbig.svg",
+            "farbe": "#BBAA1E"
+        },
+        "standort": {
+            "name": "Bergische Universität Wuppertal",
+            "plz": "42119",
+            "stadt": "Wuppertal",
+            "strasse": "Gaußstraße ",
+            "hausnummer": "20",
+            "erreichbarkeit": "Radwanderwege: R4 / R4a ",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370865.596000000019558,
+                    5678778.593999999575317
+                ]
+            },
+            "id": 37
+        },
+        "id": 8
+    },
+    {
+        "beschreibung": "Ausbau der Elektromobilität in Wuppertal.",
+        "website": "https://www.wsw-online.de/wsw-energie-wasser/privatkunden/nachhaltigkeit/emobilitaet/",
+        "kategorien": [
+            "Mobilität",
+            "Klimaschutz"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "WSW Energie & Wasser -  eMobilität ",
+            "plz": "42281",
+            "stadt": "Wuppertal",
+            "strasse": "Bromberger Straße",
+            "hausnummer": "39",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    373579.521999999997206,
+                    5682226.407999999821186
+                ]
+            },
+            "id": 13
+        },
+        "id": 83
+    },
+    {
+        "beschreibung": "Beratung zum Energiesparen und zu Nachhaltigkeit: CO2-Rechner, Klimafonds, Talwärme 2020.",
+        "website": "https://www.wsw-online.de/wsw-energie-wasser/privatkunden/energiesparen/energieberatung/",
+        "kategorien": [
+            "Energieberatung"
+        ],
+        "thema": {
+            "id": 5,
+            "name": "Beratung",
+            "icon": "Klima_Icon_Beratung_farbig.svg",
+            "farbe": "#538DD5"
+        },
+        "standort": {
+            "name": "WSW KundenCenter Barmen ",
+            "plz": "42275",
+            "stadt": "Wuppertal",
+            "strasse": "Alter Markt",
+            "hausnummer": "10",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / R2 / R5",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    374283.590000000025611,
+                    5681415.322999999858439
+                ]
+            },
+            "id": 2
+        },
+        "id": 84
+    },
+    {
+        "beschreibung": "Kommunale Einrichtung für praxisnahe Umweltbildung und -erziehung.",
+        "website": "https://www.stnu.de/index.php?id=15",
+        "kategorien": [
+            "Umweltbildung"
+        ],
+        "thema": {
+            "id": 6,
+            "name": "Erwachsenenbildung",
+            "icon": "Klima_Icon_Bildungseinrichtung_Erw_farbig.svg",
+            "farbe": "#BBAA1E"
+        },
+        "standort": {
+            "name": "Station Natur und Umwelt",
+            "plz": "42349",
+            "stadt": "Wuppertal",
+            "strasse": "Jägerhofstraße",
+            "hausnummer": "229",
+            "erreichbarkeit": "Radwanderwege: R4 / R4a / R3 / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370940.292000000015832,
+                    5677250.826999999582767
+                ]
+            },
+            "id": 52
+        },
+        "id": 85
+    },
+    {
+        "beschreibung": "Beratung zur bestmöglichen Verbindung mit dem ÖPNV.",
+        "website": "https://www.wsw-online.de/wsw-mobil/mehr-service/service/",
+        "kategorien": [
+            "Mobilitätsberatung"
+        ],
+        "thema": {
+            "id": 5,
+            "name": "Beratung",
+            "icon": "Klima_Icon_Beratung_farbig.svg",
+            "farbe": "#538DD5"
+        },
+        "standort": {
+            "name": "WSW MobiCenter Hauptbahnhof ",
+            "plz": "42103",
+            "stadt": "Wuppertal",
+            "strasse": "Döppersberg",
+            "hausnummer": "37",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370900.456000000005588,
+                    5679789.552000000141561
+                ]
+            },
+            "id": 18
+        },
+        "id": 103
+    },
+    {
+        "beschreibung": "Eine Horizontalachsen Windenergieanlage (4,5 kW). Der Strom wird in das Hausnetz der Bergischen Universität eingespeist.",
+        "website": "https://www.wsw-online.de/wsw-energie-wasser/privatkunden/nachhaltigkeit/erneuerbare-energien/",
+        "kategorien": [
+            "Windenergie"
+        ],
+        "thema": {
+            "id": 3,
+            "name": "Anlagen_Erneuerbare Energie",
+            "icon": "Klima_Icon_Anlagen_Energie_farbig.svg",
+            "farbe": "#57AF36"
+        },
+        "standort": {
+            "name": "Bergische Universität Wuppertal (Campus Grifflenberg)",
+            "plz": "42119",
+            "stadt": "Wuppertal",
+            "strasse": "Gaußstraße",
+            "hausnummer": "20",
+            "erreichbarkeit": "Radwanderwege: R4 / R4a ",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370865.596000000019558,
+                    5678778.593999999575317
+                ]
+            },
+            "id": 34
+        },
+        "id": 104
+    },
+    {
+        "beschreibung": "Klimaschutzsiedlung und Mehrgenerationenhaus, gebaut als energieeffizientes Passivhaus.",
+        "website": "https://www.malerstrasse.de/",
+        "kategorien": [
+            "Mobilität",
+            "Klimaschutz",
+            "Quartiersentwicklung"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Klimaschutzsiedlung Malerstraße",
+            "plz": "42105",
+            "stadt": "Wuppertal",
+            "strasse": "Malerstraße",
+            "hausnummer": "20",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    369841.336999999999534,
+                    5680899.099000000394881
+                ]
+            },
+            "id": 68
+        },
+        "id": 105
+    },
+    {
+        "beschreibung": "Energetisches Konzept: Passivhausstandard, Lüftungsanlagen mit Wärmerückgewinnung, Holzpelletheizung mit Unterstützung durch Solarthermie.",
+        "website": "https://www.energieagentur.nrw/gebaeude/klimaschutzsiedlungen/projektinfo-klimaschutzsiedlung-wuppertal-malerstrasse",
+        "kategorien": [
+            "Klimaschutzsiedlung"
+        ],
+        "thema": {
+            "id": 7,
+            "name": "Klimasiedlung_Klimagerechte Gebäude",
+            "icon": "Klima_Icon_Klimasiedlung_farbig.svg",
+            "farbe": "#556C2F"
+        },
+        "standort": {
+            "name": "Klimaschutzsiedlung Malerstraße",
+            "plz": "42105",
+            "stadt": "Wuppertal",
+            "strasse": "Malerstraße",
+            "hausnummer": "20",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    369841.336999999999534,
+                    5680899.099000000394881
+                ]
+            },
+            "id": 68
+        },
+        "id": 106
+    },
+    {
+        "beschreibung": "Großflächige extensive Flachdachbegrünung",
+        "bild": "oekostation_gruendach.jpg",
+        "website": "https://www.wuppertal.de/oekostation",
+        "bemerkung": "Dies ist ein Text fuer die Bemerkung Oekostation - Dachbegruenung",
+        "kommentar": "Dies ist ein Text fuer den Kommentar zur Oekostation - Dachbegruenung.",
+        "kategorien": [
+            "begrüntes Gebäude",
+            "klimagerechtes Gebäude"
+        ],
+        "thema": {
+            "id": 7,
+            "name": "Klimasiedlung_Klimagerechte Gebäude",
+            "icon": "Klima_Icon_Klimasiedlung_farbig.svg",
+            "farbe": "#556C2F"
+        },
+        "standort": {
+            "name": "Ökostation Bauen und Technik",
+            "beschreibung": "Dies ist ein Text fuer die Beschreibung der Oekostation.",
+            "plz": "42113",
+            "stadt": "Wuppertal",
+            "strasse": "Döppersberg",
+            "hausnummer": "36",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371113.136999999987893,
+                    5679853.182000000029802
+                ]
+            },
+            "id": 17
+        },
+        "id": 107
+    },
+    {
+        "beschreibung": "Kurse zu Ökologie und Umwelt, z.B. Kursreihe \"Klimafit\".",
+        "website": "https://www.bergische-vhs.de/",
+        "kategorien": [
+            "Umweltbildung",
+            "Klimabildung"
+        ],
+        "thema": {
+            "id": 6,
+            "name": "Erwachsenenbildung",
+            "icon": "Klima_Icon_Bildungseinrichtung_Erw_farbig.svg",
+            "farbe": "#BBAA1E"
+        },
+        "standort": {
+            "name": "Bergische VHS",
+            "plz": "42103",
+            "stadt": "Wuppertal",
+            "strasse": "Auer Schulstraße",
+            "hausnummer": "20",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370153.168000000005122,
+                    5679885.332999999634922
+                ]
+            },
+            "id": 7
+        },
+        "id": 11
+    },
+    {
+        "beschreibung": "Photovoltaik-Demonstrationsanlage (1,6 kW). Der Strom wird in das Stromnetz eingespeist. ",
+        "bild": "oekostation_thermische_solaranlage.jpg",
+        "website": "https://www.wuppertal.de/oekostation",
+        "kategorien": [
+            "Sonnenenergie"
+        ],
+        "thema": {
+            "id": 3,
+            "name": "Anlagen_Erneuerbare Energie",
+            "icon": "Klima_Icon_Anlagen_Energie_farbig.svg",
+            "farbe": "#57AF36"
+        },
+        "standort": {
+            "name": "Ökostation Bauen und Technik",
+            "beschreibung": "Dies ist ein Text fuer die Beschreibung der Oekostation.",
+            "plz": "42113",
+            "stadt": "Wuppertal",
+            "strasse": "Döppersberg",
+            "hausnummer": "36",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371113.136999999987893,
+                    5679853.182000000029802
+                ]
+            },
+            "id": 17
+        },
+        "id": 101
+    },
+    {
+        "beschreibung": "Drei Mikro-Windenergieanlagen (500 W / 500 W / 200 W ), der Strom wird in das Stromnetz eingespeist.",
+        "bild": "oekostation_windanlagen.jpg",
+        "website": "https://www.wuppertal.de/oekostation",
+        "kategorien": [
+            "Windenergie"
+        ],
+        "thema": {
+            "id": 3,
+            "name": "Anlagen_Erneuerbare Energie",
+            "icon": "Klima_Icon_Anlagen_Energie_farbig.svg",
+            "farbe": "#57AF36"
+        },
+        "standort": {
+            "name": "Ökostation Bauen und Technik",
+            "beschreibung": "Dies ist ein Text fuer die Beschreibung der Oekostation.",
+            "plz": "42113",
+            "stadt": "Wuppertal",
+            "strasse": "Döppersberg",
+            "hausnummer": "36",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371113.136999999987893,
+                    5679853.182000000029802
+                ]
+            },
+            "id": 17
+        },
+        "id": 100
+    },
+    {
+        "beschreibung": "Beratung zum Energiesparen und zu Nachhaltigkeit: CO2-Rechner, Klimafonds, Talwärme 2020.",
+        "website": "https://www.wsw-online.de/wsw-energie-wasser/privatkunden/energiesparen/energieberatung/",
+        "kategorien": [
+            "Energieberatung"
+        ],
+        "thema": {
+            "id": 5,
+            "name": "Beratung",
+            "icon": "Klima_Icon_Beratung_farbig.svg",
+            "farbe": "#538DD5"
+        },
+        "standort": {
+            "name": "WSW KundenCenter Elberfeld ",
+            "plz": "42103",
+            "stadt": "Wuppertal",
+            "strasse": "Wall",
+            "hausnummer": "31",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370668.069000000017695,
+                    5679949.531000000424683
+                ]
+            },
+            "id": 86
+        },
+        "id": 86
+    },
+    {
+        "beschreibung": "Beratung zur bestmöglichen Verbindung mit dem ÖPNV.",
+        "website": "https://www.wsw-online.de/wsw-mobil/mehr-service/service/",
+        "kategorien": [
+            "Mobilitätsberatung"
+        ],
+        "thema": {
+            "id": 5,
+            "name": "Beratung",
+            "icon": "Klima_Icon_Beratung_farbig.svg",
+            "farbe": "#538DD5"
+        },
+        "standort": {
+            "name": "WSW MobiCenter Barmen ",
+            "plz": "42275",
+            "stadt": "Wuppertal",
+            "strasse": "Alter Markt",
+            "hausnummer": "10",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / R2 / R5",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    374283.590000000025611,
+                    5681415.322999999858439
+                ]
+            },
+            "id": 3
+        },
+        "id": 87
+    },
+    {
+        "beschreibung": "Beratung zur bestmöglichen Verbindung mit dem ÖPNV.",
+        "website": "https://www.wsw-online.de/wsw-mobil/mehr-service/service/",
+        "kategorien": [
+            "Mobilitätsberatung"
+        ],
+        "thema": {
+            "id": 5,
+            "name": "Beratung",
+            "icon": "Klima_Icon_Beratung_farbig.svg",
+            "farbe": "#538DD5"
+        },
+        "standort": {
+            "name": "WSW MobiCenter Elberfeld",
+            "plz": "42103",
+            "stadt": "Wuppertal",
+            "strasse": "Wall",
+            "hausnummer": "31",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370668.069000000017695,
+                    5679949.531000000424683
+                ]
+            },
+            "id": 87
+        },
+        "id": 88
+    },
+    {
+        "beschreibung": "Versorgungssicherung des Strom- und Gasnetzes in Wuppertal.",
+        "website": "https://www.wsw-netz.de/",
+        "kategorien": [
+            "Energieberatung"
+        ],
+        "thema": {
+            "id": 5,
+            "name": "Beratung",
+            "icon": "Klima_Icon_Beratung_farbig.svg",
+            "farbe": "#538DD5"
+        },
+        "standort": {
+            "name": "WSW Netz GmbH",
+            "plz": "42281",
+            "stadt": "Wuppertal",
+            "strasse": "Schützenstraße",
+            "hausnummer": "34",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    373591.802000000025146,
+                    5682432.849000000394881
+                ]
+            },
+            "id": 81
+        },
+        "id": 89
+    },
+    {
+        "beschreibung": "Engagement und Forschung für Klimaschutz durch verschiedene Projekte.",
+        "website": "https://www.wwf-jugend.de/pages/2-grad-campus",
+        "kategorien": [
+            "Klimabildung"
+        ],
+        "thema": {
+            "id": 4,
+            "name": "Kinder- und Jugendbildung",
+            "icon": "Klima_Icon_Bildungseinrichtung_KiJu_farbig.svg",
+            "farbe": "#FFC000"
+        },
+        "standort": {
+            "name": "WWF Schülerakademie 2°Campus in Wuppertal",
+            "plz": "42119",
+            "stadt": "Wuppertal",
+            "strasse": "Gaußstraße",
+            "hausnummer": "20",
+            "erreichbarkeit": "Radwanderwege: R4 / R4a ",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370865.596000000019558,
+                    5678778.593999999575317
+                ]
+            },
+            "id": 36
+        },
+        "id": 90
+    },
+    {
+        "beschreibung": "Arboretum:  Anbau fremdländischer Baumarten, Forschung und Lehrveranstaltungen zum Ökosystem Wald.",
+        "website": "https://www.wald-und-holz.nrw.de/wald-erleben/infozentren/wpz-burgholz",
+        "kategorien": [
+            "Umweltbildung"
+        ],
+        "thema": {
+            "id": 6,
+            "name": "Erwachsenenbildung",
+            "icon": "Klima_Icon_Bildungseinrichtung_Erw_farbig.svg",
+            "farbe": "#BBAA1E"
+        },
+        "standort": {
+            "name": "Waldpädagogisches Zentrum Burgholz",
+            "plz": "42349",
+            "stadt": "Wuppertal",
+            "strasse": "Friedensstraße",
+            "hausnummer": "69",
+            "erreichbarkeit": "Radwanderwege: R3a / R4 / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    368349.205000000016298,
+                    5674608.712000000290573
+                ]
+            },
+            "id": 23
+        },
+        "id": 91
+    },
+    {
+        "beschreibung": "Veranstaltungen zum zum Naturschutz, insbesondere zum Ökosystem Wald und , Lage an 540 Hektar großem Waldgebiet.",
+        "website": "https://www.wald-und-holz.nrw.de/wald-erleben/infozentren/wpz-burgholz",
+        "kategorien": [
+            "Umweltbildung"
+        ],
+        "thema": {
+            "id": 4,
+            "name": "Kinder- und Jugendbildung",
+            "icon": "Klima_Icon_Bildungseinrichtung_KiJu_farbig.svg",
+            "farbe": "#FFC000"
+        },
+        "standort": {
+            "name": "Waldpädagogisches Zentrum Burgholz",
+            "plz": "42349",
+            "stadt": "Wuppertal",
+            "strasse": "Friedensstraße",
+            "hausnummer": "69",
+            "erreichbarkeit": "Radwanderwege: R3a / R4 / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    368349.205000000016298,
+                    5674608.712000000290573
+                ]
+            },
+            "id": 23
+        },
+        "id": 92
+    },
+    {
+        "beschreibung": "Der Manuelskotten (Kaltenbacher Kotten) im Stadtbezirk Cronenberg, ist der letzte funktionsfähige, wassergetriebene Schleifkotten in Wuppertal. ",
+        "website": "https://ich-mag-es-bergisch.de/neuigkeiten/manuelskotten-der-letzte-aktive-schleifkotten-in-wuppertal/",
+        "kommentar": "Naßschleifermuseum",
+        "kategorien": [
+            "Wasserkraft"
+        ],
+        "thema": {
+            "id": 3,
+            "name": "Anlagen_Erneuerbare Energie",
+            "icon": "Klima_Icon_Anlagen_Energie_farbig.svg",
+            "farbe": "#57AF36"
+        },
+        "standort": {
+            "name": "Wasserrad am Manuelskotten",
+            "plz": "42349",
+            "stadt": "Wuppertal",
+            "strasse": "Kaltenbacher Kotten",
+            "hausnummer": "1",
+            "erreichbarkeit": "Radwanderwege: R3a u. R4 / R3 u. R4a / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    368470.15500000002794,
+                    5673053.060999999754131
+                ]
+            },
+            "id": 56
+        },
+        "id": 93
+    },
+    {
+        "beschreibung": "Gesamtsanierung (noch nicht abgeschlossen)",
+        "website": "https://www.wuppertal.de/microsite/gmw/gebaeude_erleben/aktuelle_projekte/Wilhelm-Doerpfeld-Gymnasium.php",
+        "kategorien": [
+            "klimagerechtes Gebäude"
+        ],
+        "thema": {
+            "id": 7,
+            "name": "Klimasiedlung_Klimagerechte Gebäude",
+            "icon": "Klima_Icon_Klimasiedlung_farbig.svg",
+            "farbe": "#556C2F"
+        },
+        "standort": {
+            "name": "Wilhelm-Dörpfeld-Gymnasium",
+            "plz": "42103",
+            "stadt": "Wuppertal",
+            "strasse": "Johannisberg",
+            "hausnummer": "20",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    370490.300999999977648,
+                    5679667.438000000081956
+                ]
+            },
+            "id": 54
+        },
+        "id": 94
+    },
+    {
+        "beschreibung": "Ressourcenrechner: Mein ökologischer Rucksack",
+        "website": "https://ressourcen-rechner.de/",
+        "kategorien": [
+            "Umweltberatung"
+        ],
+        "thema": {
+            "id": 5,
+            "name": "Beratung",
+            "icon": "Klima_Icon_Beratung_farbig.svg",
+            "farbe": "#538DD5"
+        },
+        "standort": {
+            "name": "Wuppertal Institut",
+            "plz": "42103",
+            "stadt": "Wuppertal",
+            "strasse": "Döppersberg",
+            "hausnummer": "19",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371083.449000000022352,
+                    5679842.167000000365078
+                ]
+            },
+            "id": 15
+        },
+        "id": 95
+    },
+    {
+        "beschreibung": "Anwendungsorientierte Klima- und Nachhaltigkeitsforschung.",
+        "website": "https://wupperinst.org/",
+        "kategorien": [
+            "Studium und Forschung"
+        ],
+        "thema": {
+            "id": 6,
+            "name": "Erwachsenenbildung",
+            "icon": "Klima_Icon_Bildungseinrichtung_Erw_farbig.svg",
+            "farbe": "#BBAA1E"
+        },
+        "standort": {
+            "name": "Wuppertal Institut",
+            "plz": "42103",
+            "stadt": "Wuppertal",
+            "strasse": "Döppersberg",
+            "hausnummer": "19",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371083.449000000022352,
+                    5679842.167000000365078
+                ]
+            },
+            "id": 15
+        },
+        "id": 96
+    },
+    {
+        "beschreibung": "Bürgerengagement u.a. zum Ausbau von Fahrradtrassen.",
+        "website": "https://wuppertalbewegung.de/",
+        "kategorien": [
+            "Mobilität"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Wuppertalbewegung e.V.",
+            "plz": "42107",
+            "stadt": "Wuppertal",
+            "strasse": "Friesenstraße",
+            "hausnummer": "32a",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371468.597999999998137,
+                    5680720.605000000447035
+                ]
+            },
+            "id": 25
+        },
+        "id": 97
+    },
+    {
+        "beschreibung": "Interessengemeinschaft zu urbanen Gemeinschaftsgärten mit Fokus auf Selbstversorgung und Nachhaltigkeit.",
+        "website": "http://www.wuppertals-urbane-gaerten.de/",
+        "kategorien": [
+            "Naturschutz",
+            "Umweltschutz"
+        ],
+        "thema": {
+            "id": 1,
+            "name": "Akteure",
+            "icon": "Klima_Icon_Akteure_farbig.svg",
+            "farbe": "#476D93"
+        },
+        "standort": {
+            "name": "Wuppertals urbane Gärten",
+            "plz": "42115",
+            "stadt": "Wuppertal",
+            "strasse": "Roonstraße",
+            "hausnummer": "28",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    369437.106000000028871,
+                    5679784.925999999977648
+                ]
+            },
+            "id": 77
+        },
+        "id": 98
+    },
+    {
+        "beschreibung": "Klärschlammverbrennungsanlage: Nutzung des Prozessdampfes der Klärschlammverbrennungsanlage (SVA) und der Dampfturbine zur Stromerzeugung",
+        "website": "https://www.wupperverband.de/unsere-aufgaben/energiemanagement/erneuerbare-energien/waermerueckgewinnung-und-dampfkraft",
+        "kategorien": [
+            "andere Energien"
+        ],
+        "thema": {
+            "id": 3,
+            "name": "Anlagen_Erneuerbare Energie",
+            "icon": "Klima_Icon_Anlagen_Energie_farbig.svg",
+            "farbe": "#57AF36"
+        },
+        "standort": {
+            "name": "Wupperverband - Kläranlage Buchenhofen ",
+            "plz": "42329",
+            "stadt": "Wuppertal",
+            "strasse": "Buchenhofen",
+            "hausnummer": "45",
+            "erreichbarkeit": "Radwanderwege: R3a / R4 ",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    367833.563000000023749,
+                    5676630.365000000223517
+                ]
+            },
+            "id": 14
+        },
+        "id": 99
+    },
+    {
+        "beschreibung": "Beratungs- und Besichtigungsangebot zu regenerativer Stromerzeugung.",
+        "bild": "oekostation_gebaede_doeppersberg36.jpg",
+        "website": "https://www.wuppertal.de/kultur-bildung/weiterbildung/oekostation-bauen-und-technik/oekostation-bauen-und-technik.php",
+        "kategorien": [
+            "Energieberatung"
+        ],
+        "thema": {
+            "id": 5,
+            "name": "Beratung",
+            "icon": "Klima_Icon_Beratung_farbig.svg",
+            "farbe": "#538DD5"
+        },
+        "standort": {
+            "name": "Ökostation Bauen und Technik",
+            "beschreibung": "Dies ist ein Text fuer die Beschreibung der Oekostation.",
+            "plz": "42113",
+            "stadt": "Wuppertal",
+            "strasse": "Döppersberg",
+            "hausnummer": "36",
+            "erreichbarkeit": "Radwanderwege: Nordbahntrasse / Sambatrasse",
+            "geojson": {
+                "type": "Point",
+                "coordinates": [
+                    371113.136999999987893,
+                    5679853.182000000029802
+                ]
+            },
+            "id": 17
+        },
+        "id": 102
+    }
+]
