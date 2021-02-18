@@ -21,6 +21,7 @@ import {
   TopicMapStylingDispatchContext,
 } from "../../contexts/TopicMapStylingContextProvider";
 import { getSymbolSVGGetter } from "../../tools/uiHelper";
+import { getDefaultFeatureStyler } from "../../FeatureCollection";
 
 const SettingsPanel = (props) => {
   const { setAppMenuActiveMenuSection, setAppMenuVisible } = useContext(UIDispatchContext);
@@ -109,6 +110,14 @@ const SettingsPanel = (props) => {
 
   useEffect(() => {
     //uglyWinning : with variable using for mapPreveiw there are refresh Problems
+
+    let style;
+    if (getFeatureStyler !== undefined) {
+      style = getFeatureStyler(_markerSymbolSize, getColorFromProperties);
+    } else {
+      style = getDefaultFeatureStyler(_markerSymbolSize, getColorFromProperties);
+    }
+
     setMapPreview(
       <Map
         key={"map" + allFeatures.length + selectedBackground + _namedMapStyle}
@@ -141,7 +150,7 @@ const SettingsPanel = (props) => {
           featureCollection={previewFeatureCollection || allFeatures}
           clusteringEnabled={previewMapClusteringEnabled || clusteringEnabled}
           clusterOptions={previewMapClusteringOptions || clusteringOptions}
-          style={getFeatureStyler(_markerSymbolSize, getColorFromProperties)}
+          style={style}
           featureStylerScalableImageSize={currentMarkerSize}
           //mapRef={previewMapRef} // commented out because there cannot be a ref in a functional comp and it is bnot needed
           showMarkerCollection={false}
@@ -218,7 +227,7 @@ const SettingsPanel = (props) => {
               </Form.Group>
             </Form>,
             <NamedMapStyleChooser
-              key={"nmsc++ backgroundsFromMode + _namedMapStyle"}
+              key={"nmsc"}
               currentNamedMapStyle={_namedMapStyle}
               pathname={urlPathname}
               search={urlSearch}

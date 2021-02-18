@@ -18,6 +18,7 @@ import {
   TopicMapStylingContext,
   TopicMapStylingDispatchContext,
 } from "../contexts/TopicMapStylingContextProvider";
+
 const TopicMapComponent = (props) => {
   const leafletRoutedMapRef = useRef(null);
   const infoBoxRef = useRef(null);

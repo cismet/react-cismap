@@ -99,40 +99,22 @@ export const SimpleTopicMap = () => {
       return null;
     }
   };
-  const [clusteringEnabled, setClusteringEnabled] = useState(true);
   return (
-    // <div style={{ margin: 100 }}>
-    //   <Form>
-    //     <Form>
-    //       <Form.Check
-    //         readOnly
-    //         key={"clustered.checkbox-" + clusteringEnabled}
-    //         id={"clustered.checkbox"}
-    //         checked={clusteringEnabled}
-    //         onChange={(e) => {
-    //           console.log("xxx onChange", e.target.checked);
-    //           setClusteringEnabled(e.target.checked);
-    //         }}
-    //         label="Objekte maßstabsabhängig zusammenfassen"
-    //       />
-    //     </Form>
-    //   </Form>
-    // </div>
     <TopicMapContextProvider
-      getFeatureStyler={getGTMFeatureStyler}
-      getColorFromProperties={getColorFromProperties}
-      clusteringEnabled={true}
+      // getFeatureStyler={getGTMFeatureStyler}
+      // getColorFromProperties={getColorFromProperties}
+      // clusteringEnabled={true}
       clusteringOptions={{
-        spiderfyOnMaxZoom: false,
-        showCoverageOnHover: false,
-        zoomToBoundsOnClick: false,
-        maxClusterRadius: 40,
-        disableClusteringAtZoom: 19,
-        animate: false,
-        cismapZoomTillSpiderfy: 12,
-        selectionSpiderfyMinZoom: 12,
-        colorizer: getColorFromProperties,
-        clusterIconSize: 30,
+        // spiderfyOnMaxZoom: false,
+        // showCoverageOnHover: false,
+        // zoomToBoundsOnClick: false,
+        // maxClusterRadius: 40,
+        // disableClusteringAtZoom: 19,
+        // animate: false,
+        // cismapZoomTillSpiderfy: 12,
+        // selectionSpiderfyMinZoom: 12,
+        // colorizer: getColorFromProperties,
+        // clusterIconSize: 30,
         iconCreateFunction: getClusterIconCreatorFunction(30, getColorFromProperties),
       }}
     >
@@ -141,10 +123,7 @@ export const SimpleTopicMap = () => {
         infoBox={<MyInfoBox pixelwidth={300} />}
         modalMenu={<AppMenu />}
       >
-        <FeatureCollection
-          itemsUrl="https://wunda-geoportal.cismet.de/data/parkscheinautomatenfeatures.json"
-          styler={getGTMFeatureStyler}
-        />
+        <FeatureCollection itemsUrl="https://wunda-geoportal.cismet.de/data/parkscheinautomatenfeatures.json" />
       </TopicMapComponent>
     </TopicMapContextProvider>
   );

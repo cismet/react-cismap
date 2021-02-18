@@ -15,6 +15,25 @@ import {
   TopicMapStylingContext,
   TopicMapStylingDispatchContext,
 } from "./contexts/TopicMapStylingContextProvider";
+import Color from "color";
+
+export const getDefaultFeatureStyler = (size = 24, colorizer = () => "#2664D8") => {
+  return (feature) => {
+    let color;
+    if (feature.selected === true) {
+      color = new Color(colorizer(feature));
+    } else {
+      color = new Color("#85D259");
+    }
+    return {
+      radius: size / 2.4,
+      fillColor: color,
+      color: color.darken(0.1),
+      opacity: 1,
+      fillOpacity: 0.8,
+    };
+  };
+};
 
 // Since this component is simple and static, there's no parent container for it.
 const FeatureCollection = (props) => {
@@ -58,7 +77,14 @@ const FeatureCollection = (props) => {
 
   const _mapRef = mapRef || routedMapRef;
 
-  let _style = getFeatureStyler(markerSymbolSize, getColorFromProperties);
+  let _style;
+  if (styler !== undefined) {
+    _style = styler(markerSymbolSize, getColorFromProperties || ((props) => props.color));
+  } else if (getFeatureStyler !== undefined) {
+    _style = getFeatureStyler(markerSymbolSize, getColorFromProperties || ((props) => props.color));
+  } else {
+    _style = getDefaultFeatureStyler(markerSymbolSize, getColorFromProperties);
+  }
 
   const _clusterOptions = {
     spiderfyOnMaxZoom: false,
@@ -75,12 +101,12 @@ const FeatureCollection = (props) => {
     ...clusteringOptions,
   };
 
-  if (_clusterOptions.iconCreateFunction === undefined) {
-    _clusterOptions.iconCreateFunction = getClusterIconCreatorFunction(
-      _clusterOptions.clusterIconSize,
-      _clusterOptions.colorizer
-    );
-  }
+  // if (_clusterOptions.iconCreateFunction === undefined) {
+  //   _clusterOptions.iconCreateFunction = getClusterIconCreatorFunction(
+  //     _clusterOptions.clusterIconSize,
+  //     _clusterOptions.colorizer
+  //   );
+  // }
   let _clusteringEnabled = clusteringEnabled || clusteringEnabledFromContext;
 
   let getFeatureCollectionForData = () => {};
