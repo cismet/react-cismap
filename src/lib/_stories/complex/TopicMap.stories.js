@@ -273,7 +273,6 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
             pixelwidth={400}
             config={{
               city: "Wuppertal",
-
               navigator: {
                 noun: {
                   singular: "Standort",
