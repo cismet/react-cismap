@@ -52,7 +52,7 @@ const defaultState = {
   namedMapStyle: "default",
   selectedBackground: "stadtplan",
   backgroundModes: defaultBackgroundModes,
-  markerSymbolSize: 24,
+  markerSymbolSize: 35,
   backgroundConfigurations: defaultBackgroundConfigurations,
 };
 const TopicMapStylingContextProvider = ({

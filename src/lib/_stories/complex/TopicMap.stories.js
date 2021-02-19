@@ -213,7 +213,46 @@ export const SimpleTopicMapWithFullClusteringOptionsAndStyling = () => {
   );
 };
 
-export const TopicMapWithWithSecondaryInfoSheet = () => {
+const convertBPKlimaItemsToFeature = async (itemIn) => {
+  let item = await addSVGToProps(itemIn, (i) => i.thema.icon);
+  const text = item?.standort?.name || "Kein Standort";
+  const type = "Feature";
+  const selected = false;
+  const geometry = item?.standort?.geojson;
+  const color = item?.thema?.farbe;
+  // item.svg=DEFAULT_SVG.code;
+  item.color = item?.thema.farbe;
+  const info = {
+    header: item.thema.name,
+    title: text,
+    additionalInfo: item?.beschreibung,
+    subtitle: (
+      <span>
+        {item?.standort?.strasse} {item?.standort?.hausnummer}
+        <br />
+        {item?.standort?.plz} {item?.standort?.stadt}
+      </span>
+    ),
+  };
+  item.info = info;
+  item.url = item?.website;
+
+  return {
+    text,
+    type,
+    selected,
+    geometry,
+    crs: {
+      type: "name",
+      properties: {
+        name: "urn:ogc:def:crs:EPSG::25832",
+      },
+    },
+    properties: item,
+  };
+};
+
+export const TopicMapWithWithItemConverter = () => {
   const [gazData, setGazData] = useState([]);
   useEffect(() => {
     getGazData(setGazData);
@@ -223,44 +262,7 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
     <TopicMapContextProvider
       featureItemsURL="/data/bpklima.data.json"
       getFeatureStyler={getGTMFeatureStyler}
-      convertItemToFeature={async (itemIn) => {
-        let item = await addSVGToProps(itemIn, (i) => i.thema.icon);
-        const text = item?.standort?.name || "Kein Standort";
-        const type = "Feature";
-        const selected = false;
-        const geometry = item?.standort?.geojson;
-        const color = item?.thema?.farbe;
-        // item.svg=DEFAULT_SVG.code;
-        item.color = item?.thema.farbe;
-        const info = {
-          header: item.thema.name,
-          title: text,
-          additionalInfo: item?.beschreibung,
-          subtitle: (
-            <span>
-              {item?.standort?.strasse} {item?.standort?.hausnummer}
-              <br />
-              {item?.standort?.plz} {item?.standort?.stadt}
-            </span>
-          ),
-        };
-        item.info = info;
-        item.url = item?.website;
-
-        return {
-          text,
-          type,
-          selected,
-          geometry,
-          crs: {
-            type: "name",
-            properties: {
-              name: "urn:ogc:def:crs:EPSG::25832",
-            },
-          },
-          properties: item,
-        };
-      }}
+      convertItemToFeature={convertBPKlimaItemsToFeature}
       clusteringOptions={{
         iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
       }}
@@ -272,6 +274,48 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
           <GenericInfoBoxFromFeature
             pixelwidth={400}
             config={{
+              city: "Wuppertal",
+              navigator: {
+                noun: {
+                  singular: "Standort",
+                  plural: "Standorte",
+                },
+              },
+              noCurrentFeatureTitle: "Keine Standorte gefunden",
+              noCurrentFeatureContent: "",
+            }}
+          />
+        }
+      >
+        <FeatureCollection />
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
+
+export const TopicMapWithWithSecondaryInfoSheet = () => {
+  const [gazData, setGazData] = useState([]);
+  useEffect(() => {
+    getGazData(setGazData);
+  }, []);
+
+  return (
+    <TopicMapContextProvider
+      featureItemsURL="/data/bpklima.data.json"
+      getFeatureStyler={getGTMFeatureStyler}
+      convertItemToFeature={convertBPKlimaItemsToFeature}
+      clusteringOptions={{
+        iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
+      }}
+      clusteringEnabled={true}
+    >
+      <TopicMapComponent
+        gazData={gazData}
+        infoBox={
+          <GenericInfoBoxFromFeature
+            pixelwidth={400}
+            config={{
+              displaySecondaryInfoAction: true,
               city: "Wuppertal",
               navigator: {
                 noun: {

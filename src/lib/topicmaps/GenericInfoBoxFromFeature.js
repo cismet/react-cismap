@@ -5,7 +5,7 @@ import Icon from "../commons/Icon";
 import { FeatureCollectionContext } from "../contexts/FeatureCollectionContextProvider";
 import { TopicMapDispatchContext } from "../contexts/TopicMapContextProvider";
 import { ResponsiveTopicMapDispatchContext } from "../contexts/ResponsiveTopicMapContextProvider";
-
+import { UIDispatchContext } from "../contexts/UIContextProvider";
 export const getColorForProperties = (props = { color: "#dddddd" }) => {
   return props.color;
 };
@@ -21,10 +21,11 @@ const defaultConfig = {
   },
   noCurrentFeatureTitle: "Keine Objekte gefunden",
   noCurrentFeatureContent: "",
+  displaySecondaryInfoAction: false,
 };
 
 const Component = (props) => {
-  let { config, pixelwidth = 300 } = props;
+  let { config, pixelwidth = 300, setSecondaryInfoVisible } = props;
   const featureCollectionContext = useContext(FeatureCollectionContext);
   const { zoomToFeature, gotoHome } = useContext(TopicMapDispatchContext);
   const { setInfoBoxPixelWidth } = useContext(ResponsiveTopicMapDispatchContext);
@@ -34,7 +35,11 @@ const Component = (props) => {
     allFeatures = 0,
     items = [],
   } = featureCollectionContext;
+  const { setSecondaryInfoVisible: setSecondaryInfoVisibleFromContext } = useContext(
+    UIDispatchContext
+  );
 
+  const _setSecondaryInfoVisible = setSecondaryInfoVisible || setSecondaryInfoVisibleFromContext;
   config = { ...defaultConfig, ...config };
 
   let currentFeature, featureCollection;
@@ -57,7 +62,7 @@ const Component = (props) => {
       displaySecondaryInfoAction:
         config.displaySecondaryInfoAction === true ||
         config.displaySecondaryInfoAction === undefined,
-      setVisibleStateOfSecondaryInfo: (vis) => this.setState({ secondaryInfoVisible: vis }),
+      setVisibleStateOfSecondaryInfo: (vis) => _setSecondaryInfoVisible(vis),
     });
     header = <span>{currentFeature?.properties?.info?.header || config.header}</span>;
     title = currentFeature?.properties?.info?.title;
