@@ -62,6 +62,7 @@ const TopicMapComponent = (props) => {
     applicationMenuTooltipString = "Einstellungen | Anleitung",
     showModalApplicationMenu = undefined,
     applicationMenuIconname = "bars",
+    secondaryInfo,
   } = props;
   const { history } = useContext(TopicMapContext);
   const { backgroundModes, selectedBackground, backgroundConfigurations } = useContext(
@@ -149,6 +150,7 @@ const TopicMapComponent = (props) => {
   return (
     <div>
       {_modalMenu}
+      {secondaryInfo !== undefined && secondaryInfo}
       <Loadable
         active={pendingLoader > 0 && !noInitialLoadingText}
         spinner

@@ -23,7 +23,7 @@ const UIContextProvider = ({ children, enabled = true }) => {
   const setX = {
     setAppMenuVisible: set("appMenuVisible"),
     setAppMenuActiveMenuSection: set("appMenuActiveMenuSection"),
-    setSecondaryInfoVisible: set("seconddaryInfoVisible"),
+    setSecondaryInfoVisible: set("secondaryInfoVisible"),
   };
 
   if (enabled === true) {

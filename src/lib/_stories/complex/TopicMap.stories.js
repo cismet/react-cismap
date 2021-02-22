@@ -22,28 +22,24 @@ import AppMenu from "../../topicmaps/menu/DefaultAppMenu";
 import { getClusterIconCreatorFunction } from "../../tools/uiHelper";
 import { Form } from "react-bootstrap";
 import { addSVGToProps, DEFAULT_SVG } from "../../tools/svgHelper";
+import SecondaryInfo from "../../topicmaps/SecondaryInfo";
+import SecondaryInfoPanelSection from "../../topicmaps/SecondaryInfoPanelSection";
+import { UIContext, UIDispatchContext } from "../../contexts/UIContextProvider";
+
 export default {
   title: storiesCategory + "TopicMapComponent",
 };
+const host = "https://wupp-topicmaps-data.cismet.de";
 
 const getGazData = async (setGazData) => {
   const prefix = "GazDataForStories";
   const sources = {};
 
-  sources.adressen = await md5FetchText(
-    prefix,
-    "https://wunda-geoportal.cismet.de/data/adressen.json"
-  );
-  sources.bezirke = await md5FetchText(
-    prefix,
-    "https://wunda-geoportal.cismet.de/data/bezirke.json"
-  );
-  sources.quartiere = await md5FetchText(
-    prefix,
-    "https://wunda-geoportal.cismet.de/data/quartiere.json"
-  );
-  sources.pois = await md5FetchText(prefix, "https://wunda-geoportal.cismet.de/data/pois.json");
-  sources.kitas = await md5FetchText(prefix, "https://wunda-geoportal.cismet.de/data/kitas.json");
+  sources.adressen = await md5FetchText(prefix, host + "/data/adressen.json");
+  sources.bezirke = await md5FetchText(prefix, host + "/data/bezirke.json");
+  sources.quartiere = await md5FetchText(prefix, host + "/data/quartiere.json");
+  sources.pois = await md5FetchText(prefix, host + "/data/pois.json");
+  sources.kitas = await md5FetchText(prefix, host + "/data/kitas.json");
 
   const gazData = getGazDataForTopicIds(sources, [
     "pois",
@@ -299,6 +295,137 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
     getGazData(setGazData);
   }, []);
 
+  const InfoPanel = () => {
+    const { selectedFeature, items } = useContext(FeatureCollectionContext);
+
+    const angebot = selectedFeature?.properties;
+
+    if (angebot !== undefined) {
+      const foto = angebot.bild;
+      const weitereAngebote = items.filter(
+        (testItem) => testItem?.standort.id === angebot.standort.id && testItem.id !== angebot.id
+      );
+      //data structure for "weitere Angebote"
+      // gruppenwechsel for thema
+      // { }
+      const addOffers = {};
+      for (const ang of weitereAngebote) {
+        if (addOffers[ang.thema.name] === undefined) {
+          addOffers[ang.thema.name] = [];
+        }
+        addOffers[ang.thema.name].push(ang.kategorien);
+      }
+
+      const subSections = [
+        <SecondaryInfoPanelSection bsStyle="info" header={"Standort: " + angebot?.standort?.name}>
+          <div style={{ fontSize: "115%", padding: "10px", paddingTop: "0px" }}>
+            {angebot?.standort && (
+              <b>
+                {angebot?.standort?.strasse} {angebot?.standort?.hausnummer}
+                <br />
+                {angebot?.standort?.plz} {angebot?.standort?.stadt}
+                <br />
+              </b>
+            )}
+
+            {angebot?.standort?.beschreibung && (
+              <div>
+                {angebot?.standort?.beschreibung}
+                <br />
+              </div>
+            )}
+            {angebot?.standort?.bemerkung && (
+              <div>
+                {angebot?.standort?.bemerkung} <br />
+              </div>
+            )}
+            {angebot?.standort?.kommentar && (
+              <div>
+                {angebot?.standort?.kommentar} <br />
+              </div>
+            )}
+          </div>
+        </SecondaryInfoPanelSection>,
+      ];
+
+      if (weitereAngebote.length > 0) {
+        subSections.push(
+          <SecondaryInfoPanelSection
+            header="Weitere Angebote an diesem Standort:"
+            bsStyle="success"
+          >
+            <div style={{ fontSize: "115%", padding: "10px", paddingTop: "0px" }}>
+              <table border={0} style={{ xwidth: "100%" }}>
+                <tbody>
+                  {Object.keys(addOffers).map((key, index) => {
+                    return (
+                      <tr style={{ paddingBottom: 10 }} key={"addAng" + index}>
+                        <td style={{ verticalAlign: "top", padding: 5 }} key={"addAng.L." + index}>
+                          {key}:
+                        </td>
+                        <td style={{ verticalAlign: "top", padding: 5 }} key={"addAng.R." + index}>
+                          {addOffers[key].map((val, index) => {
+                            return <div>{val.join(", ")}</div>;
+                          })}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            {/* <pre>{JSON.stringify(addOffers, null, 2)}</pre> */}
+          </SecondaryInfoPanelSection>
+        );
+      }
+
+      return (
+        <SecondaryInfo
+          titleIconName="info-circle"
+          title={"Datenblatt: " + angebot.kategorien.join(", ")}
+          mainSection={
+            <div style={{ width: "100%", minHeight: 250 }}>
+              {foto !== undefined && (
+                <img
+                  alt="Bild"
+                  style={{
+                    paddingLeft: 10,
+                    paddingRight: 10,
+                    float: "right",
+                    paddingBottom: "5px",
+                  }}
+                  src={"https://www.wuppertal.de/geoportal/standort_klima/fotos/" + foto}
+                  width="250"
+                />
+              )}
+              <div style={{ fontSize: "115%", padding: "10px", paddingTop: "0px" }}>
+                {angebot.beschreibung && (
+                  <b>
+                    {angebot.beschreibung}
+                    <br />
+                  </b>
+                )}
+                {angebot.bemerkung && (
+                  <div>
+                    {angebot.bemerkung} <br />
+                  </div>
+                )}
+                {angebot.kommentar && (
+                  <div>
+                    {angebot.kommentar} <br />
+                  </div>
+                )}
+              </div>
+            </div>
+          }
+          subSections={subSections}
+        />
+      );
+    } else {
+      return null;
+    }
+  };
+
   return (
     <TopicMapContextProvider
       featureItemsURL="/data/bpklima.data.json"
@@ -328,6 +455,7 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
             }}
           />
         }
+        secondaryInfo={<InfoPanel />}
       >
         <FeatureCollection />
       </TopicMapComponent>
