@@ -70,7 +70,7 @@ const SymbolSizeChooser = ({
               <Form.Check
                 type="radio"
                 id="symbolSizeSmall"
-                style={{ marginTop: "0px", marginLeft: "6px" }}
+                style={{ marginTop: "0px", marginLeft: "0px" }}
                 readOnly={true}
                 onClick={() => changeMarkerSymbolSize(config.smallSize)}
                 name="symbolSizeSmall"
@@ -81,7 +81,7 @@ const SymbolSizeChooser = ({
               <Form.Check
                 type="radio"
                 id="symbolSizeMid"
-                style={{ marginTop: "0px", marginLeft: "6px" }}
+                style={{ marginTop: "0px", marginLeft: "0px" }}
                 readOnly={true}
                 onClick={() => changeMarkerSymbolSize(config.midSize)}
                 name="symbolSizeMid"
@@ -94,7 +94,7 @@ const SymbolSizeChooser = ({
               <Form.Check
                 type="radio"
                 id="symbolSizeLarge"
-                style={{ marginTop: "0px", marginLeft: "7px" }}
+                style={{ marginTop: "0px", marginLeft: "0px" }}
                 readOnly={true}
                 onClick={() => changeMarkerSymbolSize(config.largeSize)}
                 name="symbolSizeLarge"
