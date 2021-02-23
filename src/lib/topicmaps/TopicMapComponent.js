@@ -65,6 +65,7 @@ const TopicMapComponent = (props) => {
     showModalApplicationMenu = undefined,
     applicationMenuIconname = "bars",
     secondaryInfo,
+    gazetteerSearchPlaceholder,
   } = props;
   const { history } = useContext(TopicMapContext);
   const { backgroundModes, selectedBackground, backgroundConfigurations } = useContext(
@@ -221,6 +222,7 @@ const TopicMapComponent = (props) => {
               gazData={gazData}
               enabled={gazData.length > 0}
               pixelwidth={searchControlWidth}
+              placeholder={gazetteerSearchPlaceholder}
             />
 
             {infoBox}

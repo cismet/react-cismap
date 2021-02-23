@@ -40,8 +40,10 @@ const getGazData = async (setGazData) => {
   sources.quartiere = await md5FetchText(prefix, host + "/data/quartiere.json");
   sources.pois = await md5FetchText(prefix, host + "/data/pois.json");
   sources.kitas = await md5FetchText(prefix, host + "/data/kitas.json");
+  sources.bpklimastandorte = await md5FetchText(prefix, host + "/data/bpklimastandorte.json");
 
   const gazData = getGazDataForTopicIds(sources, [
+    "bpklimastandorte",
     "pois",
     "kitas",
     "bezirke",
@@ -454,6 +456,7 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
     >
       <TopicMapComponent
         gazData={gazData}
+        gazetteerSearchPlaceholder="Stadtteil | Adresse | POI | Standorte"
         infoBox={
           <GenericInfoBoxFromFeature
             pixelwidth={400}
