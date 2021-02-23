@@ -5,7 +5,10 @@ import Icon from "../commons/Icon";
 import { FeatureCollectionContext } from "../contexts/FeatureCollectionContextProvider";
 import { TopicMapDispatchContext } from "../contexts/TopicMapContextProvider";
 import { ResponsiveTopicMapDispatchContext } from "../contexts/ResponsiveTopicMapContextProvider";
+import { LightBoxContext, LightBoxDispatchContext } from "../contexts/LightBoxContextProvider";
+
 import { UIDispatchContext } from "../contexts/UIContextProvider";
+import InfoBoxFotoPreview from "./InfoBoxFotoPreview";
 export const getColorForProperties = (props = { color: "#dddddd" }) => {
   return props.color;
 };
@@ -28,6 +31,7 @@ const Component = (props) => {
   let { config, pixelwidth = 300, setSecondaryInfoVisible } = props;
   const featureCollectionContext = useContext(FeatureCollectionContext);
   const { zoomToFeature, gotoHome } = useContext(TopicMapDispatchContext);
+  const lightBoxDispatchContext = useContext(LightBoxDispatchContext);
   const { setInfoBoxPixelWidth } = useContext(ResponsiveTopicMapDispatchContext);
   const {
     shownFeatures = [],
@@ -73,8 +77,6 @@ const Component = (props) => {
 
   const minified = undefined;
   const minify = undefined;
-
-  //TODO
 
   return (
     <InfoBox
@@ -125,6 +127,12 @@ const Component = (props) => {
       }
       hideNavigator={allFeatures?.length === 1}
       fitAll={gotoHome}
+      secondaryInfoBoxElements={[
+        <InfoBoxFotoPreview
+          lightBoxDispatchContext={lightBoxDispatchContext}
+          currentFeature={currentFeature}
+        />,
+      ]}
     />
   );
 };

@@ -19,6 +19,7 @@ import {
   TopicMapStylingDispatchContext,
 } from "../contexts/TopicMapStylingContextProvider";
 import DefaultAppMenu from "./menu/DefaultAppMenu";
+import PhotoLightBox from "./PhotoLightbox";
 const TopicMapComponent = (props) => {
   const leafletRoutedMapRef = useRef(null);
   const infoBoxRef = useRef(null);
@@ -59,6 +60,7 @@ const TopicMapComponent = (props) => {
     infoBoxBottomMargin,
     infoBox = <div />,
     secondaryInfoBoxElements = [],
+    secondaryInfoBoxControlPosition,
     applicationMenuTooltipString = "Einstellungen | Anleitung",
     showModalApplicationMenu = undefined,
     applicationMenuIconname = "bars",
@@ -77,7 +79,7 @@ const TopicMapComponent = (props) => {
   }, []);
 
   let featureCollectionDisplay;
-  let photoLightBox;
+
   let _urlSearchParams;
   let _pushToHistory =
     pushToHistory ||
@@ -147,6 +149,7 @@ const TopicMapComponent = (props) => {
   };
 
   const _modalMenu = modalMenu || <DefaultAppMenu />;
+
   return (
     <div>
       {_modalMenu}
@@ -157,7 +160,7 @@ const TopicMapComponent = (props) => {
         text={initialLoadingText + " " + statusPostfix + "..."}
       >
         <div>
-          {photoLightBox}
+          <PhotoLightBox />
           <RoutedMap
             key={"leafletRoutedMap"}
             referenceSystem={MappingConstants.crs25832}
@@ -221,6 +224,7 @@ const TopicMapComponent = (props) => {
             />
 
             {infoBox}
+
             <Control position="topright">
               <OverlayTrigger
                 placement="left"

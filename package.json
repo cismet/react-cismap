@@ -64,6 +64,7 @@
 		"react-bootstrap-typeahead": "3.4.7",
 		"react-dom": "^16.11",
 		"react-fa": "^5.0.0",
+		"react-image-lightbox": "^5.1.1",
 		"react-leaflet": "^1.6.4",
 		"react-leaflet-control": "1.4.1",
 		"react-leaflet-markercluster": "^1.1.8",

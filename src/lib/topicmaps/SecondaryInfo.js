@@ -63,7 +63,7 @@ const Comp = ({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body style={modalBodyStyle} id="myMenu">
-        <div style={{ width: "100%", minHeight: 250 }}>
+        <div style={{ width: "100%", minHeight: undefined }}>
           {imageUrl !== undefined && (
             <img
               alt="Bild"

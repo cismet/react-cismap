@@ -25,7 +25,7 @@ import { addSVGToProps, DEFAULT_SVG } from "../../tools/svgHelper";
 import SecondaryInfo from "../../topicmaps/SecondaryInfo";
 import SecondaryInfoPanelSection from "../../topicmaps/SecondaryInfoPanelSection";
 import { UIContext, UIDispatchContext } from "../../contexts/UIContextProvider";
-
+import InfoBoxFotoPreview from "../../topicmaps/InfoBoxFotoPreview";
 export default {
   title: storiesCategory + "TopicMapComponent",
 };
@@ -232,6 +232,9 @@ const convertBPKlimaItemsToFeature = async (itemIn) => {
   };
   item.info = info;
   item.url = item?.website;
+  if (item.bild) {
+    item.foto = "https://www.wuppertal.de/geoportal/standort_klima/fotos/" + item.bild;
+  }
 
   return {
     text,
@@ -301,13 +304,17 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
     const angebot = selectedFeature?.properties;
 
     if (angebot !== undefined) {
-      const foto = angebot.bild;
+      let foto;
+      if (angebot.bild !== undefined) {
+        foto = "https://www.wuppertal.de/geoportal/standort_klima/fotos/" + angebot.bild;
+      }
+
       const weitereAngebote = items.filter(
         (testItem) => testItem?.standort.id === angebot.standort.id && testItem.id !== angebot.id
       );
       //data structure for "weitere Angebote"
       // gruppenwechsel for thema
-      // { }
+
       const addOffers = {};
       for (const ang of weitereAngebote) {
         if (addOffers[ang.thema.name] === undefined) {
@@ -317,7 +324,11 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
       }
 
       const subSections = [
-        <SecondaryInfoPanelSection bsStyle="info" header={"Standort: " + angebot?.standort?.name}>
+        <SecondaryInfoPanelSection
+          key="standort"
+          bsStyle="info"
+          header={"Standort: " + angebot?.standort?.name}
+        >
           <div style={{ fontSize: "115%", padding: "10px", paddingTop: "0px" }}>
             {angebot?.standort && (
               <b>
@@ -351,6 +362,7 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
       if (weitereAngebote.length > 0) {
         subSections.push(
           <SecondaryInfoPanelSection
+            key="weitereAngebote"
             header="Weitere Angebote an diesem Standort:"
             bsStyle="success"
           >
@@ -365,7 +377,7 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
                         </td>
                         <td style={{ verticalAlign: "top", padding: 5 }} key={"addAng.R." + index}>
                           {addOffers[key].map((val, index) => {
-                            return <div>{val.join(", ")}</div>;
+                            return <div key={"kategorien." + index}>{val.join(", ")}</div>;
                           })}
                         </td>
                       </tr>
@@ -379,12 +391,16 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
         );
       }
 
+      let minHeight4MainSextion = undefined;
+      if (foto !== undefined) {
+        minHeight4MainSextion = 250;
+      }
       return (
         <SecondaryInfo
           titleIconName="info-circle"
           title={"Datenblatt: " + angebot.kategorien.join(", ")}
           mainSection={
-            <div style={{ width: "100%", minHeight: 250 }}>
+            <div style={{ width: "100%", minHeight: minHeight4MainSextion }}>
               {foto !== undefined && (
                 <img
                   alt="Bild"
@@ -394,7 +410,7 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
                     float: "right",
                     paddingBottom: "5px",
                   }}
-                  src={"https://www.wuppertal.de/geoportal/standort_klima/fotos/" + foto}
+                  src={foto}
                   width="250"
                 />
               )}
@@ -456,6 +472,7 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
+        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
       >
         <FeatureCollection />
       </TopicMapComponent>

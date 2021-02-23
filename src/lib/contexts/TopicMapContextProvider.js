@@ -3,6 +3,7 @@ import { useImmer } from "use-immer";
 import FeatureCollectionContextProvider from "./FeatureCollectionContextProvider";
 import ResponsiveTopicMapContextProvider from "./ResponsiveTopicMapContextProvider";
 import TopicMapStylingContextProvider from "./TopicMapStylingContextProvider";
+import LightBoxContextProvider from "./LightBoxContextProvider";
 
 import UIContextProvider from "./UIContextProvider";
 import proj4 from "proj4";
@@ -22,6 +23,7 @@ const history = createHashHistory();
 const TopicMapContextProvider = ({
   children,
   featureCollectionEnabled = true,
+  lightBoxEnabled = true,
   responsiveContextEnabled = true,
   stylingContextEnabled = true,
   uiContextEnabled = true,
@@ -91,7 +93,11 @@ const TopicMapContextProvider = ({
             featureCollectionName={featureCollectionName}
           >
             <ResponsiveTopicMapContextProvider enabled={responsiveContextEnabled}>
-              <UIContextProvider enabled={uiContextEnabled}>{children}</UIContextProvider>
+              <UIContextProvider enabled={uiContextEnabled}>
+                <LightBoxContextProvider enabled={lightBoxEnabled}>
+                  {children}
+                </LightBoxContextProvider>
+              </UIContextProvider>
             </ResponsiveTopicMapContextProvider>
           </FeatureCollectionContextProvider>
         </TopicMapStylingContextProvider>
