@@ -10,6 +10,8 @@ export const getColorFromProperties = (props) => props.color;
 
 // export const getClusterIconCreatorFunction = ()
 
+const selectionColor = new Color("#2664D8");
+
 const getFeatureStyler = (svgSize = 24, colorizer = getColorFromProperties) => {
   const styler = (feature) => {
     var color = new Color(colorizer(feature.properties));
@@ -86,16 +88,46 @@ const getFeatureStyler = (svgSize = 24, colorizer = getColorFromProperties) => {
                 </svg>`;
     }
 
-    const style = {
-      radius,
-      fillColor: color,
-      color: color.darken(0.5),
-      opacity: 1,
-      fillOpacity: 0.8,
-      svg,
-      svgSize: canvasSize,
-    };
-    return style;
+    if (feature.geometry.type !== "Point") {
+      if (feature.selected === true) {
+        color = selectionColor;
+        const style = {
+          radius,
+          fillColor: color,
+          color: color.darken(0.01),
+          opacity: 1,
+          fillOpacity: 0.8,
+          svg,
+          svgSize: canvasSize,
+          weight: 3,
+        };
+        return style;
+      } else {
+        const style = {
+          radius,
+          fillColor: color,
+          color: color.darken(0.5),
+          opacity: 1,
+          fillOpacity: 0.8,
+          svg,
+          svgSize: canvasSize,
+          weight: 2,
+        };
+        return style;
+      }
+    } else {
+      const style = {
+        radius,
+        fillColor: color,
+        color: color.darken(0.5),
+        opacity: 1,
+        fillOpacity: 0.8,
+        svg,
+        svgSize: canvasSize,
+        weight: 2,
+      };
+      return style;
+    }
   };
   return styler;
 };

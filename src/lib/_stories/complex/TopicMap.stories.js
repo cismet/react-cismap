@@ -302,6 +302,7 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
 
   const InfoPanel = () => {
     const { selectedFeature, items } = useContext(FeatureCollectionContext);
+    console.log("selectedfeature ", selectedFeature);
 
     const angebot = selectedFeature?.properties;
 
@@ -311,14 +312,14 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
         foto = "https://www.wuppertal.de/geoportal/standort_klima/fotos/" + angebot.bild;
       }
 
-      const weitereAngebote = items.filter(
+      const weitereAngebote = (items || []).filter(
         (testItem) => testItem?.standort.id === angebot.standort.id && testItem.id !== angebot.id
       );
       //data structure for "weitere Angebote"
       // gruppenwechsel for thema
 
       const addOffers = {};
-      for (const ang of weitereAngebote) {
+      for (const ang of weitereAngebote || []) {
         if (addOffers[ang.thema.name] === undefined) {
           addOffers[ang.thema.name] = [];
         }
@@ -478,6 +479,25 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
         // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
       >
         <FeatureCollection />
+        {/* <ProjSingleGeoJson
+          masked={false}
+          geoJson={{
+            type: "Feature",
+            properties: {},
+            geometry: {
+              type: "Polygon",
+              coordinates: [
+                [
+                  [373599.7647000494, 5681926.504556058],
+                  [374199.31764066103, 5681926.504556058],
+                  [374199.31764066103, 5681416.526257968],
+                  [373599.7647000494, 5681416.526257968],
+                  [373599.7647000494, 5681926.504556058],
+                ],
+              ],
+            },
+          }}
+        /> */}
       </TopicMapComponent>
     </TopicMapContextProvider>
   );

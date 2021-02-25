@@ -5,7 +5,8 @@ import Flatbush from "flatbush";
 import KDBush from "kdbush";
 import { TopicMapContext } from "./TopicMapContextProvider";
 import { getSymbolSVGGetter } from "../tools/uiHelper";
-
+import bboxPolygon from "@turf/bbox-polygon";
+import booleanIntersects from "@turf/boolean-intersects";
 const defaultState = {
   items: undefined,
   allFeatures: undefined,
@@ -154,6 +155,31 @@ const FeatureCollectionContextProvider = ({
     let i = 0;
 
     let _shownFeatures = [];
+    let bbPoly;
+    if (boundingBox) {
+      console.log("boundingBox", boundingBox);
+      bbPoly = bboxPolygon([
+        boundingBox.left,
+        boundingBox.bottom,
+        boundingBox.right,
+        boundingBox.top,
+      ]);
+      console.log("xxx boundingBoxPoly", bbPoly);
+
+      // _shownFeatures.push(xxx);
+    }
+
+    const nonPoints = allFeatures?.filter((test) => {
+      if (bbPoly !== undefined && test?.geometry?.type !== "Point") {
+        return booleanIntersects(test, bbPoly);
+      }
+      return false;
+    });
+    console.log("nonPoints", nonPoints, features);
+    if (features && nonPoints) {
+      features = [...features, ...nonPoints];
+    }
+
     for (const f of features || []) {
       const nf = {
         selected: false,
