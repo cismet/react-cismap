@@ -37,7 +37,7 @@ const Component = (props) => {
     shownFeatures = [],
     selectedFeature,
     allFeatures = 0,
-    items = [],
+    filteredItems = [],
   } = featureCollectionContext;
   const { setSecondaryInfoVisible: setSecondaryInfoVisibleFromContext } = useContext(
     UIDispatchContext
@@ -81,7 +81,7 @@ const Component = (props) => {
   return (
     <InfoBox
       isCollapsible={currentFeature !== undefined}
-      items={items} //?
+      items={filteredItems} //?
       // selectedIndex={selectedIndex} //?
       showModalMenu={() => {}}
       colorize={getColorForProperties}
@@ -92,8 +92,8 @@ const Component = (props) => {
       title={title}
       subtitle={subtitle}
       additionalInfo={additionalInfo}
-      zoomToAllLabel={`${items.length} ${
-        items.length === 1 ? config.navigator.noun.singular : config.navigator.noun.plural
+      zoomToAllLabel={`${filteredItems.length} ${
+        filteredItems.length === 1 ? config.navigator.noun.singular : config.navigator.noun.plural
       } in ${config.city}`}
       currentlyShownCountLabel={`${featureCollection.length} ${
         featureCollection.length === 1
@@ -118,8 +118,10 @@ const Component = (props) => {
 
           <div align="center">
             <a className="pleaseRenderLikeALinkEvenWithoutAnHrefAttribute" onClick={gotoHome}>
-              {items.length}{" "}
-              {items.length === 1 ? config.navigator.noun.singular : config.navigator.noun.plural}{" "}
+              {filteredItems.length}{" "}
+              {filteredItems.length === 1
+                ? config.navigator.noun.singular
+                : config.navigator.noun.plural}{" "}
               in {config.city}
             </a>
           </div>

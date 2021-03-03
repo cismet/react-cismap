@@ -798,3 +798,94 @@ export const TopicMapWithAdditionalLayers = () => {
     </TopicMapContextProvider>
   );
 };
+export const TopicMapWithWithCustomSettingsAndOneAdditionlLayer = () => {
+  const [gazData, setGazData] = useState([]);
+  useEffect(() => {
+    getGazData(setGazData);
+  }, []);
+
+  return (
+    <TopicMapContextProvider
+      featureItemsURL="/data/bpklima.data.json"
+      getFeatureStyler={getGTMFeatureStyler}
+      convertItemToFeature={convertBPKlimaItemsToFeature}
+      clusteringOptions={{
+        iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
+      }}
+      clusteringEnabled={true}
+      itemFilterFunction={({ filterState, filterMode }) => {
+        return (item) => {
+          if (filterMode === "themen") {
+            return filterState?.themen?.includes(item.thema.id);
+          } else if (filterMode === "kategorien") {
+            for (const cat of item.kategorien) {
+              if (filterState?.kategorien?.includes(cat)) {
+                return true;
+              }
+            }
+            return false;
+          } else {
+            return true;
+          }
+        };
+      }}
+      additionalLayerConfiguration={{
+        fernwaerme: {
+          title: (
+            <span>
+              Fernwärme{" "}
+              <Icon
+                style={{
+                  color: "#EEB48C",
+                  width: "30px",
+                  textAlign: "center",
+                }}
+                name={"circle"}
+              />
+            </span>
+          ),
+          initialActive: true,
+          layer: (
+            <StyledWMSTileLayer
+              key={"fernwaermewsw"}
+              url="https://maps.wuppertal.de/deegree/wms"
+              layers="fernwaermewsw "
+              format="image/png"
+              tiled="true"
+              transparent="true"
+              maxZoom={19}
+              opacity={0.7}
+            />
+          ),
+        },
+      }}
+    >
+      <TopicMapComponent
+        modalMenu={<MyMenu />}
+        gazData={gazData}
+        gazetteerSearchPlaceholder="Stadtteil | Adresse | POI | Standorte"
+        infoBox={
+          <GenericInfoBoxFromFeature
+            pixelwidth={400}
+            config={{
+              displaySecondaryInfoAction: true,
+              city: "Wuppertal",
+              navigator: {
+                noun: {
+                  singular: "Standort",
+                  plural: "Standorte",
+                },
+              },
+              noCurrentFeatureTitle: "Keine Standorte gefunden",
+              noCurrentFeatureContent: "",
+            }}
+          />
+        }
+        secondaryInfo={<InfoPanel />}
+        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+      >
+        <FeatureCollection />
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
