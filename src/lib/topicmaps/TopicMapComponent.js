@@ -21,6 +21,7 @@ import {
 import DefaultAppMenu from "./menu/DefaultAppMenu";
 import PhotoLightBox from "./PhotoLightbox";
 import getLayers from "../tools/layerFactory";
+import md5 from "md5";
 const TopicMapComponent = (props) => {
   const leafletRoutedMapRef = useRef(null);
   const infoBoxRef = useRef(null);
@@ -169,6 +170,11 @@ const TopicMapComponent = (props) => {
           <PhotoLightBox />
           <RoutedMap
             key={"leafletRoutedMap"}
+            layerKeyPostfix={
+              md5(additionalLayerConfiguration || "") +
+              "." +
+              JSON.stringify(activeAdditionalLayerKeys)
+            }
             referenceSystem={MappingConstants.crs25832}
             referenceSystemDefinition={MappingConstants.proj4crs25832def}
             ref={leafletRoutedMapRef}
@@ -256,7 +262,15 @@ const TopicMapComponent = (props) => {
                 </Button>
               </OverlayTrigger>
             </Control>
-            <div>
+            <div
+              key={
+                _backgroundLayers +
+                "." +
+                _urlSearchParams.get("mapStyle") +
+                "." +
+                JSON.stringify(activeAdditionalLayerKeys || "")
+              }
+            >
               {activeAdditionalLayerKeys !== undefined &&
                 activeAdditionalLayerKeys.length > 0 &&
                 activeAdditionalLayerKeys.map((activekey, index) => {
@@ -267,7 +281,6 @@ const TopicMapComponent = (props) => {
                     const layers = getLayers(layerConf.layerkey);
                     return layers;
                   }
-                  // return additionalLayerConfiguration. lkdsjlkdsj key und dann einblenden
                 })}
             </div>
             {props.children}

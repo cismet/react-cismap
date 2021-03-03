@@ -57,6 +57,7 @@
 		"leaflet.path.drag": "^0.0.6",
 		"localforage": "^1.9.0",
 		"lodash": "^4.17.20",
+		"md5": "^2.3.0",
 		"object-assign": "^4.1.1",
 		"polylabel": "mapbox/polylabel",
 		"proj4": "^2.5.0",

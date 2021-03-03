@@ -22,7 +22,8 @@ import "leaflet-snap";
 import "leaflet-geometryutil";
 import { overrideClosestFromGeometryUtils } from "./tools/leaflet-geometryutil-workaround"; //see https://github.com/makinacorpus/Leaflet.GeometryUtil/issues/59
 import { reproject } from "reproject";
-
+import { md5FetchJSON } from "./tools/fetching";
+import md5 from "md5";
 export class RoutedMap extends React.Component {
   constructor(props) {
     super(props);
@@ -426,12 +427,25 @@ export class RoutedMap extends React.Component {
 
           {fullscreenControl}
           {locateControl}
-          {getLayersByNames(
-            this.props.backgroundlayers,
-            this.props.urlSearchParams.get("mapStyle"),
-            undefined,
-            this.props.namedLayerConf
-          )}
+          <div
+            key={
+              this.props.backgroundlayers +
+              "." +
+              this.props.urlSearchParams.get("mapStyle") +
+              "." +
+              md5(this.props.namedLayerConf || "") +
+              "." +
+              this.props.layerKeyPostfix
+            }
+          >
+            {getLayersByNames(
+              this.props.backgroundlayers,
+              this.props.urlSearchParams.get("mapStyle"),
+              undefined,
+              this.props.namedLayerConf
+            )}
+          </div>
+
           {this.props.children}
         </Map>
       </div>
@@ -444,6 +458,7 @@ RoutedMap.propTypes = {
   height: PropTypes.number,
   width: PropTypes.number,
   layers: PropTypes.string.isRequired,
+  layerKeyPostfix: PropTypes.string,
   featureClickHandler: PropTypes.func,
   style: PropTypes.object.isRequired,
   ondblclick: PropTypes.func,
