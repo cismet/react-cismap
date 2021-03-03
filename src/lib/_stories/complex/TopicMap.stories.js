@@ -1,5 +1,9 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { RoutedMap, MappingConstants } from "../../index";
+import {
+  RoutedMap,
+  MappingConstants,
+  FeatureCollectionDisplayWithTooltipLabels,
+} from "../../index";
 import GazetteerSearchControl from "../../GazetteerSearchControl";
 import GazetteerHitDisplay from "../../GazetteerHitDisplay";
 import { md5FetchText, fetchJSON } from "../../tools/fetching";
@@ -33,7 +37,9 @@ import Section from "../../topicmaps/menu/Section";
 import { Link } from "react-scroll";
 import ConfigurableDocBlocks from "../../topicmaps/ConfigurableDocBlocks";
 import FilterPanel from "../../topicmaps/menu/FilterPanel";
-
+import StyledWMSTileLayer from "../../StyledWMSTileLayer";
+import Icon from "../../commons/Icon";
+import uwz from "../_data/UWZ";
 export default {
   title: storiesCategory + "TopicMapComponent",
 };
@@ -684,6 +690,108 @@ export const TopicMapWithWithCustomSettings = () => {
         }
         secondaryInfo={<InfoPanel />}
         // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+      >
+        <FeatureCollection />
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
+
+export const TopicMapWithAdditionalLayers = () => {
+  const [gazData, setGazData] = useState([]);
+  useEffect(() => {
+    getGazData(setGazData);
+  }, []);
+  const currentZoom = 14;
+  return (
+    <TopicMapContextProvider
+      featureItemsURL="/data/bpklima.data.json"
+      getFeatureStyler={getGTMFeatureStyler}
+      convertItemToFeature={convertBPKlimaItemsToFeature}
+      clusteringOptions={{
+        iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
+      }}
+      clusteringEnabled={true}
+      additionalLayerConfiguration={{
+        hillshade: {
+          title: "Schummerung",
+          initialActive: false,
+          layerkey: "hillshade@20",
+        },
+
+        fernwaerme: {
+          title: (
+            <span>
+              Fernwärme{" "}
+              <Icon
+                style={{
+                  color: "#EEB48C",
+                  width: "30px",
+                  textAlign: "center",
+                }}
+                name={"circle"}
+              />
+            </span>
+          ),
+          initialActive: true,
+          layer: (
+            <StyledWMSTileLayer
+              key={"fernwaermewsw"}
+              url="https://maps.wuppertal.de/deegree/wms"
+              layers="fernwaermewsw "
+              format="image/png"
+              tiled="true"
+              transparent="true"
+              maxZoom={19}
+              opacity={0.7}
+            />
+          ),
+        },
+        uwz: {
+          title: "Umweltzone",
+          initialActive: true,
+          layer: (
+            <FeatureCollectionDisplayWithTooltipLabels
+              key={"ds"}
+              featureCollection={uwz}
+              // boundingBox={this.props.mapping.boundingBox}
+              style={(feature) => {
+                const style = {
+                  color: "#155317",
+                  weight: 3,
+                  opacity: 0.5,
+                  fillColor: "#155317",
+                  fillOpacity: 0.15,
+                };
+                return style;
+              }}
+              featureClickHandler={() => {}}
+            />
+          ),
+        },
+      }}
+    >
+      <TopicMapComponent
+        gazData={gazData}
+        gazetteerSearchPlaceholder="Stadtteil | Adresse | POI | Standorte"
+        infoBox={
+          <GenericInfoBoxFromFeature
+            pixelwidth={400}
+            config={{
+              displaySecondaryInfoAction: true,
+              city: "Wuppertal",
+              navigator: {
+                noun: {
+                  singular: "Standort",
+                  plural: "Standorte",
+                },
+              },
+              noCurrentFeatureTitle: "Keine Standorte gefunden",
+              noCurrentFeatureContent: "",
+            }}
+          />
+        }
+        secondaryInfo={<InfoPanel />}
       >
         <FeatureCollection />
       </TopicMapComponent>

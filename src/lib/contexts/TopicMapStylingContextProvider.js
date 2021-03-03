@@ -49,6 +49,8 @@ const defaultBackgroundConfigurations = {
   },
 };
 const defaultState = {
+  additionalLayerConfiguration: {},
+  activeAdditionalLayerKeys: [],
   namedMapStyle: "default",
   selectedBackground: "stadtplan",
   backgroundModes: defaultBackgroundModes,
@@ -58,14 +60,26 @@ const defaultState = {
 const TopicMapStylingContextProvider = ({
   children,
   enabled = true,
+  additionalLayerConfiguration,
   namedMapStyle,
   markerSymbolSize,
 }) => {
+  const activeAdditionalLayerKeys = [];
+  if (additionalLayerConfiguration) {
+    for (const adLayerConfKey of Object.keys(additionalLayerConfiguration)) {
+      const adLayerConf = additionalLayerConfiguration[adLayerConfKey];
+      if (adLayerConf.initialActive === true || adLayerConf.initialActive === undefined) {
+        activeAdditionalLayerKeys.push(adLayerConfKey);
+      }
+    }
+  }
   const [state, dispatch] = useImmer({
     ...defaultState,
-
+    activeAdditionalLayerKeys,
+    additionalLayerConfiguration,
     namedMapStyle,
   });
+
   const set = (prop) => {
     return (x) => {
       dispatch((state) => {
@@ -80,6 +94,7 @@ const TopicMapStylingContextProvider = ({
     setNamedMapStyle: set("namedMapStyle"),
     setMarkerSymbolSize: set("markerSymbolSize"),
     setSelectedBackground: set("selectedBackground"),
+    setActiveAdditionalLayerKeys: set("activeAdditionalLayerKeys"),
   };
 
   if (enabled === true) {

@@ -37,6 +37,7 @@ const TopicMapContextProvider = ({
   featureCollectionName,
   itemFilterFunction,
   filterFunction,
+  additionalLayerConfiguration,
 }) => {
   const [state, dispatch] = useImmer({ ...defaultState, history });
 
@@ -82,7 +83,10 @@ const TopicMapContextProvider = ({
           },
         }}
       >
-        <TopicMapStylingContextProvider enabled={stylingContextEnabled}>
+        <TopicMapStylingContextProvider
+          enabled={stylingContextEnabled}
+          additionalLayerConfiguration={additionalLayerConfiguration}
+        >
           <FeatureCollectionContextProvider
             enabled={featureCollectionEnabled}
             getFeatureStyler={getFeatureStyler}

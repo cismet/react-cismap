@@ -45,7 +45,7 @@ export default function getLayers(
   };
 
   return (
-    <div>
+    <div key={"layer." + layerString}>
       {layerArr.map((layerWithOptions) => {
         const layOp = layerWithOptions.split("@");
         if (!isNaN(parseInt(layOp[1], 10))) {

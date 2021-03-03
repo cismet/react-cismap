@@ -25,9 +25,12 @@ const NamedMapStyleChooser = ({
   const {
     backgroundModes,
     selectedBackground,
-    namedMapStyle: namedMapStyleFromContext,
+    additionalLayerConfiguration,
+    activeAdditionalLayerKeys,
   } = useContext(TopicMapStylingContext);
-  const { setSelectedBackground, setNamedMapStyle } = useContext(TopicMapStylingDispatchContext);
+  const { setSelectedBackground, setNamedMapStyle, setActiveAdditionalLayerKeys } = useContext(
+    TopicMapStylingDispatchContext
+  );
   let beforelayerradios = false;
   //keep false when its undefined
   if (
@@ -58,6 +61,43 @@ const NamedMapStyleChooser = ({
     <Form.Group>
       <Form.Label>{title}</Form.Label>
       <br />
+      {additionalLayerConfiguration !== undefined && (
+        <div style={{ marginBottom: 10 }}>
+          {Object.keys(additionalLayerConfiguration).map((layerConfKey, index) => {
+            const layerConf = additionalLayerConfiguration[layerConfKey];
+
+            return (
+              <Form.Group
+                key={"div.layerConf.chkGrp." + index}
+                controlId={"div.layerConf.chkGrp." + index}
+              >
+                <Form.Check
+                  type="checkbox"
+                  readOnly={true}
+                  key={"div.layerConf.chk." + index}
+                  onClick={(e) => {
+                    let newActiveAdditionalLayerKeys;
+                    if (e.target.checked === false) {
+                      //remove key from array
+                      newActiveAdditionalLayerKeys = activeAdditionalLayerKeys.filter(
+                        (key) => key !== layerConfKey
+                      );
+                    } else {
+                      //add key to array
+                      newActiveAdditionalLayerKeys = [...activeAdditionalLayerKeys];
+                      newActiveAdditionalLayerKeys.push(layerConfKey);
+                    }
+                    setActiveAdditionalLayerKeys(newActiveAdditionalLayerKeys);
+                  }}
+                  checked={activeAdditionalLayerKeys?.includes(layerConfKey)}
+                  inline
+                  label={layerConf.title}
+                ></Form.Check>
+              </Form.Group>
+            );
+          })}
+        </div>
+      )}
       {children !== undefined && beforelayerradios === true && children}
       {_modes.map((item, key) => {
         return (

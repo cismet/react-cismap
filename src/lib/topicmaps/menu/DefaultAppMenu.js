@@ -39,7 +39,7 @@ const AppMenu = (props) => {
         key="help"
         sectionKey="HelpSection"
         sectionTitle="Kompaktanleitung"
-        sectionBsStyle="success"
+        sectionBsStyle="default"
         sectionContent={
           <ConfigurableDocBlocks configs={getSimpleHelpForTM(topicMapTitle, simpleHelp)} />
         }

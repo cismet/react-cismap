@@ -20,6 +20,7 @@ import {
 } from "../contexts/TopicMapStylingContextProvider";
 import DefaultAppMenu from "./menu/DefaultAppMenu";
 import PhotoLightBox from "./PhotoLightbox";
+import getLayers from "../tools/layerFactory";
 const TopicMapComponent = (props) => {
   const leafletRoutedMapRef = useRef(null);
   const infoBoxRef = useRef(null);
@@ -68,9 +69,13 @@ const TopicMapComponent = (props) => {
     gazetteerSearchPlaceholder,
   } = props;
   const { history } = useContext(TopicMapContext);
-  const { backgroundModes, selectedBackground, backgroundConfigurations } = useContext(
-    TopicMapStylingContext
-  );
+  const {
+    backgroundModes,
+    selectedBackground,
+    backgroundConfigurations,
+    additionalLayerConfiguration,
+    activeAdditionalLayerKeys,
+  } = useContext(TopicMapStylingContext);
 
   const [url, setUrl] = useState(undefined);
   useEffect(() => {
@@ -251,6 +256,20 @@ const TopicMapComponent = (props) => {
                 </Button>
               </OverlayTrigger>
             </Control>
+            <div>
+              {activeAdditionalLayerKeys !== undefined &&
+                activeAdditionalLayerKeys.length > 0 &&
+                activeAdditionalLayerKeys.map((activekey, index) => {
+                  const layerConf = additionalLayerConfiguration[activekey];
+                  if (layerConf.layer) {
+                    return layerConf.layer;
+                  } else if (layerConf.layerkey) {
+                    const layers = getLayers(layerConf.layerkey);
+                    return layers;
+                  }
+                  // return additionalLayerConfiguration. lkdsjlkdsj key und dann einblenden
+                })}
+            </div>
             {props.children}
           </RoutedMap>
         </div>

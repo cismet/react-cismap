@@ -50,8 +50,6 @@ const FilterPanel = ({ filterConfiguration }) => {
   const addFilterFor = (filterKey, itemkey) => {
     const newFilterState = JSON.parse(JSON.stringify(filterState));
     newFilterState[filterKey].push(itemkey);
-    console.log("newFilterState", newFilterState);
-
     setFilterState(newFilterState);
   };
 
@@ -93,7 +91,7 @@ const FilterPanel = ({ filterConfiguration }) => {
               style = { color: foregroundColor, backgroundColor };
 
               return (
-                <span style={{ cursor: "pointer" }}>
+                <span key={"badgespan." + (item.title || item.key)} style={{ cursor: "pointer" }}>
                   <Badge
                     onClick={() => {
                       if (isSelected()) {
@@ -182,6 +180,7 @@ const FilterPanel = ({ filterConfiguration }) => {
                       {filterConfiguration.filters.map((filterConf, indexy) => {
                         return (
                           <Tab
+                            key={"Tabfor." + filterConf.key}
                             eventKey={filterConf.key}
                             title={filterConf.title}
                             style={{ paddingTop: 10 }}

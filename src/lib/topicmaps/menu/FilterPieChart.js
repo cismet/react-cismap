@@ -18,10 +18,7 @@ const FilterPieChart = ({
     let piechartColor = [];
 
     for (let item of filteredItems) {
-      console.log("item", item);
-
       const itemClassKey = itemGetClassKey(item);
-      console.log("itemClassKey", itemClassKey);
 
       if (stats[itemClassKey] === undefined) {
         stats[itemClassKey] = 1;

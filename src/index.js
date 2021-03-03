@@ -48,6 +48,7 @@ ReactDOM.render(
     {/* <TopicMapsExamples.SimpleTopicMapWithFullClusteringOptionsAndStyling /> */}
     {/* <TopicMapsExamples.TopicMapWithWithSecondaryInfoSheet /> */}
     <TopicMapsExamples.TopicMapWithWithCustomSettings />
+    {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
   </div>,
   document.getElementById("root")
 );

@@ -208,7 +208,7 @@ const SettingsPanel = (props) => {
                   id={"clustered.checkbox"}
                   checked={clusteringEnabled}
                   onClick={(e) => {
-                    console.log("xxx onClick", e);
+                    // console.log("xxx onClick", e);
                   }}
                   onChange={(e) => {
                     if (e.target.checked === false) {
