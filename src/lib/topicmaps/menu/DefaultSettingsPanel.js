@@ -28,7 +28,9 @@ const SettingsPanel = (props) => {
   const { activeMenuSection } = useContext(UIContext);
   const { routedMapRef } = useContext(TopicMapContext);
   const { setMarkerSymbolSize } = useContext(TopicMapStylingDispatchContext);
-  const { markerSymbolSize } = useContext(TopicMapStylingContext);
+  const { markerSymbolSize, additionalLayerConfiguration, activeAdditionalLayerKeys } = useContext(
+    TopicMapStylingContext
+  );
   const {
     allFeatures,
     getFeatureStyler,
@@ -136,7 +138,20 @@ const SettingsPanel = (props) => {
         minZoom={Number(previewMapZoom)}
         maxZoom={Number(previewMapZoom)}
       >
-        {getLayersByName(backgroundsFromMode, _namedMapStyle)}
+        <div key={"." + JSON.stringify(activeAdditionalLayerKeys)}>
+          {getLayersByName(backgroundsFromMode, _namedMapStyle)}
+          {activeAdditionalLayerKeys !== undefined &&
+            activeAdditionalLayerKeys.length > 0 &&
+            activeAdditionalLayerKeys.map((activekey, index) => {
+              const layerConf = additionalLayerConfiguration[activekey];
+              if (layerConf.layer) {
+                return layerConf.layer;
+              } else if (layerConf.layerkey) {
+                const layers = getLayersByName(layerConf.layerkey);
+                return layers;
+              }
+            })}
+        </div>
         <FeatureCollectionDisplay
           key={
             "FeatureCollectionDisplayPreview." + _markerSymbolSize + clusteringEnabled
@@ -157,7 +172,13 @@ const SettingsPanel = (props) => {
         />
       </Map>
     );
-  }, [backgroundsFromMode, _namedMapStyle, clusteringEnabled, _markerSymbolSize]);
+  }, [
+    backgroundsFromMode,
+    _namedMapStyle,
+    clusteringEnabled,
+    _markerSymbolSize,
+    activeAdditionalLayerKeys,
+  ]);
 
   const preview = (
     <div>

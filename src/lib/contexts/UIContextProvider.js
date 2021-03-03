@@ -5,7 +5,7 @@ const StateContext = React.createContext();
 const DispatchContext = React.createContext();
 const defaultState = {
   appMenuVisible: false,
-  appMenuActiveMenuSection: undefined,
+  appMenuActiveMenuSection: "settings",
   secondaryInfoVisible: false,
 };
 const UIContextProvider = ({ children, enabled = true }) => {
