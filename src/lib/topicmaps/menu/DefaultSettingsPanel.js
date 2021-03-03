@@ -174,7 +174,7 @@ const SettingsPanel = (props) => {
       key={"GenericModalMenuSection." + symbolColor}
       sectionKey="settings"
       sectionTitle="Einstellungen"
-      sectionBsStyle="primary"
+      sectionBsStyle="success"
       sectionContent={
         <SettingsPanelWithPreviewSection
           width={width}

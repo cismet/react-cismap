@@ -1,34 +1,45 @@
-import React from "react";
+import React, { useContext } from "react";
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
 import Panel from "../../commons/Panel";
 import Card from "react-bootstrap/Card";
+import { UIContext, UIDispatchContext } from "../../contexts/UIContextProvider";
 
 const GenericModalMenuSection = ({
   sectionKey,
   sectionTitle,
   sectionBsStyle,
   sectionContent,
-  // uiState,
-  // uiStateActions,
   //new
   activeSectionKey,
-  setActiveSectionKey = () => {},
+  setActiveSectionKey,
 }) => {
+  let _activeSectionKey, _setActiveSectionKey;
+
+  const { appMenuActiveMenuSection } = useContext(UIContext);
+  const { setAppMenuActiveMenuSection } = useContext(UIDispatchContext);
+  if (activeSectionKey === undefined) {
+    _activeSectionKey = appMenuActiveMenuSection;
+  } else {
+    _activeSectionKey = activeSectionKey;
+  }
+  if (setActiveSectionKey === undefined) {
+    _setActiveSectionKey = setAppMenuActiveMenuSection;
+  } else {
+    _setActiveSectionKey = setActiveSectionKey;
+  }
+
   return (
     <Accordion
-      key={sectionKey + "." + activeSectionKey}
+      key={sectionKey + "." + _activeSectionKey}
       name={sectionKey}
       style={{ marginBottom: 6 }}
-      defaultActiveKey={activeSectionKey || sectionKey}
+      defaultActiveKey={_activeSectionKey || sectionKey}
       onSelect={() => {
-        if (activeSectionKey === sectionKey) {
-          console.log("onSelect", "					setActiveSectionKey('none')        ");
-
-          setActiveSectionKey("none");
+        if (_activeSectionKey === sectionKey) {
+          _setActiveSectionKey("none");
         } else {
-          console.log("onSelect", "					setActiveSectionKey('" + sectionKey + "')        ");
-          setActiveSectionKey(sectionKey);
+          _setActiveSectionKey(sectionKey);
         }
       }}
     >

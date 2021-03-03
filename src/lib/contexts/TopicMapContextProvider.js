@@ -35,6 +35,8 @@ const TopicMapContextProvider = ({
   featureItemsURL,
   convertItemToFeature,
   featureCollectionName,
+  itemFilterFunction,
+  filterFunction,
 }) => {
   const [state, dispatch] = useImmer({ ...defaultState, history });
 
@@ -91,6 +93,8 @@ const TopicMapContextProvider = ({
             itemsURL={featureItemsURL}
             convertItemToFeature={convertItemToFeature}
             featureCollectionName={featureCollectionName}
+            itemFilterFunction={itemFilterFunction}
+            filterFunction={filterFunction}
           >
             <ResponsiveTopicMapContextProvider enabled={responsiveContextEnabled}>
               <UIContextProvider enabled={uiContextEnabled}>

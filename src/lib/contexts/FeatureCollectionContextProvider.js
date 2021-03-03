@@ -9,6 +9,11 @@ import bboxPolygon from "@turf/bbox-polygon";
 import booleanIntersects from "@turf/boolean-intersects";
 const defaultState = {
   items: undefined,
+  filteredItems: undefined,
+  filterState: undefined,
+  filterMode: undefined,
+  itemFilterFunction: undefined,
+  filterFunction: undefined,
   allFeatures: undefined,
   shownFeatures: undefined,
   selectedFeature: undefined,
@@ -26,8 +31,6 @@ const DispatchContext = React.createContext();
 
 const getItems = async ({
   setItems,
-  setAllFeatures,
-  setFeatureIndex,
   itemsUrl,
   convertItemToFeature = (itemIsFeature) => itemIsFeature,
   name = "cachedFeatureCollection",
@@ -46,24 +49,7 @@ const getItems = async ({
     items = await fetchJSON(itemsUrl);
   }
 
-  const features = [];
-  let id = 0;
-  for (const item of items) {
-    const f = await convertItemToFeature(item);
-    f.selected = false;
-    f.id = id++;
-
-    features.push(f);
-  }
   setItems(items);
-  setAllFeatures(features);
-  setFeatureIndex(
-    new KDBush(
-      features,
-      (p) => p.geometry.coordinates[0],
-      (p) => p.geometry.coordinates[1]
-    )
-  );
 };
 
 const FeatureCollectionContextProvider = ({
@@ -77,6 +63,8 @@ const FeatureCollectionContextProvider = ({
   itemsURL,
   featureCollectionName,
   convertItemToFeature,
+  itemFilterFunction,
+  filterFunction,
 }) => {
   const [state, dispatch] = useImmer({
     ...defaultState,
@@ -85,6 +73,8 @@ const FeatureCollectionContextProvider = ({
     clusteringEnabled,
     clusteringOptions,
     getSymbolSVG,
+    itemFilterFunction,
+    filterFunction,
   });
 
   const { boundingBox } = useContext(TopicMapContext);
@@ -100,6 +90,11 @@ const FeatureCollectionContextProvider = ({
 
   const setX = {
     setItems: set("items"),
+    setFilteredItems: set("filteredItems"),
+    setFilterState: set("filterState"),
+    setFilterMode: set("filterMode"),
+    setFilterFunction: set("filterFunction"),
+    setItemFilterFunction: set("itemFilterFunction"),
     setAllFeatures: set("allFeatures"),
     setShownFeatures: set("shownFeatures"),
     setSelectedFeature: set("selectedFeature"),
@@ -127,7 +122,55 @@ const FeatureCollectionContextProvider = ({
     }
     setSelectedFeatureIndex(newIndex);
   };
+  // console.log("FeatureCollectionContextProvider state", state);
 
+  // effect when items are changed
+  useEffect(() => {
+    //async start
+    (async () => {
+      if (state.filteredItems) {
+        const features = [];
+        let id = 0;
+        for (const item of state.filteredItems) {
+          const f = await convertItemToFeature(item);
+          f.selected = false;
+          f.id = id++;
+
+          features.push(f);
+        }
+
+        setX.setAllFeatures(features);
+        setX.setFeatureIndex(
+          new KDBush(
+            features,
+            (p) => p.geometry.coordinates[0],
+            (p) => p.geometry.coordinates[1]
+          )
+        );
+      }
+    })();
+    //async end
+  }, [state.filteredItems]);
+
+  // effect on filter change
+  useEffect(() => {
+    if (state.items) {
+      let filteredItems;
+      if (state.filterFunction !== undefined) {
+        filteredItems = state.filterFunction();
+      } else if (state.itemFilterFunction !== undefined) {
+        filteredItems = state.items.filter(
+          state.itemFilterFunction({ filterState: state.filterState, filterMode: state.filterMode })
+        );
+      } else {
+        filteredItems = state.items;
+      }
+      setX.setFilteredItems(filteredItems);
+      // console.log("filteredItems", filteredItems);
+    }
+  }, [state.filterState, state.filterMode, state.filterFunction, state.items]);
+
+  //effect when boundingBox or selection changed
   useEffect(() => {
     let features = [];
     if (boundingBox !== undefined && featureIndex !== undefined) {
@@ -157,16 +200,12 @@ const FeatureCollectionContextProvider = ({
     let _shownFeatures = [];
     let bbPoly;
     if (boundingBox) {
-      console.log("boundingBox", boundingBox);
       bbPoly = bboxPolygon([
         boundingBox.left,
         boundingBox.bottom,
         boundingBox.right,
         boundingBox.top,
       ]);
-      console.log("xxx boundingBoxPoly", bbPoly);
-
-      // _shownFeatures.push(xxx);
     }
 
     const nonPoints = allFeatures?.filter((test) => {
@@ -175,7 +214,6 @@ const FeatureCollectionContextProvider = ({
       }
       return false;
     });
-    console.log("nonPoints", nonPoints, features);
     if (features && nonPoints) {
       features = [...features, ...nonPoints];
     }
@@ -224,6 +262,8 @@ const FeatureCollectionContextProvider = ({
   const load = (url) => {
     getItems({ itemsUrl: url, ...setX, name: featureCollectionName, convertItemToFeature });
   };
+
+  // effect on start
   useEffect(() => {
     if (itemsURL) {
       load(itemsURL);
