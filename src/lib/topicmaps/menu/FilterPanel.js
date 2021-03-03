@@ -161,9 +161,9 @@ const FilterPanel = ({ filterConfiguration }) => {
 
   return (
     <div>
-      <table border={0} width="100%">
+      <table border={0} style={{ valign: "top" }} width="100%">
         <tbody>
-          <tr>
+          <tr style={{ verticalAlign: "top" }}>
             {filterConfiguration.mode === "tabs" && (
               <td style={{ width: "330px" }}>
                 <div style={{ width: "100%" }}>
