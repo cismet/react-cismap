@@ -227,7 +227,7 @@ const InfoBox = ({
       <Control
         key={"InfoBoxElements." + responsiveState}
         id={"InfoBoxElements." + responsiveState}
-        position={responsiveState === "normal" ? "bottomright" : "bottomleft"}
+        position={responsiveState === "normal" ? "bottomright" : "bottomright"}
       >
         <div style={{ ...infoBoxStyle, marginBottom: infoBoxBottomMargin }}>
           {llVis}
@@ -258,7 +258,7 @@ const InfoBox = ({
       {secondaryInfoBoxElements.map((element, index) => (
         <Control
           key={"secondaryInfoBoxElements." + index + "." + responsiveState}
-          position={responsiveState === "normal" ? "bottomright" : "bottomleft"}
+          position={responsiveState === "normal" ? "bottomright" : "bottomright"}
         >
           <div style={{ opacity: 0.9 }}>{element}</div>
         </Control>
