@@ -951,7 +951,7 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
           ),
         },
       }}
-      titleFactory={({ featureCollectionContext }) => {
+      xtitleFactory={({ featureCollectionContext }) => {
         const getThemaById = (id) => {
           const result = featureCollectionContext?.items?.find((item) => item?.thema?.id === id);
           return result?.thema?.name;

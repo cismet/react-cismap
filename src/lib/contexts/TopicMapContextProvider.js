@@ -52,7 +52,30 @@ const TopicMapContextProvider = ({
       "markerSymbolSize",
     ],
   },
-  titleFactory,
+  titleFactory = ({ featureCollectionContext }) => {
+    let themenstadtplanDesc = "?";
+    if (
+      featureCollectionContext?.filteredItems?.length === featureCollectionContext?.items?.length
+    ) {
+      themenstadtplanDesc = undefined;
+    }
+    if (featureCollectionContext?.filteredItems?.length === 0) {
+      return (
+        <div>
+          <b>Keine Objekte gefunden!</b> Bitte überprüfen Sie Ihre Filtereinstellungen.
+        </div>
+      );
+    }
+    if (themenstadtplanDesc) {
+      return (
+        <div>
+          <b>gefilterte Objektdarstellung</b>
+        </div>
+      );
+    } else {
+      return undefined;
+    }
+  },
 }) => {
   const [state, dispatch] = useImmer({ ...defaultState, history, titleFactory });
   const contextKey = "topicmap";
