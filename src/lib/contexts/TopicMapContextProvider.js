@@ -41,7 +41,7 @@ const TopicMapContextProvider = ({
   additionalLayerConfiguration,
   appKey = "TopicMapBaseLibrary",
   persistenceSettings = {
-    ui: ["appMenuVisible", "appMenuActiveMenuSection"],
+    ui: ["appMenuVisible", "appMenuActiveMenuSection", "collapsedInfoBox"],
     featureCollection: ["filterState", "filterMode", "clusteringEnabled"],
     responsive: [],
     styling: [
