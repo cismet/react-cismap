@@ -8,6 +8,7 @@ import {
   FeatureCollectionContext,
   FeatureCollectionDispatchContext,
 } from "../contexts/FeatureCollectionContextProvider";
+import { UIContext, UIDispatchContext } from "../contexts/UIContextProvider";
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -47,6 +48,8 @@ const InfoBox = ({
   const { responsiveState, searchBoxPixelWidth, gap, windowSize } = useContext(
     ResponsiveTopicMapContext
   );
+  const { collapsedInfoBox: collapsedInfoBoxFromContext } = useContext(UIContext);
+  const { setCollapsedInfoBox: setCollapsedInfoBoxFromContext } = useContext(UIDispatchContext);
   const gotoPrevious = featureCollectionDispatchContext.prev;
   const gotoNext = featureCollectionDispatchContext.next;
   // Use this line to enable the collabsible modus even when no object is visible
@@ -86,8 +89,8 @@ const InfoBox = ({
   };
 
   const [localMinified, setLocalMinify] = useState(false);
-  const minified = collapsedInfoBox || localMinified;
-  const minify = setCollapsedInfoBox || setLocalMinify;
+  const minified = collapsedInfoBox || collapsedInfoBoxFromContext || localMinified;
+  const minify = setCollapsedInfoBox || setCollapsedInfoBoxFromContext || setLocalMinify;
 
   let headerBackgroundColor = Color(headerColor || colorizer(_currentFeature));
 

@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import { useImmer } from "use-immer";
 import { getInternetExplorerVersion } from "../tools/browserHelper";
+import localforage from "localforage";
+import { setFromLocalforage } from "./_helper";
 
 const StateContext = React.createContext();
 const DispatchContext = React.createContext();
@@ -63,6 +65,8 @@ const TopicMapStylingContextProvider = ({
   additionalLayerConfiguration,
   namedMapStyle,
   markerSymbolSize,
+  appKey,
+  persistenceSettings,
 }) => {
   const activeAdditionalLayerKeys = [];
   if (additionalLayerConfiguration) {
@@ -80,16 +84,28 @@ const TopicMapStylingContextProvider = ({
     namedMapStyle,
   });
 
-  const set = (prop) => {
+  const contextKey = "styling";
+  const set = (prop, noTest) => {
     return (x) => {
       dispatch((state) => {
-        if (JSON.stringify(state[prop]) !== JSON.stringify(x)) {
+        if (noTest === true || JSON.stringify(state[prop]) !== JSON.stringify(x)) {
+          if (persistenceSettings[contextKey]?.includes(prop)) {
+            localforage.setItem("@" + appKey + "." + contextKey + "." + prop, x);
+          }
           state[prop] = x;
         }
       });
     };
   };
-
+  useEffect(() => {
+    if (persistenceSettings && persistenceSettings[contextKey]) {
+      for (const prop of persistenceSettings[contextKey]) {
+        const localforagekey = "@" + appKey + "." + contextKey + "." + prop;
+        const setter = set(prop, true);
+        setFromLocalforage(localforagekey, setter);
+      }
+    }
+  }, []);
   const setX = {
     setNamedMapStyle: set("namedMapStyle"),
     setMarkerSymbolSize: set("markerSymbolSize"),

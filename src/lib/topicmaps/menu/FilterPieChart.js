@@ -16,23 +16,23 @@ const FilterPieChart = ({
     let colormodel = {};
     let piechartData = [];
     let piechartColor = [];
+    if (filteredItems) {
+      for (let item of filteredItems) {
+        const itemClassKey = itemGetClassKey(item);
 
-    for (let item of filteredItems) {
-      const itemClassKey = itemGetClassKey(item);
+        if (stats[itemClassKey] === undefined) {
+          stats[itemClassKey] = 1;
+          colormodel[itemClassKey] = getColor(item);
+        } else {
+          stats[itemClassKey] += 1;
+        }
+      }
 
-      if (stats[itemClassKey] === undefined) {
-        stats[itemClassKey] = 1;
-        colormodel[itemClassKey] = getColor(item);
-      } else {
-        stats[itemClassKey] += 1;
+      for (let key in stats) {
+        piechartData.push([key, stats[key]]);
+        piechartColor.push(colormodel[key]);
       }
     }
-
-    for (let key in stats) {
-      piechartData.push([key, stats[key]]);
-      piechartColor.push(colormodel[key]);
-    }
-
     return (
       <PieChart
         data={piechartData}

@@ -9,6 +9,7 @@ import UIContextProvider from "./UIContextProvider";
 import proj4 from "proj4";
 import { proj4crs25832def } from "../constants/gis";
 import { createBrowserHistory, createHashHistory } from "history";
+import localforage from "localforage";
 
 const defaultState = {
   location: undefined,
@@ -38,13 +39,30 @@ const TopicMapContextProvider = ({
   itemFilterFunction,
   filterFunction,
   additionalLayerConfiguration,
+  appKey = "TopicMapBaseLibrary",
+  persistenceSettings = {
+    ui: ["appMenuVisible", "appMenuActiveMenuSection"],
+    featureCollection: ["filterState", "filterMode", "clusteringEnabled"],
+    responsive: [],
+    styling: [
+      "activeAdditionalLayerKeys",
+      "namedMapStyle",
+      "selectedBackground",
+      "markerSymbolSize",
+    ],
+  },
 }) => {
   const [state, dispatch] = useImmer({ ...defaultState, history });
-
-  const set = (prop) => {
+  const contextKey = "topicmap";
+  const set = (prop, noTest) => {
     return (x) => {
       dispatch((state) => {
-        state[prop] = x;
+        if (noTest === true || JSON.stringify(state[prop]) !== JSON.stringify(x)) {
+          if (persistenceSettings[contextKey]?.includes(prop)) {
+            localforage.setItem("@" + appKey + "." + contextKey + "." + prop, x);
+          }
+          state[prop] = x;
+        }
       });
     };
   };
@@ -52,7 +70,7 @@ const TopicMapContextProvider = ({
   const convenienceFunctions = {
     setBoundingBox: set("boundingBox"),
     setLocation: set("location"),
-    setRoutedMapRef: set("routedMapRef"),
+    setRoutedMapRef: set("routedMapRef", true),
   };
   return (
     <StateContext.Provider value={state}>
@@ -86,6 +104,8 @@ const TopicMapContextProvider = ({
         <TopicMapStylingContextProvider
           enabled={stylingContextEnabled}
           additionalLayerConfiguration={additionalLayerConfiguration}
+          appKey={appKey}
+          persistenceSettings={persistenceSettings}
         >
           <FeatureCollectionContextProvider
             enabled={featureCollectionEnabled}
@@ -99,10 +119,24 @@ const TopicMapContextProvider = ({
             featureCollectionName={featureCollectionName}
             itemFilterFunction={itemFilterFunction}
             filterFunction={filterFunction}
+            appKey={appKey}
+            persistenceSettings={persistenceSettings}
           >
-            <ResponsiveTopicMapContextProvider enabled={responsiveContextEnabled}>
-              <UIContextProvider enabled={uiContextEnabled}>
-                <LightBoxContextProvider enabled={lightBoxEnabled}>
+            <ResponsiveTopicMapContextProvider
+              enabled={responsiveContextEnabled}
+              appKey={appKey}
+              persistenceSettings={persistenceSettings}
+            >
+              <UIContextProvider
+                enabled={uiContextEnabled}
+                appKey={appKey}
+                persistenceSettings={persistenceSettings}
+              >
+                <LightBoxContextProvider
+                  enabled={lightBoxEnabled}
+                  appKey={appKey}
+                  persistenceSettings={persistenceSettings}
+                >
                   {children}
                 </LightBoxContextProvider>
               </UIContextProvider>

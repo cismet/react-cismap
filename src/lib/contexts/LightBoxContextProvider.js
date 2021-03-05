@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import { useImmer } from "use-immer";
+import localforage from "localforage";
+import { setFromLocalforage } from "./_helper";
 
 const StateContext = React.createContext();
 const DispatchContext = React.createContext();
@@ -10,18 +12,30 @@ const defaultState = {
   index: 0,
   visible: false,
 };
-const UIContextProvider = ({ children, enabled = true }) => {
+const UIContextProvider = ({ children, enabled = true, appKey, persistenceSettings }) => {
   const [state, dispatch] = useImmer({ ...defaultState });
-  const set = (prop) => {
+  const contextKey = "lightbox";
+  const set = (prop, noTest) => {
     return (x) => {
       dispatch((state) => {
-        if (JSON.stringify(state[prop]) !== JSON.stringify(x)) {
+        if (noTest === true || JSON.stringify(state[prop]) !== JSON.stringify(x)) {
+          if (persistenceSettings[contextKey]?.includes(prop)) {
+            localforage.setItem("@" + appKey + "." + contextKey + "." + prop, x);
+          }
           state[prop] = x;
         }
       });
     };
   };
-
+  useEffect(() => {
+    if (persistenceSettings && persistenceSettings[contextKey]) {
+      for (const prop of persistenceSettings[contextKey]) {
+        const localforagekey = "@" + appKey + "." + contextKey + "." + prop;
+        const setter = set(prop, true);
+        setFromLocalforage(localforagekey, setter);
+      }
+    }
+  }, []);
   const setX = {
     setTitle: set("title"),
     setPhotoUrls: set("photourls"),

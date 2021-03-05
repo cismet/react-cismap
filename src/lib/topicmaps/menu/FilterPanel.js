@@ -8,6 +8,7 @@ import {
   FeatureCollectionDispatchContext,
 } from "../../contexts/FeatureCollectionContextProvider";
 import FilterPieChart from "./FilterPieChart";
+import md5 from "md5";
 
 const FilterPanel = ({ filterConfiguration }) => {
   const { windowSize } = useContext(ResponsiveTopicMapContext);
@@ -60,7 +61,13 @@ const FilterPanel = ({ filterConfiguration }) => {
           <div style={{ margin: 10 }}>
             {filterConf.values.map((item, index) => {
               let style;
-              const isSelected = () => filterState[filterConf.key].includes(item.key);
+
+              const isSelected = () => {
+                if (filterState) {
+                  return filterState[filterConf.key].includes(item.key);
+                }
+                return false;
+              };
 
               let backgroundColorSelected,
                 backgroundColorUnselected,
@@ -160,7 +167,7 @@ const FilterPanel = ({ filterConfiguration }) => {
   };
 
   return (
-    <div>
+    <div key={"refresh.on." + filterMode + ".and." + md5(JSON.stringify(filterState || {}))}>
       <table border={0} style={{ valign: "top" }} width="100%">
         <tbody>
           <tr style={{ verticalAlign: "top" }}>

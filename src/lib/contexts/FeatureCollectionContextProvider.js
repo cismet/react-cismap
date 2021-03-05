@@ -7,6 +7,9 @@ import { TopicMapContext } from "./TopicMapContextProvider";
 import { getSymbolSVGGetter } from "../tools/uiHelper";
 import bboxPolygon from "@turf/bbox-polygon";
 import booleanIntersects from "@turf/boolean-intersects";
+import localforage from "localforage";
+import { setFromLocalforage } from "./_helper";
+
 const defaultState = {
   items: undefined,
   filteredItems: undefined,
@@ -65,6 +68,8 @@ const FeatureCollectionContextProvider = ({
   convertItemToFeature,
   itemFilterFunction,
   filterFunction,
+  appKey,
+  persistenceSettings,
 }) => {
   const [state, dispatch] = useImmer({
     ...defaultState,
@@ -78,13 +83,28 @@ const FeatureCollectionContextProvider = ({
   });
 
   const { boundingBox } = useContext(TopicMapContext);
-  const set = (prop) => {
+  const contextKey = "featureCollection";
+  const set = (prop, noTest) => {
     return (x) => {
       dispatch((state) => {
-        state[prop] = x;
+        if (noTest === true || JSON.stringify(state[prop]) !== JSON.stringify(x)) {
+          if (persistenceSettings[contextKey]?.includes(prop)) {
+            localforage.setItem("@" + appKey + "." + contextKey + "." + prop, x);
+          }
+          state[prop] = x;
+        }
       });
     };
   };
+  useEffect(() => {
+    if (persistenceSettings && persistenceSettings[contextKey]) {
+      for (const prop of persistenceSettings[contextKey]) {
+        const localforagekey = "@" + appKey + "." + contextKey + "." + prop;
+        const setter = set(prop, true);
+        setFromLocalforage(localforagekey, setter);
+      }
+    }
+  }, []);
   const { featureIndex, allFeatures, shownFeatures, selectedIndexState, selectedFeature } = state;
   const selectedIndex = selectedIndexState.selectedIndex;
 
