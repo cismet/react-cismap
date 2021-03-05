@@ -15,6 +15,7 @@ const defaultState = {
   location: undefined,
   boundingBox: undefined,
   routedMapRef: undefined,
+  titleFactory: undefined,
 };
 
 const StateContext = React.createContext();
@@ -51,8 +52,9 @@ const TopicMapContextProvider = ({
       "markerSymbolSize",
     ],
   },
+  titleFactory,
 }) => {
-  const [state, dispatch] = useImmer({ ...defaultState, history });
+  const [state, dispatch] = useImmer({ ...defaultState, history, titleFactory });
   const contextKey = "topicmap";
   const set = (prop, noTest) => {
     return (x) => {

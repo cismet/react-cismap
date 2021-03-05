@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import Section from "./Section";
 import SettingsPanelWithPreviewSection from "./SettingsPanelWithPreviewSection";
 import { Map } from "react-leaflet";
+import queryString from "query-string";
+import { removeQueryPart, modifyQueryPart } from "../../tools/routingHelper";
 
 import { UIContext, UIDispatchContext } from "../../contexts/UIContextProvider";
 import { TopicMapContext } from "../../contexts/TopicMapContextProvider";
@@ -26,7 +28,7 @@ import { getDefaultFeatureStyler } from "../../FeatureCollection";
 const SettingsPanel = (props) => {
   const { setAppMenuActiveMenuSection, setAppMenuVisible } = useContext(UIDispatchContext);
   const { activeMenuSection } = useContext(UIContext);
-  const { routedMapRef } = useContext(TopicMapContext);
+  const { routedMapRef, history } = useContext(TopicMapContext);
   const { setMarkerSymbolSize } = useContext(TopicMapStylingDispatchContext);
   const { markerSymbolSize, additionalLayerConfiguration, activeAdditionalLayerKeys } = useContext(
     TopicMapStylingContext
@@ -38,6 +40,8 @@ const SettingsPanel = (props) => {
     clusteringEnabled,
     clusteringOptions,
     getSymbolSVG: getSymbolSVGFromContext,
+    itemFilterFunction,
+    filterFunction,
   } = useContext(FeatureCollectionContext);
   const { setClusteringEnabled } = useContext(FeatureCollectionDispatchContext);
   const { windowSize } = useContext(ResponsiveTopicMapContext);
@@ -100,11 +104,13 @@ const SettingsPanel = (props) => {
       //in this case a default Icon is shown
     }
   }
-
+  let _urlPathname, _urlSearch, _pushNewRoute;
   const _namedMapStyle = namedMapStyleFromUrl;
   const layers = routedMapRef?.props?.backgroundlayers;
   const [mapPreview, setMapPreview] = useState();
+  const qTitle = queryString.parse(history.location.search).title;
 
+  const [titleDisplay, setTitleDisplay] = useState(qTitle !== undefined);
   let backgroundsFromMode;
   try {
     backgroundsFromMode = backgroundConfigurations[selectedBackground].layerkey;
@@ -180,15 +186,89 @@ const SettingsPanel = (props) => {
     activeAdditionalLayerKeys,
   ]);
 
+  let titlePreview = (
+    <div
+      style={{
+        align: "center",
+        width: "100%",
+      }}
+    >
+      <div
+        style={{
+          height: "10px",
+        }}
+      />
+      <table
+        style={{
+          width: "96%",
+          height: "30px",
+          margin: "0 auto",
+          zIndex: 999655,
+        }}
+      >
+        <tbody>
+          <tr>
+            <td
+              style={{
+                textAlign: "center",
+                verticalAlign: "middle",
+                background: "#ffffff",
+                color: "black",
+                opacity: "0.9",
+                paddingleft: "10px",
+              }}
+            >
+              <b>Kartentitel</b>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+  let marginBottomCorrection = 0;
+  if (titleDisplay) {
+    marginBottomCorrection = -40;
+  }
   const preview = (
     <div>
       <Form.Group>
         <Form.Label>Vorschau:</Form.Label>
         <br />
-        {mapPreview}
+        <div style={{ marginBottom: marginBottomCorrection }}>
+          {mapPreview}
+          {titleDisplay === true && (
+            <div
+              style={{
+                position: "relative",
+                top: -300,
+                zIndex: 100000,
+                webkitTransform: "translate3d(0,0,0)",
+              }}
+            >
+              {titlePreview}
+            </div>
+          )}
+        </div>
       </Form.Group>
     </div>
   );
+  console.log("history", history);
+
+  if (urlPathname) {
+    _urlPathname = urlPathname;
+  } else {
+    _urlPathname = history.location.pathname;
+  }
+  if (urlSearch) {
+    _urlSearch = urlSearch;
+  } else {
+    _urlSearch = history.location.search;
+  }
+  if (pushNewRoute) {
+    _pushNewRoute = pushNewRoute;
+  } else {
+    _pushNewRoute = history.push;
+  }
 
   return (
     <Section
@@ -204,23 +284,30 @@ const SettingsPanel = (props) => {
             <Form>
               <Form.Label>Einstellungen:</Form.Label>
               <br />
-              {/* <Form.Check
-                type="check"
-                readOnly={true}
-                key={"title.checkbox" + titleDisplay}
-                checked={titleDisplay}
-                onClick={(e) => {
-                  if (e.target.checked === false) {
-                    pushNewRoute(urlPathname + removeQueryPart(urlSearch, "title"));
-                  } else {
-                    pushNewRoute(urlPathname + (urlSearch !== "" ? urlSearch : "?") + "&title");
-                  }
-                }}
-                inline
-              >
-                Titel bei individueller Filterung anzeigen
-              </Form.Check>
-              <br /> */}
+              {(itemFilterFunction || filterFunction) && (
+                <Form.Group>
+                  <Form.Check
+                    type="checkbox"
+                    readOnly={true}
+                    id={"title.checkbox"}
+                    key={"title.checkbox" + titleDisplay}
+                    checked={titleDisplay}
+                    onChange={(e) => {
+                      if (e.target.checked === false) {
+                        _pushNewRoute(_urlPathname + removeQueryPart(_urlSearch, "title"));
+                        setTitleDisplay(false);
+                      } else {
+                        _pushNewRoute(
+                          _urlPathname + (_urlSearch !== "" ? _urlSearch : "?") + "&title"
+                        );
+                        setTitleDisplay(true);
+                      }
+                    }}
+                    label="Titel bei individueller Filterung anzeigen"
+                  ></Form.Check>
+                </Form.Group>
+              )}
+
               <Form.Group>
                 <Form.Check
                   type="checkbox"
@@ -245,9 +332,9 @@ const SettingsPanel = (props) => {
             <NamedMapStyleChooser
               key={"nmsc"}
               currentNamedMapStyle={_namedMapStyle}
-              pathname={urlPathname}
-              search={urlSearch}
-              pushNewRoute={pushNewRoute}
+              pathname={_urlPathname}
+              search={_urlSearch}
+              pushNewRoute={_pushNewRoute}
               vertical
               setLayerByKey={setLayerByKey}
               activeLayerKey={activeLayerKey}

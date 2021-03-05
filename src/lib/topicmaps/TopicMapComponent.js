@@ -22,6 +22,8 @@ import DefaultAppMenu from "./menu/DefaultAppMenu";
 import PhotoLightBox from "./PhotoLightbox";
 import getLayers from "../tools/layerFactory";
 import md5 from "md5";
+import TitleBox from "./TitleBox";
+
 const TopicMapComponent = (props) => {
   const leafletRoutedMapRef = useRef(null);
   const infoBoxRef = useRef(null);
@@ -168,6 +170,7 @@ const TopicMapComponent = (props) => {
       >
         <div>
           <PhotoLightBox />
+          <TitleBox />
           <RoutedMap
             key={"leafletRoutedMap"}
             layerKeyPostfix={

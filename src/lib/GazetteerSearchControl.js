@@ -11,7 +11,6 @@ import { ResponsiveTopicMapContext } from "./contexts/ResponsiveTopicMapContextP
 import Control from "react-leaflet-control";
 import { Form, FormGroup, InputGroup, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Typeahead } from "react-bootstrap-typeahead";
-console.log("InputGroup.Button", InputGroup.Button);
 
 const COMP = ({
   mapRef,

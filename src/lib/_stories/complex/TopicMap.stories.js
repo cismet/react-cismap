@@ -889,3 +889,154 @@ export const TopicMapWithWithCustomSettingsAndOneAdditionlLayer = () => {
     </TopicMapContextProvider>
   );
 };
+
+export const TopicMapWithWithFilterDrivenTitleBox = () => {
+  const [gazData, setGazData] = useState([]);
+  useEffect(() => {
+    getGazData(setGazData);
+  }, []);
+
+  return (
+    <TopicMapContextProvider
+      featureItemsURL="/data/bpklima.data.json"
+      getFeatureStyler={getGTMFeatureStyler}
+      convertItemToFeature={convertBPKlimaItemsToFeature}
+      clusteringOptions={{
+        iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
+      }}
+      clusteringEnabled={true}
+      itemFilterFunction={({ filterState, filterMode }) => {
+        return (item) => {
+          if (filterMode === "themen") {
+            return filterState?.themen?.includes(item.thema.id);
+          } else if (filterMode === "kategorien") {
+            for (const cat of item.kategorien) {
+              if (filterState?.kategorien?.includes(cat)) {
+                return true;
+              }
+            }
+            return false;
+          } else {
+            return true;
+          }
+        };
+      }}
+      additionalLayerConfiguration={{
+        fernwaerme: {
+          title: (
+            <span>
+              Fernwärme{" "}
+              <Icon
+                style={{
+                  color: "#EEB48C",
+                  width: "30px",
+                  textAlign: "center",
+                }}
+                name={"circle"}
+              />
+            </span>
+          ),
+          initialActive: true,
+          layer: (
+            <StyledWMSTileLayer
+              key={"fernwaermewsw"}
+              url="https://maps.wuppertal.de/deegree/wms"
+              layers="fernwaermewsw "
+              format="image/png"
+              tiled="true"
+              transparent="true"
+              maxZoom={19}
+              opacity={0.7}
+            />
+          ),
+        },
+      }}
+      titleFactory={({ featureCollectionContext }) => {
+        const getThemaById = (id) => {
+          const result = featureCollectionContext?.items?.find((item) => item?.thema?.id === id);
+          return result?.thema?.name;
+        };
+
+        let themenstadtplanDesc = "?";
+        if (
+          featureCollectionContext?.filteredItems?.length ===
+          featureCollectionContext?.items?.length
+        ) {
+          themenstadtplanDesc = undefined;
+        } else if (featureCollectionContext?.filterMode === "themen") {
+          if (featureCollectionContext?.filterState?.themen?.length <= 2) {
+            const themenIds = featureCollectionContext?.filterState?.themen;
+            const themen = [];
+            for (const id of themenIds) {
+              themen.push(getThemaById(id));
+            }
+
+            themenstadtplanDesc = "nach Themen gefiltert (nur " + themen.join(", ") + ")";
+          } else {
+            themenstadtplanDesc =
+              "nach Themen gefiltert (" +
+              featureCollectionContext?.filterState?.themen?.length +
+              " Themen)";
+          }
+        } else if (featureCollectionContext?.filterMode === "kategorien") {
+          if (featureCollectionContext?.filterState?.kategorien?.length <= 3) {
+            themenstadtplanDesc =
+              "nach Kategorien gefiltert (nur " +
+              featureCollectionContext?.filterState?.kategorien?.join(", ") +
+              ")";
+          } else {
+            themenstadtplanDesc =
+              "nach Kategorien gefiltert (" +
+              featureCollectionContext?.filterState?.kategorien?.length +
+              " Kategorien)";
+          }
+        }
+
+        if (featureCollectionContext?.filteredItems?.length === 0) {
+          return (
+            <div>
+              <b>Keine Klimastandorte gefunden!</b> Bitte überprüfen Sie Ihre Filtereinstellungen.
+            </div>
+          );
+        }
+
+        if (themenstadtplanDesc) {
+          return (
+            <div>
+              <b>Meine Klimastandorte:</b> {themenstadtplanDesc}
+            </div>
+          );
+        } else {
+          return undefined;
+        }
+      }}
+    >
+      <TopicMapComponent
+        modalMenu={<MyMenu />}
+        gazData={gazData}
+        gazetteerSearchPlaceholder="Stadtteil | Adresse | POI | Standorte"
+        infoBox={
+          <GenericInfoBoxFromFeature
+            pixelwidth={400}
+            config={{
+              displaySecondaryInfoAction: true,
+              city: "Wuppertal",
+              navigator: {
+                noun: {
+                  singular: "Standort",
+                  plural: "Standorte",
+                },
+              },
+              noCurrentFeatureTitle: "Keine Standorte gefunden",
+              noCurrentFeatureContent: "",
+            }}
+          />
+        }
+        secondaryInfo={<InfoPanel />}
+        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+      >
+        <FeatureCollection />
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
