@@ -131,10 +131,10 @@ const SettingsPanel = (props) => {
     if (previewFeatureCollection) {
       previewFeatures = previewFeatureCollection;
     } else {
-      if (previewFeatureCollectionCount === -1) {
+      if (previewFeatureCollectionCount === -1 || previewFeatureCollectionCount === undefined) {
         previewFeatures = allFeatures;
       } else {
-        previewFeatures = allFeatures.slice(0, previewFeatureCollectionCount);
+        previewFeatures = allFeature.slice(0, previewFeatureCollectionCount);
       }
     }
     setMapPreview(
