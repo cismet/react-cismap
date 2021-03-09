@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "leaflet/dist/leaflet.css";
 import "./lib/topicMaps.css";
 import * as TopicMapsExamples from "./lib/_stories/complex/TopicMap.stories";
+import * as GenericTopicMapsExamples from "./lib/_stories/complex/GenericTopicMap.stories";
 
 const TestContext = React.createContext();
 
@@ -50,7 +51,8 @@ ReactDOM.render(
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
     {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
-    <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox />
+    {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox /> */}
+    <GenericTopicMapsExamples.SimpleStaticGenericTopicMap />
   </div>,
   document.getElementById("root")
 );

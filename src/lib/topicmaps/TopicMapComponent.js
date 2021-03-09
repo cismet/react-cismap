@@ -38,8 +38,9 @@ const TopicMapComponent = (props) => {
     minZoom = 5,
     maxZoom = 19,
     mapStyle,
-    homeCenter = [51.25861849982617, 7.15101022370511],
-    homeZoom = 8,
+    homeCenter,
+    homeZoom,
+    home,
     ondblclick = () => {},
     onclick = () => {},
     locationChangedHandler = undefined,
@@ -70,6 +71,7 @@ const TopicMapComponent = (props) => {
     applicationMenuIconname = "bars",
     secondaryInfo,
     gazetteerSearchPlaceholder,
+    photoLightBox = true,
   } = props;
   const { history } = useContext(TopicMapContext);
   const {
@@ -157,6 +159,24 @@ const TopicMapComponent = (props) => {
     width: infoBox.props.pixelwidth,
   };
 
+  let _homeCenter, _homeZoom;
+
+  if (homeCenter) {
+    _homeCenter = homeCenter;
+  } else if (home?.center) {
+    _homeCenter = home.center;
+  } else {
+    _homeCenter = [51.25861849982617, 7.15101022370511];
+  }
+
+  if (homeZoom) {
+    _homeZoom = homeZoom;
+  } else if (home?.zoom) {
+    _homeZoom = home.zoom;
+  } else {
+    _homeZoom = 8;
+  }
+
   const _modalMenu = modalMenu || <DefaultAppMenu />;
 
   return (
@@ -169,7 +189,7 @@ const TopicMapComponent = (props) => {
         text={initialLoadingText + " " + statusPostfix + "..."}
       >
         <div>
-          <PhotoLightBox />
+          {photoLightBox && <PhotoLightBox />}
           <TitleBox />
           <RoutedMap
             key={"leafletRoutedMap"}
@@ -186,8 +206,8 @@ const TopicMapComponent = (props) => {
             layers=""
             style={_mapStyle}
             fallbackPosition={{
-              lat: homeCenter[0],
-              lng: homeCenter[1],
+              lat: _homeCenter[0],
+              lng: _homeCenter[1],
             }}
             ondblclick={ondblclick}
             onclick={onclick}
@@ -210,7 +230,7 @@ const TopicMapComponent = (props) => {
               //localMappingBoundsChanged(bbox);
             }}
             backgroundlayers={_backgroundLayers}
-            fallbackZoom={homeZoom}
+            fallbackZoom={_homeZoom}
             fullScreenControlEnabled={fullScreenControl}
             locateControlEnabled={locatorControl}
           >

@@ -35,7 +35,7 @@ const DispatchContext = React.createContext();
 const getItems = async ({
   setItems,
   itemsUrl,
-  convertItemToFeature = (itemIsFeature) => itemIsFeature,
+  convertItemToFeature,
   name = "cachedFeatureCollection",
   caching = true,
   withMD5Check = true,
@@ -64,8 +64,9 @@ const FeatureCollectionContextProvider = ({
   clusteringEnabled = false,
   clusteringOptions,
   itemsURL,
+  items,
   featureCollectionName,
-  convertItemToFeature,
+  convertItemToFeature = (itemIsFeature) => JSON.parse(JSON.stringify(itemIsFeature || {})),
   itemFilterFunction,
   filterFunction,
   appKey,
@@ -73,6 +74,7 @@ const FeatureCollectionContextProvider = ({
 }) => {
   const [state, dispatch] = useImmer({
     ...defaultState,
+    items,
     getFeatureStyler,
     getColorFromProperties,
     clusteringEnabled,
@@ -81,6 +83,7 @@ const FeatureCollectionContextProvider = ({
     itemFilterFunction,
     filterFunction,
   });
+  // console.log("featureCollectionContext state", state);
 
   const { boundingBox } = useContext(TopicMapContext);
   const contextKey = "featureCollection";
@@ -128,6 +131,8 @@ const FeatureCollectionContextProvider = ({
   };
 
   const setSelectedIndex = (selectedIndex) => {
+    console.log("xxx setSelectedIndex", selectedIndex);
+
     setX.setSelectedIndexState({ selectedIndex, forced: false });
   };
 
@@ -142,8 +147,10 @@ const FeatureCollectionContextProvider = ({
     }
     setSelectedFeatureIndex(newIndex);
   };
-  // console.log("FeatureCollectionContextProvider state", state);
-
+  // if (state?.items) {
+  //   console.log("FeatureCollectionContextProvider items", state?.items);
+  //   console.log("xxx FeatureCollectionContextProvider items", state?.shownFeatures);
+  // }
   // effect when items are changed
   useEffect(() => {
     //async start
@@ -151,6 +158,7 @@ const FeatureCollectionContextProvider = ({
       if (state.filteredItems) {
         const features = [];
         let id = 0;
+
         for (const item of state.filteredItems) {
           const f = await convertItemToFeature(item);
           f.selected = false;
@@ -186,7 +194,6 @@ const FeatureCollectionContextProvider = ({
         filteredItems = state.items;
       }
       setX.setFilteredItems(filteredItems);
-      // console.log("filteredItems", filteredItems);
     }
   }, [state.filterState, state.filterMode, state.filterFunction, state.items]);
 

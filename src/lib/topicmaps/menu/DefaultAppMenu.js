@@ -17,6 +17,8 @@ const AppMenu = (props) => {
       content: undefined,
     },
     topicMapTitle = "",
+    previewMapPosition,
+    previewFeatureCollectionCount,
   } = props;
 
   let _menuIntroduction;
@@ -33,7 +35,13 @@ const AppMenu = (props) => {
   );
 
   let _sections = {
-    _00settings: <DefaultSettingsPanel key="settings" />,
+    _00settings: (
+      <DefaultSettingsPanel
+        previewMapPosition={previewMapPosition}
+        previewFeatureCollectionCount={previewFeatureCollectionCount}
+        key="settings"
+      />
+    ),
     _99help: (
       <Section
         key="help"

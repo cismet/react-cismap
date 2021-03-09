@@ -35,6 +35,7 @@ const TopicMapContextProvider = ({
   clusteringOptions,
   getSymbolSVG,
   featureItemsURL,
+  items,
   convertItemToFeature,
   featureCollectionName,
   itemFilterFunction,
@@ -140,6 +141,7 @@ const TopicMapContextProvider = ({
             clusteringOptions={clusteringOptions}
             getSymbolSVG={getSymbolSVG}
             itemsURL={featureItemsURL}
+            items={items}
             convertItemToFeature={convertItemToFeature}
             featureCollectionName={featureCollectionName}
             itemFilterFunction={itemFilterFunction}

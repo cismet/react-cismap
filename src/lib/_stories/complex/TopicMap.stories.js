@@ -6,10 +6,8 @@ import {
 } from "../../index";
 import GazetteerSearchControl from "../../GazetteerSearchControl";
 import GazetteerHitDisplay from "../../GazetteerHitDisplay";
-import { md5FetchText, fetchJSON } from "../../tools/fetching";
-import { getGazDataForTopicIds } from "../../tools/gazetteerHelper";
 import ProjSingleGeoJson from "../../ProjSingleGeoJson";
-import { storiesCategory } from "./StoriesConf";
+import { storiesCategory, getGazData, host } from "./StoriesConf";
 import TopicMapComponent from "../../topicmaps/TopicMapComponent";
 import GenericInfoBoxFromFeature from "../../topicmaps/GenericInfoBoxFromFeature";
 import FeatureCollectionDisplay from "../../FeatureCollectionDisplay";
@@ -42,30 +40,6 @@ import Icon from "../../commons/Icon";
 import uwz from "../_data/UWZ";
 export default {
   title: storiesCategory + "TopicMapComponent",
-};
-const host = "https://wupp-topicmaps-data.cismet.de";
-
-const getGazData = async (setGazData) => {
-  const prefix = "GazDataForStories";
-  const sources = {};
-
-  sources.adressen = await md5FetchText(prefix, host + "/data/adressen.json");
-  sources.bezirke = await md5FetchText(prefix, host + "/data/bezirke.json");
-  sources.quartiere = await md5FetchText(prefix, host + "/data/quartiere.json");
-  sources.pois = await md5FetchText(prefix, host + "/data/pois.json");
-  sources.kitas = await md5FetchText(prefix, host + "/data/kitas.json");
-  sources.bpklimastandorte = await md5FetchText(prefix, host + "/data/bpklimastandorte.json");
-
-  const gazData = getGazDataForTopicIds(sources, [
-    "bpklimastandorte",
-    "pois",
-    "kitas",
-    "bezirke",
-    "quartiere",
-    "adressen",
-  ]);
-
-  setGazData(gazData);
 };
 
 export const MostSimpleTopicMap = () => {
@@ -951,7 +925,7 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
           ),
         },
       }}
-      xtitleFactory={({ featureCollectionContext }) => {
+      titleFactory={({ featureCollectionContext }) => {
         const getThemaById = (id) => {
           const result = featureCollectionContext?.items?.find((item) => item?.thema?.id === id);
           return result?.thema?.name;

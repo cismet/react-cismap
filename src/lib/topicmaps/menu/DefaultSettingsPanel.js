@@ -65,18 +65,14 @@ const SettingsPanel = (props) => {
     currentMarkerSize,
     getSymbolSVG,
     symbolColor = "#2664D8",
-
-    // previewMapLat = 51.25910046459786,
-    // previewMapLng = 7.1810811127858925,
-    // previewMapZoom = 8,
-    previewMapLat = 51.25548256737119,
-    previewMapLng = 7.14534279930707,
-    previewMapZoom = 12,
-
+    previewMapPosition,
     previewFeatureCollection,
+    previewFeatureCollectionCount,
     previewMapClusteringEnabled,
     previewMapClusteringOptions,
   } = props;
+  console.log("previewFeatureCollectionCount", previewFeatureCollectionCount);
+
   const _changeMarkerSymbolSize = changeMarkerSymbolSize || setMarkerSymbolSize;
   const _markerSymbolSize = currentMarkerSize || markerSymbolSize;
   let namedMapStyleFromUrl = new URLSearchParams(window.location.href).get("mapStyle") || "default";
@@ -104,6 +100,11 @@ const SettingsPanel = (props) => {
       //in this case a default Icon is shown
     }
   }
+  let previewMapPositionParams = new URLSearchParams(previewMapPosition);
+  let previewMapLng = previewMapPositionParams.get("lng") || "7.14534279930707";
+  let previewMapLat = previewMapPositionParams.get("lat") || "51.25548256737119";
+  let previewMapZoom = previewMapPositionParams.get("zoom") || "12";
+
   let _urlPathname, _urlSearch, _pushNewRoute;
   const _namedMapStyle = namedMapStyleFromUrl;
   const layers = routedMapRef?.props?.backgroundlayers;
@@ -125,7 +126,17 @@ const SettingsPanel = (props) => {
     } else {
       style = getDefaultFeatureStyler(_markerSymbolSize, getColorFromProperties);
     }
+    let previewFeatures;
 
+    if (previewFeatureCollection) {
+      previewFeatures = previewFeatureCollection;
+    } else {
+      if (previewFeatureCollectionCount === -1) {
+        previewFeatures = allFeatures;
+      } else {
+        previewFeatures = allFeatures.slice(0, previewFeatureCollectionCount);
+      }
+    }
     setMapPreview(
       <Map
         key={"map" + allFeatures?.length + selectedBackground + _namedMapStyle}
@@ -159,16 +170,8 @@ const SettingsPanel = (props) => {
             })}
         </div>
         <FeatureCollectionDisplay
-          key={
-            "FeatureCollectionDisplayPreview." + _markerSymbolSize + clusteringEnabled
-            // +
-            //   this.props.featureKeySuffixCreator() +
-            //   "clustered:" +
-            //   this.props.clustered +
-            //   ".customPostfix:" +
-            //   this.props.featureCollectionKeyPostfix
-          }
-          featureCollection={previewFeatureCollection || allFeatures}
+          key={"FeatureCollectionDisplayPreview." + _markerSymbolSize + clusteringEnabled}
+          featureCollection={previewFeatures}
           clusteringEnabled={previewMapClusteringEnabled || clusteringEnabled}
           clusterOptions={previewMapClusteringOptions || clusteringOptions}
           style={style}
