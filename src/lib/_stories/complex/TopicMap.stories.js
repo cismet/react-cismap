@@ -38,6 +38,8 @@ import FilterPanel from "../../topicmaps/menu/FilterPanel";
 import StyledWMSTileLayer from "../../StyledWMSTileLayer";
 import Icon from "../../commons/Icon";
 import uwz from "../_data/UWZ";
+import queryString from "query-string";
+
 export default {
   title: storiesCategory + "TopicMapComponent",
 };
@@ -1008,6 +1010,93 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
         }
         secondaryInfo={<InfoPanel />}
         // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+      >
+        <FeatureCollection />
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
+
+const convertPOIItemsToFeature = async (itemIn) => {
+  let item = await addSVGToProps(
+    itemIn,
+    (i) => i.signatur || i?.mainlocationtype?.signatur || "Platz.svg"
+  );
+  const text = item?.name || "Kein Name";
+  const type = "Feature";
+  const selected = false;
+  const geometry = item?.geojson;
+  item.color = "#CB0D0D";
+  const info = {
+    header: item?.mainlocationtype?.lebenslagen?.join(","),
+    title: text,
+    additionalInfo: item?.info,
+    subtitle: <span>{item?.adresse}</span>,
+  };
+  item.info = info;
+
+  return {
+    text,
+    type,
+    selected,
+    geometry,
+    crs: {
+      type: "name",
+      properties: {
+        name: "urn:ogc:def:crs:EPSG::25832",
+      },
+    },
+    properties: item,
+  };
+};
+
+export const TopicMapWithWithStaticFilter = () => {
+  const [gazData, setGazData] = useState([]);
+  useEffect(() => {
+    getGazData(setGazData);
+  }, []);
+
+  return (
+    <TopicMapContextProvider
+      featureItemsURL={host + "/data/poi.data.json"}
+      getFeatureStyler={getGTMFeatureStyler}
+      convertItemToFeature={convertPOIItemsToFeature}
+      clusteringOptions={{
+        iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
+      }}
+      clusteringEnabled={true}
+      itemFilterFunction={() => {
+        return (item) => item?.mainlocationtype?.name?.toLowerCase().includes("corona");
+        // item?.name?.toLowerCase().includes("test");
+      }}
+      getColorFromProperties={(props) => props.color}
+      titleFactory={() => {
+        return (
+          <div>
+            <b>Corona-Präventionskarte</b>
+          </div>
+        );
+      }}
+    >
+      <TopicMapComponent
+        gazData={gazData}
+        gazetteerSearchPlaceholder="Stadtteil | Adresse | POI "
+        infoBox={
+          <GenericInfoBoxFromFeature
+            pixelwidth={400}
+            config={{
+              city: "Wuppertal",
+              navigator: {
+                noun: {
+                  singular: "Zentrum",
+                  plural: "Zentren",
+                },
+              },
+              noCurrentFeatureTitle: "Keine Zentren gefunden",
+              noCurrentFeatureContent: "",
+            }}
+          />
+        }
       >
         <FeatureCollection />
       </TopicMapComponent>

@@ -52,7 +52,8 @@ ReactDOM.render(
     {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
     {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox /> */}
-    <GenericTopicMapsExamples.SimpleStaticGenericTopicMap />
+    {/* <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Wasserstofftankstelle /> */}
+    <TopicMapsExamples.TopicMapWithWithStaticFilter />
   </div>,
   document.getElementById("root")
 );

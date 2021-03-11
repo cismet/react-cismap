@@ -131,8 +131,6 @@ const FeatureCollectionContextProvider = ({
   };
 
   const setSelectedIndex = (selectedIndex) => {
-    console.log("xxx setSelectedIndex", selectedIndex);
-
     setX.setSelectedIndexState({ selectedIndex, forced: false });
   };
 

@@ -64,7 +64,7 @@ const SettingsPanel = (props) => {
     changeMarkerSymbolSize,
     currentMarkerSize,
     getSymbolSVG,
-    symbolColor = "#2664D8",
+    symbolColor,
     previewMapPosition,
     previewFeatureCollection,
     previewFeatureCollectionCount,
@@ -77,6 +77,17 @@ const SettingsPanel = (props) => {
   const _markerSymbolSize = currentMarkerSize || markerSymbolSize;
   let namedMapStyleFromUrl = new URLSearchParams(window.location.href).get("mapStyle") || "default";
   let _getSymbolSVG = getSymbolSVG || getSymbolSVGFromContext;
+  let _symbolColor;
+  if (allFeatures && allFeatures[0]) {
+    if (getColorFromProperties) {
+      _symbolColor = getColorFromProperties(allFeatures[0].properties);
+    } else {
+      _symbolColor = allFeatures[0].properties.color;
+    }
+  }
+  if (_symbolColor === undefined) {
+    _symbolColor = "#2664D8";
+  }
   if (_getSymbolSVG === undefined) {
     try {
       if (
@@ -182,6 +193,7 @@ const SettingsPanel = (props) => {
       </Map>
     );
   }, [
+    allFeatures,
     backgroundsFromMode,
     _namedMapStyle,
     clusteringEnabled,
@@ -346,7 +358,7 @@ const SettingsPanel = (props) => {
               changeMarkerSymbolSize={_changeMarkerSymbolSize}
               currentMarkerSize={_markerSymbolSize}
               getSymbolSVG={_getSymbolSVG}
-              symbolColor={symbolColor}
+              symbolColor={_symbolColor}
             />,
           ]}
         />

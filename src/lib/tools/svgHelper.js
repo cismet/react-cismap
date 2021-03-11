@@ -19,7 +19,9 @@ export const addSVGToProps = (
       cacheHeaders.append("pragma", "no-cache");
       cacheHeaders.append("cache-control", "no-cache");
     }
-    fetch(url + getSignatur(props), { method: "get", headers: cacheHeaders })
+    const sigUrl = url + getSignatur(props);
+
+    fetch(sigUrl, { method: "get", headers: cacheHeaders })
       .then((response) => {
         if (response.ok) {
           return response.text();
