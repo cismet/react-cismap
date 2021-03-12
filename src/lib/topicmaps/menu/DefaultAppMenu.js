@@ -19,6 +19,7 @@ const AppMenu = (props) => {
     topicMapTitle = "",
     previewMapPosition,
     previewFeatureCollectionCount,
+    titleCheckBoxlabel,
   } = props;
 
   let _menuIntroduction;
@@ -39,6 +40,7 @@ const AppMenu = (props) => {
       <DefaultSettingsPanel
         previewMapPosition={previewMapPosition}
         previewFeatureCollectionCount={previewFeatureCollectionCount}
+        titleCheckBoxlabel={titleCheckBoxlabel}
         key="settings"
       />
     ),

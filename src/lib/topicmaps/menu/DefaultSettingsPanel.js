@@ -70,6 +70,7 @@ const SettingsPanel = (props) => {
     previewFeatureCollectionCount,
     previewMapClusteringEnabled,
     previewMapClusteringOptions,
+    titleCheckBoxlabel,
   } = props;
   console.log("previewFeatureCollectionCount", previewFeatureCollectionCount);
 
@@ -318,7 +319,7 @@ const SettingsPanel = (props) => {
                         setTitleDisplay(true);
                       }
                     }}
-                    label="Titel bei individueller Filterung anzeigen"
+                    label={titleCheckBoxlabel || "Titel bei individueller Filterung anzeigen"}
                   ></Form.Check>
                 </Form.Group>
               )}
