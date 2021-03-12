@@ -1049,17 +1049,22 @@ const convertPOIItemsToFeature = async (itemIn) => {
     properties: item,
   };
 };
-
+const mapTitle = "Corona-Präventionskarte";
 export const TopicMapWithWithStaticFilter = () => {
   const [gazData, setGazData] = useState([]);
   useEffect(() => {
     getGazData(setGazData);
+    document.title = mapTitle;
   }, []);
 
   return (
     <TopicMapContextProvider
+      //host=https://wupp-topicmaps-data.cismet.de
+      //appKey='CoronaPraeventionskarteWuppertal.TopicMap'
+
       featureItemsURL={host + "/data/poi.data.json"}
       getFeatureStyler={getGTMFeatureStyler}
+      featureTooltipFunction={(feature) => feature?.text}
       convertItemToFeature={convertPOIItemsToFeature}
       clusteringOptions={{
         iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
@@ -1073,12 +1078,13 @@ export const TopicMapWithWithStaticFilter = () => {
       titleFactory={() => {
         return (
           <div>
-            <b>Corona-Präventionskarte</b>
+            <b>{mapTitle}</b>
           </div>
         );
       }}
     >
       <TopicMapComponent
+        locatorControl={true}
         gazData={gazData}
         gazetteerSearchPlaceholder="Stadtteil | Adresse | POI "
         infoBox={

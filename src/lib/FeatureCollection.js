@@ -71,6 +71,7 @@ const FeatureCollection = (props) => {
     clusteringEnabled: clusteringEnabledFromContext,
     getFeatureStyler,
     getColorFromProperties,
+    featureTooltipFunction,
   } = useContext(FeatureCollectionContext);
 
   const { setSelectedFeatureIndex } = useContext(FeatureCollectionDispatchContext);
@@ -141,7 +142,7 @@ const FeatureCollection = (props) => {
         clusteringEnabled={_clusteringEnabled}
         style={_style}
         labeler={featureLabeler}
-        hoverer={featureHoverer}
+        hoverer={featureHoverer || featureTooltipFunction}
         featureClickHandler={internalFeatureClickHandler}
         mapRef={(_mapRef || {}).leafletMap}
       />
@@ -163,7 +164,7 @@ const FeatureCollection = (props) => {
         clusteringEnabled={_clusteringEnabled}
         clusterOptions={_clusterOptions}
         style={_style}
-        hoverer={featureHoverer}
+        hoverer={featureHoverer || featureTooltipFunction}
         labeler={featureLabeler}
         featureStylerScalableImageSize={markerSymbolSize}
         featureClickHandler={internalFeatureClickHandler}

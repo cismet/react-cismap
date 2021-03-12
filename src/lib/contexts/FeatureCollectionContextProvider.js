@@ -21,6 +21,7 @@ const defaultState = {
   shownFeatures: undefined,
   selectedFeature: undefined,
   featureIndex: undefined,
+  featureTooltipFunction: undefined,
   selectedIndexState: {
     selectedIndex: 0,
     forced: false,
@@ -66,6 +67,7 @@ const FeatureCollectionContextProvider = ({
   itemsURL,
   items,
   featureCollectionName,
+  featureTooltipFunction,
   convertItemToFeature = (itemIsFeature) => JSON.parse(JSON.stringify(itemIsFeature || {})),
   itemFilterFunction,
   filterFunction,
@@ -82,6 +84,7 @@ const FeatureCollectionContextProvider = ({
     getSymbolSVG,
     itemFilterFunction,
     filterFunction,
+    featureTooltipFunction,
   });
   // console.log("featureCollectionContext state", state);
 
@@ -124,6 +127,7 @@ const FeatureCollectionContextProvider = ({
     setFeatureIndex: set("featureIndex"),
     setSelectedIndexState: set("selectedIndexState"),
     setClusteringEnabled: set("clusteringEnabled"),
+    setFeatureTooltipFunction: set("featureTooltipFunction"),
   };
 
   const setSelectedFeatureIndex = (selectedIndex) => {

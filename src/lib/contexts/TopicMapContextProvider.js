@@ -30,6 +30,7 @@ const TopicMapContextProvider = ({
   stylingContextEnabled = true,
   uiContextEnabled = true,
   getFeatureStyler,
+  featureTooltipFunction,
   getColorFromProperties,
   clusteringEnabled = true,
   clusteringOptions,
@@ -148,6 +149,7 @@ const TopicMapContextProvider = ({
             filterFunction={filterFunction}
             appKey={appKey}
             persistenceSettings={persistenceSettings}
+            featureTooltipFunction={featureTooltipFunction}
           >
             <ResponsiveTopicMapContextProvider
               enabled={responsiveContextEnabled}
