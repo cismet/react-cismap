@@ -156,6 +156,22 @@ export const getGazDataForTopicIds = (sources, topics) => {
         gazData.push(g);
       }
     }
+    if (topic === "no2") {
+      let no2 = JSON.parse(sources.no2);
+      for (let i = 0; i < no2.length; ++i) {
+        let topicItem = no2[i];
+        let g = {
+          sorter: sorter++,
+          string: topicItem.s,
+          glyph: topicItem.g,
+          x: topicItem.x,
+          y: topicItem.y,
+          more: topicItem.m,
+          type: "no2",
+        };
+        gazData.push(g);
+      }
+    }
     if (topic === "adressen") {
       let adressen = JSON.parse(sources.adressen);
       for (let i = 0; i < adressen.length; ++i) {
