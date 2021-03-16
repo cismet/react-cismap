@@ -33,7 +33,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faFilePdf, faFile as faFileReg } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBitbucket } from '@fortawesome/free-brands-svg-icons';
+import { faBitbucket, faCloudscale } from '@fortawesome/free-brands-svg-icons';
 import React from 'react';
 import { Icon } from 'react-fa';
 
@@ -83,7 +83,8 @@ export const nameMap = {
 	'arrows-v': faArrowsAltV,
 	'arrows-h': faArrowsAltH,
 	'file-archive-o': faFileArchive,
-	'file-o': faFileReg
+	'file-o': faFileReg.icon,
+	'cloudscale': faCloudscale
 };
 
 const IconComp = (props) => {
