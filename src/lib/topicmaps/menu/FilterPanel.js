@@ -175,6 +175,8 @@ const FilterPanel = ({ filterConfiguration }) => {
         return (
           <div style={{ margin: 10 }}>
             {filterConf.values.map((item, index) => {
+              let iconPos = "post";
+              iconPos = item.iconPos;
               return (
                 <div key={"div.chk." + filterConf.title + "." + index} style={{ margin: 2 }}>
                   <Form.Group
@@ -204,8 +206,18 @@ const FilterPanel = ({ filterConfiguration }) => {
                       inline
                       label={
                         <span>
+                          {item.color !== undefined && iconPos === "pre" && (
+                            <Icon
+                              style={{
+                                color: item.color,
+                                width: "30px",
+                                textAlign: "center",
+                              }}
+                              name={item.icon || "circle"}
+                            />
+                          )}
                           {item.title || item.key}
-                          {item.color !== undefined && (
+                          {item.color !== undefined && iconPos === "post" && (
                             <Icon
                               style={{
                                 color: item.color,
