@@ -164,6 +164,7 @@ export const getGazDataForTopicIds = (sources, topics) => {
           sorter: sorter++,
           string: topicItem.s,
           glyph: topicItem.g,
+          glyphPrefix:"fab ",
           x: topicItem.x,
           y: topicItem.y,
           more: topicItem.m,

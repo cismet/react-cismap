@@ -13,7 +13,7 @@ const GazetteerHitDisplay = ({ gazetteerHit }) => {
 			gazetteerHit.y
 		]);
 		let markerOptions = {
-			icon: 'fa-' + gazetteerHit.glyph,
+			icon: (gazetteerHit.glyphPrefix||'') +'fa-' + gazetteerHit.glyph,
 			markerColor: 'cyan',
 			spin: false,
 			prefix: 'fas'
