@@ -13,20 +13,37 @@ import md5 from "md5";
 const FilterPanel = ({ filterConfiguration }) => {
   const { windowSize } = useContext(ResponsiveTopicMapContext);
   const { setFilterState, setFilterMode } = useContext(FeatureCollectionDispatchContext);
-  const { filterState, filterMode, filteredItems } = useContext(FeatureCollectionContext);
+  const {
+    filterState,
+    filterMode,
+    filteredItems,
+    classKeyFunction,
+    getColorFromProperties,
+  } = useContext(FeatureCollectionContext);
 
   const width = windowSize.width;
+  const getColor =
+    getColorFromProperties ||
+    ((props) => {
+      console.log("getColor(props)", props);
+
+      return props.color || "red";
+    });
   const pieChart = (
     <FilterPieChart
       filteredItems={filteredItems}
-      itemGetClassKey={(item) => item?.thema?.name}
-      getColor={(item) => item?.thema?.farbe || "red"}
+      itemGetClassKey={classKeyFunction || ((item) => classKey)}
+      getColor={getColor}
     ></FilterPieChart>
   );
   let widePieChartPlaceholder = null;
   let narrowPieChartPlaceholder = null;
 
-  const resetFilter = () => {};
+  const resetFilter = () => {
+    if (filterConfiguration?.resetedFilter) {
+      setFilterState(filterConfiguration?.resetedFilter);
+    }
+  };
   if (width < 995) {
     narrowPieChartPlaceholder = (
       <div>
@@ -54,6 +71,35 @@ const FilterPanel = ({ filterConfiguration }) => {
     setFilterState(newFilterState);
   };
 
+  const removeFilterForKeys = (filterKey, itemkeys) => {
+    const newFilterState = { ...filterState };
+    for (const itemkey of itemkeys) {
+      newFilterState[filterKey] = newFilterState[filterKey].filter((itemIn) => itemIn !== itemkey);
+    }
+    setFilterState(newFilterState);
+  };
+  const addFilterForKeys = (filterKey, itemkeys) => {
+    const newFilterState = JSON.parse(JSON.stringify(filterState));
+    for (const itemkey of itemkeys) {
+      newFilterState[filterKey].push(itemkey);
+    }
+    setFilterState(newFilterState);
+  };
+  const isChecked = (filterConf, item, filterState) => {
+    if (item.key !== undefined) {
+      return filterState !== undefined && filterState[filterConf.key].includes(item.key);
+    } else if (item.keys !== undefined) {
+      for (const key of item.keys) {
+        if (!filterState[filterConf.key].includes(key)) {
+          return false;
+        }
+      }
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const getFilterElements = (filterConf) => {
     switch (filterConf.type) {
       case "tags":
@@ -63,10 +109,7 @@ const FilterPanel = ({ filterConfiguration }) => {
               let style;
 
               const isSelected = () => {
-                if (filterState) {
-                  return filterState[filterConf.key].includes(item.key);
-                }
-                return false;
+                return isChecked(filterConf, item, filterState);
               };
 
               let backgroundColorSelected,
@@ -102,9 +145,17 @@ const FilterPanel = ({ filterConfiguration }) => {
                   <Badge
                     onClick={() => {
                       if (isSelected()) {
-                        removeFilterFor(filterConf.key, item.key);
+                        if (item.key) {
+                          removeFilterFor(filterConf.key, item.key);
+                        } else if (item.keys) {
+                          removeFilterForKeys(filterConf.key, item.keys);
+                        }
                       } else {
-                        addFilterFor(filterConf.key, item.key);
+                        if (item.key) {
+                          addFilterFor(filterConf.key, item.key);
+                        } else if (item.keys) {
+                          addFilterForKeys(filterConf.key, item.keys);
+                        }
                       }
                     }}
                     style={style}
@@ -125,20 +176,31 @@ const FilterPanel = ({ filterConfiguration }) => {
           <div style={{ margin: 10 }}>
             {filterConf.values.map((item, index) => {
               return (
-                <div key={"div.chk." + index} style={{ margin: 2 }}>
-                  <Form.Group controlId={"div.chk." + index}>
+                <div key={"div.chk." + filterConf.title + "." + index} style={{ margin: 2 }}>
+                  <Form.Group
+                    controlId={"div.chk." + filterConf.title + "." + index}
+                    style={{ marginLeft: item.indent || 0 }}
+                  >
                     <Form.Check
                       type="checkbox"
                       readOnly={true}
                       key={"filter." + filterConf.key + index}
                       onClick={(e) => {
                         if (e.target.checked === false) {
-                          removeFilterFor(filterConf.key, item.key);
+                          if (item.key) {
+                            removeFilterFor(filterConf.key, item.key);
+                          } else if (item.keys) {
+                            removeFilterForKeys(filterConf.key, item.keys);
+                          }
                         } else {
-                          addFilterFor(filterConf.key, item.key);
+                          if (item.key) {
+                            addFilterFor(filterConf.key, item.key);
+                          } else if (item.keys) {
+                            addFilterForKeys(filterConf.key, item.keys);
+                          }
                         }
                       }}
-                      checked={filterState[filterConf.key].includes(item.key)}
+                      checked={isChecked(filterConf, item, filterState)}
                       inline
                       label={
                         <span>
@@ -150,7 +212,7 @@ const FilterPanel = ({ filterConfiguration }) => {
                                 width: "30px",
                                 textAlign: "center",
                               }}
-                              name={"circle"}
+                              name={item.icon || "circle"}
                             />
                           )}
                         </span>
@@ -241,15 +303,17 @@ const FilterPanel = ({ filterConfiguration }) => {
                       <Form.Label>
                         {filterConf.title}
                         {"  "}
-                        <Icon
-                          style={{
-                            color: "grey",
-                            width: "30px",
-                            textAlign: "center",
-                          }}
-                          size="2x"
-                          name={filterConf.icon}
-                        />
+                        {filterConf.icon && (
+                          <Icon
+                            style={{
+                              color: "grey",
+                              width: "30px",
+                              textAlign: "center",
+                            }}
+                            size="2x"
+                            name={filterConf.icon}
+                          />
+                        )}
                       </Form.Label>
                       {getFilterElements(filterConf)}
                     </Form.Group>

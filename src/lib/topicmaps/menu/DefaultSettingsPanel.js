@@ -72,7 +72,6 @@ const SettingsPanel = (props) => {
     previewMapClusteringOptions,
     titleCheckBoxlabel,
   } = props;
-  console.log("previewFeatureCollectionCount", previewFeatureCollectionCount);
 
   const _changeMarkerSymbolSize = changeMarkerSymbolSize || setMarkerSymbolSize;
   const _markerSymbolSize = currentMarkerSize || markerSymbolSize;
@@ -268,7 +267,6 @@ const SettingsPanel = (props) => {
       </Form.Group>
     </div>
   );
-  console.log("history", history);
 
   if (urlPathname) {
     _urlPathname = urlPathname;

@@ -28,6 +28,8 @@ const defaultState = {
   },
   clusteringEnabled: false,
   clusteringOptions: undefined,
+  classKeyFunction: undefined,
+  getColorFromProperties: undefined,
 };
 
 const StateContext = React.createContext();
@@ -73,6 +75,8 @@ const FeatureCollectionContextProvider = ({
   filterFunction,
   appKey,
   persistenceSettings,
+  filterState,
+  classKeyFunction,
 }) => {
   const [state, dispatch] = useImmer({
     ...defaultState,
@@ -84,9 +88,10 @@ const FeatureCollectionContextProvider = ({
     getSymbolSVG,
     itemFilterFunction,
     filterFunction,
+    filterState,
+    classKeyFunction,
     featureTooltipFunction,
   });
-  // console.log("featureCollectionContext state", state);
 
   const { boundingBox } = useContext(TopicMapContext);
   const contextKey = "featureCollection";

@@ -41,6 +41,8 @@ const TopicMapContextProvider = ({
   featureCollectionName,
   itemFilterFunction,
   filterFunction,
+  filterState,
+  classKeyFunction,
   additionalLayerConfiguration,
   appKey = "TopicMapBaseLibrary",
   persistenceSettings = {
@@ -147,6 +149,8 @@ const TopicMapContextProvider = ({
             featureCollectionName={featureCollectionName}
             itemFilterFunction={itemFilterFunction}
             filterFunction={filterFunction}
+            filterState={filterState}
+            classKeyFunction={classKeyFunction}
             appKey={appKey}
             persistenceSettings={persistenceSettings}
             featureTooltipFunction={featureTooltipFunction}
