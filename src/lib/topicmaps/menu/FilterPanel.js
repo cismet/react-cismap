@@ -25,14 +25,12 @@ const FilterPanel = ({ filterConfiguration }) => {
   const getColor =
     getColorFromProperties ||
     ((props) => {
-      console.log("getColor(props)", props);
-
       return props.color || "red";
     });
   const pieChart = (
     <FilterPieChart
       filteredItems={filteredItems}
-      itemGetClassKey={classKeyFunction || ((item) => classKey)}
+      itemGetClassKey={classKeyFunction || ((item) => item.classKey)}
       getColor={getColor}
     ></FilterPieChart>
   );
