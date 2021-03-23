@@ -34,7 +34,18 @@ export const getDefaultFeatureStyler = (size = 24, colorizer = () => "#2664D8") 
     };
   };
 };
-
+export const defaultClusteringOptions = {
+  spiderfyOnMaxZoom: false,
+  showCoverageOnHover: false,
+  zoomToBoundsOnClick: false,
+  maxClusterRadius: 40,
+  disableClusteringAtZoom: 19,
+  animate: false,
+  cismapZoomTillSpiderfy: 12,
+  selectionSpiderfyMinZoom: 12,
+  colorizer: (props) => props.color,
+  clusterIconSize: 30,
+};
 // Since this component is simple and static, there's no parent container for it.
 const FeatureCollection = (props) => {
   const {
@@ -91,16 +102,7 @@ const FeatureCollection = (props) => {
   }
 
   const _clusterOptions = {
-    spiderfyOnMaxZoom: false,
-    showCoverageOnHover: false,
-    zoomToBoundsOnClick: false,
-    maxClusterRadius: 40,
-    disableClusteringAtZoom: 19,
-    animate: false,
-    cismapZoomTillSpiderfy: 12,
-    selectionSpiderfyMinZoom: 12,
-    colorizer: (props) => props.color,
-    clusterIconSize: 30,
+    ...defaultClusteringOptions,
     ...clusteringOptionsFromContext,
     ...clusteringOptions,
   };

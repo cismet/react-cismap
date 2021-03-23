@@ -23,7 +23,7 @@ import {
   TopicMapStylingDispatchContext,
 } from "../../contexts/TopicMapStylingContextProvider";
 import { getSymbolSVGGetter } from "../../tools/uiHelper";
-import { getDefaultFeatureStyler } from "../../FeatureCollection";
+import { defaultClusteringOptions, getDefaultFeatureStyler } from "../../FeatureCollection";
 
 const SettingsPanel = (props) => {
   const { setAppMenuActiveMenuSection, setAppMenuVisible } = useContext(UIDispatchContext);
@@ -184,7 +184,10 @@ const SettingsPanel = (props) => {
           key={"FeatureCollectionDisplayPreview." + _markerSymbolSize + clusteringEnabled}
           featureCollection={previewFeatures}
           clusteringEnabled={previewMapClusteringEnabled || clusteringEnabled}
-          clusterOptions={previewMapClusteringOptions || clusteringOptions}
+          clusterOptions={{
+            ...defaultClusteringOptions,
+            ...(previewMapClusteringOptions || clusteringOptions),
+          }}
           style={style}
           featureStylerScalableImageSize={currentMarkerSize}
           //mapRef={previewMapRef} // commented out because there cannot be a ref in a functional comp and it is bnot needed
