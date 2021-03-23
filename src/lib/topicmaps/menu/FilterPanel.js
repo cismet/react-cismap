@@ -79,7 +79,9 @@ const FilterPanel = ({ filterConfiguration }) => {
   const addFilterForKeys = (filterKey, itemkeys) => {
     const newFilterState = JSON.parse(JSON.stringify(filterState));
     for (const itemkey of itemkeys) {
-      newFilterState[filterKey].push(itemkey);
+      if (!newFilterState[filterKey].includes(itemkey)) {
+        newFilterState[filterKey].push(itemkey);
+      }
     }
     setFilterState(newFilterState);
   };
@@ -237,6 +239,7 @@ const FilterPanel = ({ filterConfiguration }) => {
         break;
     }
   };
+  console.log("filterState", filterState);
 
   return (
     <div key={"refresh.on." + filterMode + ".and." + md5(JSON.stringify(filterState || {}))}>
