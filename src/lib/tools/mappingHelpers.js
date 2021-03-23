@@ -1,5 +1,5 @@
 import polylabel from 'polylabel';
-import { proj4crs25832def } from '../constants/mapping';
+import { proj4crs25832def } from '../constants/gis';
 import proj4 from 'proj4';
 
 import intersect from '@turf/intersect';
