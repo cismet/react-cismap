@@ -324,6 +324,8 @@ export class RoutedMap extends React.Component {
   storeBoundingBox(leafletMap) {
     //store the projected bounds in the store
     //console.log(getPolygon(bbox));
+    console.log("xxx leafletMap", leafletMap);
+
     const bbox = this.getBoundingBoxForLeafletMap(leafletMap);
     this.props.boundingBoxChangedHandler(bbox);
   }
@@ -397,6 +399,7 @@ export class RoutedMap extends React.Component {
         />
       );
     }
+
     return (
       <div className={iosClass}>
         <Map

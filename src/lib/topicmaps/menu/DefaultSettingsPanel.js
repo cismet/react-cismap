@@ -28,7 +28,7 @@ import { defaultClusteringOptions, getDefaultFeatureStyler } from "../../Feature
 const SettingsPanel = (props) => {
   const { setAppMenuActiveMenuSection, setAppMenuVisible } = useContext(UIDispatchContext);
   const { activeMenuSection } = useContext(UIContext);
-  const { routedMapRef, history } = useContext(TopicMapContext);
+  const { routedMapRef, history, referenceSystem } = useContext(TopicMapContext);
   const { setMarkerSymbolSize } = useContext(TopicMapStylingDispatchContext);
   const { markerSymbolSize, additionalLayerConfiguration, activeAdditionalLayerKeys } = useContext(
     TopicMapStylingContext
@@ -151,7 +151,7 @@ const SettingsPanel = (props) => {
     setMapPreview(
       <Map
         key={"map" + allFeatures?.length + selectedBackground + _namedMapStyle}
-        crs={MappingConstants.crs25832}
+        crs={referenceSystem || MappingConstants.crs25832}
         style={{ height: 300 }}
         center={{
           lat: Number(previewMapLat),
