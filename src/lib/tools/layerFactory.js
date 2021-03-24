@@ -323,5 +323,13 @@ export const defaultLayerConf = {
       type: "vector",
       style: "http://localhost:888/styles/osm-bright/style.json",
     },
+    OMT_Klokantech_basic: {
+      type: "vector",
+      style: "https://omt.map-hosting.de/styles/klokantech-basic/style.json",
+    },
+    OMT_OSM_bright: {
+      type: "vector",
+      style: "https://omt.map-hosting.de/styles/osm-bright/style.json",
+    },
   },
 };
