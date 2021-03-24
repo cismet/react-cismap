@@ -202,16 +202,6 @@ export const SimpleTopicMapWithMapLibreLayer = () => {
     getGazData(setGazData);
   }, []);
   const backgroundConfigurations = {
-    topo: {
-      layerkey: "hillshade|bplan_abkg@30|wupp-plan-live@20",
-      src: "/images/rain-hazard-map-bg/topo.png",
-      title: "Top. Karte",
-    },
-    lbk: {
-      layerkey: "wupp-plan-live@100|trueOrtho2020@75|rvrSchrift@100",
-      src: "/images/rain-hazard-map-bg/ortho.png",
-      title: "Luftbildkarte",
-    },
     stadtplan: {
       layerkey: "wupp-plan-live@90",
       src: "/images/rain-hazard-map-bg/citymap.png",
@@ -230,11 +220,6 @@ export const SimpleTopicMapWithMapLibreLayer = () => {
   };
   const backgroundModes = [
     {
-      title: "Stadtplan",
-      mode: "default",
-      layerKey: "stadtplan",
-    },
-    {
       title: "Vektorbasierter Layer (Klokantech Basic)",
       mode: "default",
       layerKey: "vector1",
@@ -243,6 +228,11 @@ export const SimpleTopicMapWithMapLibreLayer = () => {
       title: "Vektorbasierter Layer (OSM bright)",
       mode: "default",
       layerKey: "vector2",
+    },
+    {
+      title: "Stadtplan (RVR, zum Vergleich)",
+      mode: "default",
+      layerKey: "stadtplan",
     },
   ];
   return (

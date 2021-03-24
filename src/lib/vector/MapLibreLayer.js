@@ -13,10 +13,6 @@ class MapboxGlLayer extends GridLayer {
     this._removeLayer = this._removeLayer.bind(this);
   }
 
-  static defaultProps = {
-    accessToken: "your-access-token-if-using-mapbox-api",
-  };
-
   createLeafletElement(props) {
     const { map } = props.leaflet || this.context;
 
@@ -27,7 +23,7 @@ class MapboxGlLayer extends GridLayer {
     map.on("layerremove", (e) => {
       this._removeLayer(e);
     });
-    const layer = L.mapboxGL({ ...defaultProps, ...props });
+    const layer = L.mapboxGL({ accessToken: "multipass", ...props });
     console.log("xxx layer", layer);
 
     return layer;
