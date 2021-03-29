@@ -73,7 +73,7 @@ const TopicMapComponent = (props) => {
     gazetteerSearchPlaceholder,
     photoLightBox = true,
   } = props;
-  const { history } = useContext(TopicMapContext);
+  const { history, referenceSystem, referenceSystemDefinition } = useContext(TopicMapContext);
   const {
     backgroundModes,
     selectedBackground,
@@ -198,8 +198,10 @@ const TopicMapComponent = (props) => {
               "." +
               JSON.stringify(activeAdditionalLayerKeys)
             }
-            referenceSystem={MappingConstants.crs25832}
-            referenceSystemDefinition={MappingConstants.proj4crs25832def}
+            referenceSystem={referenceSystem || MappingConstants.crs25832}
+            referenceSystemDefinition={
+              referenceSystemDefinition || MappingConstants.proj4crs25832def
+            }
             ref={leafletRoutedMapRef}
             minZoom={minZoom}
             maxZoom={maxZoom}

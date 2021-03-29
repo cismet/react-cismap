@@ -7,6 +7,7 @@ import "leaflet/dist/leaflet.css";
 import "./lib/topicMaps.css";
 import * as TopicMapsExamples from "./lib/_stories/complex/TopicMap.stories";
 import * as GenericTopicMapsExamples from "./lib/_stories/complex/GenericTopicMap.stories";
+import * as MapLibreExamples from "./lib/_stories/vector/SimpleMapLibreLayer";
 
 const TestContext = React.createContext();
 
@@ -53,7 +54,11 @@ ReactDOM.render(
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
     {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox /> */}
     {/* <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Wasserstofftankstelle /> */}
-    <TopicMapsExamples.TopicMapWithWithStaticFilter />
+    {/* <TopicMapsExamples.TopicMapWithWithStaticFilter /> */}
+    <MapLibreExamples.SimpleMapLibreLayer />
+    {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMap /> */}
+    {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMapWithFeatureCollectionInAnotherCRS /> */}
+    {/* <MapLibreExamples.SimpleTopicMapWithMapLibreLayer /> */}
   </div>,
   document.getElementById("root")
 );

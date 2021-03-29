@@ -67,6 +67,8 @@ const TopicMapStylingContextProvider = ({
   markerSymbolSize,
   appKey,
   persistenceSettings,
+  backgroundConfigurations,
+  backgroundModes,
 }) => {
   const activeAdditionalLayerKeys = [];
   if (additionalLayerConfiguration) {
@@ -82,6 +84,8 @@ const TopicMapStylingContextProvider = ({
     activeAdditionalLayerKeys,
     additionalLayerConfiguration,
     namedMapStyle,
+    backgroundConfigurations,
+    backgroundModes,
   });
 
   const contextKey = "styling";

@@ -3,7 +3,7 @@ import { namedStyles } from "../constants/layers";
 import objectAssign from "object-assign";
 import { TileLayer } from "react-leaflet";
 import StyledWMSTileLayer from "../StyledWMSTileLayer";
-
+import MapLibreLayer from "../vector/MapLibreLayer";
 export default function getLayers(
   layerString,
   namedMapStyle = "default",
@@ -112,6 +112,20 @@ const createLayerFactoryFunction = (key, _conf = defaultLayerConf) => {
             {...params}
             opacity={options.opacity}
             cssFilter={options["css-filter"]}
+          />
+        );
+      };
+    case "vector":
+      return (options) => {
+        let params = { ...conf.defaults.vector, ...conf.namedLayers[key] };
+        console.log("params for " + key, params);
+
+        return (
+          <MapLibreLayer
+            key={key + JSON.stringify(options)}
+            {...params}
+            // opacity={options.opacity}
+            // cssFilter={options["css-filter"]}
           />
         );
       };
@@ -300,6 +314,22 @@ export const defaultLayerConf = {
         "&copy; <a href=&quot;http://www.openstreetmap.org/copyright&quot;>OpenStreetMap</a> contributors, &copy; <a href=&quot;https://carto.com/attributions&quot;>CARTO</a>",
       maxNativeZoom: 19,
       maxZoom: 22,
+    },
+    LocalOMT_Klokantech_basic: {
+      type: "vector",
+      style: "http://localhost:888/styles/klokantech-basic/style.json",
+    },
+    LocalOMT_OSM_bright: {
+      type: "vector",
+      style: "http://localhost:888/styles/osm-bright/style.json",
+    },
+    OMT_Klokantech_basic: {
+      type: "vector",
+      style: "https://omt.map-hosting.de/styles/klokantech-basic/style.json",
+    },
+    OMT_OSM_bright: {
+      type: "vector",
+      style: "https://omt.map-hosting.de/styles/osm-bright/style.json",
     },
   },
 };

@@ -23,6 +23,8 @@ const DispatchContext = React.createContext();
 const history = createHashHistory();
 
 const TopicMapContextProvider = ({
+  referenceSystem,
+  referenceSystemDefinition,
   children,
   featureCollectionEnabled = true,
   lightBoxEnabled = true,
@@ -80,8 +82,16 @@ const TopicMapContextProvider = ({
       return undefined;
     }
   },
+  backgroundConfigurations,
+  backgroundModes,
 }) => {
-  const [state, dispatch] = useImmer({ ...defaultState, history, titleFactory });
+  const [state, dispatch] = useImmer({
+    ...defaultState,
+    history,
+    titleFactory,
+    referenceSystem,
+    referenceSystemDefinition,
+  });
   const contextKey = "topicmap";
   const set = (prop, noTest) => {
     return (x) => {
@@ -133,6 +143,8 @@ const TopicMapContextProvider = ({
         <TopicMapStylingContextProvider
           enabled={stylingContextEnabled}
           additionalLayerConfiguration={additionalLayerConfiguration}
+          backgroundConfigurations={backgroundConfigurations}
+          backgroundModes={backgroundModes}
           appKey={appKey}
           persistenceSettings={persistenceSettings}
         >
