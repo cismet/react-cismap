@@ -23,8 +23,20 @@ class MapboxGlLayer extends GridLayer {
     map.on("layerremove", (e) => {
       this._removeLayer(e);
     });
-    const layer = L.mapboxGL({ accessToken: "multipass", ...props });
+    const layer = L.mapboxGL({ id: "xxx", accessToken: "multipass", ...props });
     console.log("xxx layer", layer);
+    setTimeout(() => {
+      const map = layer.getMapboxMap();
+      console.log("xxx layer testing", layer.getMapboxMap().style);
+      map.getStyle().layers.map((layer) => {
+        if (layer.type === "symbol") {
+          map.setPaintProperty(layer.id, `icon-opacity`, 0.9);
+          map.setPaintProperty(layer.id, `text-opacity`, 0.9);
+        } else {
+          map.setPaintProperty(layer.id, `${layer.type}-opacity`, 0.1);
+        }
+      });
+    }, 400);
 
     return layer;
   }

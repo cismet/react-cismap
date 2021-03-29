@@ -12,6 +12,7 @@ import { getGazData } from "../complex/StoriesConf";
 import TopicMapContextProvider from "../../contexts/TopicMapContextProvider";
 import TopicMapComponent from "../../topicmaps/TopicMapComponent";
 import FeatureCollection from "../../FeatureCollection";
+import StyledWMSTileLayer from "../../StyledWMSTileLayer";
 
 const mapStyle = {
   height: 800,
@@ -22,30 +23,6 @@ export const SimpleMapLibreLayer = () => {
   const position = [51.2720151, 7.2000203134];
 
   return (
-    // <div>
-    //   <div>SimpleMapLibreLayer</div>
-    //   <br />
-
-    //   <RoutedMap
-    //     editable={false}
-    //     style={mapStyle}
-    //     key={"leafletRoutedMap"}
-    //     // referenceSystem={MappingConstants.crs25832}
-    //     // referenceSystemDefinition={MappingConstants.proj4crs25832def}
-    //     doubleClickZoom={false}
-    //     onclick={(e) => console.log("click", e)}
-    //     ondblclick={(e) => console.log("doubleclick", e)}
-    //     backgroundlayers={"ruhrWMSlight@10"}
-    //     fullScreenControlEnabled={false}
-    //     locateControlEnabled={false}
-    //     minZoom={7}
-    //     maxZoom={18}
-    //     zoomSnap={0.5}
-    //     zoomDelta={0.5}
-    //   >
-    //     {/* <MapLibreLayer /> */}
-    //   </RoutedMap>
-    // </div>
     <Map style={mapStyle} center={position} zoom={18} maxZoom={25}>
       {/* <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -53,12 +30,17 @@ export const SimpleMapLibreLayer = () => {
         opacity={1}
       /> */}
       {/* {getLayersByNames("ruhrWMSlight@50")} */}
-      {/* {getLayersByNames("trueOrtho2020@50")} */}
       <MapLibreLayer
-        opacity={0.5}
-        accessToken={"dd"}
-        style="http://localhost:888/styles/klokantech-basic/style.json"
+        // opacity={0.5}
+        // accessToken={"dd"}
+        style="https://omt.map-hosting.de/styles/klokantech-basic/style.json"
         _style="http://localhost:888/styles/osm-bright/style.json"
+      />
+      <StyledWMSTileLayer
+        key={"asd"}
+        url="https://maps.wuppertal.de/deegree/wms"
+        layers="R102:trueortho202010"
+        opacity={1}
       />
     </Map>
   );
@@ -207,13 +189,28 @@ export const SimpleTopicMapWithMapLibreLayer = () => {
       src: "/images/rain-hazard-map-bg/citymap.png",
       title: "Stadtplan",
     },
-    vector1: {
+    lbk: {
+      layerkey: "trueOrtho2020@75|OMT_Klokantech_basic@50",
+      src: "/images/rain-hazard-map-bg/ortho.png",
+      title: "Luftbildkarte",
+    },
+    Lvector1: {
       layerkey: "LocalOMT_Klokantech_basic@100",
       src: "/images/rain-hazard-map-bg/citymap.png",
       title: "Stadtplan",
     },
-    vector2: {
+    Lvector2: {
       layerkey: "LocalOMT_OSM_bright@100",
+      src: "/images/rain-hazard-map-bg/citymap.png",
+      title: "Stadtplan",
+    },
+    vector1: {
+      layerkey: "trueOrtho2020@60|OMT_Klokantech_basic@100",
+      src: "/images/rain-hazard-map-bg/citymap.png",
+      title: "Stadtplan",
+    },
+    vector2: {
+      layerkey: "OMT_OSM_bright@100",
       src: "/images/rain-hazard-map-bg/citymap.png",
       title: "Stadtplan",
     },
@@ -242,7 +239,7 @@ export const SimpleTopicMapWithMapLibreLayer = () => {
       referenceSystem={MappingConstants.crs3857}
       referenceSystemDefinition={MappingConstants.proj4crs3857def}
     >
-      <TopicMapComponent gazData={gazData}></TopicMapComponent>
+      <TopicMapComponent maxZoom={22} gazData={gazData}></TopicMapComponent>
     </TopicMapContextProvider>
   );
 };

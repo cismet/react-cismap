@@ -55,10 +55,10 @@ ReactDOM.render(
     {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox /> */}
     {/* <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Wasserstofftankstelle /> */}
     {/* <TopicMapsExamples.TopicMapWithWithStaticFilter /> */}
-    {/* <MapLibreExamples.SimpleMapLibreLayer /> */}
+    <MapLibreExamples.SimpleMapLibreLayer />
     {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMap /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMapWithFeatureCollectionInAnotherCRS /> */}
-    <MapLibreExamples.SimpleTopicMapWithMapLibreLayer />
+    {/* <MapLibreExamples.SimpleTopicMapWithMapLibreLayer /> */}
   </div>,
   document.getElementById("root")
 );
