@@ -11,6 +11,7 @@ import { ResponsiveTopicMapContext } from "./contexts/ResponsiveTopicMapContextP
 import Control from "react-leaflet-control";
 import { Form, FormGroup, InputGroup, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Typeahead } from "react-bootstrap-typeahead";
+import { TopicMapContext } from "./contexts/TopicMapContextProvider";
 
 const COMP = ({
   mapRef,
@@ -76,11 +77,14 @@ const COMP = ({
   const { responsiveState, searchBoxPixelWidth, gap, windowSize } = useContext(
     ResponsiveTopicMapContext
   );
+  const { referenceSystem, referenceSystemDefinition } = useContext(TopicMapContext);
 
   const internalGazetteerHitTrigger = (hit) => {
     builtInGazetteerHitTrigger(
       hit,
       mapRef.current.leafletMap.leafletElement,
+      referenceSystem,
+      referenceSystemDefinition,
       setGazetteerHit,
       setOverlayFeature,
       gazeteerHitTrigger

@@ -148,7 +148,7 @@ export const defaultLayerConf = {
     wms: {
       format: "image/png",
       tiled: "true",
-      maxZoom: 19,
+      maxZoom: 22,
       opacity: 0.6,
       version: "1.1.1",
     },

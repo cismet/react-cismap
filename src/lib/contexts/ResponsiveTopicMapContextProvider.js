@@ -32,8 +32,10 @@ const ResponsiveTopicMapContextProvider = ({
   enabled = true,
   appKey,
   persistenceSettings,
+  infoBoxPixelWidth = 300,
+  searchBoxPixelWidth = 300,
 }) => {
-  const [state, dispatch] = useImmer({ ...defaultState });
+  const [state, dispatch] = useImmer({ ...defaultState, infoBoxPixelWidth, searchBoxPixelWidth });
   const [width, height] = useWindowSize();
   const windowSize = { width, height };
   const contextKey = "responsive";

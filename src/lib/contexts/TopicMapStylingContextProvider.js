@@ -52,6 +52,7 @@ const defaultBackgroundConfigurations = {
 };
 const defaultState = {
   additionalLayerConfiguration: {},
+  baseLayerConf: {},
   activeAdditionalLayerKeys: [],
   namedMapStyle: "default",
   selectedBackground: "stadtplan",
@@ -63,6 +64,7 @@ const TopicMapStylingContextProvider = ({
   children,
   enabled = true,
   additionalLayerConfiguration,
+  baseLayerConf,
   namedMapStyle,
   markerSymbolSize,
   appKey,
@@ -83,6 +85,7 @@ const TopicMapStylingContextProvider = ({
     ...defaultState,
     activeAdditionalLayerKeys,
     additionalLayerConfiguration,
+    baseLayerConf,
     namedMapStyle,
     backgroundConfigurations,
     backgroundModes,

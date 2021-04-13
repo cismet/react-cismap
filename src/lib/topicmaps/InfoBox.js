@@ -9,7 +9,7 @@ import {
   FeatureCollectionDispatchContext,
 } from "../contexts/FeatureCollectionContextProvider";
 import { UIContext, UIDispatchContext } from "../contexts/UIContextProvider";
-
+import ResponsiveInfoBox from "./ResponsiveInfoBox";
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 // Since this component is simple and static, there's no parent container for it.
@@ -226,47 +226,19 @@ const InfoBox = ({
   }
 
   return (
-    <div>
-      <Control
-        key={"InfoBoxElements." + responsiveState}
-        id={"InfoBoxElements." + responsiveState}
-        position={responsiveState === "normal" ? "bottomright" : "bottomright"}
-      >
-        <div style={{ ...infoBoxStyle, marginBottom: infoBoxBottomMargin }}>
-          {llVis}
-          <CollapsibleWell
-            collapsed={minified}
-            setCollapsed={minify}
-            style={{
-              pointerEvents: "auto",
-              padding: 0,
-              paddingLeft: 9,
-            }}
-            debugBorder={0}
-            tableStyle={{ margin: 0 }}
-            fixedRow={true}
-            alwaysVisibleDiv={alwaysVisibleDiv}
-            collapsibleDiv={collapsibleDiv}
-            collapseButtonAreaStyle={{
-              background: "#cccccc",
-              opacity: "0.9",
-              width: 25,
-            }}
-            onClick={panelClick}
-            pixelwidth={pixelwidth}
-            isCollapsible={isCollapsible}
-          />
-        </div>
-      </Control>
-      {secondaryInfoBoxElements.map((element, index) => (
-        <Control
-          key={"secondaryInfoBoxElements." + index + "." + responsiveState}
-          position={responsiveState === "normal" ? "bottomright" : "bottomright"}
-        >
-          <div style={{ opacity: 0.9 }}>{element}</div>
-        </Control>
-      ))}
-    </div>
+    <ResponsiveInfoBox
+      panelClick={panelClick}
+      pixelwidth={pixelwidth}
+      header={llVis}
+      collapsedInfoBox={collapsedInfoBox}
+      setCollapsedInfoBox={setCollapsedInfoBox}
+      isCollapsible={isCollapsible}
+      handleResponsiveDesign={handleResponsiveDesign}
+      infoStyle={infoStyle}
+      secondaryInfoBoxElements={secondaryInfoBoxElements}
+      alwaysVisibleDiv={alwaysVisibleDiv}
+      collapsibleDiv={collapsibleDiv}
+    />
   );
 };
 
