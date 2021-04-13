@@ -90,7 +90,7 @@ export const CustomBackgrounds = (args) => {
 
       <br />
       <RoutedMap
-        namedLayerConf={args.layerConfiguration}
+        baseLayerConf={args.layerConfiguration}
         editable={false}
         style={mapStyle}
         key={"leafletRoutedMap"}

@@ -8,6 +8,8 @@ import * as gisHelpers from "./gisHelper";
 export const builtInGazetteerHitTrigger = (
   hit,
   leafletElement,
+  referenceSystem,
+  referenceSystemDefinition,
   setGazetteerHit,
   setOverlayFeature,
   furtherGazeteerHitTrigger,
@@ -27,7 +29,10 @@ export const builtInGazetteerHitTrigger = (
       // console.log(url + '?gazHit=' + window.btoa(JSON.stringify(hit[0])));
     }
 
-    const pos = proj4(proj4crs25832def, proj4.defs("EPSG:4326"), [hit[0].x, hit[0].y]);
+    const pos = proj4(referenceSystemDefinition || proj4crs25832def, proj4.defs("EPSG:4326"), [
+      hit[0].x,
+      hit[0].y,
+    ]);
     //console.log(pos)
     leafletElement.panTo([pos[1], pos[0]], {
       animate: false,
@@ -51,7 +56,11 @@ export const builtInGazetteerHitTrigger = (
       if (!feature.crs) {
         feature.crs = {
           type: "name",
-          properties: { name: "urn:ogc:def:crs:EPSG::25832" },
+          properties: {
+            name:
+              "urn:ogc:def:crs:EPSG::" +
+              (referenceSystem !== undefined ? referenceSystem.code : "25832"),
+          },
         };
       }
       var bb = bboxCreator(feature);
@@ -164,7 +173,7 @@ export const getGazDataForTopicIds = (sources, topics) => {
           sorter: sorter++,
           string: topicItem.s,
           glyph: topicItem.g,
-          glyphPrefix:"fab ",
+          glyphPrefix: "fab ",
           x: topicItem.x,
           y: topicItem.y,
           more: topicItem.m,

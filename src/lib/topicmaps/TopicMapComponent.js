@@ -77,6 +77,7 @@ const TopicMapComponent = (props) => {
   const {
     backgroundModes,
     selectedBackground,
+    baseLayerConf,
     backgroundConfigurations,
     additionalLayerConfiguration,
     activeAdditionalLayerKeys,
@@ -203,6 +204,7 @@ const TopicMapComponent = (props) => {
               referenceSystemDefinition || MappingConstants.proj4crs25832def
             }
             ref={leafletRoutedMapRef}
+            baseLayerConf={baseLayerConf}
             minZoom={minZoom}
             maxZoom={maxZoom}
             layers=""

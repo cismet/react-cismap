@@ -59,7 +59,7 @@ export const MostSimpleTopicMapWithGazetteerData = () => {
   }, []);
   return (
     <TopicMapContextProvider>
-      <TopicMapComponent gazData={gazData} />
+      <TopicMapComponent maxZoom={22} gazData={gazData} />
     </TopicMapContextProvider>
   );
 };

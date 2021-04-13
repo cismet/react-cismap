@@ -3,11 +3,29 @@ import "proj4leaflet";
 import proj4 from "proj4";
 
 export const proj4crs25832def = "+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs";
-const origin = proj4(
+export const proj4crs31462def =
+  "+proj=tmerc +lat_0=0 +lon_0=6 +k=1 +x_0=2500000 +y_0=0 +ellps=bessel +towgs84=598.1,73.7,418.2,0.202,0.045,-2.455,6.7 +units=m +no_defs";
+
+const origin25832 = proj4(
   proj4crs25832def,
   // Upper left corner of the tile orign based on the WMTSCapabilities layer BBox
   [0.105946948013, 56.8478734515]
 );
+const origin31462 = proj4(
+  proj4crs31462def,
+  // Upper left corner of the tile orign based on the WMTSCapabilities layer BBox
+  [0.105946948013, 56.8478734515]
+);
+const getResolutions = function (startlevel = 0, level) {
+  var res = [];
+  res[0] = (Math.PI * 2 * 6378137) / 256;
+  for (var i = 1; i < level; i++) {
+    res[i] = (Math.PI * 2 * 6378137) / 256 / Math.pow(2, i);
+  }
+
+  res.splice(0, startlevel);
+  return res;
+};
 
 // Set resolutions
 const resolutions = [
@@ -32,11 +50,22 @@ const resolutions = [
   66.6477995,
   33.32389975,
 ];
+const resolutions_ = getResolutions(5, 25);
+
 export const crs25832 = new L.Proj.CRS("EPSG:25832", proj4crs25832def, {
-  origin: [origin[0], origin[1]],
-  resolutions: resolutions.map(function (value) {
-    return value * 0.00028;
-  }),
+  origin: [origin25832[0], origin25832[1]],
+  // resolutions: resolutions.map(function (value) {
+  //   return value * 0.00028;
+  // }),
+  resolutions: resolutions_,
+});
+
+export const crs31462 = new L.Proj.CRS("EPSG:31462", proj4crs31462def, {
+  origin: [origin31462[0], origin31462[1]],
+  // resolutions: resolutions.map(function (value) {
+  //   return value * 0.00028;
+  // }),
+  resolutions: resolutions_,
 });
 
 export const proj4crs4326def = "+proj=longlat +datum=WGS84 +no_defs";

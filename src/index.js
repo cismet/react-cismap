@@ -8,6 +8,7 @@ import "./lib/topicMaps.css";
 import * as TopicMapsExamples from "./lib/_stories/complex/TopicMap.stories";
 import * as GenericTopicMapsExamples from "./lib/_stories/complex/GenericTopicMap.stories";
 import * as MapLibreExamples from "./lib/_stories/vector/SimpleMapLibreLayer";
+import * as AnimationExamples from "./lib/_stories/vectorfieldanimation/SimpleVFAExample";
 
 const TestContext = React.createContext();
 
@@ -55,10 +56,13 @@ ReactDOM.render(
     {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox /> */}
     {/* <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Wasserstofftankstelle /> */}
     {/* <TopicMapsExamples.TopicMapWithWithStaticFilter /> */}
-    <MapLibreExamples.SimpleMapLibreLayer />
+    {/* <MapLibreExamples.SimpleMapLibreLayer /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMap /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMapWithFeatureCollectionInAnotherCRS /> */}
     {/* <MapLibreExamples.SimpleTopicMapWithMapLibreLayer /> */}
+    {/* <AnimationExamples.SimpleWuppertal25832 /> */}
+    {/* <AnimationExamples.SimpleWuppertal3857 /> */}
+    <AnimationExamples.SimpleHaltern />
   </div>,
   document.getElementById("root")
 );

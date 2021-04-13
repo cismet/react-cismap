@@ -46,6 +46,7 @@ const TopicMapContextProvider = ({
   filterState,
   classKeyFunction,
   additionalLayerConfiguration,
+  baseLayerConf,
   appKey = "TopicMapBaseLibrary",
   persistenceSettings = {
     ui: ["appMenuVisible", "appMenuActiveMenuSection", "collapsedInfoBox"],
@@ -84,6 +85,8 @@ const TopicMapContextProvider = ({
   },
   backgroundConfigurations,
   backgroundModes,
+  infoBoxPixelWidth,
+  searchBoxPixelWidth,
 }) => {
   const [state, dispatch] = useImmer({
     ...defaultState,
@@ -143,6 +146,7 @@ const TopicMapContextProvider = ({
         <TopicMapStylingContextProvider
           enabled={stylingContextEnabled}
           additionalLayerConfiguration={additionalLayerConfiguration}
+          baseLayerConf={baseLayerConf}
           backgroundConfigurations={backgroundConfigurations}
           backgroundModes={backgroundModes}
           appKey={appKey}
@@ -171,6 +175,8 @@ const TopicMapContextProvider = ({
               enabled={responsiveContextEnabled}
               appKey={appKey}
               persistenceSettings={persistenceSettings}
+              infoBoxPixelWidth={infoBoxPixelWidth}
+              searchBoxPixelWidth={searchBoxPixelWidth}
             >
               <UIContextProvider
                 enabled={uiContextEnabled}
