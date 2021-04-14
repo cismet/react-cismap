@@ -148,6 +148,7 @@ const SettingsPanel = (props) => {
         previewFeatures = allFeatures.slice(0, previewFeatureCollectionCount);
       }
     }
+
     setMapPreview(
       <Map
         key={"map" + allFeatures?.length + selectedBackground + _namedMapStyle}

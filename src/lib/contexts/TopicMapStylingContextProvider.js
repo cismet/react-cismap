@@ -87,8 +87,8 @@ const TopicMapStylingContextProvider = ({
     additionalLayerConfiguration,
     baseLayerConf,
     namedMapStyle,
-    backgroundConfigurations,
-    backgroundModes,
+    backgroundConfigurations: backgroundConfigurations || defaultBackgroundConfigurations,
+    backgroundModes: backgroundModes || defaultBackgroundModes,
   });
 
   const contextKey = "styling";
