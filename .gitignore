@@ -31,6 +31,6 @@ yarn-error.log*
 /nbproject/private/
 
 /cypress/videos
+/src/lib/meta.js
 
- src/lib/meta.js 
  
