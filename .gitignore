@@ -32,3 +32,5 @@ yarn-error.log*
 
 /cypress/videos
 
+ src/lib/version.js 
+ src/lib/version.js__
