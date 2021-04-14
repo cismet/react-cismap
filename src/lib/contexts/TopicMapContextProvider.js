@@ -25,6 +25,7 @@ const history = createHashHistory();
 const TopicMapContextProvider = ({
   referenceSystem,
   referenceSystemDefinition,
+  maskingPolygon,
   children,
   featureCollectionEnabled = true,
   lightBoxEnabled = true,
@@ -94,6 +95,7 @@ const TopicMapContextProvider = ({
     titleFactory,
     referenceSystem,
     referenceSystemDefinition,
+    maskingPolygon,
   });
   const contextKey = "topicmap";
   const set = (prop, noTest) => {

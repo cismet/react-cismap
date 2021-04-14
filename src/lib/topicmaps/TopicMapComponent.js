@@ -73,7 +73,9 @@ const TopicMapComponent = (props) => {
     gazetteerSearchPlaceholder,
     photoLightBox = true,
   } = props;
-  const { history, referenceSystem, referenceSystemDefinition } = useContext(TopicMapContext);
+  const { history, referenceSystem, referenceSystemDefinition, maskingPolygon } = useContext(
+    TopicMapContext
+  );
   const {
     backgroundModes,
     selectedBackground,
@@ -243,6 +245,7 @@ const TopicMapComponent = (props) => {
                 key={JSON.stringify(overlayFeature)}
                 geoJson={overlayFeature}
                 masked={true}
+                maskingPolygon={maskingPolygon}
                 mapRef={leafletRoutedMapRef}
               />
             )}

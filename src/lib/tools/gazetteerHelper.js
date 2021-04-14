@@ -9,7 +9,7 @@ export const builtInGazetteerHitTrigger = (
   hit,
   leafletElement,
   referenceSystem,
-  referenceSystemDefinition,
+  referenceSystemDefinition = proj4crs25832def,
   setGazetteerHit,
   setOverlayFeature,
   furtherGazeteerHitTrigger,
@@ -29,10 +29,7 @@ export const builtInGazetteerHitTrigger = (
       // console.log(url + '?gazHit=' + window.btoa(JSON.stringify(hit[0])));
     }
 
-    const pos = proj4(referenceSystemDefinition || proj4crs25832def, proj4.defs("EPSG:4326"), [
-      hit[0].x,
-      hit[0].y,
-    ]);
+    const pos = proj4(referenceSystemDefinition, proj4.defs("EPSG:4326"), [hit[0].x, hit[0].y]);
     //console.log(pos)
     leafletElement.panTo([pos[1], pos[0]], {
       animate: false,
@@ -54,21 +51,25 @@ export const builtInGazetteerHitTrigger = (
     } else if (hitObject.more.g) {
       var feature = turfHelpers.feature(hitObject.more.g);
       if (!feature.crs) {
+        console.log("xxx no crs therefore context based crs", referenceSystem);
+
         feature.crs = {
           type: "name",
           properties: {
             name:
               "urn:ogc:def:crs:EPSG::" +
-              (referenceSystem !== undefined ? referenceSystem.code : "25832"),
+              (referenceSystem !== undefined ? referenceSystem.code.split("EPSG:")[1] : "25832"),
           },
         };
       }
+      console.log("xxx no crs therefore context based crs. feature:", feature);
+
       var bb = bboxCreator(feature);
       if (suppressMarker === false) {
         setGazetteerHit(null);
         setOverlayFeature(feature);
       }
-      leafletElement.fitBounds(gisHelpers.convertBBox2Bounds(bb));
+      leafletElement.fitBounds(gisHelpers.convertBBox2Bounds(bb, referenceSystemDefinition));
     }
     setTimeout(() => {
       if (furtherGazeteerHitTrigger !== undefined) {
