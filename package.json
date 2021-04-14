@@ -121,6 +121,7 @@
 		"start-cra": "react-scripts start",
 		"build-cra": "react-scripts build ",
 		"build": "rm -rf dist/* && NODE_ENV=production babel src/lib --out-dir dist --copy-files  --source-maps both --ignore *.stories.js,__tests__,spec.js,test.js,__snapshots__ && yarn run copypackage",
+		"postbuild": "ls -d dist > /dev/null && git rev-parse --short HEAD && echo $npm_package_version && git rev-parse --short HEAD > dist/githash && echo $npm_package_version > dist/version && echo const version=\\'$npm_package_version\\'\\; const hash=\\'$npm_package_version\\'\\; export {version, hash}\\; > dist/meta.js",
 		"test": "react-scripts test --env=jsdom",
 		"eject-dont-do": "react-scripts eject",
 		"storybook": "start-storybook -p 9009 -s public",
