@@ -9,6 +9,8 @@ import bboxPolygon from "@turf/bbox-polygon";
 import booleanIntersects from "@turf/boolean-intersects";
 import localforage from "localforage";
 import { setFromLocalforage } from "./_helper";
+import proj4 from "proj4";
+import { projectionData } from "../constants/gis";
 
 const defaultState = {
   items: undefined,
@@ -30,6 +32,7 @@ const defaultState = {
   clusteringOptions: undefined,
   classKeyFunction: undefined,
   getColorFromProperties: undefined,
+  epsgCode: undefined,
 };
 
 const StateContext = React.createContext();
@@ -66,6 +69,7 @@ const FeatureCollectionContextProvider = ({
   getSymbolSVG,
   clusteringEnabled = false,
   clusteringOptions,
+  alwaysShowAllFeatures = false,
   itemsURL,
   items,
   featureCollectionName,
@@ -92,8 +96,9 @@ const FeatureCollectionContextProvider = ({
     classKeyFunction,
     featureTooltipFunction,
   });
+  // console.log(" featureCollectionState", state);
 
-  const { boundingBox } = useContext(TopicMapContext);
+  const { boundingBox, mapEPSGCode } = useContext(TopicMapContext);
   const contextKey = "featureCollection";
   const set = (prop, noTest) => {
     return (x) => {
@@ -121,6 +126,7 @@ const FeatureCollectionContextProvider = ({
 
   const setX = {
     setItems: set("items"),
+    setEPSGCode: set("epsgCode"),
     setFilteredItems: set("filteredItems"),
     setFilterState: set("filterState"),
     setFilterMode: set("filterMode"),
@@ -154,6 +160,15 @@ const FeatureCollectionContextProvider = ({
     }
     setSelectedFeatureIndex(newIndex);
   };
+
+  useEffect(() => {
+    if (state.allFeatures?.length > 0) {
+      const first = state.allFeatures[0];
+      const epsgCode = first.crs.properties.name.split("urn:ogc:def:crs:EPSG::")[1];
+      setX.setEPSGCode(epsgCode);
+    }
+  }, [state.allFeatures]);
+
   // if (state?.items) {
   //   console.log("FeatureCollectionContextProvider items", state?.items);
   //   console.log("xxx FeatureCollectionContextProvider items", state?.shownFeatures);
@@ -173,7 +188,7 @@ const FeatureCollectionContextProvider = ({
 
           features.push(f);
         }
-
+        // if point
         setX.setAllFeatures(features);
         setX.setFeatureIndex(
           new KDBush(
@@ -182,6 +197,7 @@ const FeatureCollectionContextProvider = ({
             (p) => p.geometry.coordinates[1]
           )
         );
+        //else if polygon
       }
     })();
     //async end
@@ -207,12 +223,39 @@ const FeatureCollectionContextProvider = ({
   //effect when boundingBox or selection changed
   useEffect(() => {
     let features = [];
-    if (boundingBox !== undefined && featureIndex !== undefined) {
+    let projectedBoundingBox;
+    if (
+      boundingBox !== undefined &&
+      featureIndex !== undefined &&
+      alwaysShowAllFeatures === false
+    ) {
+      //reproject bounding box if map CRS is not FeatureCollection CRS
+      if (state.epsgCode && mapEPSGCode && mapEPSGCode !== state.epsgCode) {
+        const projectedNE = proj4(
+          projectionData[mapEPSGCode].def,
+          projectionData[state.epsgCode].def,
+          [boundingBox.left, boundingBox.bottom]
+        );
+
+        const projectedSW = proj4(
+          projectionData[mapEPSGCode].def,
+          projectionData[state.epsgCode].def,
+          [boundingBox.right, boundingBox.top]
+        );
+        projectedBoundingBox = {};
+        projectedBoundingBox.left = projectedNE[0];
+        projectedBoundingBox.bottom = projectedNE[1];
+        projectedBoundingBox.right = projectedSW[0];
+        projectedBoundingBox.top = projectedSW[1];
+      } else {
+        projectedBoundingBox = boundingBox;
+      }
+
       let resultIds = featureIndex.range(
-        boundingBox.left,
-        boundingBox.bottom,
-        boundingBox.right,
-        boundingBox.top
+        projectedBoundingBox.left,
+        projectedBoundingBox.bottom,
+        projectedBoundingBox.right,
+        projectedBoundingBox.top
       );
       for (const id of resultIds) {
         const f = allFeatures[id];
@@ -233,12 +276,13 @@ const FeatureCollectionContextProvider = ({
 
     let _shownFeatures = [];
     let bbPoly;
-    if (boundingBox) {
+
+    if (projectedBoundingBox) {
       bbPoly = bboxPolygon([
-        boundingBox.left,
-        boundingBox.bottom,
-        boundingBox.right,
-        boundingBox.top,
+        projectedBoundingBox.left,
+        projectedBoundingBox.bottom,
+        projectedBoundingBox.right,
+        projectedBoundingBox.top,
       ]);
     }
 
@@ -248,7 +292,8 @@ const FeatureCollectionContextProvider = ({
       }
       return false;
     });
-    if (features && nonPoints) {
+
+    if (nonPoints) {
       features = [...features, ...nonPoints];
     }
 
@@ -291,7 +336,7 @@ const FeatureCollectionContextProvider = ({
       setSelectedIndex(selectedIndex); //set forced=false
     }
     setX.setShownFeatures(_shownFeatures);
-  }, [boundingBox, featureIndex, allFeatures, selectedIndexState]);
+  }, [state.epsgCode, boundingBox, featureIndex, allFeatures, selectedIndexState]);
 
   const load = (url) => {
     getItems({ itemsUrl: url, ...setX, name: featureCollectionName, convertItemToFeature });

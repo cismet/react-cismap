@@ -71,6 +71,10 @@ const SettingsPanel = (props) => {
     previewMapClusteringEnabled,
     previewMapClusteringOptions,
     titleCheckBoxlabel,
+    skipFilterTitleSettings = false,
+    skipClusteringSettings = false,
+    skipBackgroundSettings = false,
+    skipSymbolsizeSetting = false,
   } = props;
 
   const _changeMarkerSymbolSize = changeMarkerSymbolSize || setMarkerSymbolSize;
@@ -287,6 +291,80 @@ const SettingsPanel = (props) => {
   } else {
     _pushNewRoute = history.push;
   }
+  const settingsSections = [
+    <Form>
+      <Form.Label>Einstellungen:</Form.Label>
+      <br />
+      {skipFilterTitleSettings === false && (itemFilterFunction || filterFunction) && (
+        <Form.Group>
+          <Form.Check
+            type="checkbox"
+            readOnly={true}
+            id={"title.checkbox"}
+            key={"title.checkbox" + titleDisplay}
+            checked={titleDisplay}
+            onChange={(e) => {
+              if (e.target.checked === false) {
+                _pushNewRoute(_urlPathname + removeQueryPart(_urlSearch, "title"));
+                setTitleDisplay(false);
+              } else {
+                _pushNewRoute(_urlPathname + (_urlSearch !== "" ? _urlSearch : "?") + "&title");
+                setTitleDisplay(true);
+              }
+            }}
+            label={titleCheckBoxlabel || "Titel bei individueller Filterung anzeigen"}
+          ></Form.Check>
+        </Form.Group>
+      )}
+
+      {skipClusteringSettings === false && (
+        <Form.Group>
+          <Form.Check
+            type="checkbox"
+            readOnly={true}
+            key={"clustered.checkbox-" + clusteringEnabled}
+            id={"clustered.checkbox"}
+            checked={clusteringEnabled}
+            onClick={(e) => {
+              // console.log("xxx onClick", e);
+            }}
+            onChange={(e) => {
+              if (e.target.checked === false) {
+                setClusteringEnabled(false);
+              } else {
+                setClusteringEnabled(true);
+              }
+            }}
+            label="Objekte maßstabsabhängig zusammenfassen"
+          />
+        </Form.Group>
+      )}
+    </Form>,
+  ];
+  if (skipBackgroundSettings === false) {
+    settingsSections.push(
+      <NamedMapStyleChooser
+        key={"nmsc"}
+        currentNamedMapStyle={_namedMapStyle}
+        pathname={_urlPathname}
+        search={_urlSearch}
+        pushNewRoute={_pushNewRoute}
+        vertical
+        setLayerByKey={setLayerByKey}
+        activeLayerKey={activeLayerKey}
+      />
+    );
+  }
+  if (skipSymbolsizeSetting === false) {
+    settingsSections.push(
+      <SymbolSizeChooser
+        changeMarkerSymbolSize={_changeMarkerSymbolSize}
+        currentMarkerSize={_markerSymbolSize}
+        getSymbolSVG={_getSymbolSVG}
+        symbolColor={_symbolColor}
+      />
+    );
+  }
 
   return (
     <Section
@@ -298,72 +376,7 @@ const SettingsPanel = (props) => {
         <SettingsPanelWithPreviewSection
           width={width}
           preview={preview}
-          settingsSections={[
-            <Form>
-              <Form.Label>Einstellungen:</Form.Label>
-              <br />
-              {(itemFilterFunction || filterFunction) && (
-                <Form.Group>
-                  <Form.Check
-                    type="checkbox"
-                    readOnly={true}
-                    id={"title.checkbox"}
-                    key={"title.checkbox" + titleDisplay}
-                    checked={titleDisplay}
-                    onChange={(e) => {
-                      if (e.target.checked === false) {
-                        _pushNewRoute(_urlPathname + removeQueryPart(_urlSearch, "title"));
-                        setTitleDisplay(false);
-                      } else {
-                        _pushNewRoute(
-                          _urlPathname + (_urlSearch !== "" ? _urlSearch : "?") + "&title"
-                        );
-                        setTitleDisplay(true);
-                      }
-                    }}
-                    label={titleCheckBoxlabel || "Titel bei individueller Filterung anzeigen"}
-                  ></Form.Check>
-                </Form.Group>
-              )}
-
-              <Form.Group>
-                <Form.Check
-                  type="checkbox"
-                  readOnly={true}
-                  key={"clustered.checkbox-" + clusteringEnabled}
-                  id={"clustered.checkbox"}
-                  checked={clusteringEnabled}
-                  onClick={(e) => {
-                    // console.log("xxx onClick", e);
-                  }}
-                  onChange={(e) => {
-                    if (e.target.checked === false) {
-                      setClusteringEnabled(false);
-                    } else {
-                      setClusteringEnabled(true);
-                    }
-                  }}
-                  label="Objekte maßstabsabhängig zusammenfassen"
-                />
-              </Form.Group>
-            </Form>,
-            <NamedMapStyleChooser
-              key={"nmsc"}
-              currentNamedMapStyle={_namedMapStyle}
-              pathname={_urlPathname}
-              search={_urlSearch}
-              pushNewRoute={_pushNewRoute}
-              vertical
-              setLayerByKey={setLayerByKey}
-              activeLayerKey={activeLayerKey}
-            />,
-            <SymbolSizeChooser
-              changeMarkerSymbolSize={_changeMarkerSymbolSize}
-              currentMarkerSize={_markerSymbolSize}
-              getSymbolSVG={_getSymbolSVG}
-              symbolColor={_symbolColor}
-            />,
-          ]}
+          settingsSections={settingsSections}
         />
       }
     />

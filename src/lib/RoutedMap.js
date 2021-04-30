@@ -11,7 +11,7 @@ import "leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css";
 import "leaflet-extra-markers/";
 import "leaflet.path.drag";
 import * as MappingConstants from "./constants/gis";
-import { projectionData } from "./tools/mappingHelpers";
+import { projectionData } from "./constants/gis";
 
 import getLayersByNames from "./tools/layerFactory";
 import FullscreenControl from "./FullscreenControl";

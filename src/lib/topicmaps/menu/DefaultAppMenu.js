@@ -38,10 +38,12 @@ const AppMenu = (props) => {
   let _sections = {
     _00settings: (
       <DefaultSettingsPanel
-        previewMapPosition={previewMapPosition}
-        previewFeatureCollectionCount={previewFeatureCollectionCount}
-        titleCheckBoxlabel={titleCheckBoxlabel}
+        // not needed anymore because of props deconstruction
+        // previewMapPosition={previewMapPosition}
+        // previewFeatureCollectionCount={previewFeatureCollectionCount}
+        // titleCheckBoxlabel={titleCheckBoxlabel}
         key="settings"
+        {...props}
       />
     ),
     _99help: (

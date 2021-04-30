@@ -10,6 +10,8 @@ import {
 } from "../contexts/FeatureCollectionContextProvider";
 import { UIContext, UIDispatchContext } from "../contexts/UIContextProvider";
 import ResponsiveInfoBox from "./ResponsiveInfoBox";
+import parseHtml from "html-react-parser";
+
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 // Since this component is simple and static, there's no parent container for it.
@@ -37,7 +39,7 @@ const InfoBox = ({
   hideNavigator = false,
   handleResponsiveDesign = true,
   infoStyle = {},
-
+  fixedRow = true,
   secondaryInfoBoxElements = [],
 
   colorizer = (props) => ((props || {}).properties || {}).color,
@@ -156,7 +158,11 @@ const InfoBox = ({
                     <tr>
                       <td style={{ textAlign: "left" }}>
                         <h6>
+                          {additionalInfo && additionalInfo.startsWith("<html>") && (
+                            <div>{parseHtml(additionalInfo.match(/<html>(.*?)<\/html>/)[1])}</div>
+                          )}
                           {additionalInfo !== undefined &&
+                            !additionalInfo.startsWith("<html>") &&
                             additionalInfo.split("\n").map((item, key) => {
                               return (
                                 <span key={key}>
@@ -166,7 +172,10 @@ const InfoBox = ({
                               );
                             })}
                         </h6>
-                        <p>{subtitle}</p>
+                        {subtitle && subtitle.startsWith("<html>") && (
+                          <div> {parseHtml(subtitle.match(/<html>(.*?)<\/html>/)[1])}</div>
+                        )}
+                        {subtitle && !subtitle.startsWith("<html>") && <p>{subtitle}</p>}
                       </td>
                     </tr>
                   </tbody>
@@ -238,6 +247,7 @@ const InfoBox = ({
       secondaryInfoBoxElements={secondaryInfoBoxElements}
       alwaysVisibleDiv={alwaysVisibleDiv}
       collapsibleDiv={collapsibleDiv}
+      fixedRow={fixedRow}
     />
   );
 };

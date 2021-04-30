@@ -7,9 +7,12 @@ import LightBoxContextProvider from "./LightBoxContextProvider";
 
 import UIContextProvider from "./UIContextProvider";
 import proj4 from "proj4";
-import { proj4crs25832def } from "../constants/gis";
+import { proj4crs25832def, projectionData } from "../constants/gis";
 import { createBrowserHistory, createHashHistory } from "history";
 import localforage from "localforage";
+import { getType } from "@turf/invariant";
+import envelope from "@turf/envelope";
+import { convertBBox2Bounds } from "../tools/gisHelper";
 
 const defaultState = {
   location: undefined,
@@ -25,6 +28,7 @@ const history = createHashHistory();
 const TopicMapContextProvider = ({
   referenceSystem,
   referenceSystemDefinition,
+  mapEPSGCode,
   maskingPolygon,
   children,
   featureCollectionEnabled = true,
@@ -35,6 +39,7 @@ const TopicMapContextProvider = ({
   getFeatureStyler,
   featureTooltipFunction,
   getColorFromProperties,
+  alwaysShowAllFeatures = false,
   clusteringEnabled = true,
   clusteringOptions,
   getSymbolSVG,
@@ -96,6 +101,7 @@ const TopicMapContextProvider = ({
     referenceSystem,
     referenceSystemDefinition,
     maskingPolygon,
+    mapEPSGCode,
   });
   const contextKey = "topicmap";
   const set = (prop, noTest) => {
@@ -123,12 +129,27 @@ const TopicMapContextProvider = ({
           dispatch,
           ...convenienceFunctions,
           zoomToFeature: (feature) => {
+            let refDef;
+            if (feature.crs) {
+              const code = feature?.crs?.properties?.name?.split("EPSG::")[1];
+              refDef = projectionData[code].def;
+            } else {
+              refDef = referenceSystemDefinition;
+            }
+
             if (state.routedMapRef !== undefined) {
-              const pos = proj4(proj4crs25832def, proj4.defs("EPSG:4326"), [
-                feature.geometry.coordinates[0],
-                feature.geometry.coordinates[1],
-              ]);
-              state.routedMapRef.leafletMap.leafletElement.setView([pos[1], pos[0]], 15);
+              const type = getType(feature);
+              if (type === "Point") {
+                const pos = proj4(referenceSystemDefinition, proj4.defs("EPSG:4326"), [
+                  feature.geometry.coordinates[0],
+                  feature.geometry.coordinates[1],
+                ]);
+                state.routedMapRef.leafletMap.leafletElement.setView([pos[1], pos[0]], 15);
+              } else {
+                state.routedMapRef.leafletMap.leafletElement.fitBounds(
+                  convertBBox2Bounds(envelope(feature).bbox, refDef)
+                );
+              }
             }
           },
 
@@ -158,6 +179,7 @@ const TopicMapContextProvider = ({
             enabled={featureCollectionEnabled}
             getFeatureStyler={getFeatureStyler}
             getColorFromProperties={getColorFromProperties}
+            alwaysShowAllFeatures={alwaysShowAllFeatures}
             clusteringEnabled={clusteringEnabled}
             clusteringOptions={clusteringOptions}
             getSymbolSVG={getSymbolSVG}

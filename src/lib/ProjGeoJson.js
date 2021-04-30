@@ -40,7 +40,9 @@ class ProjGeoJson extends Path {
       //old
       if (props.featureClickHandler !== undefined) {
         layer.on("click", function (event) {
-          props.featureClickHandler(event, feature, layer);
+          if (!event.originalEvent._simulated) {
+            props.featureClickHandler(event, feature, layer);
+          }
         });
       }
       // console.log('toggleEdit', layer.toggleEdit);

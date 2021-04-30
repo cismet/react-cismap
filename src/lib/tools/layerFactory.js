@@ -118,7 +118,7 @@ const createLayerFactoryFunction = (key, _conf = defaultLayerConf) => {
     case "vector":
       return (options) => {
         let params = { ...conf.defaults.vector, ...conf.namedLayers[key] };
-        console.log("params for " + key, params);
+        // console.log("params for " + key, params);
 
         return (
           <MapLibreLayer
@@ -239,15 +239,22 @@ export const defaultLayerConf = {
     },
     ruhrWMS: {
       type: "wms",
+      url: "https://geodaten.metrotadtpoleruhr.de/spw2/service",
+      layers: "stadtplan_rvr",
+      tiled: "false",
+      version: "1.3.0",
+    },
+    ruhrWMS: {
+      type: "wms",
       url: "https://geodaten.metropoleruhr.de/spw2/service",
       layers: "stadtplan_rvr",
       tiled: "false",
       version: "1.3.0",
     },
-    ruhrWMSlight: {
+    rvrGrau: {
       type: "wms",
       url: "https://geodaten.metropoleruhr.de/spw2/service",
-      layers: "spw2_light",
+      layers: "spw2_graublau",
       tiled: "false",
       version: "1.3.0",
     },

@@ -2805,7 +2805,14 @@
   dependencies:
     "@turf/helpers" "6.x"
 
-"@turf/bbox@*":
+"@turf/bbox-polygon@^6.3.0":
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/@turf/bbox-polygon/-/bbox-polygon-6.3.0.tgz#9ffa79d56ae50cc7730b35b2a6d2a02493268365"
+  integrity sha512-CCyTBM8LzGRu/lReNlgDyjRO8NojtJ7EPPvSl3bdKQbNFsCm25gwe7Y3xsaCkWLNn5g89lQJI9Izf9xdEsENjQ==
+  dependencies:
+    "@turf/helpers" "^6.3.0"
+
+"@turf/bbox@*", "@turf/bbox@^6.3.0":
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/@turf/bbox/-/bbox-6.3.0.tgz#0e1a9b59f32d6a2a40c806f54cbaa73575bead25"
   integrity sha512-N4ue5Xopu1qieSHP2MA/CJGWHPKaTrVXQJjzHRNcY1vtsO126xbSaJhWUrFc5x5vVkXp0dcucGryO0r5m4o/KA==
@@ -2848,6 +2855,15 @@
   dependencies:
     "@turf/helpers" "^6.3.0"
     "@turf/invariant" "^6.3.0"
+
+"@turf/envelope@^6.3.0":
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/@turf/envelope/-/envelope-6.3.0.tgz#9a8afd4161e93b5990bb21ea68a9c55154f60ac9"
+  integrity sha512-9xmDTCogXJsAO0TrARA/lniMSEtAil9HIKXHDJ5N6zlZ2K5wfRdD2zDlqkgDT3t9oSvttSP3ltBf03fjMDt6Wg==
+  dependencies:
+    "@turf/bbox" "^6.3.0"
+    "@turf/bbox-polygon" "^6.3.0"
+    "@turf/helpers" "^6.3.0"
 
 "@turf/helpers@6.x", "@turf/helpers@^6.1.4":
   version "6.1.4"
@@ -14464,6 +14480,11 @@ react-loading-overlay@^1.0.1:
     emotion "^10.0.1"
     prop-types "^15.6.2"
     react-transition-group "^2.5.0"
+
+react-loading@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/react-loading/-/react-loading-2.0.3.tgz#e8138fb0c3e4674e481b320802ac7048ae14ffb9"
+  integrity sha512-Vdqy79zq+bpeWJqC+xjltUjuGApyoItPgL0vgVfcJHhqwU7bAMKzysfGW/ADu6i0z0JiOCRJjo+IkFNkRNbA3A==
 
 react-markdown@^5.0.3:
   version "5.0.3"

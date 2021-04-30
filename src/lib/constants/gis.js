@@ -84,3 +84,42 @@ export const crs3857 = L.CRS.EPSG3857;
 
 export const AUTO_FIT_MODE_STRICT = "MAPPING/AUTO_FIT_MODE_STRICT";
 export const AUTO_FIT_MODE_NO_ZOOM_IN = "MAPPING/AUTO_FIT_MODE_NO_ZOOM_IN";
+
+export const projectionData = {
+  "25832": {
+    def: proj4crs25832def,
+    geojson: {
+      type: "name",
+      properties: {
+        name: "urn:ogc:def:crs:EPSG::25832",
+      },
+    },
+  },
+  "4326": {
+    def: proj4crs4326def,
+    geojson: {
+      type: "name",
+      properties: {
+        name: "urn:ogc:def:crs:EPSG::4326",
+      },
+    },
+  },
+  "3857": {
+    def: proj4crs3857def,
+    geojson: {
+      type: "name",
+      properties: {
+        name: "urn:ogc:def:crs:EPSG::3857",
+      },
+    },
+  },
+  "31462": {
+    def: proj4crs31462def,
+    geojson: {
+      type: "name",
+      properties: {
+        name: "urn:ogc:def:crs:EPSG::4326",
+      },
+    },
+  },
+};
