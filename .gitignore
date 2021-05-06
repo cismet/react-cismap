@@ -34,4 +34,4 @@ yarn-error.log*
 /src/lib/meta.js
 
  
- /public/data/
+ public/data/
