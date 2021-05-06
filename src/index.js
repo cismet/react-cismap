@@ -12,6 +12,15 @@ import * as AnimationExamples from "./lib/_stories/vectorfieldanimation/SimpleVF
 
 const TestContext = React.createContext();
 
+// if ("serviceWorker" in navigator) {
+//   window.addEventListener("load", function () {
+//     navigator.serviceWorker
+//       .register("/offlineVectorTilesServiceWorker.js")
+//       .then((res) => console.log("zzz service worker registered", res))
+//       .catch((err) => console.log("service worker not registered", err));
+//   });
+// }
+
 const ContextDisplay = () => {
   const testContextValue = useContext(TestContext);
   return (
@@ -60,9 +69,11 @@ ReactDOM.render(
     {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMap /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMapWithFeatureCollectionInAnotherCRS /> */}
     {/* <MapLibreExamples.SimpleTopicMapWithMapLibreLayer /> */}
+    <MapLibreExamples.SimpleMapLibreLayerWithLocalStyle />
+
     {/* <AnimationExamples.SimpleWuppertal25832 /> */}
     {/* <AnimationExamples.SimpleWuppertal3857 /> */}
-    <AnimationExamples.SimpleHaltern />
+    {/* <AnimationExamples.SimpleHaltern /> */}
   </div>,
   document.getElementById("root")
 );
