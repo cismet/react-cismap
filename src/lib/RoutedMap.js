@@ -353,6 +353,11 @@ export class RoutedMap extends React.Component {
     let simulateInIframe = false;
     let simulateInIOS = false;
     let iosClass = "no-iOS-device";
+    let fullscreenCapable =
+      document.fullscreenEnabled === true ||
+      document.webkitFullscreenEnabled === true ||
+      document.mozFullScreenEnabled === true ||
+      document.msFullscreenEnabled === true;
     let internetExplorer = getInternetExplorerVersion() !== -1;
     if (this.props.fullScreenControlEnabled) {
       fullscreenControl = (
@@ -365,7 +370,7 @@ export class RoutedMap extends React.Component {
         />
       );
 
-      if (simulateInIOS || iOS || internetExplorer) {
+      if (simulateInIOS || iOS || internetExplorer || !fullscreenCapable) {
         iosClass = "iOS-device";
         if (simulateInIframe || inIframe) {
           fullscreenControl = (

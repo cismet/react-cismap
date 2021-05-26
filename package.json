@@ -1,5 +1,5 @@
 {
-	"name": "react-cismap-experimental",
+	"name": "react-cismap",
 	"description": "our (cismet) mapping (pattern) library for better reusability in different projects",
 	"version": "1.2.3",
 	"main": "index.js",
