@@ -259,13 +259,16 @@ export const SimpleMapLibreLayerWithLocalStyle = () => {
   const position = [51.2720151, 7.2000203134];
   const [initialized, setInititialized] = useState(false);
   const [online, setOnline] = useState(false);
-  const [config, setConfig] = useState(false);
   const vectorLayerRef = useRef();
-  const config_ = {
+  const offlineConfig = {
     index: { origin: "https://omt.map-hosting.de/data/v3.json", cachePath: "v3.json" },
     tiles: { origin: "https://omt.map-hosting.de/data/v3", cachePath: "tiles" },
     glyphs: { origin: "https://omt.map-hosting.de/fonts", cachePath: "fonts" },
     styles: { origin: "https://omt.map-hosting.de/styles", cachePath: "styles" },
+    block: {
+      origin: "https://events.mapbox.com/events/v2?access_token=multipass",
+      block: true,
+    },
   };
 
   useEffect(() => {
@@ -305,7 +308,7 @@ export const SimpleMapLibreLayerWithLocalStyle = () => {
 
         {/* <MapLibreLayer style={localKlokantechBasic} /> */}
         {/* <MapLibreLayer style={localOSMBright} /> */}
-        <Pane name="backgroundLayers" style={{ zIndex: 100 }}>
+        {/* <Pane name="backgroundLayers" style={{ zIndex: 100 }}>
           <StyledWMSTileLayer
             key={"asd"}
             url="https://maps.wuppertal.de/deegree/wms"
@@ -313,7 +316,7 @@ export const SimpleMapLibreLayerWithLocalStyle = () => {
             opacity={1}
             maxZoom={25}
           />
-        </Pane>
+        </Pane> */}
 
         <Pane name="vectorLayers1" style={{ zIndex: 200 }}>
           <MapLibreLayer
@@ -321,9 +324,12 @@ export const SimpleMapLibreLayerWithLocalStyle = () => {
             ref={vectorLayerRef}
             style="https://omt.map-hosting.de/styles/osm-bright/style.json"
             pane="vectorLayers2"
-            opacity={0.01}
-            iconOpacity={1}
-            textOpacity={1}
+            // opacity={0.01}
+            // iconOpacity={1}
+            // textOpacity={1}
+            offlineConfig={offlineConfig}
+            offline={online === false}
+            cache={db}
           />
           />
         </Pane>
@@ -362,7 +368,7 @@ export const SimpleMapLibreLayerWithLocalStyle = () => {
             await await db["vectorTilesCache"].bulkPut(items);
 
             console.log("zzz done (" + items.length + ")");
-            console.timeEnd("fillCache");
+            console.timeEnd("zzz fillCache");
           })();
         }}
       >
@@ -393,14 +399,14 @@ export const SimpleMapLibreLayerWithLocalStyle = () => {
         onClick={() => {
           const newOnlineStatus = !online;
           setOnline(newOnlineStatus);
-          const message = {
-            type: "SETCARMAOFFLINECONFIG",
-            offline: !newOnlineStatus,
-            config,
-          };
-          console.log("message", JSON.stringify(message, null, 2));
+          // const message = {
+          //   type: "SETCARMAOFFLINECONFIG",
+          //   offline: !newOnlineStatus,
+          //   config,
+          // };
+          // console.log("message", JSON.stringify(message, null, 2));
 
-          navigator.serviceWorker.controller.postMessage(message);
+          // navigator.serviceWorker.controller.postMessage(message);
         }}
       >
         {online ? "Online" : "Offline"}
