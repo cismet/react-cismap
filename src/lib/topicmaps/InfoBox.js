@@ -158,11 +158,13 @@ const InfoBox = ({
                     <tr>
                       <td style={{ textAlign: "left" }}>
                         <h6>
-                          {additionalInfo && additionalInfo.startsWith("<html>") && (
-                            <div>{parseHtml(additionalInfo.match(/<html>(.*?)<\/html>/)[1])}</div>
-                          )}
-                          {additionalInfo !== undefined &&
-                            !additionalInfo.startsWith("<html>") &&
+                          {additionalInfo &&
+                            additionalInfo.startsWith &&
+                            additionalInfo.startsWith("<html>") && (
+                              <div>{parseHtml(additionalInfo.match(/<html>(.*?)<\/html>/)[1])}</div>
+                            )}
+                          {additionalInfo &&
+                            (!additionalInfo.startsWith || !additionalInfo.startsWith("<html>")) &&
                             additionalInfo.split("\n").map((item, key) => {
                               return (
                                 <span key={key}>
@@ -172,10 +174,12 @@ const InfoBox = ({
                               );
                             })}
                         </h6>
-                        {subtitle && subtitle.startsWith("<html>") && (
+                        {subtitle && subtitle.startsWith && subtitle.startsWith("<html>") && (
                           <div> {parseHtml(subtitle.match(/<html>(.*?)<\/html>/)[1])}</div>
                         )}
-                        {subtitle && !subtitle.startsWith("<html>") && <p>{subtitle}</p>}
+                        {subtitle && (!subtitle.startsWith || !subtitle.startsWith("<html>")) && (
+                          <p>{subtitle}</p>
+                        )}
                       </td>
                     </tr>
                   </tbody>
