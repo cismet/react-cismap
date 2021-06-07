@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Map, ZoomControl } from "react-leaflet";
+import { Map, ZoomControl, Pane } from "react-leaflet";
 import "proj4leaflet";
 import proj4 from "proj4";
 import "url-search-params-polyfill";
@@ -24,6 +24,7 @@ import { overrideClosestFromGeometryUtils } from "./tools/leaflet-geometryutil-w
 import { reproject } from "reproject";
 import { md5FetchJSON } from "./tools/fetching";
 import md5 from "md5";
+import CustomPanes from "./CustomPanes";
 export class RoutedMap extends React.Component {
   constructor(props) {
     super(props);
@@ -445,6 +446,7 @@ export class RoutedMap extends React.Component {
               this.props.layerKeyPostfix
             }
           >
+            <CustomPanes />
             {getLayersByNames(
               this.props.backgroundlayers,
               this.props.urlSearchParams.get("mapStyle"),

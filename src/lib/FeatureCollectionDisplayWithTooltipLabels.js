@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import ProjGeoJson from "./ProjGeoJson";
-import { Marker, Tooltip } from "react-leaflet";
+import { Marker, Tooltip, Pane } from "react-leaflet";
 import L from "leaflet";
 import * as turfHelpers from "@turf/helpers";
 import bboxPolygon from "@turf/bbox-polygon";
@@ -25,6 +25,7 @@ const FeatureCollectionDisplay = ({
   clusterOptions = {},
   clusteringEnabled,
   editable = false,
+  inbackground = false,
 }) => {
   const { boundingBox: boundingBoxFromContext } = useContext(TopicMapContext);
   let markers = [];
@@ -58,7 +59,8 @@ const FeatureCollectionDisplay = ({
           coordinates,
           view,
           markerPos,
-          labeler
+          labeler,
+          inbackground
         );
         if (currentFeature.selected === true) {
           selectedMarkers.push(marker);
@@ -78,7 +80,8 @@ const FeatureCollectionDisplay = ({
             coordinates,
             view,
             markerPos,
-            labeler
+            labeler,
+            inbackground
           );
           if (currentFeature.selected === true) {
             selectedMarkers.push(marker);
@@ -146,7 +149,15 @@ function createPointMarker(currentFeature, coordinates, labeler) {
   );
 }
 
-function createPolygonMarker(currentFeature, key, coordinates, view, markerPos, labeler) {
+function createPolygonMarker(
+  currentFeature,
+  key,
+  coordinates,
+  view,
+  markerPos,
+  labeler,
+  inbackground
+) {
   //get the subfeature into a polygon
 
   let polygon = turfHelpers.polygon(coordinates);
@@ -181,6 +192,11 @@ function createPolygonMarker(currentFeature, key, coordinates, view, markerPos, 
       position={[pointOnPolygonWGS84[1], pointOnPolygonWGS84[0]]}
       opacity={0.0}
       onClick={labelClick}
+      icon={L.divIcon({
+        className: "leaflet-mouse-marker",
+        iconAnchor: [20, 20],
+        iconSize: [40, 40],
+      })}
     >
       <Tooltip
         className={"customGeoJSONFeatureTooltipClass"}
@@ -188,6 +204,7 @@ function createPolygonMarker(currentFeature, key, coordinates, view, markerPos, 
         direction={"center"}
         offset={offset}
         onClick={labelClick}
+        pane={inbackground === true ? "backgroundlayerTooltips" : "backgroundlayerTooltips"}
       >
         <div>{labeler(currentFeature)}</div>
       </Tooltip>

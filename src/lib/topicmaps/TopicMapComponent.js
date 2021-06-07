@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
+import { Pane } from "react-leaflet";
+
 import * as MappingConstants from "../constants/gis";
 import GazetteerHitDisplay from "../GazetteerHitDisplay";
 import ProjSingleGeoJson from "../ProjSingleGeoJson";

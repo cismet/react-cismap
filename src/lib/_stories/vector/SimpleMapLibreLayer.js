@@ -308,7 +308,7 @@ export const SimpleMapLibreLayerWithLocalStyle = () => {
 
         {/* <MapLibreLayer style={localKlokantechBasic} /> */}
         {/* <MapLibreLayer style={localOSMBright} /> */}
-        {/* <Pane name="backgroundLayers" style={{ zIndex: 100 }}>
+        {/* <Pane name="backgroundLayers" style={{ zIndex: 1100 }}>
           <StyledWMSTileLayer
             key={"asd"}
             url="https://maps.wuppertal.de/deegree/wms"
@@ -318,21 +318,18 @@ export const SimpleMapLibreLayerWithLocalStyle = () => {
           />
         </Pane> */}
 
-        <Pane name="vectorLayers1" style={{ zIndex: 200 }}>
-          <MapLibreLayer
-            key={"MapLibreLayer.online:" + online}
-            ref={vectorLayerRef}
-            style="https://omt.map-hosting.de/styles/osm-bright/style.json"
-            pane="vectorLayers2"
-            // opacity={0.01}
-            // iconOpacity={1}
-            // textOpacity={1}
-            offlineConfig={offlineConfig}
-            offline={online === false}
-            cache={db}
-          />
-          />
-        </Pane>
+        <MapLibreLayer
+          key={"MapLibreLayer.online:" + online}
+          ref={vectorLayerRef}
+          style="https://omt.map-hosting.de/styles/osm-bright/style.json"
+          pane="vectorLayers2"
+          // opacity={0.01}
+          // iconOpacity={1}
+          // textOpacity={1}
+          offlineConfig={offlineConfig}
+          offline={online === false}
+          cache={db}
+        />
       </Map>
       <br></br>
       <button

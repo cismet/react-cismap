@@ -24,6 +24,7 @@ import {
 } from "../../contexts/TopicMapStylingContextProvider";
 import { getSymbolSVGGetter } from "../../tools/uiHelper";
 import { defaultClusteringOptions, getDefaultFeatureStyler } from "../../FeatureCollection";
+import CustomPanes from "../../CustomPanes";
 
 const SettingsPanel = (props) => {
   const { setAppMenuActiveMenuSection, setAppMenuVisible } = useContext(UIDispatchContext);
@@ -171,6 +172,7 @@ const SettingsPanel = (props) => {
         minZoom={Number(previewMapZoom)}
         maxZoom={Number(previewMapZoom)}
       >
+        <CustomPanes />
         <div key={"." + JSON.stringify(activeAdditionalLayerKeys)}>
           {getLayersByName(backgroundsFromMode, _namedMapStyle)}
           {activeAdditionalLayerKeys !== undefined &&

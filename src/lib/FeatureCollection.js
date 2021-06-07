@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import ProjGeoJson from "./ProjGeoJson";
+import { Pane } from "react-leaflet";
+
 import { convertFeatureCollectionToMarkerPositionCollection } from "./tools/mappingHelpers";
 import { FeatureCollectionDisplayWithTooltipLabels } from ".";
 import FeatureCollectionDisplay from "./FeatureCollectionDisplay";
