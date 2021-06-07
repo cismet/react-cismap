@@ -39,9 +39,13 @@ export default () => {
         <NW>
           <Icon name="tags" /> alternative Bezeichnung eines POI
         </NW>{" "}
-        oder eine{" "}
+        eine{" "}
         <NW>
           <Icon name="child" /> Kindertageseinrichtung
+        </NW>{" "}
+        oder eine{" "}
+        <NW>
+          <Icon name="graduation-cap" /> Schule
         </NW>{" "}
         handelt.
       </p>
