@@ -39,7 +39,7 @@ export default () => {
         <NW>
           <Icon name="tags" /> alternative Bezeichnung eines POI
         </NW>{" "}
-        eine{" "}
+        , eine{" "}
         <NW>
           <Icon name="child" /> Kindertageseinrichtung
         </NW>{" "}
