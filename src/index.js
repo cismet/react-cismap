@@ -69,11 +69,12 @@ ReactDOM.render(
     {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMap /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMapWithFeatureCollectionInAnotherCRS /> */}
     {/* <MapLibreExamples.SimpleTopicMapWithMapLibreLayer /> */}
-    <MapLibreExamples.SimpleMapLibreLayerWithLocalStyle />
+    {/* <MapLibreExamples.SimpleMapLibreLayerWithLocalStyle /> */}
 
     {/* <AnimationExamples.SimpleWuppertal25832 /> */}
     {/* <AnimationExamples.SimpleWuppertal3857 /> */}
     {/* <AnimationExamples.SimpleHaltern /> */}
+    <MapLibreExamples.SimpleMapLibreLayerWithAttribution />
   </div>,
   document.getElementById("root")
 );

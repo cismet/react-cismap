@@ -412,3 +412,30 @@ export const SimpleMapLibreLayerWithLocalStyle = () => {
     </div>
   );
 };
+export const SimpleMapLibreLayerWithAttribution = () => {
+  const position = [51.2720151, 7.2000203134];
+
+  return (
+    <Map style={mapStyle} center={position} zoom={18} maxZoom={25}>
+      {/* <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        opacity={1}
+      /> */}
+      {/* {getLayersByNames("ruhrWMSlight@50")} */}
+      <MapLibreLayer
+        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        // opacity={0.5}
+        // accessToken={"dd"}
+        style="https://omt.map-hosting.de/styles/klokantech-basic/style.json"
+        _style="http://localhost:888/styles/osm-bright/style.json"
+      />
+      {/* <StyledWMSTileLayer
+        key={"asd"}
+        url="https://maps.wuppertal.de/deegree/wms"
+        layers="R102:trueortho202010"
+        opacity={1}
+      /> */}
+    </Map>
+  );
+};

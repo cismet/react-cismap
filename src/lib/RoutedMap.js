@@ -418,7 +418,6 @@ export class RoutedMap extends React.Component {
           center={positionByUrl}
           zoom={zoomByUrl}
           zoomControl={false}
-          attributionControl={false}
           doubleClickZoom={false}
           ondblclick={this.props.ondblclick}
           onclick={this.props.onclick}
@@ -426,6 +425,7 @@ export class RoutedMap extends React.Component {
           maxZoom={this.props.maxZoom}
           zoomSnap={this.props.zoomSnap}
           zoomDelta={this.props.zoomDelta}
+          attributionControl={this.props.attributionControl}
         >
           <ZoomControl
             position="topleft"
@@ -494,6 +494,7 @@ RoutedMap.propTypes = {
   onFeatureCreation: PropTypes.func,
   onFeatureChangeAfterEditing: PropTypes.func,
   createFeatureFromEditLayer: PropTypes.func,
+  attributionControl: PropTypes.bool,
 };
 
 RoutedMap.defaultProps = {
@@ -523,6 +524,7 @@ RoutedMap.defaultProps = {
   zoomSnap: 1,
   zoomDelta: 1,
   editable: false,
+  attributionControl: false,
   mapReady: (map) => {},
   createFeatureFromEditLayer: (id, layer) => {
     try {

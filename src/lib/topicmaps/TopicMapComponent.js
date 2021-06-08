@@ -74,6 +74,7 @@ const TopicMapComponent = (props) => {
     secondaryInfo,
     gazetteerSearchPlaceholder,
     photoLightBox = true,
+    attributionControl = false,
   } = props;
   const { history, referenceSystem, referenceSystemDefinition, maskingPolygon } = useContext(
     TopicMapContext
@@ -241,6 +242,7 @@ const TopicMapComponent = (props) => {
             fallbackZoom={_homeZoom}
             fullScreenControlEnabled={fullScreenControl}
             locateControlEnabled={locatorControl}
+            attributionControl={attributionControl}
           >
             {overlayFeature && (
               <ProjSingleGeoJson
