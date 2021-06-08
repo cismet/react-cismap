@@ -239,7 +239,7 @@ const FilterPanel = ({ filterConfiguration }) => {
         break;
     }
   };
-  console.log("filterState", filterState);
+  // console.log("filterState", filterState);
 
   return (
     <div key={"refresh.on." + filterMode + ".and." + md5(JSON.stringify(filterState || {}))}>
