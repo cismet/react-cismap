@@ -4,7 +4,6 @@ import { CustomizationContext } from "../../contexts/CustomizationContextProvide
 
 export default () => {
   const customizations = useContext(CustomizationContext);
-  console.log("xxx customizationContext", customizations);
   let listWithSymbols = customizations?.inKartePositionieren?.listWithSymbols || (
     <p>
       Durch das in der Auswahlliste vorangestellte Symbol erkennen Sie, ob es sich bei einem Treffer
