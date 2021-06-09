@@ -38,7 +38,7 @@ export default () => {
         , die{" "}
         <NW>
           <Icon name="tags" /> alternative Bezeichnung eines POI
-        </NW>{" "}
+        </NW>
         , eine{" "}
         <NW>
           <Icon name="child" /> Kindertageseinrichtung
