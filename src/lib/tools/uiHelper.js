@@ -403,7 +403,7 @@ export const getSimpleHelpForTM = (title, simpleHelp) => {
       },
     },
     {
-      title: " In Karte positionieren",
+      title: "In Karte positionieren",
       bsStyle: "warning",
       contentBlockConf: {
         type: "INKARTEPOSITIONIEREN",
