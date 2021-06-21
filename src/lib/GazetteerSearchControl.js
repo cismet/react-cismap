@@ -12,6 +12,7 @@ import Control from "react-leaflet-control";
 import { Form, FormGroup, InputGroup, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { TopicMapContext } from "./contexts/TopicMapContextProvider";
+import { FeatureCollectionDispatchContext } from "./contexts/FeatureCollectionContextProvider";
 
 const COMP = ({
   mapRef,
@@ -32,6 +33,7 @@ const COMP = ({
   gazData = [],
   gazetteerHitAction = () => {},
   gazeteerHitTrigger,
+  gazetteerHitTrigger,
   searchTooltipProvider = function () {
     return (
       <Tooltip
@@ -74,9 +76,12 @@ const COMP = ({
     );
   },
 }) => {
+  const _gazetteerHitTrigger = gazetteerHitTrigger || gazeteerHitTrigger;
   const { responsiveState, searchBoxPixelWidth, gap, windowSize } = useContext(
     ResponsiveTopicMapContext
   );
+
+  // const {} = useContext(FeatureCollectionDispatchContext);
   const { referenceSystem, referenceSystemDefinition } = useContext(TopicMapContext);
 
   const internalGazetteerHitTrigger = (hit) => {
@@ -87,7 +92,7 @@ const COMP = ({
       referenceSystemDefinition,
       setGazetteerHit,
       setOverlayFeature,
-      gazeteerHitTrigger
+      _gazetteerHitTrigger
     );
   };
 
