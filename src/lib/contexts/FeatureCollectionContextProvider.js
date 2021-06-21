@@ -153,9 +153,9 @@ const FeatureCollectionContextProvider = ({
     dispatch((state) => {
       let index = 0;
       for (const feature of state.shownFeatures) {
-        console.log("predicate loop. will check ", feature.properties.id);
+        // console.log("predicate loop. will check ", feature.properties.id);
         if (predicate(feature) === true) {
-          console.log("predicate hit. will select ", feature);
+          // console.log("predicate hit. will select ", feature);
 
           setSelectedFeatureIndex(index);
 
