@@ -75,6 +75,7 @@ const TopicMapComponent = (props) => {
     gazetteerSearchPlaceholder,
     photoLightBox = true,
     attributionControl = false,
+    gazetteerHitTrigger,
   } = props;
   const { history, referenceSystem, referenceSystemDefinition, maskingPolygon } = useContext(
     TopicMapContext
@@ -262,6 +263,7 @@ const TopicMapComponent = (props) => {
               mapRef={leafletRoutedMapRef}
               gazetteerHit={gazetteerHit}
               setGazetteerHit={setGazetteerHit}
+              gazeteerHitTrigger={gazetteerHitTrigger}
               overlayFeature={overlayFeature}
               setOverlayFeature={setOverlayFeature}
               gazData={gazData}
