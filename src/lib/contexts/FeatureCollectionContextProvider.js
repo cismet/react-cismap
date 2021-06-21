@@ -134,7 +134,7 @@ const FeatureCollectionContextProvider = ({
     setItemFilterFunction: set("itemFilterFunction"),
     setAllFeatures: set("allFeatures"),
     setShownFeatures: set("shownFeatures"),
-    setSelectedFeature: set("selectedFeature"),
+    setSelectedFeature: set("selectedFeature"), //don't call from outside
     setFeatureIndex: set("featureIndex"),
     setSelectedIndexState: set("selectedIndexState"),
     setClusteringEnabled: set("clusteringEnabled"),
@@ -149,6 +149,22 @@ const FeatureCollectionContextProvider = ({
     setX.setSelectedIndexState({ selectedIndex, forced: false });
   };
 
+  const setSelectedFeatureByPredicate = (predicate) => {
+    dispatch((state) => {
+      let index = 0;
+      for (const feature of state.shownFeatures) {
+        console.log("predicate loop. will check ", feature.properties.id);
+        if (predicate(feature) === true) {
+          console.log("predicate hit. will select ", feature);
+
+          setSelectedFeatureIndex(index);
+
+          return;
+        }
+        index++;
+      }
+    });
+  };
   const next = () => {
     const newIndex = (selectedFeature.index + 1) % shownFeatures.length;
     setSelectedFeatureIndex(newIndex);
@@ -358,6 +374,7 @@ const FeatureCollectionContextProvider = ({
             ...setX,
             load,
             setSelectedFeatureIndex,
+            setSelectedFeatureByPredicate,
             next,
             prev,
           }}
