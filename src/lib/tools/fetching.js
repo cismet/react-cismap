@@ -111,6 +111,8 @@ export const md5FetchText = async (prefix, uri) => {
   }
 };
 
+export const CACHE_JWT = "--cached--data--";
+
 export const md5ActionFetchDAQ = async (prefix, apiUrl, jwt, daqKey) => {
   const cachePrefix = "@" + prefix + ".." + apiUrl + "." + daqKey;
   const md5Key = cachePrefix + ".md5";
@@ -133,70 +135,84 @@ export const md5ActionFetchDAQ = async (prefix, apiUrl, jwt, daqKey) => {
     })
   );
 
-  const response = await fetch(
-    apiUrl + "/actions/WUNDA_BLAU.dataAquisition/tasks?resultingInstanceType=result",
-    {
-      method: "POST",
-      // method: "GET",
-      headers: {
-        Authorization: "Bearer " + jwt,
-        // "Content-Type": "application/json",
-        // Accept: "application/json",
-      },
-      body: fd,
-    }
-  );
+  if (jwt === CACHE_JWT) {
+    const data = JSON.parse(await localforage.getItem(dataKey));
+    //go for result.time after the new version of the action is live
+    const time = await localforage.getItem(timeKey);
+    return new Promise((resolve, reject) => {
+      resolve({ data, time });
+    });
+  } else {
+    const response = await fetch(
+      apiUrl + "/actions/WUNDA_BLAU.dataAquisition/tasks?resultingInstanceType=result",
+      {
+        method: "POST",
+        // method: "GET",
+        headers: {
+          Authorization: "Bearer " + jwt,
+          // "Content-Type": "application/json",
+          // Accept: "application/json",
+        },
+        body: fd,
+      }
+    );
 
-  if (response.status >= 200 && response.status < 300) {
-    const content = await response.json();
-    if (content.res) {
-      try {
-        const result = JSON.parse(content.res);
-        let status = result.status;
-        let potenzialflaechen;
-        if (status === 200) {
-          console.log("DAQ cache miss for " + daqKey);
+    if (response.status >= 200 && response.status < 300) {
+      const content = await response.json();
+      if (content.res) {
+        try {
+          const result = JSON.parse(content.res);
+          let status = result.status;
+          let data, time;
+          console.log("result", result);
 
-          potenzialflaechen = JSON.parse(result.content);
-          await localforage.setItem(dataKey, result.content);
-          await localforage.setItem(md5Key, result.md5);
-          await localforage.setItem(timeKey, result.time);
-        } else if (status === 304) {
-          console.log("DAQ cache hit for " + daqKey);
+          if (status === 200) {
+            console.log("DAQ cache miss for " + daqKey);
 
-          potenzialflaechen = JSON.parse(await localforage.getItem(dataKey));
+            data = JSON.parse(result.content);
+            time = result.time;
+            await localforage.setItem(dataKey, result.content);
+            await localforage.setItem(md5Key, result.md5);
+            await localforage.setItem(timeKey, time);
+          } else if (status === 304) {
+            console.log("DAQ cache hit for " + daqKey);
+            //go for result.time after the new version of the action is live
+            time = await localforage.getItem(timeKey);
+            data = JSON.parse(await localforage.getItem(dataKey));
+          }
+          console.log("data", data);
+
+          return new Promise((resolve, reject) => {
+            resolve({ data, time });
+          });
+        } catch (e) {
+          return new Promise((resolve, reject) => {
+            reject({
+              status: 500,
+              desc:
+                "error when parsing the server result. probably the content has the wrong structure",
+              content,
+              exception: e,
+            });
+          });
         }
-
-        return new Promise((resolve, reject) => {
-          resolve(potenzialflaechen);
-        });
-      } catch (e) {
+      } else {
         return new Promise((resolve, reject) => {
           reject({
             status: 500,
-            desc:
-              "error when parsing the server result. probably the content has the wrong structure",
+            desc: "error when parsing the server result.",
             content,
-            exception: e,
           });
         });
       }
+    } else if (response.status === 401) {
+      return new Promise((resolve, reject) => {
+        reject({ status: response.status, desc: "unauthorized" });
+      });
     } else {
       return new Promise((resolve, reject) => {
-        reject({
-          status: 500,
-          desc: "error when parsing the server result.",
-          content,
-        });
+        reject({ status: response.status, desc: "unknown" });
       });
     }
-  } else if (response.status === 401) {
-    return new Promise((resolve, reject) => {
-      reject({ status: response.status, desc: "unauthorized" });
-    });
-  } else {
-    return new Promise((resolve, reject) => {
-      reject({ status: response.status, desc: "unknown" });
-    });
   }
 };
