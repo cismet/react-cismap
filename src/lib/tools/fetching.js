@@ -164,7 +164,6 @@ export const md5ActionFetchDAQ = async (prefix, apiUrl, jwt, daqKey) => {
           const result = JSON.parse(content.res);
           let status = result.status;
           let data, time;
-          console.log("result", result);
 
           if (status === 200) {
             console.log("DAQ cache miss for " + daqKey);
@@ -180,7 +179,6 @@ export const md5ActionFetchDAQ = async (prefix, apiUrl, jwt, daqKey) => {
             time = await localforage.getItem(timeKey);
             data = JSON.parse(await localforage.getItem(dataKey));
           }
-          console.log("data", data);
 
           return new Promise((resolve, reject) => {
             resolve({ data, time });
