@@ -14,6 +14,7 @@ import { projectionData } from "../constants/gis";
 
 const defaultState = {
   items: undefined,
+  metaInformation: undefined,
   filteredItems: undefined,
   filterState: undefined,
   filterMode: undefined,
@@ -126,6 +127,7 @@ const FeatureCollectionContextProvider = ({
 
   const setX = {
     setItems: set("items"),
+    setMetaInformation: set("metaInformation"),
     setEPSGCode: set("epsgCode"),
     setFilteredItems: set("filteredItems"),
     setFilterState: set("filterState"),
