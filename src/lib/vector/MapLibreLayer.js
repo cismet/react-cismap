@@ -14,6 +14,16 @@ class MapboxGlLayer extends GridLayer {
   }
 
   createLeafletElement(props) {
+    console.log("xxxx createleafletElement", props);
+
+    if (navigator.serviceWorker && navigator.serviceWorker.controller && props.offlineConfig) {
+      navigator.serviceWorker.controller.postMessage({
+        type: "SETCARMAOFFLINECONFIG",
+        offline: props.offline,
+        config: props.offlineConfig,
+      });
+    }
+
     const { map } = props.leaflet || this.context;
 
     map.on("layeradd", (e) => {
@@ -23,19 +33,21 @@ class MapboxGlLayer extends GridLayer {
     map.on("layerremove", (e) => {
       this._removeLayer(e);
     });
-    const layer = L.mapboxGL({ id: "xxx", accessToken: "multipass", ...props });
-    console.log("xxx layer", layer);
+    const layer = L.mapboxGL({ id: "xxx", accessToken: "multipass", pane: "xxx", ...props });
+    // console.log("xxx layer", layer);
     setTimeout(() => {
       const map = layer.getMapboxMap();
-      console.log("xxx layer testing", layer.getMapboxMap().style);
-      // map.getStyle().layers.map((layer) => {
-      //   if (layer.type === "symbol") {
-      //     map.setPaintProperty(layer.id, `icon-opacity`, 0.9);
-      //     map.setPaintProperty(layer.id, `text-opacity`, 0.9);
-      //   } else {
-      //     map.setPaintProperty(layer.id, `${layer.type}-opacity`, 0.1);
-      //   }
-      // });
+      this.mapBoxMap = map;
+      if (props.opacity || props.textOpacity || props.iconOpacity) {
+        map.getStyle().layers.map((layer) => {
+          if (layer.type === "symbol") {
+            map.setPaintProperty(layer.id, `icon-opacity`, props.iconOpacity || props.opacity || 1);
+            map.setPaintProperty(layer.id, `text-opacity`, props.textOpacity || props.opacity || 1);
+          } else {
+            map.setPaintProperty(layer.id, `${layer.type}-opacity`, props.opacity || 1);
+          }
+        });
+      }
     }, 400);
 
     return layer;

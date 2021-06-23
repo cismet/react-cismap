@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
+import { Pane } from "react-leaflet";
+
 import * as MappingConstants from "../constants/gis";
 import GazetteerHitDisplay from "../GazetteerHitDisplay";
 import ProjSingleGeoJson from "../ProjSingleGeoJson";
@@ -72,6 +74,8 @@ const TopicMapComponent = (props) => {
     secondaryInfo,
     gazetteerSearchPlaceholder,
     photoLightBox = true,
+    attributionControl = false,
+    gazetteerHitTrigger,
   } = props;
   const { history, referenceSystem, referenceSystemDefinition, maskingPolygon } = useContext(
     TopicMapContext
@@ -239,6 +243,7 @@ const TopicMapComponent = (props) => {
             fallbackZoom={_homeZoom}
             fullScreenControlEnabled={fullScreenControl}
             locateControlEnabled={locatorControl}
+            attributionControl={attributionControl}
           >
             {overlayFeature && (
               <ProjSingleGeoJson
@@ -258,6 +263,7 @@ const TopicMapComponent = (props) => {
               mapRef={leafletRoutedMapRef}
               gazetteerHit={gazetteerHit}
               setGazetteerHit={setGazetteerHit}
+              gazeteerHitTrigger={gazetteerHitTrigger}
               overlayFeature={overlayFeature}
               setOverlayFeature={setOverlayFeature}
               gazData={gazData}

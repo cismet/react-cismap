@@ -34,3 +34,6 @@ yarn-error.log*
 /src/lib/meta.js
 
  
+/public/data/vectortiles/
+/public/data/wupp.mbtiles
+/public/offlineVectorTilesServiceWorker.js

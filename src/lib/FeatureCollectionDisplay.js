@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import ProjGeoJson from "./ProjGeoJson";
 import { convertFeatureCollectionToMarkerPositionCollection } from "./tools/mappingHelpers";
+import { Pane } from "react-leaflet";
 
 // Since this component is simple and static, there's no parent container for it.
 const FeatureCollectionDisplay = ({
@@ -43,6 +44,7 @@ const FeatureCollectionDisplay = ({
   }
   return (
     <div>
+      {" "}
       <ProjGeoJson
         key={JSON.stringify(featureCollection) + "." + JSON.stringify(boundingBox)}
         featureCollection={featureCollection}

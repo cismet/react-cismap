@@ -18,6 +18,13 @@ const Comp = ({
   subSections,
   imageUrl,
   imageStyle,
+  footer = (
+    <div>
+      <span style={{ fontSize: "11px" }}>
+        <CismetFooterAcks />
+      </span>
+    </div>
+  ),
 }) => {
   const { secondaryInfoVisible } = useContext(UIContext);
   const { setSecondaryInfoVisible } = useContext(UIDispatchContext);
@@ -98,11 +105,7 @@ const Comp = ({
                   paddingRight: "30px",
                 }}
               >
-                <div>
-                  <span style={{ fontSize: "11px" }}>
-                    <CismetFooterAcks />
-                  </span>
-                </div>
+                {footer}
               </td>
               <td>
                 <Button

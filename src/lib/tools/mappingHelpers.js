@@ -1,30 +1,10 @@
 import polylabel from "polylabel";
-import { proj4crs25832def } from "../constants/gis";
+import { proj4crs25832def, projectionData } from "../constants/gis";
 import proj4 from "proj4";
 
 import intersect from "@turf/intersect";
 import * as turfHelpers from "@turf/helpers";
 import bboxPolygon from "@turf/bbox-polygon";
-export const projectionData = {
-  "25832": {
-    def: "+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs",
-    geojson: {
-      type: "name",
-      properties: {
-        name: "urn:ogc:def:crs:EPSG::25832",
-      },
-    },
-  },
-  "4326": {
-    def: "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
-    geojson: {
-      type: "name",
-      properties: {
-        name: "urn:ogc:def:crs:EPSG::4326",
-      },
-    },
-  },
-};
 
 export function getPolygonfromBBox(bbox) {
   return (

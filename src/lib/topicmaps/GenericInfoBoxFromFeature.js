@@ -128,6 +128,7 @@ const Component = (props) => {
         </div>
       }
       hideNavigator={allFeatures?.length === 1}
+      fixedRow={true}
       fitAll={gotoHome}
       secondaryInfoBoxElements={[
         <InfoBoxFotoPreview

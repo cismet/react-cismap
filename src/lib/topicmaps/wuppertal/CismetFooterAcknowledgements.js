@@ -1,6 +1,6 @@
 import React from "react";
 // import { getTopicMapVersion } from '../../constants/versions';
-import { getLibraryVersion } from "../../version";
+import { version } from "../../meta";
 // Since this component is simple and static, there's no parent container for it.
 const Component = () => {
   return (
@@ -15,7 +15,7 @@ const Component = () => {
       </a>{" "}
       und{" "}
       <a href="https://cismet.de/#refs" target="_cismet">
-        cids | react-cismap v{getLibraryVersion()} | WuNDa
+        cids | react-cismap v{version} | WuNDa
       </a>{" "}
       |{" "}
       <a

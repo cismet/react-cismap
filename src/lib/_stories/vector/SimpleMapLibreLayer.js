@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { MappingConstants } from "../..";
-import { Map, Marker, Popup, TileLayer } from "react-leaflet";
+import { Map, Marker, Pane, Popup, TileLayer } from "react-leaflet";
 
 import RoutedMap from "../../RoutedMap";
-
 import MapLibreLayer from "../../vector/MapLibreLayer";
 import getLayersByNames from "../../tools/layerFactory";
 import { kassenzeichen } from "../_data/Editing.Storybook.data";
@@ -13,12 +12,24 @@ import TopicMapContextProvider from "../../contexts/TopicMapContextProvider";
 import TopicMapComponent from "../../topicmaps/TopicMapComponent";
 import FeatureCollection from "../../FeatureCollection";
 import StyledWMSTileLayer from "../../StyledWMSTileLayer";
-
+import { localOSMBright, localKlokantechBasic } from "./StoriesConf";
+import * as fflate from "fflate";
+import Dexie from "dexie";
+import FileType from "file-type";
+import SettingsPanelWithPreviewSection from "../../topicmaps/menu/SettingsPanelWithPreviewSection";
+const DBVERSION = 1;
+const DBNAME = "carma";
+const BAGNAME = "vectorTilesCache";
+export const db = new Dexie(DBNAME);
+db.version(DBVERSION).stores({
+  vectorTilesCache: "key",
+});
 const mapStyle = {
   height: 800,
   cursor: "pointer",
 };
 const testStyle = "http://localhost:888/styles/klokantech-basic/style.json";
+
 export const SimpleMapLibreLayer = () => {
   const position = [51.2720151, 7.2000203134];
 
@@ -241,5 +252,190 @@ export const SimpleTopicMapWithMapLibreLayer = () => {
     >
       <TopicMapComponent maxZoom={22} gazData={gazData}></TopicMapComponent>
     </TopicMapContextProvider>
+  );
+};
+
+export const SimpleMapLibreLayerWithLocalStyle = () => {
+  const position = [51.2720151, 7.2000203134];
+  const [initialized, setInititialized] = useState(false);
+  const [online, setOnline] = useState(false);
+  const vectorLayerRef = useRef();
+  const offlineConfig = {
+    index: { origin: "https://omt.map-hosting.de/data/v3.json", cachePath: "v3.json" },
+    tiles: { origin: "https://omt.map-hosting.de/data/v3", cachePath: "tiles" },
+    glyphs: { origin: "https://omt.map-hosting.de/fonts", cachePath: "fonts" },
+    styles: { origin: "https://omt.map-hosting.de/styles", cachePath: "styles" },
+    block: {
+      origin: "https://events.mapbox.com/events/v2?access_token=multipass",
+      block: true,
+    },
+  };
+
+  useEffect(() => {
+    // navigator.serviceWorker.controller.postMessage({
+    //   type: "SETCARMAOFFLINECONFIG",
+    //   offline: !online,
+    //   config,
+    // });
+    // (async () => {
+    //   console.log("zzz startup");
+    //   const massiveFileBuf = await fetch("/data/wupp.zip").then((res) => res.arrayBuffer());
+    //   const massiveFile = new Uint8Array(massiveFileBuf);
+    //   const decompressed = fflate.unzipSync(massiveFile);
+    //   for (const entryKey of Object.keys(decompressed)) {
+    //     if (
+    //       !entryKey.startsWith("_") &&
+    //       !entryKey.endsWith(".DS_Store") &&
+    //       decompressed[entryKey].length !== 0
+    //     ) {
+    //       console.log("zzz entry", entryKey, decompressed[entryKey]);
+    //       await await db["omtCache"].put({ key: entryKey, value: decompressed[entryKey] });
+    //     }
+    //   }
+    //   // console.log("zzz zip", decompressed);
+    // })();
+  }, []);
+  console.log("zzz navigator.serviceWorker.controller", navigator.serviceWorker.controller);
+
+  return (
+    <div>
+      <Map style={mapStyle} center={position} zoom={15} maxZoom={25}>
+        {/* <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        opacity={1}
+      /> */}
+
+        {/* <MapLibreLayer style={localKlokantechBasic} /> */}
+        {/* <MapLibreLayer style={localOSMBright} /> */}
+        {/* <Pane name="backgroundLayers" style={{ zIndex: 1100 }}>
+          <StyledWMSTileLayer
+            key={"asd"}
+            url="https://maps.wuppertal.de/deegree/wms"
+            layers="R102:trueortho202010"
+            opacity={1}
+            maxZoom={25}
+          />
+        </Pane> */}
+
+        <MapLibreLayer
+          key={"MapLibreLayer.online:" + online}
+          ref={vectorLayerRef}
+          style="https://omt.map-hosting.de/styles/osm-bright/style.json"
+          pane="vectorLayers2"
+          // opacity={0.01}
+          // iconOpacity={1}
+          // textOpacity={1}
+          offlineConfig={offlineConfig}
+          offline={online === false}
+          cache={db}
+        />
+      </Map>
+      <br></br>
+      <button
+        onClick={() => {
+          (async () => {
+            console.time("zzz fillCache");
+
+            console.log("zzz startup");
+            const massiveFileBuf = await fetch(
+              "/data/vectortiles/wuppertal/Archive.zip"
+            ).then((res) => res.arrayBuffer());
+            const massiveFile = new Uint8Array(massiveFileBuf);
+            const decompressed = fflate.unzipSync(massiveFile);
+            // console.log("___ decompressed", decompressed);
+
+            const items = [];
+            for (const entryKey of Object.keys(decompressed)) {
+              if (
+                !entryKey.startsWith("_") &&
+                !entryKey.endsWith(".DS_Store") &&
+                decompressed[entryKey].length !== 0
+              ) {
+                // console.log("zzz entry", entryKey, decompressed[entryKey]);
+                //await await db["omtCache"].put({ key: entryKey, value: decompressed[entryKey] });
+                // console.log(
+                //   "___ FileType.fromBuffer(buffer)",
+                //   await FileType.fromBuffer(decompressed[entryKey])
+                // );
+
+                items.push({ key: entryKey, value: decompressed[entryKey] });
+              }
+            }
+            await await db["vectorTilesCache"].bulkPut(items);
+
+            console.log("zzz done (" + items.length + ")");
+            console.timeEnd("zzz fillCache");
+          })();
+        }}
+      >
+        cache initialisieren
+      </button>{" "}
+      <button
+        onClick={() => {
+          // (async () => {
+          //   try {
+          //     const x = await db["vectorTilesCache"].get("sprite/sprite@2x.json");
+          //     // var blob = await new Blob(x.value, {
+          //     //   type: "application/json",
+          //     // });
+          //     const r = new Response(x.value);
+          //     console.log("zzz hit", r);
+          //   } catch (e) {
+          //     console.log("error", e);
+          //   }
+          // })();
+          console.log("mapBoxMap", vectorLayerRef?.current?.mapBoxMap);
+          // console.log("test", vectorLayerRef?.current?.mapBoxMap.style);
+          // vectorLayerRef.current.mapBoxMap.style.update();
+        }}
+      >
+        test
+      </button>{" "}
+      <button
+        onClick={() => {
+          const newOnlineStatus = !online;
+          setOnline(newOnlineStatus);
+          // const message = {
+          //   type: "SETCARMAOFFLINECONFIG",
+          //   offline: !newOnlineStatus,
+          //   config,
+          // };
+          // console.log("message", JSON.stringify(message, null, 2));
+
+          // navigator.serviceWorker.controller.postMessage(message);
+        }}
+      >
+        {online ? "Online" : "Offline"}
+      </button>
+      {/* <progress max="100">70 %</progress> */}
+    </div>
+  );
+};
+export const SimpleMapLibreLayerWithAttribution = () => {
+  const position = [51.2720151, 7.2000203134];
+
+  return (
+    <Map style={mapStyle} center={position} zoom={18} maxZoom={25}>
+      {/* <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        opacity={1}
+      /> */}
+      {/* {getLayersByNames("ruhrWMSlight@50")} */}
+      <MapLibreLayer
+        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        // opacity={0.5}
+        // accessToken={"dd"}
+        style="https://omt.map-hosting.de/styles/klokantech-basic/style.json"
+        _style="http://localhost:888/styles/osm-bright/style.json"
+      />
+      {/* <StyledWMSTileLayer
+        key={"asd"}
+        url="https://maps.wuppertal.de/deegree/wms"
+        layers="R102:trueortho202010"
+        opacity={1}
+      /> */}
+    </Map>
   );
 };

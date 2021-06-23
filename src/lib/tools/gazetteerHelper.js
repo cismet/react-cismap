@@ -29,7 +29,10 @@ export const builtInGazetteerHitTrigger = (
       // console.log(url + '?gazHit=' + window.btoa(JSON.stringify(hit[0])));
     }
 
-    const pos = proj4(referenceSystemDefinition, proj4.defs("EPSG:4326"), [hit[0].x, hit[0].y]);
+    const pos = proj4(referenceSystemDefinition || proj4crs25832def, proj4.defs("EPSG:4326"), [
+      hit[0].x,
+      hit[0].y,
+    ]);
     //console.log(pos)
     leafletElement.panTo([pos[1], pos[0]], {
       animate: false,
@@ -53,12 +56,13 @@ export const builtInGazetteerHitTrigger = (
       if (!feature.crs) {
         console.log("xxx no crs therefore context based crs", referenceSystem);
 
+        const refSys =
+          referenceSystem !== undefined ? referenceSystem.code.split("EPSG:")[1] : "25832";
+
         feature.crs = {
           type: "name",
           properties: {
-            name:
-              "urn:ogc:def:crs:EPSG::" +
-              (referenceSystem !== undefined ? referenceSystem.code.split("EPSG:")[1] : "25832"),
+            name: "urn:ogc:def:crs:EPSG::" + refSys,
           },
         };
       }
@@ -69,6 +73,7 @@ export const builtInGazetteerHitTrigger = (
         setGazetteerHit(null);
         setOverlayFeature(feature);
       }
+
       leafletElement.fitBounds(gisHelpers.convertBBox2Bounds(bb, referenceSystemDefinition));
     }
     setTimeout(() => {

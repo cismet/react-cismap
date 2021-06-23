@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Map, ZoomControl } from "react-leaflet";
+import { Map, ZoomControl, Pane } from "react-leaflet";
 import "proj4leaflet";
 import proj4 from "proj4";
 import "url-search-params-polyfill";
@@ -11,7 +11,7 @@ import "leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css";
 import "leaflet-extra-markers/";
 import "leaflet.path.drag";
 import * as MappingConstants from "./constants/gis";
-import { projectionData } from "./tools/mappingHelpers";
+import { projectionData } from "./constants/gis";
 
 import getLayersByNames from "./tools/layerFactory";
 import FullscreenControl from "./FullscreenControl";
@@ -24,6 +24,7 @@ import { overrideClosestFromGeometryUtils } from "./tools/leaflet-geometryutil-w
 import { reproject } from "reproject";
 import { md5FetchJSON } from "./tools/fetching";
 import md5 from "md5";
+import CustomPanes from "./CustomPanes";
 export class RoutedMap extends React.Component {
   constructor(props) {
     super(props);
@@ -353,6 +354,11 @@ export class RoutedMap extends React.Component {
     let simulateInIframe = false;
     let simulateInIOS = false;
     let iosClass = "no-iOS-device";
+    let fullscreenCapable =
+      document.fullscreenEnabled === true ||
+      document.webkitFullscreenEnabled === true ||
+      document.mozFullScreenEnabled === true ||
+      document.msFullscreenEnabled === true;
     let internetExplorer = getInternetExplorerVersion() !== -1;
     if (this.props.fullScreenControlEnabled) {
       fullscreenControl = (
@@ -365,7 +371,7 @@ export class RoutedMap extends React.Component {
         />
       );
 
-      if (simulateInIOS || iOS || internetExplorer) {
+      if (simulateInIOS || iOS || internetExplorer || !fullscreenCapable) {
         iosClass = "iOS-device";
         if (simulateInIframe || inIframe) {
           fullscreenControl = (
@@ -412,7 +418,6 @@ export class RoutedMap extends React.Component {
           center={positionByUrl}
           zoom={zoomByUrl}
           zoomControl={false}
-          attributionControl={false}
           doubleClickZoom={false}
           ondblclick={this.props.ondblclick}
           onclick={this.props.onclick}
@@ -420,6 +425,7 @@ export class RoutedMap extends React.Component {
           maxZoom={this.props.maxZoom}
           zoomSnap={this.props.zoomSnap}
           zoomDelta={this.props.zoomDelta}
+          attributionControl={this.props.attributionControl}
         >
           <ZoomControl
             position="topleft"
@@ -440,6 +446,7 @@ export class RoutedMap extends React.Component {
               this.props.layerKeyPostfix
             }
           >
+            <CustomPanes />
             {getLayersByNames(
               this.props.backgroundlayers,
               this.props.urlSearchParams.get("mapStyle"),
@@ -487,6 +494,7 @@ RoutedMap.propTypes = {
   onFeatureCreation: PropTypes.func,
   onFeatureChangeAfterEditing: PropTypes.func,
   createFeatureFromEditLayer: PropTypes.func,
+  attributionControl: PropTypes.bool,
 };
 
 RoutedMap.defaultProps = {
@@ -516,6 +524,7 @@ RoutedMap.defaultProps = {
   zoomSnap: 1,
   zoomDelta: 1,
   editable: false,
+  attributionControl: false,
   mapReady: (map) => {},
   createFeatureFromEditLayer: (id, layer) => {
     try {

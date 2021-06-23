@@ -80,6 +80,30 @@ export const getActionLinksForFeature = (
       />
     );
   }
+  if (feature.properties.genericLinks !== undefined) {
+    for (const genericLink of feature.properties.genericLinks) {
+      if (genericLink.url) {
+        links.push(
+          <IconLink
+            key={`IconLink.generic-${JSON.stringify(genericLink)}`}
+            tooltip={genericLink.tooltip}
+            href={genericLink.url}
+            target={genericLink.target || "_blank"}
+            iconname={genericLink.iconname || "globe"}
+          />
+        );
+      } else if (genericLink.action) {
+        links.push(
+          <IconLink
+            key={`IconLink.generic-${JSON.stringify(genericLink)}`}
+            tooltip={genericLink.tooltip}
+            onClick={genericLink.action}
+            iconname={genericLink.iconname || "globe"}
+          />
+        );
+      }
+    }
+  }
   return links;
 };
 
@@ -379,7 +403,7 @@ export const getSimpleHelpForTM = (title, simpleHelp) => {
       },
     },
     {
-      title: " In Karte positionieren",
+      title: "In Karte positionieren",
       bsStyle: "warning",
       contentBlockConf: {
         type: "INKARTEPOSITIONIEREN",
