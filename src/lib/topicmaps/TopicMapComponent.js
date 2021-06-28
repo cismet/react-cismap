@@ -114,7 +114,7 @@ const TopicMapComponent = (props) => {
     backgroundsFromMode = backgroundConfigurations[selectedBackground].layerkey;
   } catch (e) {}
 
-  const _backgroundLayers = backgroundlayers || backgroundsFromMode || "ruhrWMSlight@40";
+  const _backgroundLayers = backgroundlayers || backgroundsFromMode || "rvrGrau@40";
 
   const [gazetteerHit, setGazetteerHit] = useState(null);
   const [overlayFeature, setOverlayFeature] = useState(null);

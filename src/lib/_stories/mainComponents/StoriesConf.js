@@ -1,1 +1,1 @@
-export const storiesCategory = 'Mapping Components/';
+export const storiesCategory = "Mapping Components/";

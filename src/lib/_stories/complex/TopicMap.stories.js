@@ -39,6 +39,7 @@ import StyledWMSTileLayer from "../../StyledWMSTileLayer";
 import Icon from "../../commons/Icon";
 import uwz from "../_data/UWZ";
 import queryString from "query-string";
+import { nordbahntrasse } from "../_data/Demo";
 
 export default {
   title: storiesCategory + "TopicMapComponent",
@@ -1104,6 +1105,24 @@ export const TopicMapWithWithStaticFilter = () => {
           />
         }
       >
+        <FeatureCollection />
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
+
+export const TopicMapWithLineFeatureCollection = () => {
+  const [gazData, setGazData] = useState([]);
+  useEffect(() => {
+    getGazData(setGazData);
+  }, []);
+
+  return (
+    <TopicMapContextProvider
+      items={[nordbahntrasse]}
+      featureTooltipFunction={(feature) => feature?.text}
+    >
+      <TopicMapComponent gazData={gazData}>
         <FeatureCollection />
       </TopicMapComponent>
     </TopicMapContextProvider>

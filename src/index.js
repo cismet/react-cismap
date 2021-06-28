@@ -74,7 +74,8 @@ ReactDOM.render(
     {/* <AnimationExamples.SimpleWuppertal25832 /> */}
     {/* <AnimationExamples.SimpleWuppertal3857 /> */}
     {/* <AnimationExamples.SimpleHaltern /> */}
-    <MapLibreExamples.SimpleMapLibreLayerWithAttribution />
+    {/* <MapLibreExamples.SimpleMapLibreLayerWithAttribution /> */}
+    <TopicMapsExamples.TopicMapWithLineFeatureCollection />
   </div>,
   document.getElementById("root")
 );

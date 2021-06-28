@@ -93,11 +93,12 @@ class ProjGeoJson extends Path {
           offset: L.point(theStyle.radius, 0),
           direction: "right",
         });
-        layer.on("mouseover", function () {
-          layer.openPopup();
+        layer.on("mouseover", function (e) {
+          console.log("e", e);
+          layer.openTooltip(e.latlng);
         });
         layer.on("mouseout", function () {
-          layer.closePopup();
+          layer.closeTooltip();
         });
       }
 
