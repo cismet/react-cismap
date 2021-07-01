@@ -14,7 +14,7 @@ class MapboxGlLayer extends GridLayer {
   }
 
   createLeafletElement(props) {
-    console.log("xxxx createleafletElement", props);
+    // console.log("xxxx createleafletElement", props);
 
     if (navigator.serviceWorker && navigator.serviceWorker.controller && props.offlineConfig) {
       navigator.serviceWorker.controller.postMessage({
