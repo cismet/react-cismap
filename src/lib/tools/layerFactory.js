@@ -13,7 +13,7 @@ export default function getLayers(
   layerConfig
 ) {
   let namedStylesConfig = namedStyles;
-  const layerArr = layerString.split(config.layerSeparator || "|");
+  const layerArr = (layerString || "").split(config.layerSeparator || "|");
   let namedMapStyleExtension = namedMapStyle;
   if (namedMapStyleExtension === null || namedMapStyleExtension === "") {
     namedMapStyleExtension = "default";
@@ -151,6 +151,7 @@ export const defaultLayerConf = {
       maxZoom: 22,
       opacity: 0.6,
       version: "1.1.1",
+      pane: "backgroundLayers",
     },
   },
   namedLayers: {
