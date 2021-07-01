@@ -24,7 +24,6 @@ import { overrideClosestFromGeometryUtils } from "./tools/leaflet-geometryutil-w
 import { reproject } from "reproject";
 import { md5FetchJSON } from "./tools/fetching";
 import md5 from "md5";
-import CustomPanes from "./CustomPanes";
 export class RoutedMap extends React.Component {
   constructor(props) {
     super(props);
@@ -40,6 +39,26 @@ export class RoutedMap extends React.Component {
     overrideClosestFromGeometryUtils();
 
     const map = leafletMap.leafletElement;
+
+    const panes = [];
+    // <Pane name="backgroundvectorLayers" style={{ zIndex: 90 }}></Pane>
+    // <Pane name="backgroundLayers" style={{ zIndex: 100 }} />
+    // <Pane name="additionalLayers" style={{ zIndex: 150 }} />
+    // <Pane name="backgroundlayerTooltips" style={{ zIndex: 250 }} />
+    // <Pane name="featurecollection" style={{ zIndex: 600 }} />
+
+    map.createPane("backgroundvectorLayers");
+    map.getPane("backgroundvectorLayers").style.zIndex = 90;
+
+    map.createPane("backgroundLayers");
+    map.getPane("backgroundLayers").style.zIndex = 100;
+
+    map.createPane("additionalLayers");
+    map.getPane("additionalLayers").style.zIndex = 250;
+
+    map.createPane("backgroundlayerTooltips");
+    map.getPane("backgroundlayerTooltips").style.zIndex = 550;
+
     map.editable = this.props.editable;
 
     //Do sstuff after panning is over
@@ -446,7 +465,6 @@ export class RoutedMap extends React.Component {
               this.props.layerKeyPostfix
             }
           >
-            <CustomPanes />
             {getLayersByNames(
               this.props.backgroundlayers,
               this.props.urlSearchParams.get("mapStyle"),
