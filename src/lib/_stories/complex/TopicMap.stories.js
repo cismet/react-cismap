@@ -40,6 +40,8 @@ import Icon from "../../commons/Icon";
 import uwz from "../_data/UWZ";
 import queryString from "query-string";
 import { nordbahntrasse } from "../_data/Demo";
+import { defaultLayerConf } from "../../tools/layerFactory";
+import MapLibreLayer from "../../vector/MapLibreLayer";
 
 export default {
   title: storiesCategory + "TopicMapComponent",
@@ -862,6 +864,126 @@ export const TopicMapWithWithCustomSettingsAndOneAdditionlLayer = () => {
         // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
       >
         <FeatureCollection />
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
+
+export const TopicMapWithCustomLayerSetAndAdditionalOverlayLayers = () => {
+  const backgroundModes = [
+    {
+      title: "Stadtplan",
+      mode: "default",
+      layerKey: "stadtplan",
+    },
+    {
+      title: "Stadtplan (Vektordaten light)",
+      mode: "default",
+      layerKey: "vector",
+    },
+
+    { title: "Luftbildkarte", mode: "default", layerKey: "lbk" },
+  ];
+  const backgroundConfigurations = {
+    lbk: {
+      layerkey: "cismetText|trueOrtho2020@70",
+      layerkey_: "wupp-plan-live@100|trueOrtho2020@75|rvrSchrift@100",
+      src: "/images/rain-hazard-map-bg/ortho.png",
+      title: "Luftbildkarte",
+    },
+    stadtplan: {
+      layerkey: "wupp-plan-live@60",
+      src: "/images/rain-hazard-map-bg/citymap.png",
+      title: "Stadtplan",
+    },
+    vector: {
+      layerkey: "cismetLight",
+      src: "/images/rain-hazard-map-bg/citymap.png",
+      title: "Stadtplan",
+    },
+  };
+  const baseLayerConf = { ...defaultLayerConf };
+
+  baseLayerConf.namedLayers.cismetLight = {
+    type: "vector",
+    style_: "http://bender.local:888/styles/cismetplus/style.json",
+    style: "https://omt.map-hosting.de/styles/cismet-light/style.json",
+    xpane: "backgroundvectorLayers",
+  };
+  baseLayerConf.namedLayers.cismetText = {
+    type: "vector",
+    style: "http://localhost:888/styles/cismet-text/style.json",
+    pane: "backgroundlayerTooltips",
+  };
+
+  // baseLayerConf.namedLayers.cismetLight = {
+  //   type: "vector",
+  //   style_: "http://bender.local:888/styles/cismet-light/style.json",
+  //   style__: "https://omt.map-hosting.de/styles/cismet-light/style.json",
+  //   style: "http://localhost:888/styles/umweltalarm/style.json",
+  //   pane: "backgroundvectorLayers",
+  // };
+  // baseLayerConf.namedLayers.cismetText = {
+  //   type: "vector",
+  //   style_: "http://omt.map-hosting.de/styles/klokantech-basic/style.json",
+  //   style: "http://localhost:888/styles/cismet-text/style.json",
+
+  //   Xopacity: 0.005,
+  //   XiconOpacity: 0.7,
+  //   XtextOpacity: 0.7,
+  //   pane: "backgroundlayerTooltips",
+  // };
+
+  return (
+    <TopicMapContextProvider
+      baseLayerConf={baseLayerConf}
+      backgroundConfigurations={backgroundConfigurations}
+      backgroundModes={backgroundModes}
+      referenceSystem={MappingConstants.crs3857}
+      mapEPSGCode="3857"
+      referenceSystemDefinition={MappingConstants.proj4crs3857def}
+      maskingPolygon="POLYGON((668010.063156992 6750719.23021889,928912.612468322 6757273.20343972,930494.610325512 6577553.43685138,675236.835570551 6571367.64964125,668010.063156992 6750719.23021889))"
+      additionalLayerConfiguration={{
+        umweltalarm: {
+          title: (
+            <span>
+              Umweltalarm{" "}
+              <Icon
+                style={{
+                  color: "#EEB48C",
+                  width: "30px",
+                  textAlign: "center",
+                }}
+                name={"circle"}
+              />
+            </span>
+          ),
+          initialActive: false,
+          layer: (
+            <MapLibreLayer
+              key={"umweltalarm"}
+              style="http://localhost:888/styles/umweltalarm/style.json"
+              pane="additionalLayers"
+            />
+          ),
+        },
+      }}
+    >
+      <TopicMapComponent
+        homeZoom={13}
+        maxZoom={22}
+        modalMenu={
+          <AppMenu
+            x={99}
+            previewMapPosition="lat=51.25508899597954&lng=7.155737656576095&zoom=17"
+          />
+        }
+      >
+        {/* <MapLibreLayer
+          key={"umweltalarm"}
+          style="http://localhost:888/styles/umweltalarm/style.json"
+          pane="additionalLayers"
+        /> */}
       </TopicMapComponent>
     </TopicMapContextProvider>
   );
