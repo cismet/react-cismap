@@ -58,6 +58,11 @@
         L.DomEvent.off(this._map._proxy, L.DomUtil.TRANSITION_END, this._transitionEnd, this);
       }
       var paneName = this.getPaneName();
+
+      // console.log("xxx paneName", paneName);
+      // console.log("xxx panes", map._panes);
+      // console.log("xxx map.getPane(paneName)", map.getPane(paneName));
+
       map.getPane(paneName).removeChild(this._container);
 
       this._glMap.remove();
