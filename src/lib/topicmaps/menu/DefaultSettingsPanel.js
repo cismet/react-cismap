@@ -24,7 +24,7 @@ import {
 } from "../../contexts/TopicMapStylingContextProvider";
 import { getSymbolSVGGetter } from "../../tools/uiHelper";
 import { defaultClusteringOptions, getDefaultFeatureStyler } from "../../FeatureCollection";
-import CustomPanes from "../../CustomPanes";
+import PreviewMap from "./PreviewMap";
 
 const SettingsPanel = (props) => {
   const { setAppMenuActiveMenuSection, setAppMenuVisible } = useContext(UIDispatchContext);
@@ -153,11 +153,12 @@ const SettingsPanel = (props) => {
         previewFeatures = allFeatures.slice(0, previewFeatureCollectionCount);
       }
     }
+    console.log("xxx referenceSystemFromContext", referenceSystem);
 
     setMapPreview(
-      <Map
+      <PreviewMap
         key={"map" + allFeatures?.length + selectedBackground + _namedMapStyle}
-        crs={referenceSystem || MappingConstants.crs25832}
+        referenceSystem={referenceSystem || MappingConstants.crs25832}
         style={{ height: 300 }}
         center={{
           lat: Number(previewMapLat),
@@ -172,7 +173,6 @@ const SettingsPanel = (props) => {
         minZoom={Number(previewMapZoom)}
         maxZoom={Number(previewMapZoom)}
       >
-        <CustomPanes />
         <div key={"." + JSON.stringify(activeAdditionalLayerKeys)}>
           {getLayersByName(backgroundsFromMode, _namedMapStyle)}
           {activeAdditionalLayerKeys !== undefined &&
@@ -200,7 +200,7 @@ const SettingsPanel = (props) => {
           //mapRef={previewMapRef} // commented out because there cannot be a ref in a functional comp and it is bnot needed
           showMarkerCollection={false}
         />
-      </Map>
+      </PreviewMap>
     );
   }, [
     allFeatures,
