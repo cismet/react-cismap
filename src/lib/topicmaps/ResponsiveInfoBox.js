@@ -25,6 +25,7 @@ const InfoBox = ({
   secondaryInfoBoxElements = [],
   alwaysVisibleDiv,
   collapsibleDiv,
+  collapsibleStyle,
   fixedRow,
 }) => {
   const featureCollectionContext = useContext(FeatureCollectionContext);
@@ -83,6 +84,7 @@ const InfoBox = ({
               pointerEvents: "auto",
               padding: 0,
               paddingLeft: 9,
+              ...collapsibleStyle,
             }}
             debugBorder={0}
             tableStyle={{ margin: 0 }}
