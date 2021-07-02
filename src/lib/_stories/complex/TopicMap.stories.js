@@ -886,7 +886,7 @@ export const TopicMapWithCustomLayerSetAndAdditionalOverlayLayers = () => {
   ];
   const backgroundConfigurations = {
     lbk: {
-      layerkey: "cismetText|trueOrtho2020@70",
+      layerkey: "cismetText|trueOrtho2020@40",
       layerkey_: "wupp-plan-live@100|trueOrtho2020@75|rvrSchrift@100",
       src: "/images/rain-hazard-map-bg/ortho.png",
       title: "Luftbildkarte",
@@ -906,9 +906,8 @@ export const TopicMapWithCustomLayerSetAndAdditionalOverlayLayers = () => {
 
   baseLayerConf.namedLayers.cismetLight = {
     type: "vector",
-    style_: "http://bender.local:888/styles/cismetplus/style.json",
     style: "https://omt.map-hosting.de/styles/cismet-light/style.json",
-    xpane: "backgroundvectorLayers",
+    pane: "backgroundvectorLayers",
   };
   baseLayerConf.namedLayers.cismetText = {
     type: "vector",
@@ -936,6 +935,17 @@ export const TopicMapWithCustomLayerSetAndAdditionalOverlayLayers = () => {
 
   return (
     <TopicMapContextProvider
+      persistenceSettings={{
+        ui: ["XappMenuVisible", "appMenuActiveMenuSection", "collapsedInfoBox"],
+        featureCollection: ["filterState", "filterMode", "clusteringEnabled"],
+        responsive: [],
+        styling: [
+          "activeAdditionalLayerKeys",
+          "namedMapStyle",
+          "selectedBackground",
+          "markerSymbolSize",
+        ],
+      }}
       baseLayerConf={baseLayerConf}
       backgroundConfigurations={backgroundConfigurations}
       backgroundModes={backgroundModes}
@@ -944,26 +954,41 @@ export const TopicMapWithCustomLayerSetAndAdditionalOverlayLayers = () => {
       referenceSystemDefinition={MappingConstants.proj4crs3857def}
       maskingPolygon="POLYGON((668010.063156992 6750719.23021889,928912.612468322 6757273.20343972,930494.610325512 6577553.43685138,675236.835570551 6571367.64964125,668010.063156992 6750719.23021889))"
       additionalLayerConfiguration={{
-        umweltalarm: {
-          title: (
-            <span>
-              Umweltalarm{" "}
-              <Icon
-                style={{
-                  color: "#EEB48C",
-                  width: "30px",
-                  textAlign: "center",
-                }}
-                name={"circle"}
-              />
-            </span>
-          ),
-          initialActive: false,
+        brunnen: {
+          title: <span>Trinkwasserbrunnen</span>,
+          initialActive: true,
           layer: (
             <MapLibreLayer
-              key={"umweltalarm"}
-              style="http://localhost:888/styles/umweltalarm/style.json"
-              pane="additionalLayers"
+              key={"brunnen"}
+              style_="http://localhost:888/styles/brunnen/style.json"
+              style="https://omt.map-hosting.de/styles/brunnen/style.json"
+              pane="additionalLayers0"
+            />
+          ),
+        },
+
+        kanal: {
+          title: <span>Kanalnetz</span>,
+          initialActive: true,
+          layer: (
+            <MapLibreLayer
+              key={"kanal"}
+              style_="http://localhost:888/styles/kanal/style.json"
+              style="https://omt.map-hosting.de/styles/kanal/style.json"
+              pane="additionalLayers1"
+            />
+          ),
+        },
+
+        gewaesser: {
+          title: <span>Gewässernetz</span>,
+          initialActive: true,
+          layer: (
+            <MapLibreLayer
+              key={"gewaesser"}
+              style_="http://localhost:888/styles/gewaesser/style.json"
+              style="https://omt.map-hosting.de/styles/gewaesser/style.json"
+              pane="additionalLayers2"
             />
           ),
         },
