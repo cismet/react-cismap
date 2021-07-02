@@ -153,7 +153,6 @@ const SettingsPanel = (props) => {
         previewFeatures = allFeatures.slice(0, previewFeatureCollectionCount);
       }
     }
-    console.log("xxx referenceSystemFromContext", referenceSystem);
 
     setMapPreview(
       <PreviewMap
