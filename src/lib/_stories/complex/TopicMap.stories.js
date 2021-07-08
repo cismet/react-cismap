@@ -1009,7 +1009,6 @@ export const TopicMapWithCustomLayerSetAndAdditionalOverlayLayers = () => {
           style="http://localhost:888/styles/umweltalarm/style.json"
           pane="additionalLayers"
         /> */}
-        <
       </TopicMapComponent>
     </TopicMapContextProvider>
   );
