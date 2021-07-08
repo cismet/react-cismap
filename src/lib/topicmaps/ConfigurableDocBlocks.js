@@ -9,6 +9,7 @@ import InKartePositionieren from "./docBlocks/InKartePositionieren";
 import Einstellungen from "./docBlocks/Einstellungen";
 import KartendarstellungDerFachobjekte from "./docBlocks/KartendarstellungDerFachobjekte";
 import FachobjekteAuswaehlenUndAbfragen from "./docBlocks/FachobjekteAuswaehlenUndAbfragen";
+import CustomizableComp from "./docBlocks/CustomizableComp";
 
 export const DOCBLOCKSTYLES = {
   TEXT: "TEXT",
@@ -23,6 +24,7 @@ export const DOCBLOCKSTYLES = {
   EINSTELLUNGEN: "EINSTELLUNGEN",
   KARTENDARSTELLUNGDERFACHOBJEKTE: "KARTENDARSTELLUNGDERFACHOBJEKTE",
   FACHOBJEKTEAUSWAEHLENUNDABFRAGEN: "FACHOBJEKTEAUSWAEHLENUNDABFRAGEN",
+  CUSTOMIZABLECOMP: "CUSTOMIZABLECOMP",
 };
 
 const ConfigurableDocBlocks = ({
@@ -116,6 +118,15 @@ const getBlock4Config = (block, key) => {
         const x = parse(block.content, options);
         return x;
       }
+    case DOCBLOCKSTYLES.CUSTOMIZABLECOMP:
+      //params: docBlockConfigs, style, innerStyle
+      return (
+        <CustomizableComp
+          customizationComponent={block.customizationComponent}
+          customizationKey={block.customizationKey}
+        />
+      );
+
     case DOCBLOCKSTYLES.FAQS: {
       const showOnSeperatePage = false;
       let i = 0;

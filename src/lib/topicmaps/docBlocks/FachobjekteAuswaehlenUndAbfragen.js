@@ -1,25 +1,29 @@
-import React from "react";
+import React, { useContext } from "react";
 import Icon from "../../commons/Icon";
+import { CustomizationContext } from "../../contexts/CustomizationContextProvider";
 
 export default () => {
+  const customizations = useContext(CustomizationContext);
+  let furtherExplanationOfClickableContent =
+    customizations?.fachobjekteAuswaehlen?.furtherExplanationOfClickableContent || "";
   return (
     <div>
       <p>
-        Bewegen Sie den Mauszeiger im Kartenfenster auf eines der farbigen Symbole, mit denen die
-        Fachobjekte des Kartenthemas in der Karte dargestellt werden, um sich den Namen des
-        jeweiligen Fachobjektes anzeigen zu lassen. Ein Klick auf das Symbol setzt den Fokus auf
-        dieses Fachobjekt. Es wird dann blau hinterlegt und die zugehörigen Informationen (i. d. R.
-        Name, Straße und Hausnummer, Kurzinformation) werden unten rechts in der Info-Box angezeigt.
-        (Auf einem Tablet-PC wird der Fokus durch das erste Antippen des Fachobjekt-Symbols gesetzt,
-        das zweite Antippen blendet den Namen ein.) Außerdem werden Ihnen in der Info-Box
-        weiterführende Funktionen und Kommunikationslinks zu diesem Fachobjekt angeboten. Mit der
-        Lupenfunktion <Icon name="search" /> wird die Karte auf das aktuelle Fachobjekt zentriert
-        und gleichzeitig ein großer Betrachtungsmaßstab (Zoomstufe 14) eingestellt. Falls es mehr
-        Informationen zu den Fachobjekten gibt, als in der Info-Box dargestellt werden können,
-        können Sie sich diese über die Datenblattfunktion <Icon name="info" /> anzeigen lassen. Die
-        Kommunikationslinks umfassen i. d. R. <Icon name="phone" /> Telefon,{" "}
-        <Icon name="envelope-square" /> E-Mail und <Icon name="external-link-square" />{" "}
-        Internet-Homepage.
+        Bewegen Sie den Mauszeiger im Kartenfenster auf eines der farbigen Symbole
+        {furtherExplanationOfClickableContent}, mit denen die Fachobjekte des Kartenthemas in der
+        Karte dargestellt werden, um sich den Namen des jeweiligen Fachobjektes anzeigen zu lassen.
+        Ein Klick auf das Symbol setzt den Fokus auf dieses Fachobjekt. Es wird dann blau hinterlegt
+        und die zugehörigen Informationen (i. d. R. Name, Straße und Hausnummer, Kurzinformation)
+        werden unten rechts in der Info-Box angezeigt. (Auf einem Tablet-PC wird der Fokus durch das
+        erste Antippen des Fachobjekt-Symbols gesetzt, das zweite Antippen blendet den Namen ein.)
+        Außerdem werden Ihnen in der Info-Box weiterführende Funktionen und Kommunikationslinks zu
+        diesem Fachobjekt angeboten. Mit der Lupenfunktion <Icon name="search" /> wird die Karte auf
+        das aktuelle Fachobjekt zentriert und gleichzeitig ein großer Betrachtungsmaßstab (Zoomstufe
+        14) eingestellt. Falls es mehr Informationen zu den Fachobjekten gibt, als in der Info-Box
+        dargestellt werden können, können Sie sich diese über die Datenblattfunktion{" "}
+        <Icon name="info" /> anzeigen lassen. Die Kommunikationslinks umfassen i. d. R.{" "}
+        <Icon name="phone" /> Telefon, <Icon name="envelope-square" /> E-Mail und{" "}
+        <Icon name="external-link-square" /> Internet-Homepage.
       </p>
       <p>
         Wenn Sie noch kein Fachobjekt im aktuellen Kartenausschnitt selektiert haben, wird der Fokus

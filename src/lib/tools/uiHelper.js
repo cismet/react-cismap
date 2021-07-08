@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import IconLink from "../commons/IconLink";
 import slugify from "slugify";
 import { Link } from "react-scroll";
@@ -10,6 +10,8 @@ import createSVGPie from "create-svg-pie";
 import createElement from "svg-create-element";
 import L from "leaflet";
 import { DEFAULT_SVG } from "./svgHelper";
+import { CustomizationContext } from "../contexts/CustomizationContextProvider";
+
 export const getActionLinksForFeature = (
   feature,
   {
@@ -346,6 +348,12 @@ export const getSimpleHelpForTM = (title, simpleHelp) => {
     titleContent = "Die vorliegende Karte";
   }
 
+  const AdditionalDatasources = () => (
+    <div>
+      <b>{1 + 2}</b>
+    </div>
+  );
+
   let configs = [
     {
       title: "Datengrundlage",
@@ -371,6 +379,11 @@ export const getSimpleHelpForTM = (title, simpleHelp) => {
                 type: "LICENSE_STADTPLAN",
               },
             },
+          },
+          {
+            type: "CUSTOMIZABLECOMP",
+            customizationComponent: "hintergrund",
+            customizationKey: "additionalDatasources",
           },
         ],
       },
