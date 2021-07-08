@@ -45,6 +45,10 @@ export class RoutedMap extends React.Component {
     map.getPane("additionalLayers1").style.zIndex = 250;
     map.createPane("additionalLayers2");
     map.getPane("additionalLayers2").style.zIndex = 250;
+    map.createPane("additionalLayers3");
+    map.getPane("additionalLayers3").style.zIndex = 250;
+    map.createPane("additionalLayers4");
+    map.getPane("additionalLayers4").style.zIndex = 250;
 
     map.createPane("backgroundlayerTooltips");
     map.getPane("backgroundlayerTooltips").style.zIndex = 550;

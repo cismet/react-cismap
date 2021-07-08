@@ -973,8 +973,8 @@ export const TopicMapWithCustomLayerSetAndAdditionalOverlayLayers = () => {
           layer: (
             <MapLibreLayer
               key={"kanal"}
-              style_="http://localhost:888/styles/kanal/style.json"
-              style="https://omt.map-hosting.de/styles/kanal/style.json"
+              style="http://localhost:888/styles/kanal/style.json"
+              style_="https://omt.map-hosting.de/styles/kanal/style.json"
               pane="additionalLayers1"
             />
           ),
@@ -1009,6 +1009,7 @@ export const TopicMapWithCustomLayerSetAndAdditionalOverlayLayers = () => {
           style="http://localhost:888/styles/umweltalarm/style.json"
           pane="additionalLayers"
         /> */}
+        <
       </TopicMapComponent>
     </TopicMapContextProvider>
   );
