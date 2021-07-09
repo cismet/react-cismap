@@ -1,23 +1,13 @@
+import Color from "color";
 import React, { useContext } from "react";
-import PropTypes from "prop-types";
-import ProjGeoJson from "./ProjGeoJson";
-import { Pane } from "react-leaflet";
-
-import { convertFeatureCollectionToMarkerPositionCollection } from "./tools/mappingHelpers";
 import { FeatureCollectionDisplayWithTooltipLabels } from ".";
-import FeatureCollectionDisplay from "./FeatureCollectionDisplay";
-import { TopicMapContext } from "./contexts/TopicMapContextProvider";
-import useFilteredPointFeatureCollection from "./hooks/useFilteredPointFeatureCollection";
-import { getClusterIconCreatorFunction } from "./tools/uiHelper";
 import {
   FeatureCollectionContext,
   FeatureCollectionDispatchContext,
 } from "./contexts/FeatureCollectionContextProvider";
-import {
-  TopicMapStylingContext,
-  TopicMapStylingDispatchContext,
-} from "./contexts/TopicMapStylingContextProvider";
-import Color from "color";
+import { TopicMapContext } from "./contexts/TopicMapContextProvider";
+import { TopicMapStylingContext } from "./contexts/TopicMapStylingContextProvider";
+import FeatureCollectionDisplay from "./FeatureCollectionDisplay";
 
 export const getDefaultFeatureStyler = (size = 24, colorizer = () => "#2664D8") => {
   return (feature) => {
