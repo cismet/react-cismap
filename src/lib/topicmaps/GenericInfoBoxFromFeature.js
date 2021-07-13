@@ -28,7 +28,7 @@ const defaultConfig = {
 };
 
 const Component = (props) => {
-  let { config, pixelwidth = 300, setSecondaryInfoVisible } = props;
+  let { config, pixelwidth = 300, setSecondaryInfoVisible, secondaryInfoBoxElements } = props;
   const featureCollectionContext = useContext(FeatureCollectionContext);
   const { zoomToFeature, gotoHome } = useContext(TopicMapDispatchContext);
   const lightBoxDispatchContext = useContext(LightBoxDispatchContext);
@@ -130,12 +130,14 @@ const Component = (props) => {
       hideNavigator={allFeatures?.length === 1}
       fixedRow={true}
       fitAll={gotoHome}
-      secondaryInfoBoxElements={[
-        <InfoBoxFotoPreview
-          lightBoxDispatchContext={lightBoxDispatchContext}
-          currentFeature={currentFeature}
-        />,
-      ]}
+      secondaryInfoBoxElements={
+        secondaryInfoBoxElements || [
+          <InfoBoxFotoPreview
+            lightBoxDispatchContext={lightBoxDispatchContext}
+            currentFeature={currentFeature}
+          />,
+        ]
+      }
     />
   );
 };
