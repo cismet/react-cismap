@@ -1,6 +1,9 @@
 import polylabel from "@mapbox/polylabel";
 import proj4 from "proj4";
 import { proj4crs25832def } from "../constants/gis";
+import turfBBox from "@turf/bbox";
+import booleanIntersects from "@turf/boolean-intersects";
+import Flatbush from "flatbush";
 
 export function getPolygonfromBBox(bbox) {
   return (
@@ -68,3 +71,52 @@ export function convertPoint(x, y, refDef = proj4crs25832def) {
 }
 
 export function getNamedlayers() {}
+
+export const getBoundsFromArea = (area) => {
+  const bboxArray = turfBBox(area);
+  const corner1 = [bboxArray[1], bboxArray[0]];
+  const corner2 = [bboxArray[3], bboxArray[2]];
+  var bounds = [corner1, corner2];
+
+  return bounds;
+};
+
+export const findInFlatbush = (flatbush, search, all, additionalRestriction = (hit) => true) => {
+  const geomBounds = getBoundsFromArea(search);
+  const hits = flatbush.search(
+    geomBounds[0][1],
+    geomBounds[0][0],
+    geomBounds[1][1],
+    geomBounds[1][0]
+  );
+  const realHits = [];
+
+  // console.log("xxx probably " + hits.length);
+
+  if (hits != null) {
+    for (const hit of hits) {
+      if (all[hit]?.geometry) {
+        if (additionalRestriction(all[hit]) && booleanIntersects(all[hit].geometry, search)) {
+          realHits.push(all[hit]);
+        }
+      }
+    }
+  }
+  // console.log("xxx real " + realHits.length);
+
+  return realHits;
+};
+
+export const createFlatbushIndex = (polygons) => {
+  if (polygons && polygons.length > 0) {
+    const polyIndex = new Flatbush(polygons.length);
+    for (const polyF of polygons) {
+      const bounds = getBoundsFromArea(polyF.geometry);
+      polyIndex.add(bounds[0][1], bounds[0][0], bounds[1][1], bounds[1][0]);
+    }
+
+    polyIndex.finish();
+
+    return polyIndex;
+  }
+};
