@@ -91,12 +91,16 @@ const COMP = ({
   // 	/>
   // );
   if (fixedRow) {
+    console.log("xxx alwaysVisibleDiv fixedRow", alwaysVisibleDiv);
+
     return (
       <Well onClick={onClick} key={keyToUse} bsSize={bsSize} style={style}>
         <table width="100%" border={debugBorder} style={tableStyle}>
           <tbody>
             <tr>
-              <th style={{ verticalAlign: "middle" }}>{alwaysVisibleDiv}</th>
+              {alwaysVisibleDiv && <th style={{ verticalAlign: "middle" }}>{alwaysVisibleDiv}</th>}
+              {!alwaysVisibleDiv && <th style={{ verticalAlign: "middle", padding: "0px" }}></th>}
+
               {isCollapsible && (
                 <th
                   rowSpan="2"
@@ -122,12 +126,15 @@ const COMP = ({
       </Well>
     );
   } else {
+    console.log("xxx alwaysVisibleDiv else", alwaysVisibleDiv);
+
     return (
       <Well onClick={onClick} key={keyToUse} bsSize={bsSize} style={style}>
         <table width="100%" border={debugBorder}>
           <tbody>
             <tr>
-              <th style={{ verticalAlign: "middle" }}>{alwaysVisibleDiv}</th>
+              {alwaysVisibleDiv && <th style={{ verticalAlign: "middle" }}>{alwaysVisibleDiv}</th>}
+              {!alwaysVisibleDiv && <th style={{ verticalAlign: "middle", padding: "0px" }}></th>}
               {isCollapsible && (
                 <th
                   style={{
@@ -142,6 +149,7 @@ const COMP = ({
                 </th>
               )}
             </tr>
+
             {(!isCollapsible || !collapsed === true) && (
               <tr>
                 <td colSpan="2">{collapsibleDiv}</td>
