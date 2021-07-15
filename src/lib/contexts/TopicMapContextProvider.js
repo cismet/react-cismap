@@ -13,6 +13,7 @@ import localforage from "localforage";
 import { getType } from "@turf/invariant";
 import envelope from "@turf/envelope";
 import { convertBBox2Bounds } from "../tools/gisHelper";
+import { MappingConstants } from "..";
 
 const defaultState = {
   location: undefined,
@@ -26,9 +27,9 @@ const DispatchContext = React.createContext();
 const history = createHashHistory();
 
 const TopicMapContextProvider = ({
-  referenceSystem,
-  referenceSystemDefinition,
-  mapEPSGCode,
+  referenceSystem = MappingConstants.crs3857,
+  referenceSystemDefinition = projectionData[3857].def,
+  mapEPSGCode = "3857",
   maskingPolygon,
   children,
   featureCollectionEnabled = true,
@@ -122,6 +123,7 @@ const TopicMapContextProvider = ({
     setLocation: set("location"),
     setRoutedMapRef: set("routedMapRef", true),
   };
+
   return (
     <StateContext.Provider value={state}>
       <DispatchContext.Provider
