@@ -1,22 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
-import { MappingConstants } from "../..";
-import { Map, Marker, Pane, Popup, TileLayer } from "react-leaflet";
-
-import RoutedMap from "../../RoutedMap";
-import MapLibreLayer from "../../vector/MapLibreLayer";
-import getLayersByNames from "../../tools/layerFactory";
-import { kassenzeichen } from "../_data/Editing.Storybook.data";
-import FeatureCollectionDisplay from "../../FeatureCollectionDisplay";
-import { getGazData } from "../complex/StoriesConf";
-import TopicMapContextProvider from "../../contexts/TopicMapContextProvider";
-import TopicMapComponent from "../../topicmaps/TopicMapComponent";
-import FeatureCollection from "../../FeatureCollection";
-import StyledWMSTileLayer from "../../StyledWMSTileLayer";
-import { localOSMBright, localKlokantechBasic } from "./StoriesConf";
-import * as fflate from "fflate";
 import Dexie from "dexie";
-import FileType from "file-type";
-import SettingsPanelWithPreviewSection from "../../topicmaps/menu/SettingsPanelWithPreviewSection";
+import * as fflate from "fflate";
+import React, { useEffect, useRef, useState } from "react";
+import { Map } from "react-leaflet";
+import { MappingConstants } from "../..";
+import TopicMapContextProvider from "../../contexts/TopicMapContextProvider";
+import FeatureCollectionDisplay from "../../FeatureCollectionDisplay";
+import RoutedMap from "../../RoutedMap";
+import StyledWMSTileLayer from "../../StyledWMSTileLayer";
+import TopicMapComponent from "../../topicmaps/TopicMapComponent";
+import MapLibreLayer from "../../vector/MapLibreLayer";
+import { getGazData } from "../complex/StoriesConf";
+import { kassenzeichen } from "../_data/Editing.Storybook.data";
+
 const DBVERSION = 1;
 const DBNAME = "carma";
 const BAGNAME = "vectorTilesCache";
