@@ -37,8 +37,8 @@ const TopicMapComponent = (props) => {
     pendingLoader = 0,
     noInitialLoadingText = false,
     initialLoadingText = "Laden der Daten ...",
-    minZoom = 5,
-    maxZoom = 19,
+    minZoom = 8,
+    maxZoom = 22,
     mapStyle,
     homeCenter,
     homeZoom,
@@ -181,7 +181,11 @@ const TopicMapComponent = (props) => {
   } else if (home?.zoom) {
     _homeZoom = home.zoom;
   } else {
-    _homeZoom = 8;
+    if (referenceSystem === MappingConstants.crs25832) {
+      _homeZoom = 11;
+    } else {
+      _homeZoom = 14;
+    }
   }
 
   const _modalMenu = modalMenu || <DefaultAppMenu />;
@@ -205,9 +209,9 @@ const TopicMapComponent = (props) => {
               "." +
               JSON.stringify(activeAdditionalLayerKeys)
             }
-            referenceSystem={referenceSystem || MappingConstants.crs25832}
+            referenceSystem={referenceSystem || MappingConstants.crs3857}
             referenceSystemDefinition={
-              referenceSystemDefinition || MappingConstants.proj4crs25832def
+              referenceSystemDefinition || MappingConstants.proj4crs3857def
             }
             ref={leafletRoutedMapRef}
             baseLayerConf={baseLayerConf}

@@ -131,6 +131,12 @@ const TopicMapContextProvider = ({
           dispatch,
           ...convenienceFunctions,
           zoomToFeature: (feature) => {
+            let zoomlevel;
+            if (referenceSystem === MappingConstants.crs25832) {
+              zoomlevel = 15;
+            } else {
+              zoomlevel = 18;
+            }
             let refDef;
             if (feature.crs) {
               const code = feature?.crs?.properties?.name?.split("EPSG::")[1];
@@ -142,11 +148,12 @@ const TopicMapContextProvider = ({
             if (state.routedMapRef !== undefined) {
               const type = getType(feature);
               if (type === "Point") {
-                const pos = proj4(referenceSystemDefinition, proj4.defs("EPSG:4326"), [
+                const pos = proj4(refDef, proj4.defs("EPSG:4326"), [
                   feature.geometry.coordinates[0],
                   feature.geometry.coordinates[1],
                 ]);
-                state.routedMapRef.leafletMap.leafletElement.setView([pos[1], pos[0]], 15);
+
+                state.routedMapRef.leafletMap.leafletElement.setView([pos[1], pos[0]], zoomlevel);
               } else {
                 state.routedMapRef.leafletMap.leafletElement.fitBounds(
                   convertBBox2Bounds(envelope(feature).bbox, refDef)

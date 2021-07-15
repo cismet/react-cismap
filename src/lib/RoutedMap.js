@@ -367,10 +367,22 @@ export class RoutedMap extends React.Component {
     ];
 
     let zoomByUrl;
-    if (this.props.zoomSnap === 1) {
-      zoomByUrl = parseInt(this.props.urlSearchParams.get("zoom"), 10) || this.props.fallbackZoom;
+    let fallbackZoomFallback;
+    if (this.props.referenceSystem === MappingConstants.crs25832) {
+      fallbackZoomFallback = 14;
     } else {
-      zoomByUrl = parseFloat(this.props.urlSearchParams.get("zoom")) || this.props.fallbackZoom;
+      fallbackZoomFallback = 17;
+    }
+    if (this.props.zoomSnap === 1) {
+      zoomByUrl =
+        parseInt(this.props.urlSearchParams.get("zoom"), 10) ||
+        this.props.fallbackZoom ||
+        fallbackZoomFallback;
+    } else {
+      zoomByUrl =
+        parseFloat(this.props.urlSearchParams.get("zoom")) ||
+        this.props.fallbackZoom ||
+        fallbackZoomFallback;
     }
 
     let fullscreenControl = <div />;
@@ -540,12 +552,11 @@ RoutedMap.defaultProps = {
     lat: 51.272399,
     lng: 7.199712,
   },
-  fallbackZoom: 14,
-  referenceSystem: MappingConstants.crs25832,
-  referenceSystemDefinition: MappingConstants.proj4crs25832def,
+  referenceSystem: MappingConstants.crs3857,
+  referenceSystemDefinition: MappingConstants.proj4crs3857def,
   backgroundlayers: "default",
-  minZoom: 7,
-  maxZoom: 18,
+  minZoom: 8,
+  maxZoom: 22,
   zoomSnap: 1,
   zoomDelta: 1,
   editable: false,
