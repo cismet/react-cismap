@@ -216,7 +216,7 @@ const FeatureCollectionContextProvider = ({
         const points = [];
         const others = [];
 
-        for (const item of state.filteredItems) {
+        for (const item of state.filteredItems || []) {
           const f = await convertItemToFeature(item);
           f.selected = false;
           f.id = id++;
