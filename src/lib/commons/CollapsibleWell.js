@@ -91,8 +91,6 @@ const COMP = ({
   // 	/>
   // );
   if (fixedRow) {
-    console.log("xxx alwaysVisibleDiv fixedRow", alwaysVisibleDiv);
-
     return (
       <Well onClick={onClick} key={keyToUse} bsSize={bsSize} style={style}>
         <table width="100%" border={debugBorder} style={tableStyle}>
@@ -126,8 +124,6 @@ const COMP = ({
       </Well>
     );
   } else {
-    console.log("xxx alwaysVisibleDiv else", alwaysVisibleDiv);
-
     return (
       <Well onClick={onClick} key={keyToUse} bsSize={bsSize} style={style}>
         <table width="100%" border={debugBorder}>
