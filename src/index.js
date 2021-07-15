@@ -9,6 +9,7 @@ import * as TopicMapsExamples from "./lib/_stories/complex/TopicMap.stories";
 import * as GenericTopicMapsExamples from "./lib/_stories/complex/GenericTopicMap.stories";
 import * as MapLibreExamples from "./lib/_stories/vector/SimpleMapLibreLayer";
 import * as AnimationExamples from "./lib/_stories/vectorfieldanimation/SimpleVFAExample";
+import * as InfoBoxExamples from "./lib/topicmaps/_stories/InfoBox.stories";
 
 const TestContext = React.createContext();
 
@@ -62,7 +63,7 @@ ReactDOM.render(
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
     {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
-    <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers />
+    {/* <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers /> */}
     {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox /> */}
     {/* <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Wasserstofftankstelle /> */}
     {/* <TopicMapsExamples.TopicMapWithWithStaticFilter /> */}
@@ -77,6 +78,7 @@ ReactDOM.render(
     {/* <AnimationExamples.SimpleHaltern /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerWithAttribution /> */}
     {/* <TopicMapsExamples.TopicMapWithLineFeatureCollection /> */}
+    <InfoBoxExamples.SimpleTopicMapWithDefaultInfoBox />
   </div>,
   document.getElementById("root")
 );
