@@ -14,6 +14,7 @@ import CustomizableComp from "./docBlocks/CustomizableComp";
 export const DOCBLOCKSTYLES = {
   TEXT: "TEXT",
   HTML: "HTML",
+  REACTCOMP: "REACTCOMP",
   MARKDOWN: "MARKDOWN",
   FAQS: "FAQS",
   DOCBLOCK: "DOCBLOCK",
@@ -118,8 +119,12 @@ const getBlock4Config = (block, key) => {
         const x = parse(block.content, options);
         return x;
       }
+    case DOCBLOCKSTYLES.REACTCOMP:
+      //params: content
+      return block.content;
+
     case DOCBLOCKSTYLES.CUSTOMIZABLECOMP:
-      //params: docBlockConfigs, style, innerStyle
+      //params: customizationKey, customizationComponent
       return (
         <CustomizableComp
           customizationComponent={block.customizationComponent}
