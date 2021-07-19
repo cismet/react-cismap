@@ -94,7 +94,6 @@ class ProjGeoJson extends Path {
           direction: "right",
         });
         layer.on("mouseover", function (e) {
-          console.log("e", e);
           layer.openTooltip(e.latlng);
         });
         layer.on("mouseout", function () {
