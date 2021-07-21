@@ -127,6 +127,7 @@ const getBlock4Config = (block, key) => {
       //params: customizationKey, customizationComponent
       return (
         <CustomizableComp
+          key={block.customizationKey}
           customizationComponent={block.customizationComponent}
           customizationKey={block.customizationKey}
         />
