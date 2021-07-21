@@ -28,14 +28,14 @@ export default () => {
       <p>
         Wenn Sie noch kein Fachobjekt im aktuellen Kartenausschnitt selektiert haben, wird der Fokus
         automatisch auf das nördlichste Objekt gesetzt. Mit den Funktionen{" "}
-        <a class="renderAsLink">&lt;&lt;</a> vorheriger Treffer und{" "}
-        <a class="renderAsLink">&gt;&gt;</a> nächster Treffer können Sie ausgehend von dem Objekt,
-        auf dem gerade der Fokus liegt, in nördlicher bzw. südlicher Richtung alle aktuell im
-        Kartenfenster angezeigten Objekte durchmustern. Sofern die Kartenanwendung nur ein einziges
-        Fachobjekt umfasst, bleibt der Fokus auf diesem Objekt, auch wenn sich dieses nicht im
-        aktuell eingestellten Kartenausschnitt befindet. Die Funktionen{" "}
-        <a class="renderAsLink">&lt;&lt;</a> vorheriger Treffer und{" "}
-        <a class="renderAsLink">&gt;&gt;</a> nächster Treffer werden Ihnen in diesem Fall nicht
+        <a className="renderAsLink">&lt;&lt;</a> vorheriger Treffer und{" "}
+        <a className="renderAsLink">&gt;&gt;</a> nächster Treffer können Sie ausgehend von dem
+        Objekt, auf dem gerade der Fokus liegt, in nördlicher bzw. südlicher Richtung alle aktuell
+        im Kartenfenster angezeigten Objekte durchmustern. Sofern die Kartenanwendung nur ein
+        einziges Fachobjekt umfasst, bleibt der Fokus auf diesem Objekt, auch wenn sich dieses nicht
+        im aktuell eingestellten Kartenausschnitt befindet. Die Funktionen{" "}
+        <a className="renderAsLink">&lt;&lt;</a> vorheriger Treffer und{" "}
+        <a className="renderAsLink">&gt;&gt;</a> nächster Treffer werden Ihnen in diesem Fall nicht
         angeboten. Mit der Funktion <Icon name="search" /> in der Info-Box können Sie jederzeit
         wieder zu diesem Fachobjekt zurückkehren.
       </p>
