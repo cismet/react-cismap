@@ -2,7 +2,10 @@ import React, { useContext, useEffect } from "react";
 import InfoBox from "./InfoBox";
 import { getActionLinksForFeature } from "../tools/uiHelper";
 import Icon from "../commons/Icon";
-import { FeatureCollectionContext } from "../contexts/FeatureCollectionContextProvider";
+import {
+  FeatureCollectionContext,
+  FeatureCollectionDispatchContext,
+} from "../contexts/FeatureCollectionContextProvider";
 import { TopicMapDispatchContext } from "../contexts/TopicMapContextProvider";
 import { ResponsiveTopicMapDispatchContext } from "../contexts/ResponsiveTopicMapContextProvider";
 import { LightBoxContext, LightBoxDispatchContext } from "../contexts/LightBoxContextProvider";
@@ -39,6 +42,7 @@ const Component = (props) => {
     allFeatures = 0,
     filteredItems = [],
   } = featureCollectionContext;
+  const { fitBoundsForCollection } = useContext(FeatureCollectionDispatchContext);
   const { setSecondaryInfoVisible: setSecondaryInfoVisibleFromContext } = useContext(
     UIDispatchContext
   );
@@ -117,7 +121,12 @@ const Component = (props) => {
             config.noCurrentFeatureContent !== "" && <p>{config.noCurrentFeatureContent}</p>}
 
           <div align="center">
-            <a className="pleaseRenderLikeALinkEvenWithoutAnHrefAttribute" onClick={gotoHome}>
+            <a
+              className="pleaseRenderLikeALinkEvenWithoutAnHrefAttribute"
+              onClick={() => {
+                fitBoundsForCollection();
+              }}
+            >
               {filteredItems.length}{" "}
               {filteredItems.length === 1
                 ? config.navigator.noun.singular
@@ -129,7 +138,6 @@ const Component = (props) => {
       }
       hideNavigator={allFeatures?.length === 1}
       fixedRow={true}
-      fitAll={gotoHome}
       secondaryInfoBoxElements={
         secondaryInfoBoxElements || [
           <InfoBoxFotoPreview
