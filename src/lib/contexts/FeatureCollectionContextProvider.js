@@ -2,7 +2,7 @@ import { useImmer } from "use-immer";
 import React, { useState, useEffect, useContext } from "react";
 import { fetchJSON, md5FetchJSON } from "../tools/fetching";
 import KDBush from "kdbush";
-import { TopicMapContext } from "./TopicMapContextProvider";
+import { TopicMapContext, TopicMapDispatchContext } from "./TopicMapContextProvider";
 import { getSymbolSVGGetter } from "../tools/uiHelper";
 import bboxPolygon from "@turf/bbox-polygon";
 import booleanIntersects from "@turf/boolean-intersects";
@@ -11,7 +11,8 @@ import { setFromLocalforage } from "./_helper";
 import proj4 from "proj4";
 import { projectionData } from "../constants/gis";
 import { findInFlatbush, createFlatbushIndex } from "../tools/gisHelper";
-
+import envelope from "@turf/envelope";
+import { featureCollection } from "@turf/helpers";
 const defaultState = {
   items: undefined,
   metaInformation: undefined,
@@ -103,6 +104,7 @@ const FeatureCollectionContextProvider = ({
   // console.log(" featureCollectionState", state);
 
   const { boundingBox, mapEPSGCode } = useContext(TopicMapContext);
+  const { fitBBox } = useContext(TopicMapDispatchContext);
   const contextKey = "featureCollection";
   const set = (prop, noTest) => {
     return (x) => {
@@ -182,6 +184,23 @@ const FeatureCollectionContextProvider = ({
       }
     });
   };
+
+  const fitBoundsForCollection = (featuresToZoomTo) => {
+    dispatch((state) => {
+      let fc = featuresToZoomTo || state.allFeatures;
+      let refDef;
+      //find out crs
+      if (Array.isArray(fc) && fc.length > 0) {
+        const firstFeature = fc[0];
+        const code = firstFeature?.crs?.properties?.name?.split("EPSG::")[1];
+        refDef = projectionData[code].def;
+      }
+
+      let bbox = envelope(featureCollection(fc)).bbox;
+      fitBBox(bbox, refDef);
+    });
+  };
+
   const next = () => {
     const newIndex = (selectedFeature.index + 1) % shownFeatures.length;
     setSelectedFeatureIndex(newIndex);
@@ -407,6 +426,7 @@ const FeatureCollectionContextProvider = ({
             setSelectedFeatureByPredicate,
             next,
             prev,
+            fitBoundsForCollection,
           }}
         >
           {children}
