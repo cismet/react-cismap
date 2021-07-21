@@ -1022,6 +1022,9 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
 
   return (
     <TopicMapContextProvider
+      referenceSystemDefinition={MappingConstants.proj4crs25832def}
+      mapEPSGCode="25832"
+      referenceSystem={MappingConstants.crs25832}
       featureItemsURL="/data/bpklima.data.json"
       getFeatureStyler={getGTMFeatureStyler}
       convertItemToFeature={convertBPKlimaItemsToFeature}
