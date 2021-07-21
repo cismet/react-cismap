@@ -37,8 +37,8 @@ const TopicMapComponent = (props) => {
     pendingLoader = 0,
     noInitialLoadingText = false,
     initialLoadingText = "Laden der Daten ...",
-    minZoom = 8,
-    maxZoom = 22,
+    minZoom,
+    maxZoom,
     mapStyle,
     homeCenter,
     homeZoom,
@@ -166,7 +166,7 @@ const TopicMapComponent = (props) => {
     width: infoBox.props.pixelwidth,
   };
 
-  let _homeCenter, _homeZoom;
+  let _homeCenter, _homeZoom, _minZoom, _maxZoom;
 
   if (homeCenter) {
     _homeCenter = homeCenter;
@@ -182,9 +182,13 @@ const TopicMapComponent = (props) => {
     _homeZoom = home.zoom;
   } else {
     if (referenceSystem === MappingConstants.crs25832) {
-      _homeZoom = 11;
+      _homeZoom = 9;
+      _minZoom = 5;
+      _maxZoom = 20;
     } else {
-      _homeZoom = 14;
+      _homeZoom = 12;
+      _minZoom = 10;
+      _maxZoom = 22;
     }
   }
 
@@ -215,8 +219,8 @@ const TopicMapComponent = (props) => {
             }
             ref={leafletRoutedMapRef}
             baseLayerConf={baseLayerConf}
-            minZoom={minZoom}
-            maxZoom={maxZoom}
+            minZoom={_minZoom}
+            maxZoom={_maxZoom}
             layers=""
             style={_mapStyle}
             fallbackPosition={{
