@@ -45,6 +45,8 @@ const InfoBox = ({
   colorizer = (props) => ((props || {}).properties || {}).color,
 }) => {
   const featureCollectionContext = useContext(FeatureCollectionContext);
+  const { fitBoundsForCollection } = useContext(FeatureCollectionDispatchContext);
+
   const { shownFeatures = [], selectedFeature, items = [] } = featureCollectionContext;
   const featureCollectionDispatchContext = useContext(FeatureCollectionDispatchContext);
   const { responsiveState, searchBoxPixelWidth, gap, windowSize } = useContext(
@@ -56,6 +58,12 @@ const InfoBox = ({
   const gotoNext = featureCollectionDispatchContext.next;
   // Use this line to enable the collabsible modus even when no object is visible
   // isCollapsible = true;
+  let _fitAll;
+  if (fitAll === undefined) {
+    _fitAll = fitBoundsForCollection;
+  } else {
+    _fitAll = fitAll;
+  }
   let _next, _previous, infoBoxBottomMargin;
   if (handleResponsiveDesign === true) {
     if (responsiveState === "small") {
@@ -195,7 +203,12 @@ const InfoBox = ({
                 <tr>
                   <td />
                   <td style={{ textAlign: "center", verticalAlign: "center" }}>
-                    <a className="renderAsProperLink" onClick={fitAll}>
+                    <a
+                      className="renderAsProperLink"
+                      onClick={() => {
+                        _fitAll();
+                      }}
+                    >
                       {zoomToAllLabel}
                     </a>
                   </td>
