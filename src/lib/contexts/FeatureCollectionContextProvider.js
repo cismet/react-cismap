@@ -198,8 +198,6 @@ const FeatureCollectionContextProvider = ({
         }
 
         let bbox = envelope(featureCollection(fc)).bbox;
-        console.log("bbox", bbox);
-
         fitBBox(bbox, refDef);
       } else {
         // in case no feature is in the allFeatures collection (filtersettings)
