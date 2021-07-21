@@ -124,6 +124,16 @@ const TopicMapContextProvider = ({
     setRoutedMapRef: set("routedMapRef", true),
   };
 
+  const fitBBox = (bbox, refDefOfBBox) => {
+    dispatch((state) => {
+      if (state?.routedMapRef?.leafletMap?.leafletElement?.fitBounds && bbox) {
+        state.routedMapRef.leafletMap.leafletElement.fitBounds(
+          convertBBox2Bounds(bbox, refDefOfBBox || referenceSystemDefinition)
+        );
+      }
+    });
+  };
+
   return (
     <StateContext.Provider value={state}>
       <DispatchContext.Provider
@@ -161,6 +171,7 @@ const TopicMapContextProvider = ({
               }
             }
           },
+          fitBBox,
 
           gotoHome: () => {
             if (state.routedMapRef !== undefined) {
