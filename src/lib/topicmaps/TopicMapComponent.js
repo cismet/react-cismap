@@ -76,6 +76,8 @@ const TopicMapComponent = (props) => {
     photoLightBox = true,
     attributionControl = false,
     gazetteerHitTrigger,
+    gazetteerSearchControl = true,
+    hamburgerMenu = true,
   } = props;
   const { history, referenceSystem, referenceSystemDefinition, maskingPolygon } = useContext(
     TopicMapContext
@@ -267,45 +269,49 @@ const TopicMapComponent = (props) => {
               gazetteerHit={gazetteerHit}
             />
             {featureCollectionDisplay}
-            <GazetteerSearchControl
-              mapRef={leafletRoutedMapRef}
-              gazetteerHit={gazetteerHit}
-              setGazetteerHit={setGazetteerHit}
-              gazeteerHitTrigger={gazetteerHitTrigger}
-              overlayFeature={overlayFeature}
-              setOverlayFeature={setOverlayFeature}
-              gazData={gazData}
-              enabled={gazData.length > 0}
-              pixelwidth={searchControlWidth}
-              placeholder={gazetteerSearchPlaceholder}
-            />
+            {gazetteerSearchControl && (
+              <GazetteerSearchControl
+                mapRef={leafletRoutedMapRef}
+                gazetteerHit={gazetteerHit}
+                setGazetteerHit={setGazetteerHit}
+                gazeteerHitTrigger={gazetteerHitTrigger}
+                overlayFeature={overlayFeature}
+                setOverlayFeature={setOverlayFeature}
+                gazData={gazData}
+                enabled={gazData.length > 0}
+                pixelwidth={searchControlWidth}
+                placeholder={gazetteerSearchPlaceholder}
+              />
+            )}
 
             {infoBox}
 
-            <Control position="topright">
-              <OverlayTrigger
-                placement="left"
-                overlay={
-                  <Tooltip style={{ zIndex: 3000000000 }} id="helpTooltip">
-                    {applicationMenuTooltipString}
-                  </Tooltip>
-                }
-              >
-                <Button
-                  variant="light"
-                  style={{
-                    backgroundImage: "linear-gradient(to bottom,#fff 0,#e0e0e0 100%)",
-                    borderColor: "#CCCCCC",
-                  }}
-                  id="cmdShowModalApplicationMenu"
-                  onClick={() => {
-                    _showModalApplicationMenu();
-                  }}
+            {hamburgerMenu && (
+              <Control position="topright">
+                <OverlayTrigger
+                  placement="left"
+                  overlay={
+                    <Tooltip style={{ zIndex: 3000000000 }} id="helpTooltip">
+                      {applicationMenuTooltipString}
+                    </Tooltip>
+                  }
                 >
-                  <Icon name={applicationMenuIconname} />
-                </Button>
-              </OverlayTrigger>
-            </Control>
+                  <Button
+                    variant="light"
+                    style={{
+                      backgroundImage: "linear-gradient(to bottom,#fff 0,#e0e0e0 100%)",
+                      borderColor: "#CCCCCC",
+                    }}
+                    id="cmdShowModalApplicationMenu"
+                    onClick={() => {
+                      _showModalApplicationMenu();
+                    }}
+                  >
+                    <Icon name={applicationMenuIconname} />
+                  </Button>
+                </OverlayTrigger>
+              </Control>
+            )}
             <div
               key={
                 _backgroundLayers +

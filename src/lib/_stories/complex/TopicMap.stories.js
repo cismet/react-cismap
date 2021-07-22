@@ -1278,3 +1278,24 @@ export const TopicMapWithLineFeatureCollection = () => {
     </TopicMapContextProvider>
   );
 };
+
+export const TopicMapWithDetachedGazetteerSearch = () => {
+  const [gazData, setGazData] = useState([]);
+  useEffect(() => {
+    getGazData(setGazData);
+  }, []);
+
+  return (
+    <TopicMapContextProvider featureItemsURL="/data/parkscheinautomatenfeatures.json">
+      <TopicMapComponent
+        gazData={gazData}
+        gazetteerSearchControl={false}
+        infoBox={<GenericInfoBoxFromFeature pixelwidth={300} />}
+        hamburgerMenu={false}
+        fullScreenControl={false}
+      >
+        <FeatureCollection />
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
