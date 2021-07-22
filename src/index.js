@@ -64,9 +64,9 @@ ReactDOM.render(
     {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
     {/* <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers /> */}
-    {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox /> */}
+    <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox />
     {/* <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Wasserstofftankstelle /> */}
-    <TopicMapsExamples.TopicMapWithWithStaticFilter />
+    {/* <TopicMapsExamples.TopicMapWithWithStaticFilter /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayer /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMap /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMapWithFeatureCollectionInAnotherCRS /> */}
