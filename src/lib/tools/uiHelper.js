@@ -51,39 +51,39 @@ export const getActionLinksForFeature = (
       />
     );
   }
-  if (feature.properties.tel !== undefined) {
+  if (feature?.properties?.tel !== undefined) {
     links.push(
       <IconLink
         key={`IconLink.tel`}
         tooltip="Anrufen"
-        href={"tel:" + feature.properties.tel}
+        href={"tel:" + feature?.properties?.tel}
         iconname="phone"
       />
     );
   }
-  if (feature.properties.email !== undefined) {
+  if (feature?.properties?.email !== undefined) {
     links.push(
       <IconLink
         key={`IconLink.email`}
         tooltip="E-Mail schreiben"
-        href={"mailto:" + feature.properties.email}
+        href={"mailto:" + feature?.properties?.email}
         iconname="envelope-square"
       />
     );
   }
-  if (feature.properties.url !== undefined) {
+  if (feature?.properties?.url !== undefined) {
     links.push(
       <IconLink
         key={`IconLink.web`}
         tooltip="Zur Homepage"
-        href={feature.properties.url}
+        href={feature?.properties?.url}
         target="_blank"
         iconname="external-link-square"
       />
     );
   }
-  if (feature.properties.genericLinks !== undefined) {
-    for (const genericLink of feature.properties.genericLinks) {
+  if (feature?.properties?.genericLinks !== undefined) {
+    for (const genericLink of feature?.properties?.genericLinks) {
       if (genericLink.url) {
         links.push(
           <IconLink
