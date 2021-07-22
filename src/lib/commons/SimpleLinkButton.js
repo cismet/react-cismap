@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
+import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // Since this component is simple and static, there's no parent container for it.
 
 //This is a first idea how to avoid the
@@ -17,23 +17,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //* refactoring the code is not ease
 
 const SimpleLinkButton = (props) => {
-	//	return <a {...props}>{props.children}</a>; //to compare outcome
-	return (
-		<button
-			style={{
-				border: 0,
-				backgroundColor: 'white',
-				padding: 0,
-				wordWrap: 'break-word',
-				textAlign: 'left',
-				outline: 0
-			}}
-			class='btn-link'
-			{...props}
-		>
-			{props.children}
-		</button>
-	);
+  //	return <a {...props}>{props.children}</a>; //to compare outcome
+  return (
+    <button
+      style={{
+        border: 0,
+        backgroundColor: "white",
+        padding: 0,
+        wordWrap: "break-word",
+        textAlign: "left",
+        outline: 0,
+      }}
+      className="btn-link"
+      {...props}
+    >
+      {props.children}
+    </button>
+  );
 };
 
 export default SimpleLinkButton;
