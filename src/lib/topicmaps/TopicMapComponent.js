@@ -140,15 +140,15 @@ const TopicMapComponent = (props) => {
     cursor: "pointer",
     ...mapStyle,
   };
-
-  if (windowSize) {
-    _mapStyle.width = windowSize.width;
-    _mapStyle.height = windowSize.height;
-  } else {
-    _mapStyle.width = window.innerWidth;
-    _mapStyle.height = window.innerHeight;
+  if (_mapStyle.width === undefined && _mapStyle.height === undefined) {
+    if (windowSize) {
+      _mapStyle.width = windowSize.width;
+      _mapStyle.height = windowSize.height;
+    } else {
+      _mapStyle.width = window.innerWidth;
+      _mapStyle.height = window.innerHeight;
+    }
   }
-
   let _showModalApplicationMenu;
   if (showModalApplicationMenu !== undefined) {
     _showModalApplicationMenu = showModalApplicationMenu;

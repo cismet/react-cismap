@@ -1214,6 +1214,9 @@ export const TopicMapWithWithStaticFilter = () => {
       //appKey='CoronaPraeventionskarteWuppertal.TopicMap'
 
       featureItemsURL={host + "/data/poi.data.json"}
+      referenceSystem={MappingConstants.crs25832}
+      mapEPSGCode="25832"
+      referenceSystemDefinition={MappingConstants.proj4crs25832def}
       getFeatureStyler={getGTMFeatureStyler}
       featureTooltipFunction={(feature) => feature?.text}
       convertItemToFeature={convertPOIItemsToFeature}
@@ -1273,27 +1276,6 @@ export const TopicMapWithLineFeatureCollection = () => {
       featureTooltipFunction={(feature) => feature?.text}
     >
       <TopicMapComponent gazData={gazData}>
-        <FeatureCollection />
-      </TopicMapComponent>
-    </TopicMapContextProvider>
-  );
-};
-
-export const TopicMapWithDetachedGazetteerSearch = () => {
-  const [gazData, setGazData] = useState([]);
-  useEffect(() => {
-    getGazData(setGazData);
-  }, []);
-
-  return (
-    <TopicMapContextProvider featureItemsURL="/data/parkscheinautomatenfeatures.json">
-      <TopicMapComponent
-        gazData={gazData}
-        gazetteerSearchControl={false}
-        infoBox={<GenericInfoBoxFromFeature pixelwidth={300} />}
-        hamburgerMenu={false}
-        fullScreenControl={false}
-      >
         <FeatureCollection />
       </TopicMapComponent>
     </TopicMapContextProvider>

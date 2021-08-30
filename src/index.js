@@ -10,6 +10,7 @@ import * as GenericTopicMapsExamples from "./lib/_stories/complex/GenericTopicMa
 import * as MapLibreExamples from "./lib/_stories/vector/SimpleMapLibreLayer";
 import * as AnimationExamples from "./lib/_stories/vectorfieldanimation/SimpleVFAExample";
 import * as InfoBoxExamples from "./lib/topicmaps/_stories/InfoBox.stories";
+import * as GazetteerSearchBoxExamples from "./lib/_stories/mainComponents/GazetteerSearchControl.stories";
 
 const TestContext = React.createContext();
 
@@ -72,14 +73,12 @@ ReactDOM.render(
     {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMapWithFeatureCollectionInAnotherCRS /> */}
     {/* <MapLibreExamples.SimpleTopicMapWithMapLibreLayer /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerWithLocalStyle /> */}
-
     {/* <AnimationExamples.SimpleWuppertal25832 /> */}
     {/* <AnimationExamples.SimpleWuppertal3857 /> */}
     {/* <AnimationExamples.SimpleHaltern /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerWithAttribution /> */}
     {/* <TopicMapsExamples.TopicMapWithLineFeatureCollection /> */}
-    <TopicMapsExamples.TopicMapWithDetachedGazetteerSearch />
-    {/* <InfoBoxExamples.SimpleTopicMapWithDefaultInfoBox /> */}
+    <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBox />
   </div>,
   document.getElementById("root")
 );
