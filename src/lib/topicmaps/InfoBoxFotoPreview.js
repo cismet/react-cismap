@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { triggerLightBoxForFeature } from "../tools/lightboxHelpers";
 
 /* eslint-disable jsx-a11y/anchor-is-valid */

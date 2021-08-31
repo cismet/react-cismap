@@ -27,38 +27,12 @@ import { defaultClusteringOptions, getDefaultFeatureStyler } from "../../Feature
 import PreviewMap from "./PreviewMap";
 
 const SettingsPanel = (props) => {
-  const { setAppMenuActiveMenuSection, setAppMenuVisible } = useContext(UIDispatchContext);
-  const { activeMenuSection } = useContext(UIContext);
-  const { routedMapRef, history, referenceSystem } = useContext(TopicMapContext);
-  const { setMarkerSymbolSize } = useContext(TopicMapStylingDispatchContext);
-  const { markerSymbolSize, additionalLayerConfiguration, activeAdditionalLayerKeys } = useContext(
-    TopicMapStylingContext
-  );
-  const {
-    allFeatures,
-    getFeatureStyler,
-    getColorFromProperties,
-    clusteringEnabled,
-    clusteringOptions,
-    getSymbolSVG: getSymbolSVGFromContext,
-    itemFilterFunction,
-    filterFunction,
-  } = useContext(FeatureCollectionContext);
-  const { setClusteringEnabled } = useContext(FeatureCollectionDispatchContext);
-  const { windowSize } = useContext(ResponsiveTopicMapContext);
-
-  const {
-    backgroundModes: backgroundModesFromContext,
-    selectedBackground,
-    backgroundConfigurations,
-  } = useContext(TopicMapStylingContext);
-
   const {
     namedMapStyle,
     urlPathname,
     urlSearch,
     pushNewRoute,
-    width = windowSize?.width,
+    width,
     setLayerByKey,
     activeLayerKey,
     backgroundModes,
@@ -76,8 +50,38 @@ const SettingsPanel = (props) => {
     skipClusteringSettings = false,
     skipBackgroundSettings = false,
     skipSymbolsizeSetting = false,
+    defaultContextValues = {},
   } = props;
+  const { setAppMenuActiveMenuSection, setAppMenuVisible } =
+    useContext(UIDispatchContext) || defaultContextValues;
+  const { activeMenuSection } = useContext(UIContext) || defaultContextValues;
+  const { routedMapRef, history, referenceSystem } =
+    useContext(TopicMapContext) || defaultContextValues;
+  const { setMarkerSymbolSize } =
+    useContext(TopicMapStylingDispatchContext) || defaultContextValues;
+  const { markerSymbolSize, additionalLayerConfiguration, activeAdditionalLayerKeys } =
+    useContext(TopicMapStylingContext) || defaultContextValues;
+  const {
+    allFeatures,
+    getFeatureStyler,
+    getColorFromProperties,
+    clusteringEnabled,
+    clusteringOptions,
+    getSymbolSVG: getSymbolSVGFromContext,
+    itemFilterFunction,
+    filterFunction,
+  } = useContext(FeatureCollectionContext) || defaultContextValues;
+  const { setClusteringEnabled } =
+    useContext(FeatureCollectionDispatchContext) || defaultContextValues;
+  const { windowSize } = useContext(ResponsiveTopicMapContext) || defaultContextValues;
 
+  const {
+    backgroundModes: backgroundModesFromContext,
+    selectedBackground,
+    backgroundConfigurations,
+  } = useContext(TopicMapStylingContext);
+
+  const _width = width || windowSize?.width;
   const _changeMarkerSymbolSize = changeMarkerSymbolSize || setMarkerSymbolSize;
   const _markerSymbolSize = currentMarkerSize || markerSymbolSize;
   let namedMapStyleFromUrl = new URLSearchParams(window.location.href).get("mapStyle") || "default";
@@ -375,7 +379,7 @@ const SettingsPanel = (props) => {
       sectionBsStyle="success"
       sectionContent={
         <SettingsPanelWithPreviewSection
-          width={width}
+          width={_width}
           preview={preview}
           settingsSections={settingsSections}
         />

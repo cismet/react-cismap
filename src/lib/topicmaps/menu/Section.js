@@ -13,11 +13,12 @@ const GenericModalMenuSection = ({
   //new
   activeSectionKey,
   setActiveSectionKey,
+  defaultContextValues = {},
 }) => {
   let _activeSectionKey, _setActiveSectionKey;
 
-  const { appMenuActiveMenuSection } = useContext(UIContext);
-  const { setAppMenuActiveMenuSection } = useContext(UIDispatchContext);
+  const { appMenuActiveMenuSection } = useContext(UIContext) || defaultContextValues;
+  const { setAppMenuActiveMenuSection } = useContext(UIDispatchContext) || defaultContextValues;
   if (activeSectionKey === undefined) {
     _activeSectionKey = appMenuActiveMenuSection;
   } else {

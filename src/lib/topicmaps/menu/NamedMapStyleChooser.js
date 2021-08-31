@@ -20,17 +20,17 @@ const NamedMapStyleChooser = ({
   modes,
   vertical = false,
   children,
+  defaultContextValues = {},
 }) => {
-  const { history } = useContext(TopicMapContext);
+  const { history } = useContext(TopicMapContext) || defaultContextValues;
   const {
     backgroundModes,
     selectedBackground,
     additionalLayerConfiguration,
     activeAdditionalLayerKeys,
-  } = useContext(TopicMapStylingContext);
-  const { setSelectedBackground, setNamedMapStyle, setActiveAdditionalLayerKeys } = useContext(
-    TopicMapStylingDispatchContext
-  );
+  } = useContext(TopicMapStylingContext) || defaultContextValues;
+  const { setSelectedBackground, setNamedMapStyle, setActiveAdditionalLayerKeys } =
+    useContext(TopicMapStylingDispatchContext) || defaultContextValues;
   let beforelayerradios = false;
   //keep false when its undefined
   if (

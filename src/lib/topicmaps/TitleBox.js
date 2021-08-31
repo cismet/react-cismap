@@ -5,11 +5,11 @@ import { ResponsiveTopicMapContext } from "../contexts/ResponsiveTopicMapContext
 import { FeatureCollectionContext } from "../contexts/FeatureCollectionContextProvider";
 import { TopicMapStylingContext } from "../contexts/TopicMapStylingContextProvider";
 
-const Box = () => {
-  const { history, titleFactory } = useContext(TopicMapContext);
-  const responsiveTopicMapContext = useContext(ResponsiveTopicMapContext);
-  const featureCollectionContext = useContext(FeatureCollectionContext);
-  const topicMapStylingContext = useContext(TopicMapStylingContext);
+const Box = ({ defaultContextValues = {} }) => {
+  const { history, titleFactory } = useContext(TopicMapContext) || defaultContextValues;
+  const responsiveTopicMapContext = useContext(ResponsiveTopicMapContext) || defaultContextValues;
+  const featureCollectionContext = useContext(FeatureCollectionContext) || defaultContextValues;
+  const topicMapStylingContext = useContext(TopicMapStylingContext) || defaultContextValues;
 
   const width = responsiveTopicMapContext.windowSize?.width || 0;
   let title = null;

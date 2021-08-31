@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import IconLink from "../commons/IconLink";
 import slugify from "slugify";
 import { Link } from "react-scroll";

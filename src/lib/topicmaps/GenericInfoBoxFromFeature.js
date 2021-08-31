@@ -31,21 +31,28 @@ const defaultConfig = {
 };
 
 const Component = (props) => {
-  let { config, pixelwidth = 300, setSecondaryInfoVisible, secondaryInfoBoxElements } = props;
-  const featureCollectionContext = useContext(FeatureCollectionContext);
-  const { zoomToFeature, gotoHome } = useContext(TopicMapDispatchContext);
-  const lightBoxDispatchContext = useContext(LightBoxDispatchContext);
-  const { setInfoBoxPixelWidth } = useContext(ResponsiveTopicMapDispatchContext);
+  let {
+    config,
+    pixelwidth = 300,
+    setSecondaryInfoVisible,
+    secondaryInfoBoxElements,
+    defaultContextValues = {},
+  } = props;
+  const featureCollectionContext = useContext(FeatureCollectionContext) || defaultContextValues;
+  const { zoomToFeature, gotoHome } = useContext(TopicMapDispatchContext) || defaultContextValues;
+  const lightBoxDispatchContext = useContext(LightBoxDispatchContext) || defaultContextValues;
+  const { setInfoBoxPixelWidth } =
+    useContext(ResponsiveTopicMapDispatchContext) || defaultContextValues;
   const {
     shownFeatures = [],
     selectedFeature,
     allFeatures = 0,
     filteredItems = [],
   } = featureCollectionContext;
-  const { fitBoundsForCollection } = useContext(FeatureCollectionDispatchContext);
-  const { setSecondaryInfoVisible: setSecondaryInfoVisibleFromContext } = useContext(
-    UIDispatchContext
-  );
+  const { fitBoundsForCollection } =
+    useContext(FeatureCollectionDispatchContext) || defaultContextValues;
+  const { setSecondaryInfoVisible: setSecondaryInfoVisibleFromContext } =
+    useContext(UIDispatchContext) || defaultContextValues;
 
   const _setSecondaryInfoVisible = setSecondaryInfoVisible || setSecondaryInfoVisibleFromContext;
   config = { ...defaultConfig, ...config };

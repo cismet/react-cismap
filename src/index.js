@@ -78,7 +78,8 @@ ReactDOM.render(
     {/* <AnimationExamples.SimpleHaltern /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerWithAttribution /> */}
     {/* <TopicMapsExamples.TopicMapWithLineFeatureCollection /> */}
-    <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBox />
+    {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBox /> */}
+    <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBoxAndNoTopicMapContextProvider />
   </div>,
   document.getElementById("root")
 );

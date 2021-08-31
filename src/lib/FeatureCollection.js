@@ -65,9 +65,10 @@ const FeatureCollection = (props) => {
     featureKeySuffixGenerator = () => {},
     featureCollectionKeyPostfix,
     handleSelectionInternaly = true,
+    defaultContextValues = {},
   } = props;
-  const { routedMapRef, boundingBox } = useContext(TopicMapContext);
-  const { markerSymbolSize } = useContext(TopicMapStylingContext);
+  const { routedMapRef, boundingBox } = useContext(TopicMapContext) || defaultContextValues;
+  const { markerSymbolSize } = useContext(TopicMapStylingContext) || defaultContextValues;
   const {
     shownFeatures,
     clusteringOptions: clusteringOptionsFromContext,
@@ -75,9 +76,10 @@ const FeatureCollection = (props) => {
     getFeatureStyler,
     getColorFromProperties,
     featureTooltipFunction,
-  } = useContext(FeatureCollectionContext);
+  } = useContext(FeatureCollectionContext) || defaultContextValues;
 
-  const { setSelectedFeatureIndex } = useContext(FeatureCollectionDispatchContext);
+  const { setSelectedFeatureIndex } =
+    useContext(FeatureCollectionDispatchContext) || defaultContextValues;
 
   const _mapRef = mapRef || routedMapRef;
 

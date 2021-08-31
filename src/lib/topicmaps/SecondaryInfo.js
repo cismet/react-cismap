@@ -25,10 +25,11 @@ const Comp = ({
       </span>
     </div>
   ),
+  defaultContextValues = {},
 }) => {
-  const { secondaryInfoVisible } = useContext(UIContext);
-  const { setSecondaryInfoVisible } = useContext(UIDispatchContext);
-  const { windowSize } = useContext(ResponsiveTopicMapContext);
+  const { secondaryInfoVisible } = useContext(UIContext) || defaultContextValues;
+  const { setSecondaryInfoVisible } = useContext(UIDispatchContext) || defaultContextValues;
+  const { windowSize } = useContext(ResponsiveTopicMapContext) || defaultContextValues;
   let _visible, _setVisibleState;
 
   if (visible === undefined) {

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import GenericModalApplicationMenu from "./ModalApplicationMenu";
 import GenericMenuIntroduction from "./Introduction";
 import DefaultSettingsPanel from "./DefaultSettingsPanel";

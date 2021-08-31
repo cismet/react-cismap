@@ -27,13 +27,15 @@ const InfoBox = ({
   collapsibleDiv,
   collapsibleStyle,
   fixedRow,
+  defaultContextValues = {},
 }) => {
-  const featureCollectionContext = useContext(FeatureCollectionContext);
-  const { responsiveState, searchBoxPixelWidth, gap, windowSize } = useContext(
-    ResponsiveTopicMapContext
-  );
-  const { collapsedInfoBox: collapsedInfoBoxFromContext } = useContext(UIContext);
-  const { setCollapsedInfoBox: setCollapsedInfoBoxFromContext } = useContext(UIDispatchContext);
+  const featureCollectionContext = useContext(FeatureCollectionContext) || defaultContextValues;
+  const { responsiveState, searchBoxPixelWidth, gap, windowSize } =
+    useContext(ResponsiveTopicMapContext) || defaultContextValues;
+  const { collapsedInfoBox: collapsedInfoBoxFromContext } =
+    useContext(UIContext) || defaultContextValues;
+  const { setCollapsedInfoBox: setCollapsedInfoBoxFromContext } =
+    useContext(UIDispatchContext) || defaultContextValues;
 
   let infoBoxBottomMargin;
   if (handleResponsiveDesign === true) {

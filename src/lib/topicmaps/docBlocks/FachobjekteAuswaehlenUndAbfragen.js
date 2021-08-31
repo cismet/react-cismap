@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import Icon from "../../commons/Icon";
 import { CustomizationContext } from "../../contexts/CustomizationContextProvider";
 
-export default () => {
-  const customizations = useContext(CustomizationContext);
+export default ({ defaultContextValues = {} }) => {
+  const customizations = useContext(CustomizationContext) || defaultContextValues;
   let furtherExplanationOfClickableContent =
     customizations?.fachobjekteAuswaehlen?.furtherExplanationOfClickableContent || "";
   return (

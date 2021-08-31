@@ -26,8 +26,10 @@ const FeatureCollectionDisplay = ({
   clusteringEnabled,
   editable = false,
   inbackground = false,
+  defaultContextValues = {},
 }) => {
-  const { boundingBox: boundingBoxFromContext } = useContext(TopicMapContext);
+  const { boundingBox: boundingBoxFromContext } =
+    useContext(TopicMapContext) || defaultContextValues;
   let markers = [];
   let markerPos = [];
   let _boundingBox = boundingBox || boundingBoxFromContext;

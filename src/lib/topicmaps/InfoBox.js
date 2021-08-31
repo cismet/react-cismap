@@ -43,17 +43,21 @@ const InfoBox = ({
   secondaryInfoBoxElements = [],
 
   colorizer = (props) => ((props || {}).properties || {}).color,
+  defaultContextValues = {},
 }) => {
-  const featureCollectionContext = useContext(FeatureCollectionContext);
-  const { fitBoundsForCollection } = useContext(FeatureCollectionDispatchContext);
-
-  const { shownFeatures = [], selectedFeature, items = [] } = featureCollectionContext;
-  const featureCollectionDispatchContext = useContext(FeatureCollectionDispatchContext);
-  const { responsiveState, searchBoxPixelWidth, gap, windowSize } = useContext(
-    ResponsiveTopicMapContext
-  );
-  const { collapsedInfoBox: collapsedInfoBoxFromContext } = useContext(UIContext);
-  const { setCollapsedInfoBox: setCollapsedInfoBoxFromContext } = useContext(UIDispatchContext);
+  const featureCollectionContext = useContext(FeatureCollectionContext) || defaultContextValues;
+  const { fitBoundsForCollection } =
+    useContext(FeatureCollectionDispatchContext) || defaultContextValues;
+  const { shownFeatures = [], selectedFeature, items = [] } =
+    featureCollectionContext || defaultContextValues;
+  const featureCollectionDispatchContext =
+    useContext(FeatureCollectionDispatchContext) || defaultContextValues;
+  const { responsiveState, searchBoxPixelWidth, gap, windowSize } =
+    useContext(ResponsiveTopicMapContext) || defaultContextValues;
+  const { collapsedInfoBox: collapsedInfoBoxFromContext } =
+    useContext(UIContext) || defaultContextValues;
+  const { setCollapsedInfoBox: setCollapsedInfoBoxFromContext } =
+    useContext(UIDispatchContext) || defaultContextValues;
   const gotoPrevious = featureCollectionDispatchContext.prev;
   const gotoNext = featureCollectionDispatchContext.next;
   // Use this line to enable the collabsible modus even when no object is visible

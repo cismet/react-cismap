@@ -2,9 +2,10 @@ import React, { useContext } from "react";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css"; // This only needs to be imported once in your app
 import { LightBoxContext, LightBoxDispatchContext } from "../contexts/LightBoxContextProvider";
-const Comp = () => {
-  const { title, photourls, caption, index, visible } = useContext(LightBoxContext);
-  const { setVisible, setIndex } = useContext(LightBoxDispatchContext);
+const Comp = ({ defaultContextValues = {} }) => {
+  const { title, photourls, caption, index, visible } =
+    useContext(LightBoxContext) || defaultContextValues;
+  const { setVisible, setIndex } = useContext(LightBoxDispatchContext) || defaultContextValues;
   if (visible) {
     let nextSrc = photourls[(index + 1) % photourls.length];
     let prevSrc = photourls[(index + photourls.length - 1) % photourls.length];

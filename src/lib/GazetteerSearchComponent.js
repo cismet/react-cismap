@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useContext } from "react";
+import React, { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import L from "leaflet";
 import Icon from "./commons/Icon";
