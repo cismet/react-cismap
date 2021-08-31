@@ -1,7 +1,7 @@
-import 'react-bootstrap-typeahead/css/Typeahead.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'leaflet/dist/leaflet.css';
-import './index.css';
+import "react-bootstrap-typeahead/css/Typeahead.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "leaflet/dist/leaflet.css";
+import "./index.css";
 // import { withInfo } from '@storybook/addon-info';
 
 // addDecorator(
@@ -11,18 +11,18 @@ import './index.css';
 // );
 
 export const parameters = {
-	// controls: { expanded: true },
-	controls: { hideNoControlsWarning: true },
-	actions: { argTypesRegex: '^on[A-Z].*' },
-	options: {
-		storySort: {
-			order: [
-				'Mapping Components',
-				'TopicMap Components',
-				'Common Components',
-				'Storybook Testing',
-				'Deprecated'
-			]
-		}
-	}
+  // controls: { expanded: true },
+  controls: { hideNoControlsWarning: true },
+  actions: { argTypesRegex: "^on[A-Z].*" },
+  options: {
+    storySort: {
+      order: [
+        "Mapping Components",
+        "TopicMap Components",
+        "Common Components",
+        "Storybook Testing",
+        "Deprecated",
+      ],
+    },
+  },
 };
