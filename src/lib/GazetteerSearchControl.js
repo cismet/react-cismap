@@ -29,6 +29,7 @@ const COMP = ({
   gazClearTooltipProvider,
   renderMenuItemChildren,
   pixelwidth = 300,
+  autofocus,
 }) => {
   const { responsiveState, searchBoxPixelWidth, gap, windowSize } = useContext(
     ResponsiveTopicMapContext
@@ -78,6 +79,7 @@ const COMP = ({
           pixelwidth: _pixelwidth,
           referenceSystem,
           referenceSystemDefinition,
+          autofocus,
         }}
       />
     </Control>

@@ -78,6 +78,7 @@ const COMP = ({
   },
   referenceSystem,
   referenceSystemDefinition,
+  autoFocus = true,
 }) => {
   const _gazetteerHitTrigger = gazetteerHitTrigger || gazeteerHitTrigger;
 
@@ -177,7 +178,7 @@ const COMP = ({
             align={"justify"}
             emptyLabel={"Keine Treffer gefunden"}
             paginationText={"Mehr Treffer anzeigen"}
-            autoFocus={true}
+            autoFocus={autoFocus}
             submitFormOnEnter={true}
             searchText={"suchen ..."}
             renderMenuItemChildren={renderMenuItemChildren}
