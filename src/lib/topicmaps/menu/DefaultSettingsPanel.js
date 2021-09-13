@@ -79,7 +79,7 @@ const SettingsPanel = (props) => {
     backgroundModes: backgroundModesFromContext,
     selectedBackground,
     backgroundConfigurations,
-  } = useContext(TopicMapStylingContext);
+  } = useContext(TopicMapStylingContext) || defaultContextValues;
 
   const _width = width || windowSize?.width;
   const _changeMarkerSymbolSize = changeMarkerSymbolSize || setMarkerSymbolSize;
