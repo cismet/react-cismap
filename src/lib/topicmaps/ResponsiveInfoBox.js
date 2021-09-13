@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import Color from "color";
 import CollapsibleWell from "../commons/CollapsibleWell";
+import CollapsibleABWell from "../commons/CollapsibleABWell";
 import { ResponsiveTopicMapContext } from "../contexts/ResponsiveTopicMapContextProvider";
 import Control from "react-leaflet-control";
 import {
@@ -105,7 +106,7 @@ const InfoBox = ({
               isCollapsible={isCollapsible}
             />
           )}
-          {mode === MODES.DEFAULT && (
+          {mode === MODES.AB && (
             <CollapsibleABWell
               collapsed={minified}
               setCollapsed={minify}
