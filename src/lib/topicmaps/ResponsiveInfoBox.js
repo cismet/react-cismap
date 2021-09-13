@@ -12,6 +12,8 @@ import { UIContext, UIDispatchContext } from "../contexts/UIContextProvider";
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
+export const MODES = { DEFAULT: "DEFAULT", AB: "AB" };
+
 // Since this component is simple and static, there's no parent container for it.
 const InfoBox = ({
   panelClick,
@@ -28,6 +30,9 @@ const InfoBox = ({
   collapsibleStyle,
   fixedRow,
   defaultContextValues = {},
+  divWhenCollapsed,
+  divWhenLarge,
+  mode = MODES.DEFAULT,
 }) => {
   const featureCollectionContext = useContext(FeatureCollectionContext) || defaultContextValues;
   const { responsiveState, searchBoxPixelWidth, gap, windowSize } =
@@ -79,25 +84,48 @@ const InfoBox = ({
       >
         <div style={{ ...infoBoxStyle, marginBottom: infoBoxBottomMargin }}>
           {header}
-          <CollapsibleWell
-            collapsed={minified}
-            setCollapsed={minify}
-            style={{
-              pointerEvents: "auto",
-              padding: 0,
-              paddingLeft: 9,
-              ...collapsibleStyle,
-            }}
-            debugBorder={0}
-            tableStyle={{ margin: 0 }}
-            fixedRow={fixedRow}
-            alwaysVisibleDiv={alwaysVisibleDiv}
-            collapsibleDiv={collapsibleDiv}
-            collapseButtonAreaStyle={collapseButtonAreaStyle}
-            onClick={panelClick}
-            pixelwidth={pixelwidth}
-            isCollapsible={isCollapsible}
-          />
+          {mode === MODES.DEFAULT && (
+            <CollapsibleWell
+              collapsed={minified}
+              setCollapsed={minify}
+              style={{
+                pointerEvents: "auto",
+                padding: 0,
+                paddingLeft: 9,
+                ...collapsibleStyle,
+              }}
+              debugBorder={0}
+              tableStyle={{ margin: 0 }}
+              fixedRow={fixedRow}
+              alwaysVisibleDiv={alwaysVisibleDiv}
+              collapsibleDiv={collapsibleDiv}
+              collapseButtonAreaStyle={collapseButtonAreaStyle}
+              onClick={panelClick}
+              pixelwidth={pixelwidth}
+              isCollapsible={isCollapsible}
+            />
+          )}
+          {mode === MODES.DEFAULT && (
+            <CollapsibleABWell
+              collapsed={minified}
+              setCollapsed={minify}
+              style={{
+                pointerEvents: "auto",
+                padding: 0,
+                paddingLeft: 9,
+                ...collapsibleStyle,
+              }}
+              debugBorder={0}
+              tableStyle={{ margin: 0 }}
+              fixedRow={fixedRow}
+              divWhenCollapsed={divWhenCollapsed}
+              divWhenLarge={divWhenLarge}
+              collapseButtonAreaStyle={collapseButtonAreaStyle}
+              onClick={panelClick}
+              pixelwidth={pixelwidth}
+              isCollapsible={isCollapsible}
+            />
+          )}
         </div>
       </Control>
       {secondaryInfoBoxElements.map((element, index) => (

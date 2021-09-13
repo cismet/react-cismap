@@ -39,57 +39,6 @@ const COMP = ({
 }) => {
   const buttonInUse = <div>{collapsed === true ? upButton : downButton}</div>;
 
-  // let divWhenCollapsed = alwaysVisibleDiv;
-
-  // let divWhenLarge = [ alwaysVisibleDiv, collapsibleDiv ];
-  // if (fixedRow) {
-  // 	divWhenLarge = (
-  // 		<table width='100%' border={debugBorder} style={tableStyle}>
-  // 			<tbody>
-  // 				<tr>
-  // 					<th style={{ verticalAlign: 'middle' }}>{alwaysVisibleDiv}</th>
-  // 					{isCollapsible && (
-  // 						<th
-  // 							rowSpan='2'
-  // 							style={{
-  // 								verticalAlign: 'middle',
-  // 								textAlign: 'center',
-  // 								...collapseButtonAreaStyle
-  // 							}}
-  // 						>
-  // 							{buttonInUse}
-  // 						</th>
-  // 					)}
-  // 				</tr>
-  // 				{(!isCollapsible || !collapsed === true) && (
-  // 					<tr>
-  // 						<td>{collapsibleDiv}</td>
-  // 					</tr>
-  // 				)}
-  // 			</tbody>
-  // 		</table>
-  // 	);
-  // }
-  // return (
-  // 	<CollapsibleABWell
-  // 		externalCollapsedState={externalCollapsedState}
-  // 		fixedRow={fixedRow}
-  // 		upButton={upButton}
-  // 		downButton={downButton}
-  // 		collapseButtonAreaStyle={collapseButtonAreaStyle}
-  // 		bsSize={bsSize}
-  // 		style={style}
-  // 		onClick={onClick}
-  // 		keyToUse={keyToUse}
-  // 		debugBorder={debugBorder}
-  // 		tableStyle={tableStyle}
-  // 		collapsed={collapsed}
-  // 		setCollapsed={setCollapsed}
-  // 		tableStyle={tableStyle}
-  // 		divWhenCollapsed={divWhenCollapsed}
-  // 		divWhenLarge={divWhenLarge}
-  // 	/>
-  // );
   if (fixedRow) {
     return (
       <Well onClick={onClick} key={keyToUse} bsSize={bsSize} style={style}>
