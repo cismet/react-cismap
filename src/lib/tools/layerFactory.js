@@ -232,7 +232,7 @@ export const defaultLayerConf = {
 
     rvrSchrift: {
       type: "wms",
-      url: "https://wupp-plan-live.cismet.de",
+      url: "https://geodaten.metropoleruhr.de/spw2/service",
       layers: "spw2_schrift_overlay",
       version: "1.3.0",
       tiled: false,
@@ -241,14 +241,14 @@ export const defaultLayerConf = {
     ruhrWMS: {
       type: "wms",
       url: "https://geodaten.metrotadtpoleruhr.de/spw2/service",
-      layers: "stadtplan_rvr",
+      layers: "spw2_light",
       tiled: "false",
       version: "1.3.0",
     },
     ruhrWMS: {
       type: "wms",
       url: "https://geodaten.metropoleruhr.de/spw2/service",
-      layers: "stadtplan_rvr",
+      layers: "spw2_light",
       tiled: "false",
       version: "1.3.0",
     },
@@ -262,8 +262,8 @@ export const defaultLayerConf = {
 
     "wupp-plan-live": {
       type: "wms",
-      url: "https://wupp-plan-live.cismet.de",
-      layers: "stadtplan_rvr",
+      url: "https://geodaten.metropoleruhr.de/spw2/service",
+      layers: "spw2_light",
       tiled: "false",
       version: "1.3.0",
     },
