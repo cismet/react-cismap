@@ -9,6 +9,8 @@ const defaultState = {
   title: "",
   photourls: [],
   caption: "",
+  captions: [],
+
   index: 0,
   visible: false,
 };
@@ -40,6 +42,7 @@ const UIContextProvider = ({ children, enabled = true, appKey, persistenceSettin
     setTitle: set("title"),
     setPhotoUrls: set("photourls"),
     setCaption: set("caption"),
+    setCaptions: set("captions"),
     setIndex: set("index"),
     setVisible: set("visible"),
     setAll: (all) => {

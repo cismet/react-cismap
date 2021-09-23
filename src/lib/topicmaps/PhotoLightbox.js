@@ -3,7 +3,7 @@ import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css"; // This only needs to be imported once in your app
 import { LightBoxContext, LightBoxDispatchContext } from "../contexts/LightBoxContextProvider";
 const Comp = ({ defaultContextValues = {} }) => {
-  const { title, photourls, caption, index, visible } =
+  const { title, photourls, caption, captions, index, visible } =
     useContext(LightBoxContext) || defaultContextValues;
   const { setVisible, setIndex } = useContext(LightBoxDispatchContext) || defaultContextValues;
   if (visible) {
@@ -14,6 +14,19 @@ const Comp = ({ defaultContextValues = {} }) => {
       nextSrc = null;
       prevSrc = null;
     }
+
+    let _caption;
+
+    if (captions) {
+      try {
+        _caption = captions[index];
+      } catch (e) {
+        _caption = caption;
+      }
+    } else {
+      _caption = caption;
+    }
+
     return (
       <Lightbox
         mainSrc={photourls[index]}
@@ -23,7 +36,7 @@ const Comp = ({ defaultContextValues = {} }) => {
         onMovePrevRequest={() => setIndex((index + photourls.length - 1) % photourls.length)}
         onMoveNextRequest={() => setIndex((index + 1) % photourls.length)}
         imageTitle={title}
-        imageCaption={caption}
+        imageCaption={_caption}
         imagePadding={65}
         animationDuration={600}
       />

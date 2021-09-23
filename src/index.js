@@ -11,6 +11,7 @@ import * as MapLibreExamples from "./lib/_stories/vector/SimpleMapLibreLayer";
 import * as AnimationExamples from "./lib/_stories/vectorfieldanimation/SimpleVFAExample";
 import * as InfoBoxExamples from "./lib/topicmaps/_stories/InfoBox.stories";
 import * as GazetteerSearchBoxExamples from "./lib/_stories/mainComponents/GazetteerSearchControl.stories";
+import * as PhotoLightBoxExamples from "./lib/topicmaps/_stories/PhotoLightbox.stories";
 
 const TestContext = React.createContext();
 
@@ -61,7 +62,7 @@ ReactDOM.render(
     {/* <TopicMapsExamples.SimpleTopicMapWithCustomStyling /> */}
     {/* <TopicMapsExamples.SimpleTopicMapWithFullClusteringOptionsAndStyling /> */}
     {/* <TopicMapsExamples.TopicMapWithWithSecondaryInfoSheet /> */}
-    <TopicMapsExamples.TopicMapWithWithCustomSettings />
+    {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
     {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
     {/* <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers /> */}
@@ -81,6 +82,9 @@ ReactDOM.render(
     {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBox /> */}
     {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBoxAndNoTopicMapContextProvider /> */}
     {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBoxInABootstrapMenu /> */}
+    {/* <PhotoLightBoxExamples.SimplePhotoLightBox /> */}
+    {/* <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptions /> */}
+    <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptionsAndExternalLinks />
   </div>,
   document.getElementById("root")
 );
