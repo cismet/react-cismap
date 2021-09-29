@@ -35,6 +35,7 @@ export const RainHazardMapHaltern = () => {
     >
       <HeavyRainHazardMap
         appMenu={<AppMenuHaltern version="Storymode" footerLogoUrl="/images/Signet_AIS_RZ.png" />}
+        emailaddress="starkregen@haltern.de"
         initialState={halternConfig.initialState}
         config={halternConfig.config}
         homeZoom={17}
@@ -69,6 +70,7 @@ export const RainHazardMapOlpe = () => {
     >
       <HeavyRainHazardMap
         appMenu={undefined}
+        emailaddress="starkregen@olpe.de"
         initialState={olpeConfig.initialState}
         config={olpeConfig.config}
         homeZoom={14}
@@ -135,6 +137,7 @@ export const RainHazardMapWuppertal = () => {
       <HeavyRainHazardMap
         appMenu={undefined}
         initialState={wuppertalConfig.initialState}
+        emailaddress="starkregen@stadt.wuppertal.de"
         config={wuppertalConfig.config}
         homeZoom={18}
         homeCenter={[51.27202324060668, 7.20162372978018]}

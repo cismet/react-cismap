@@ -47,6 +47,7 @@ function Map({
   modeSwitcherTitle,
   gazData = [],
   documentTitle,
+  emailaddress,
 }) {
   const { history, appKey } = useContext(TopicMapContext);
   const { routedMapRef } = useContext(TopicMapContext);
@@ -269,7 +270,7 @@ function Map({
               layerPrefix={config.simulations[state.selectedSimulation].animation}
             />
           )}
-          <ContactButton />
+          <ContactButton emailaddress={emailaddress} />
         </TopicMapComponent>
       </div>
     );

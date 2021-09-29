@@ -1,7 +1,7 @@
 import React from "react";
 import ContactButton from "../../../ContactButton";
 
-const Comp = () => {
+const Comp = ({ emailaddress = "starkregen@cismet.de" }) => {
   return (
     <ContactButton
       id="329487"
@@ -15,7 +15,9 @@ const Comp = () => {
         const iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 
         let normalMailToHref =
-          "mailto:starkregen@haltern.de?subject=eventueller Fehler im Geländemodell&body=" +
+          "mailto:" +
+          emailaddress +
+          "?subject=eventueller Fehler im Geländemodell&body=" +
           encodeURI(`Sehr geehrte Damen und Herren,${br}${br} in der Starkregengefahrenkarte `) +
           encodeURI(`auf${br}${br}`) +
           `${window.location.href.replace(/&/g, "%26").replace(/#/g, "%23")}` +
@@ -29,7 +31,9 @@ const Comp = () => {
               `${br}`
           );
         let iosMailToHref =
-          "mailto:starkregen@haltern.de?subject=eventueller Fehler im Geländemodell&body=" +
+          "mailto:" +
+          emailaddress +
+          "?subject=eventueller Fehler im Geländemodell&body=" +
           encodeURI(`Sehr geehrte Damen und Herren, in der Starkregengefahrenkarte `) +
           encodeURI(`auf `) +
           `${window.location.href.replace(/&/g, "%26").replace(/#/g, "%23")}` +
