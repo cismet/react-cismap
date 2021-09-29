@@ -4,7 +4,12 @@ import { UIDispatchContext } from "../../../../contexts/UIContextProvider";
 import { version as reactCismapVersion } from "../../../../meta";
 import { CustomizationContext } from "../../../../contexts/CustomizationContextProvider";
 
-const Comp = ({ version, logoUrl, defaultContextValues = {} }) => {
+const Comp = ({
+  appName = "Starkregengefahrenkarte",
+  version,
+  logoUrl,
+  defaultContextValues = {},
+}) => {
   const { setAppMenuActiveMenuSection } = useContext(UIDispatchContext);
   const customizations = useContext(CustomizationContext) || defaultContextValues;
   let footerContent = customizations?.helpmenu?.footerContent;
@@ -28,7 +33,10 @@ const Comp = ({ version, logoUrl, defaultContextValues = {} }) => {
           Dr. Pecher AG (Gelsenkirchen/Erkrath)
         </a>
         <div>
-          <b>AIS Haltern v{version}</b> powered by{" "}
+          <b>
+            {appName} v{version}
+          </b>{" "}
+          powered by{" "}
           <a href="https://cismet.de/" target="_cismet">
             cismet GmbH
           </a>{" "}
