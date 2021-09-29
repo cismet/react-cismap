@@ -6,6 +6,20 @@ import { CustomizationContext } from "../../../../contexts/CustomizationContextP
 
 const Comp = ({
   appName = "Starkregengefahrenkarte",
+  hintergrundkartenText = "DOP © RVR | Stadtkarte 2.0 © RVR | WebAtlasDE © BKG",
+  taglineModelling = (
+    <div>
+      <b>Modellierung und AIS Starkregenvorsorge</b> (Version 1.0 | 04/2021):{" "}
+      <a target="_wsw" href="https://www.haltern-am-see.de/">
+        Stadt Haltern am See
+      </a>
+      |{" "}
+      <a target="_pecher" href="https://www.pecher.de/">
+        Dr. Pecher AG (Gelsenkirchen/Erkrath)
+      </a>
+    </div>
+  ),
+
   version,
   logoUrl,
   defaultContextValues = {},
@@ -19,19 +33,12 @@ const Comp = ({
         {logoUrl && (
           <img alt="aislogo" src={logoUrl} style={{ width: 150, margin: 5 }} align="right" />
         )}
-        <b>Hintergrundkarten</b>: DOP © RVR | Stadtkarte 2.0 © RVR | WebAtlasDE © BKG{" "}
+        <b>Hintergrundkarten</b>: {hintergrundkartenText}{" "}
         <a className="renderAsLink" onClick={() => setAppMenuActiveMenuSection("datengrundlage")}>
           (Details und Nutzungsbedingungen)
         </a>
         <br />
-        <b>Modellierung und AIS Starkregenvorsorge</b> (Version 1.0 | 04/2021):{" "}
-        <a target="_wsw" href="https://www.haltern-am-see.de/">
-          Stadt Haltern am See
-        </a>{" "}
-        |{" "}
-        <a target="_pecher" href="https://www.pecher.de/">
-          Dr. Pecher AG (Gelsenkirchen/Erkrath)
-        </a>
+        {taglineModelling}
         <div>
           <b>
             {appName} v{version}
