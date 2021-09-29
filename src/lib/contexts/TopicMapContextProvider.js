@@ -98,6 +98,7 @@ const TopicMapContextProvider = ({
   const [state, dispatch] = useImmer({
     ...defaultState,
     history,
+    appKey,
     titleFactory,
     referenceSystem,
     referenceSystemDefinition,
