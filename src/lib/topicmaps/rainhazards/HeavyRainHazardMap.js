@@ -174,7 +174,7 @@ function Map({
               backgrounds={config.backgrounds}
               selectedBackgroundIndex={state.selectedBackground}
               secondaryInfoBoxElements={
-                config.hideMeasurements === false
+                !config.hideMeasurements
                   ? createGetFeatureInfoControls(
                       state,
                       setX,
@@ -192,7 +192,7 @@ function Map({
           homeZoom={homeZoom}
           homeCenter={homeCenter}
         >
-          {config.hideMeasurements === false && (
+          {!config.hideMeasurements && (
             <FeatureInfoLLayerVis
               upperleftX={config.upperleftX}
               upperleftY={config.upperleftY}

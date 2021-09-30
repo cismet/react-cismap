@@ -86,8 +86,8 @@ ReactDOM.render(
     {/* <PhotoLightBoxExamples.SimplePhotoLightBox /> */}
     {/* <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptions /> */}
     {/* <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptionsAndExternalLinks /> */}
-    {/* <RainHazardMapExamples.RainHazardMapHaltern /> */}
-    <RainHazardMapExamples.RainHazardMapOlpe />
+    <RainHazardMapExamples.RainHazardMapHaltern />
+    {/* <RainHazardMapExamples.RainHazardMapOlpe /> */}
     {/* <RainHazardMapExamples.RainHazardMapWuppertal /> */}
   </div>,
   document.getElementById("root")
