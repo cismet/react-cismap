@@ -44,6 +44,7 @@ function Map({
   config,
   homeZoom,
   homeCenter,
+  minZoom,
   modeSwitcherTitle,
   gazData = [],
   documentTitle,
@@ -144,6 +145,7 @@ function Map({
           attributionControl={true}
           gazetteerSearchPlaceholder="Adresssuche"
           maxZoom={22}
+          minZoom={minZoom}
           onclick={(event) => {
             if (state.featureInfoModeActivated) {
               getFeatureInfoRequest(event, state, setX, config);
