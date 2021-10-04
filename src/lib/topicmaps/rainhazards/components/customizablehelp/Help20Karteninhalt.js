@@ -46,8 +46,8 @@ const Component = ({ simulationsklammer = "Stärke 7, Stärke 10" }) => {
             .
           </p>
           <p>
-            Unter <b>Karte</b> können Sie aus drei verschiedenen Hintergrundkarten auswählen: zwei
-            unterschiedlichen Stadtplänen (grau/farbig) und einer Luftbildkarte. Ein Stadtplan
+            Unter <b>Karte</b> können Sie aus drei verschiedenen Hintergrundkarten auswählen: aus
+            zwei unterschiedlichen Stadtplänen (grau/farbig) und einer Luftbildkarte. Ein Stadtplan
             eignet sich gut zur Orientierung anhand von Straßen. Die Luftbildkarte stellt eine
             anschauliche Grundlage dar. Sie eignet sich daher vor allem für die Darstellung
             räumlicher Zusammenhänge und Nutzungen. Da die Hintergrundkartendienste immer wieder
