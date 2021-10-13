@@ -3,7 +3,7 @@ import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css"; // This only needs to be imported once in your app
 import { LightBoxContext, LightBoxDispatchContext } from "../contexts/LightBoxContextProvider";
 const Comp = ({ defaultContextValues = {} }) => {
-  const { title, photourls, caption, captions, index, visible } =
+  const { title, photourls, caption, captions, index, visible, reactModalStyle } =
     useContext(LightBoxContext) || defaultContextValues;
   const { setVisible, setIndex } = useContext(LightBoxDispatchContext) || defaultContextValues;
   if (visible) {
@@ -29,6 +29,7 @@ const Comp = ({ defaultContextValues = {} }) => {
 
     return (
       <Lightbox
+        reactModalStyle={reactModalStyle}
         mainSrc={photourls[index]}
         nextSrc={nextSrc}
         prevSrc={prevSrc}
