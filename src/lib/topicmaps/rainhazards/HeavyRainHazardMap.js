@@ -269,7 +269,11 @@ function Map({
               key={JSON.stringify(state)}
               rasterfariURL={config.rasterfariURL}
               minAnimationZoom={config.minAnimationZoom}
-              layerPrefix={config.simulations[state.selectedSimulation].animation}
+              layerPrefix={
+                config.simulations[state.selectedSimulation].animation ||
+                config.simulations[state.selectedSimulation].animationPrefix
+              }
+              layerPostfix={config.simulations[state.selectedSimulation].animationPostfix}
             />
           )}
           <ContactButton emailaddress={emailaddress} />

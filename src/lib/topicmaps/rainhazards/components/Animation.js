@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import VectorFieldAnimation from "../../../commons/canvaslayerfield/VectorFieldAnimation";
 import { TopicMapContext } from "../../../contexts/TopicMapContextProvider";
 
-const Animation = ({ rasterfariURL, layerPrefix, minAnimationZoom = 17 }) => {
+const Animation = ({ rasterfariURL, layerPrefix, layerPostfix = "", minAnimationZoom = 17 }) => {
   const { routedMapRef } = useContext(TopicMapContext);
   const mapRef = routedMapRef?.leafletMap?.leafletElement;
   const currentZoom = mapRef?.getZoom();
@@ -49,6 +49,7 @@ const Animation = ({ rasterfariURL, layerPrefix, minAnimationZoom = 17 }) => {
       <VectorFieldAnimation
         key={"VFA:" + currentZoom + "."}
         layerPrefix={layerPrefix}
+        layerPostfix={layerPostfix}
         bbox={currentBBox}
         settings={vectorFieldAnimationSettings}
         service={rasterfariURL}

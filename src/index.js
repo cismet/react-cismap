@@ -84,11 +84,12 @@ ReactDOM.render(
     {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBoxAndNoTopicMapContextProvider /> */}
     {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBoxInABootstrapMenu /> */}
     {/* <PhotoLightBoxExamples.SimplePhotoLightBox /> */}
-    {/* <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptions /> */}
+    {/* <PhotoLightBoxExamples.SimplePhotoLightcode BoxWithMultipleCaptions /> */}
     {/* <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptionsAndExternalLinks /> */}
-    <RainHazardMapExamples.RainHazardMapHaltern />
+    {/* <RainHazardMapExamples.RainHazardMapHaltern /> */}
     {/* <RainHazardMapExamples.RainHazardMapOlpe /> */}
     {/* <RainHazardMapExamples.RainHazardMapWuppertal /> */}
+    <RainHazardMapExamples.RainHazardMapPaderborn />
   </div>,
   document.getElementById("root")
 );

@@ -8,6 +8,7 @@ import HeavyRainHazardMap from "../HeavyRainHazardMap";
 import halternConfig from "./configs/haltern";
 import wuppertalConfig from "./configs/wuppertal";
 import olpeConfig from "./configs/olpe";
+import paderbornConfig from "./configs/paderborn";
 import { getGazDataForTopicIds } from "../../../tools/gazetteerHelper";
 import AppMenuHaltern from "./hardcodedhelp/Help00MainComponent";
 
@@ -143,6 +144,41 @@ export const RainHazardMapWuppertal = () => {
         homeCenter={[51.27202324060668, 7.20162372978018]}
         modeSwitcherTitle="Starkregenkarte Wuppertal"
         documentTitle="Starkregenkarte Wuppertal"
+        gazData={gazData}
+      />
+    </TopicMapContextProvider>
+  );
+};
+
+export const RainHazardMapPaderborn = () => {
+  const [gazData, setGazData] = useState([]);
+
+  // const getGazData = async (setGazData, url) => {
+  //   const prefix = "GazDataForStarkregengefahrenkarteByCismet";
+  //   const data = await md5FetchJSON(prefix, url);
+
+  //   setGazData(data);
+  // };
+  // useEffect(() => {
+  //   getGazData(setGazData, "https://adhocdata.cismet.de/data/adressen_olpe.json");
+  // }, []);
+  return (
+    <TopicMapContextProvider
+      appKey={appKey + ".Paderborn"}
+      referenceSystem={MappingConstants.crs3857}
+      referenceSystemDefinition={MappingConstants.proj4crs3857def}
+      baseLayerConf={paderbornConfig.overridingBaseLayerConf}
+      infoBoxPixelWidth={370}
+    >
+      <HeavyRainHazardMap
+        appMenu={undefined}
+        emailaddress="starkregen@paderborn.de"
+        initialState={paderbornConfig.initialState}
+        config={paderbornConfig.config}
+        homeZoom={14}
+        homeCenter={[51.71905, 8.75439]}
+        modeSwitcherTitle="AIS Starkregenvorsorge Paderborn"
+        documentTitle="Starkregengefahrenkarte Paderborn"
         gazData={gazData}
       />
     </TopicMapContextProvider>

@@ -91,8 +91,8 @@ class VectorFieldAnimation extends MapLayer {
 
     let format = "image/tiff";
 
-    let url_u = `${this.props.service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/${this.props.layerPrefix}u84.tif&FORMAT=${format}`;
-    let url_v = `${this.props.service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/${this.props.layerPrefix}v84.tif&FORMAT=${format}`;
+    let url_u = `${this.props.service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/${this.props.layerPrefix}u84${this.props.layerPostfix}.tif&FORMAT=${format}`;
+    let url_v = `${this.props.service}/gdalProcessor?REQUEST=translate&SRS=EPSG:4326&BBOX=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]}&LAYERS=docs/${this.props.layerPrefix}v84${this.props.layerPostfix}.tif&FORMAT=${format}`;
 
     var urls = [url_u, url_v];
 
