@@ -6,7 +6,13 @@ import { useContext } from "react";
 import { TopicMapContext } from "../../../contexts/TopicMapContextProvider";
 import { ResponsiveTopicMapContext } from "../../../contexts/ResponsiveTopicMapContextProvider";
 
-const Comp = ({ displayMode, titleString = "cismet Starkregenkarte" }) => {
+const Comp = ({
+  displayMode,
+  titleString = "cismet Starkregenkarte",
+  additionalControls,
+  additionalControlsShown,
+  additionalControlsToggle,
+}) => {
   let titleContent;
   const { history } = useContext(TopicMapContext);
   const { windowSize } = useContext(ResponsiveTopicMapContext);
@@ -14,6 +20,9 @@ const Comp = ({ displayMode, titleString = "cismet Starkregenkarte" }) => {
   if (displayMode === starkregenConstants.SHOW_HEIGHTS) {
     titleContent = (
       <div>
+        {additionalControlsToggle && (
+          <div style={{ float: "left", paddingLeft: 10 }}>{additionalControlsToggle}</div>
+        )}
         <b>{titleString}: </b> max. Wasserstände
         <div style={{ float: "right", paddingRight: 10 }}>
           <a
@@ -52,6 +61,7 @@ const Comp = ({ displayMode, titleString = "cismet Starkregenkarte" }) => {
   let title = null;
   title = (
     <table
+      border="0"
       style={{
         width: (windowSize?.width || 300) - 54 - 12 - 38 - 12 + "px",
         height: "30px",
@@ -76,6 +86,23 @@ const Comp = ({ displayMode, titleString = "cismet Starkregenkarte" }) => {
             {titleContent}
           </td>
         </tr>
+        {additionalControls && additionalControlsShown && (
+          <tr>
+            <td
+              style={{
+                textAlign: "center",
+                verticalAlign: "middle",
+                background: "#ffffff",
+                color: "black",
+                opacity: "0.9",
+                paddingLeft: "10px",
+                paddingTop: "10px",
+              }}
+            >
+              {additionalControls}
+            </td>
+          </tr>
+        )}
       </tbody>
     </table>
   );
