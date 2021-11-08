@@ -202,8 +202,6 @@ export const setFeatureInfoModeActivation = (
   history,
   config
 ) => {
-  console.log("setFeatureInfoModeActivation stacktrace", new Error());
-
   if (!activated) {
     setX.setCurrentFeatureInfoValue(undefined);
     setX.setCurrentFeatureInfoPosition(undefined);

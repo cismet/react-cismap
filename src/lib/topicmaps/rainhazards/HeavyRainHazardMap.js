@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import localforage from "localforage";
 import { setFromLocalforage } from "../../contexts/_helper";
@@ -28,6 +28,21 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "leaflet/dist/leaflet.css";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import "../../topicMaps.css";
+import NonTiledWMSLayer from "../../NonTiledWMSLayer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronUp,
+  faFile,
+  faFileMedical,
+  faFilm,
+  faPlay,
+  faRandom,
+  faTimes,
+  faVideo,
+} from "@fortawesome/free-solid-svg-icons";
+
+import { Slider, Progress, Button } from "antd";
+import ProgressBar from "react-bootstrap/ProgressBar";
 
 const persistenceSettings = [
   "displayMode",
@@ -85,13 +100,48 @@ function Map({
     setBackgroundIndex: set("selectedBackground"),
     setSelectedSimulation: set("selectedSimulation"),
     setDisplayMode: set("displayMode"),
+    setValueMode: set("valueMode"),
     setCurrentFeatureInfoValue: set("currentFeatureInfoValue"),
     setCurrentFeatureInfoPosition: set("currentFeatureInfoPosition"),
     setFeatureInfoModeActivated: set("featureInfoModeActivated"),
     setCurrentFeatureInfoSelectedSimulation: set("currentFeatureInfoSelectedSimulation"),
   };
 
-  //effects
+  const [timeSeriesProgress, setTimeSeriesProgress] = useState(new Set());
+  const layerLoadingStarted = (e) => {
+    console.log("layer loading", e.target.wmsParams.layers);
+    setTimeSeriesProgress((old) => {
+      old.add(e.target.wmsParams.layers);
+      setLoadedLayers(timeSeriesLayers.length - old.size);
+      return old;
+    });
+  };
+  const layerLoaded = (e) => {
+    // console.log("layer loaded", e.target.wmsParams.layers); //, e.canvas);
+    setTimeSeriesProgress((old) => {
+      // console.log("layer loaded set ", old);
+      // console.log("layer loaded", e.target.wmsParams.layers);
+      old.delete(e.target.wmsParams.layers);
+      // console.log("old", old);
+      setLoadedLayers(timeSeriesLayers.length - old.size);
+      return old;
+    });
+
+    // const canvas = e.canvas;
+    // const ctx = canvas.getContext("2d");
+    // const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    // e.canvas = null;
+    // console.log("layer data", data);
+  };
+
+  const errorDuringLayerLoading = (e) => {
+    console.log("layer onerror", e.target.wmsParams.layers);
+    setTimeSeriesProgress((old) => {
+      old.delete(e.target.wmsParams.layers);
+      setLoadedLayers(timeSeriesLayers.length - old.size);
+      return old;
+    });
+  };
 
   useEffect(() => {
     if (persistenceSettings) {
@@ -127,7 +177,18 @@ function Map({
   } else {
     cursor = "grabbing";
   }
+  const [activeTimeSeriesLayer, setActiveTimeSeriesLayer] = useState(0);
 
+  let timeSeriesLayers;
+  if (state.displayMode === starkregenConstants.SHOW_HEIGHTS) {
+    timeSeriesLayers = config.simulations[state.selectedSimulation].depthTimeDimensionLayers;
+  } else {
+    timeSeriesLayers = config.simulations[state.selectedSimulation].velocityTimeDimensionLayers;
+  }
+
+  const [loadedLayers, setLoadedLayers] = useState(0);
+
+  console.log("loadedLayers", loadedLayers);
   if (state) {
     //development purpose cannot happen on a normal instance
 
@@ -137,7 +198,76 @@ function Map({
     }
     return (
       <div>
-        <ModeSwitcher titleString={modeSwitcherTitle} displayMode={state.displayMode} />
+        <ModeSwitcher
+          titleString={modeSwitcherTitle}
+          displayMode={state.displayMode}
+          additionalControlsToggle={
+            <a
+              style={{ color: "#337ab7" }}
+              className="renderAsLink"
+              onClick={() => {
+                if (state.valueMode === starkregenConstants.SHOW_MAXVALUES) {
+                  setX.setValueMode(starkregenConstants.SHOW_TIMESERIES);
+                } else {
+                  setX.setValueMode(starkregenConstants.SHOW_MAXVALUES);
+                }
+              }}
+            >
+              <FontAwesomeIcon style={{ marginRight: 5 }} icon={faRandom} />{" "}
+              {state.valueMode === starkregenConstants.SHOW_MAXVALUES
+                ? "zeitlicher Verlauf"
+                : "Maximalwerte"}
+            </a>
+          }
+          additionalControlsShown={state.valueMode === starkregenConstants.SHOW_TIMESERIES}
+          additionalControls={
+            <div>
+              <div style={{ display: "flex", justifyContent: "space-around" }}>
+                <span style={{ float: "left", paddingLeft: 10 }}></span>
+
+                <div style={{ display: "flex", width: "40%" }}>
+                  {/* <Button>
+                    <FontAwesomeIcon icon={faPlay} />
+                  </Button> */}
+                  <Slider
+                    style={{ flex: "1 0 auto" }}
+                    disabled={loadedLayers !== timeSeriesLayers.length}
+                    min={0}
+                    max={timeSeriesLayers.length - 1}
+                    value={activeTimeSeriesLayer}
+                    tipFormatter={null}
+                    onChange={(value) => {
+                      setActiveTimeSeriesLayer(parseInt(value));
+                    }}
+                  />
+                  <Button>
+                    <FontAwesomeIcon icon={faPlay} />
+                  </Button>
+                </div>
+                <span style={{ float: "right", paddingRight: 10 }}></span>
+              </div>
+              <div key={"kjsdfh" + loadedLayers} style={{ marginTop: 5 }}>
+                {/* <Progress
+                  percent={(loadedLayers / timeSeriesLayers.length) * 100}
+                  showInfo={false}
+                  strokeWidth={2}
+                /> */}
+                {loadedLayers !== timeSeriesLayers.length && (
+                  <ProgressBar
+                    style={{ height: 2 }}
+                    now={(loadedLayers / timeSeriesLayers.length) * 100}
+                    strokeWidth={2}
+                  />
+                )}
+                {/* {loadedLayers}
+                <br />
+                {timeSeriesLayers.length}
+                <br />
+                {(loadedLayers / timeSeriesLayers.length) * 100} */}
+              </div>
+            </div>
+          }
+        />
         <TopicMapComponent
           key={"TM"}
           locatorControl={true}
@@ -203,46 +333,49 @@ function Map({
               currentFeatureInfoValue={state.currentFeatureInfoValue}
             />
           )}
-          {state.displayMode === starkregenConstants.SHOW_HEIGHTS && (
-            <StyledWMSTileLayer
-              key={
-                "rainHazardMap.depthLayer" +
-                config.simulations[state.selectedSimulation].depthLayer +
-                "." +
-                state.selectedBackground
-              }
-              url={config.modelWMS}
-              layers={config.simulations[state.selectedSimulation].depthLayer}
-              version="1.1.1"
-              transparent="true"
-              format="image/png"
-              tiled="true"
-              styles={config.simulations[state.selectedSimulation].depthStyle}
-              maxZoom={22}
-              opacity={0.8}
-            />
-          )}
-          {state.displayMode === starkregenConstants.SHOW_VELOCITY && (
-            <StyledWMSTileLayer
-              key={
-                "rainHazardMap.velocityLayer." +
-                config.simulations[state.selectedSimulation].velocityLayer +
-                "." +
-                state.selectedBackground
-              }
-              url={config.modelWMS}
-              layers={config.simulations[state.selectedSimulation].velocityLayer}
-              version="1.1.1"
-              transparent="true"
-              format="image/png"
-              tiled="true"
-              styles={config.simulations[state.selectedSimulation].velocityStyle}
-              maxZoom={22}
-              opacity={0.8}
-              caching={false}
-            />
-          )}
+          {state.displayMode === starkregenConstants.SHOW_HEIGHTS &&
+            state.valueMode === starkregenConstants.SHOW_MAXVALUES && (
+              <StyledWMSTileLayer
+                key={
+                  "rainHazardMap.depthLayer" +
+                  config.simulations[state.selectedSimulation].depthLayer +
+                  "." +
+                  state.selectedBackground
+                }
+                url={config.modelWMS}
+                layers={config.simulations[state.selectedSimulation].depthLayer}
+                version="1.1.1"
+                transparent="true"
+                format="image/png"
+                tiled="true"
+                styles={config.simulations[state.selectedSimulation].depthStyle}
+                maxZoom={22}
+                opacity={0.8}
+              />
+            )}
           {state.displayMode === starkregenConstants.SHOW_VELOCITY &&
+            state.valueMode === starkregenConstants.SHOW_MAXVALUES && (
+              <StyledWMSTileLayer
+                key={
+                  "rainHazardMap.velocityLayer." +
+                  config.simulations[state.selectedSimulation].velocityLayer +
+                  "." +
+                  state.selectedBackground
+                }
+                url={config.modelWMS}
+                layers={config.simulations[state.selectedSimulation].velocityLayer}
+                version="1.1.1"
+                transparent="true"
+                format="image/png"
+                tiled="true"
+                styles={config.simulations[state.selectedSimulation].velocityStyle}
+                maxZoom={22}
+                opacity={0.8}
+                caching={false}
+              />
+            )}
+          {false &&
+            state.displayMode === starkregenConstants.SHOW_VELOCITY &&
             currentZoom >= 14 &&
             (state.animationEnabled === false || currentZoom < config.minAnimationZoom) && (
               <StyledWMSTileLayer
@@ -276,6 +409,75 @@ function Map({
               layerPostfix={config.simulations[state.selectedSimulation].animationPostfix}
             />
           )}
+
+          {state.valueMode === starkregenConstants.SHOW_TIMESERIES &&
+            timeSeriesLayers.map((layerName, index) => {
+              // return (
+              //   <StyledWMSTileLayer
+              //     key={"layer" + index}
+              //     url="https://starkregen-paderborn.cismet.de/geoserver/wms?SERVICE=WMS"
+              //     //   layers={layer}
+              //     layers={layerName}
+              //     styles={
+              //       state.displayMode === starkregenConstants.SHOW_HEIGHTS
+              //         ? "starkregen:depth-blue"
+              //         : "starkregen:velocity"
+              //     }
+              //     transparent="true"
+              //     format="image/png"
+              //     opacity={index === activeTimeSeriesLayer ? 1 : 0}
+              //     zIndex={10 + index}
+              //   />
+              // );
+              return (
+                <NonTiledWMSLayer
+                  key={"timeserieslayer" + index + state.displayMode}
+                  {...{
+                    type: "wms",
+                    url: "https://starkregen-paderborn.cismet.de/geoserver/wms?SERVICE=WMS",
+                    layers: layerName,
+                    styles:
+                      state.displayMode === starkregenConstants.SHOW_HEIGHTS
+                        ? "starkregen:depth-blue"
+                        : "starkregen:velocity",
+                    __zIndex: 10000000,
+                    minZoom: 0,
+                    maxZoom: 100,
+                    opacity: index === activeTimeSeriesLayer ? 0.8 : 0,
+                    transparent: "true",
+                    crossOrigin: "anonymous",
+                    format: "image/png",
+                    version: "1.1.1",
+
+                    onload: layerLoaded,
+                    onloading: layerLoadingStarted,
+                    onerror: errorDuringLayerLoading,
+                  }}
+                />
+              );
+            })}
+
+          {/* <StyledWMSLayer
+            {...{
+              type: "wms",
+              url: "https://starkregen-paderborn.cismet.de/geoserver/wms?SERVICE=WMS",
+              layersMax: "starkregen:velocity_14_max",
+              layers: "starkregen:velocity_14_00h_35m",
+              styles: "starkregen:velocity",
+              __zIndex: 10000000,
+              minZoom: 0,
+              maxZoom: 100,
+              transparent: "true",
+              format: "image/png",
+              version: "1.1.1",
+              onload: (e) => {
+                console.log("layer onload", e);
+              },
+              onerror: (e) => {
+                console.log("layer onerror", e);
+              },
+            }}
+          /> */}
           <ContactButton emailaddress={emailaddress} />
         </TopicMapComponent>
       </div>

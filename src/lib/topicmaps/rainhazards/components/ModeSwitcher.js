@@ -41,6 +41,9 @@ const Comp = ({
   } else {
     titleContent = (
       <div>
+        {additionalControlsToggle && (
+          <div style={{ float: "left", paddingLeft: 10 }}>{additionalControlsToggle}</div>
+        )}
         <b>{titleString}: </b> max. Fließgeschwindigkeiten
         <div style={{ float: "right", paddingRight: 10 }}>
           <a
@@ -80,7 +83,7 @@ const Comp = ({
               background: "#ffffff",
               color: "black",
               opacity: "0.9",
-              paddingLeft: "10px",
+              _paddingLeft: "10px",
             }}
           >
             {titleContent}
@@ -95,8 +98,8 @@ const Comp = ({
                 background: "#ffffff",
                 color: "black",
                 opacity: "0.9",
-                paddingLeft: "10px",
-                paddingTop: "10px",
+                _paddingLeft: "10px",
+                marginTop: "10px",
               }}
             >
               {additionalControls}
