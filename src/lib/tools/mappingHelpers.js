@@ -85,7 +85,7 @@ export const convertFeatureCollectionToMarkerPositionCollection = (
     let bbox = [boundingBox.left, boundingBox.bottom, boundingBox.right, boundingBox.top];
     viewBBox = bboxPolygon(bbox);
   } else {
-    console.log("no viewbox");
+    // console.log("no viewbox");
   }
   let markerPos = [];
 
