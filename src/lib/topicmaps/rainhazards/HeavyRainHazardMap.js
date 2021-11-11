@@ -108,24 +108,30 @@ function Map({
     setCurrentFeatureInfoSelectedSimulation: set("currentFeatureInfoSelectedSimulation"),
   };
 
-  const [loadingTimeseriesLayers, setTimeSeriesProgress] = useState(new Set());
+  const [loadingTimeSeriesLayers, setLoadingTimeSeriesLayers] = useState(new Set());
   const [autoplay, setAutoplay] = useState(false);
+  const [numberOfLoadedTimeSeriesLayers, setNumberOfLoadedTimeSeriesLayers] = useState(0);
+  const numberOfloadedTimeSeriesLayersRef = useRef();
+
+  useEffect(() => {
+    numberOfloadedTimeSeriesLayersRef.current = numberOfLoadedTimeSeriesLayers;
+  }, [numberOfLoadedTimeSeriesLayers]);
 
   const layerLoadingStarted = (e) => {
-    setTimeSeriesProgress((old) => {
+    setLoadingTimeSeriesLayers((old) => {
       old.add(e.target.wmsParams.layers);
-      setLoadedTimeSeriesLayers(timeSeriesLayers.length - old.size);
+      setNumberOfLoadedTimeSeriesLayers(timeSeriesWMSLayers.length - old.size);
       return old;
     });
   };
   const layerLoaded = (e) => {
     // console.log("layer loaded", e.target.wmsParams.layers); //, e.canvas);
-    setTimeSeriesProgress((old) => {
+    setLoadingTimeSeriesLayers((old) => {
       // console.log("layer loaded set ", old);
       // console.log("layer loaded", e.target.wmsParams.layers);
       old.delete(e.target.wmsParams.layers);
       // console.log("old", old);
-      setLoadedTimeSeriesLayers(timeSeriesLayers.length - old.size);
+      setNumberOfLoadedTimeSeriesLayers(timeSeriesWMSLayers.length - old.size);
       return old;
     });
 
@@ -138,9 +144,9 @@ function Map({
 
   const errorDuringLayerLoading = (e) => {
     console.log("layer onerror", e.target.wmsParams.layers);
-    setTimeSeriesProgress((old) => {
+    setLoadingTimeSeriesLayers((old) => {
       old.delete(e.target.wmsParams.layers);
-      setLoadedTimeSeriesLayers(timeSeriesLayers.length - old.size);
+      setNumberOfLoadedTimeSeriesLayers(timeSeriesWMSLayers.length - old.size);
       return old;
     });
   };
@@ -181,19 +187,12 @@ function Map({
   }
   const [activeTimeSeriesLayer, setActiveTimeSeriesLayer] = useState(0);
 
-  let timeSeriesLayers;
+  let timeSeriesWMSLayers;
   if (state.displayMode === starkregenConstants.SHOW_HEIGHTS) {
-    timeSeriesLayers = config.simulations[state.selectedSimulation].depthTimeDimensionLayers;
+    timeSeriesWMSLayers = config.simulations[state.selectedSimulation].depthTimeDimensionLayers;
   } else {
-    timeSeriesLayers = config.simulations[state.selectedSimulation].velocityTimeDimensionLayers;
+    timeSeriesWMSLayers = config.simulations[state.selectedSimulation].velocityTimeDimensionLayers;
   }
-
-  const [loadedTimeSeriesLayers, setLoadedTimeSeriesLayers] = useState(0);
-  const loadedTimeSeriesLayersRef = useRef();
-
-  useEffect(() => {
-    loadedTimeSeriesLayersRef.current = loadedTimeSeriesLayers;
-  }, [loadedTimeSeriesLayers]);
 
   const maxValue = 24;
   const frames = 500;
@@ -204,9 +203,9 @@ function Map({
       if (!autoplayUpdater) {
         const updater = setInterval(() => {
           setActiveTimeSeriesLayer((oldLayer) => {
-            console.log("loadedTimeSeriesLayers", loadedTimeSeriesLayers);
+            console.log("loadedTimeSeriesLayers", numberOfLoadedTimeSeriesLayers);
 
-            if (loadedTimeSeriesLayersRef.current === timeSeriesLayers.length) {
+            if (numberOfloadedTimeSeriesLayersRef.current === timeSeriesWMSLayers.length) {
               const newLayer = oldLayer + 1;
               if (newLayer <= maxValue) {
                 return newLayer;
@@ -224,7 +223,7 @@ function Map({
       clearInterval(autoplayUpdater);
       setAutoplayUpdater(undefined);
     }
-  }, [autoplay, autoplayUpdater, loadedTimeSeriesLayers, timeSeriesLayers.length]);
+  }, [autoplay, autoplayUpdater, numberOfLoadedTimeSeriesLayers, timeSeriesWMSLayers.length]);
   if (state) {
     //development purpose cannot happen on a normal instance
 
@@ -267,9 +266,9 @@ function Map({
                   </Button> */}
                   <Slider
                     style={{ flex: "1 0 auto" }}
-                    disabled={loadedTimeSeriesLayers !== timeSeriesLayers.length}
+                    disabled={numberOfLoadedTimeSeriesLayers !== timeSeriesWMSLayers.length}
                     min={0}
-                    max={timeSeriesLayers.length - 1}
+                    max={timeSeriesWMSLayers.length - 1}
                     value={activeTimeSeriesLayer}
                     tipFormatter={null}
                     onChange={(value) => {
@@ -290,16 +289,16 @@ function Map({
                 </div>
                 <span style={{ float: "right", paddingRight: 10 }}></span>
               </div>
-              <div key={"kjsdfh" + loadedTimeSeriesLayers} style={{ marginTop: 5 }}>
+              <div key={"kjsdfh" + numberOfLoadedTimeSeriesLayers} style={{ marginTop: 5 }}>
                 {/* <Progress
                   percent={(loadedLayers / timeSeriesLayers.length) * 100}
                   showInfo={false}
                   strokeWidth={2}
                 /> */}
-                {loadedTimeSeriesLayers !== timeSeriesLayers.length && (
+                {numberOfLoadedTimeSeriesLayers !== timeSeriesWMSLayers.length && (
                   <ProgressBar
                     style={{ height: 2 }}
-                    now={(loadedTimeSeriesLayers / timeSeriesLayers.length) * 100}
+                    now={(numberOfLoadedTimeSeriesLayers / timeSeriesWMSLayers.length) * 100}
                     strokeWidth={2}
                   />
                 )}
@@ -455,7 +454,7 @@ function Map({
           )}
 
           {state.valueMode === starkregenConstants.SHOW_TIMESERIES &&
-            timeSeriesLayers.map((layerName, index) => {
+            timeSeriesWMSLayers.map((layerName, index) => {
               // return (
               //   <StyledWMSTileLayer
               //     key={"layer" + index}
