@@ -52,6 +52,7 @@ const persistenceSettings = [
   "backgroundLayer",
   "selectedBackground",
   "animationEnabled",
+  "valueMode",
 ];
 
 function Map({
@@ -244,6 +245,7 @@ function Map({
                 if (state.valueMode === starkregenConstants.SHOW_MAXVALUES) {
                   setX.setValueMode(starkregenConstants.SHOW_TIMESERIES);
                 } else {
+                  setAutoplay(false);
                   setX.setValueMode(starkregenConstants.SHOW_MAXVALUES);
                 }
               }}
@@ -339,7 +341,11 @@ function Map({
               featureInfoModeActivated={state.featureInfoModeActivated}
               setFeatureInfoModeActivation={setX.setFeatureInfoModeActivation}
               featureInfoValue={state.currentFeatureInfoValue}
-              animationEnabled={state.animationEnabled && currentZoom >= config.minAnimationZoom}
+              animationEnabled={
+                state.valueMode === starkregenConstants.SHOW_MAXVALUES &&
+                state.animationEnabled &&
+                currentZoom >= config.minAnimationZoom
+              }
               setAnimationEnabled={(enabled) =>
                 setAnimationEnabled(enabled, currentZoom, state, history, setX, config)
               } //including correction of the zoomlevel
@@ -417,7 +423,7 @@ function Map({
                 caching={false}
               />
             )}
-          {false &&
+          {state.valueMode === starkregenConstants.SHOW_MAXVALUES &&
             state.displayMode === starkregenConstants.SHOW_VELOCITY &&
             currentZoom >= 14 &&
             (state.animationEnabled === false || currentZoom < config.minAnimationZoom) && (
@@ -440,9 +446,9 @@ function Map({
                 caching={false}
               />
             )}
-          {state.animationEnabled && (
+          {state.valueMode === starkregenConstants.SHOW_MAXVALUES && state.animationEnabled && (
             <Animation
-              key={JSON.stringify(state)}
+              key={"Animation.likes.a.key.that.changes.often." + JSON.stringify(state)}
               rasterfariURL={config.rasterfariURL}
               minAnimationZoom={config.minAnimationZoom}
               layerPrefix={
