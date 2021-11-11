@@ -157,7 +157,7 @@ const config = {
 
 const initialState = {
   displayMode: starkregenConstants.SHOW_HEIGHTS,
-  valueMode: starkregenConstants.SHOW_TIMESERIES,
+  valueMode: starkregenConstants.SHOW_MAXVALUES,
   modelLayerProblem: false,
   featureInfoModeActivated: false,
   currentFeatureInfoValue: undefined,
