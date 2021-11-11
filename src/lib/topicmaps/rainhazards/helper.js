@@ -123,7 +123,12 @@ export const getFeatureInfoRequest = (mapEvent, state, setX, config) => {
   }
 };
 
-export const checkUrlAndSetStateAccordingly = (state, setX, history) => {
+export const checkUrlAndSetStateAccordingly = (
+  state,
+  setX,
+  history,
+  resetTimeSeriesStates = () => {}
+) => {
   //background
   const urlBgIndex = queryString.parse(history.location.search).bg;
   if (urlBgIndex) {
@@ -144,10 +149,13 @@ export const checkUrlAndSetStateAccordingly = (state, setX, history) => {
 
   //appMode
   if (history.location.pathname === "/fliessgeschwindigkeiten") {
+    resetTimeSeriesStates();
     setX.setDisplayMode(starkregenConstants.SHOW_VELOCITY);
   } else if (history.location.pathname === "/hoehen") {
+    resetTimeSeriesStates();
     setX.setDisplayMode(starkregenConstants.SHOW_HEIGHTS);
   } else {
+    resetTimeSeriesStates();
     setX.setDisplayMode(starkregenConstants.SHOW_HEIGHTS);
   }
 };

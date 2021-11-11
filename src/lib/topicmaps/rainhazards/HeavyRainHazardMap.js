@@ -114,6 +114,11 @@ function Map({
   const [numberOfLoadedTimeSeriesLayers, setNumberOfLoadedTimeSeriesLayers] = useState(0);
   const numberOfloadedTimeSeriesLayersRef = useRef();
 
+  const resetTimeSeriesStates = () => {
+    setLoadingTimeSeriesLayers(new Set());
+    setNumberOfLoadedTimeSeriesLayers(0);
+  };
+
   useEffect(() => {
     numberOfloadedTimeSeriesLayersRef.current = numberOfLoadedTimeSeriesLayers;
   }, [numberOfLoadedTimeSeriesLayers]);
@@ -170,13 +175,13 @@ function Map({
 
   useEffect(() => {
     document.title = documentTitle;
-    checkUrlAndSetStateAccordingly(state, setX, history);
+    checkUrlAndSetStateAccordingly(state, setX, history, resetTimeSeriesStates);
   }, []);
 
   //check for changes in url and set appMode accordingly
   useEffect(() => {
     history.listen((location) => {
-      checkUrlAndSetStateAccordingly(state, setX, history);
+      checkUrlAndSetStateAccordingly(state, setX, history, resetTimeSeriesStates);
     });
   }, [history]);
 
@@ -204,7 +209,7 @@ function Map({
       if (!autoplayUpdater) {
         const updater = setInterval(() => {
           setActiveTimeSeriesLayer((oldLayer) => {
-            console.log("loadedTimeSeriesLayers", numberOfLoadedTimeSeriesLayers);
+            // console.log("loadedTimeSeriesLayers", numberOfLoadedTimeSeriesLayers);
 
             if (numberOfloadedTimeSeriesLayersRef.current === timeSeriesWMSLayers.length) {
               const newLayer = oldLayer + 1;
