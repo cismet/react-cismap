@@ -35,6 +35,7 @@ import {
   faFile,
   faFileMedical,
   faFilm,
+  faPause,
   faPlay,
   faRandom,
   faTimes,
@@ -107,12 +108,13 @@ function Map({
     setCurrentFeatureInfoSelectedSimulation: set("currentFeatureInfoSelectedSimulation"),
   };
 
-  const [timeSeriesProgress, setTimeSeriesProgress] = useState(new Set());
+  const [loadingTimeseriesLayers, setTimeSeriesProgress] = useState(new Set());
+  const [autoplay, setAutoplay] = useState(false);
+
   const layerLoadingStarted = (e) => {
-    console.log("layer loading", e.target.wmsParams.layers);
     setTimeSeriesProgress((old) => {
       old.add(e.target.wmsParams.layers);
-      setLoadedLayers(timeSeriesLayers.length - old.size);
+      setLoadedTimeSeriesLayers(timeSeriesLayers.length - old.size);
       return old;
     });
   };
@@ -123,7 +125,7 @@ function Map({
       // console.log("layer loaded", e.target.wmsParams.layers);
       old.delete(e.target.wmsParams.layers);
       // console.log("old", old);
-      setLoadedLayers(timeSeriesLayers.length - old.size);
+      setLoadedTimeSeriesLayers(timeSeriesLayers.length - old.size);
       return old;
     });
 
@@ -138,7 +140,7 @@ function Map({
     console.log("layer onerror", e.target.wmsParams.layers);
     setTimeSeriesProgress((old) => {
       old.delete(e.target.wmsParams.layers);
-      setLoadedLayers(timeSeriesLayers.length - old.size);
+      setLoadedTimeSeriesLayers(timeSeriesLayers.length - old.size);
       return old;
     });
   };
@@ -186,9 +188,43 @@ function Map({
     timeSeriesLayers = config.simulations[state.selectedSimulation].velocityTimeDimensionLayers;
   }
 
-  const [loadedLayers, setLoadedLayers] = useState(0);
+  const [loadedTimeSeriesLayers, setLoadedTimeSeriesLayers] = useState(0);
+  const loadedTimeSeriesLayersRef = useRef();
 
-  console.log("loadedLayers", loadedLayers);
+  useEffect(() => {
+    loadedTimeSeriesLayersRef.current = loadedTimeSeriesLayers;
+  }, [loadedTimeSeriesLayers]);
+
+  const maxValue = 24;
+  const frames = 500;
+  const [autoplayUpdater, setAutoplayUpdater] = useState();
+
+  useEffect(() => {
+    if (autoplay) {
+      if (!autoplayUpdater) {
+        const updater = setInterval(() => {
+          setActiveTimeSeriesLayer((oldLayer) => {
+            console.log("loadedTimeSeriesLayers", loadedTimeSeriesLayers);
+
+            if (loadedTimeSeriesLayersRef.current === timeSeriesLayers.length) {
+              const newLayer = oldLayer + 1;
+              if (newLayer <= maxValue) {
+                return newLayer;
+              } else {
+                return 0;
+              }
+            } else {
+              return oldLayer;
+            }
+          });
+        }, frames);
+        setAutoplayUpdater(updater);
+      }
+    } else {
+      clearInterval(autoplayUpdater);
+      setAutoplayUpdater(undefined);
+    }
+  }, [autoplay, autoplayUpdater, loadedTimeSeriesLayers, timeSeriesLayers.length]);
   if (state) {
     //development purpose cannot happen on a normal instance
 
@@ -231,7 +267,7 @@ function Map({
                   </Button> */}
                   <Slider
                     style={{ flex: "1 0 auto" }}
-                    disabled={loadedLayers !== timeSeriesLayers.length}
+                    disabled={loadedTimeSeriesLayers !== timeSeriesLayers.length}
                     min={0}
                     max={timeSeriesLayers.length - 1}
                     value={activeTimeSeriesLayer}
@@ -240,22 +276,30 @@ function Map({
                       setActiveTimeSeriesLayer(parseInt(value));
                     }}
                   />
-                  <Button>
-                    <FontAwesomeIcon icon={faPlay} />
+                  <Button
+                    style={{ marginLeft: 10 }}
+                    onClick={() => {
+                      setAutoplay((oldValue) => {
+                        return !oldValue;
+                      });
+                    }}
+                  >
+                    {!autoplay && <FontAwesomeIcon icon={faPlay} />}
+                    {autoplay && <FontAwesomeIcon icon={faPause} />}
                   </Button>
                 </div>
                 <span style={{ float: "right", paddingRight: 10 }}></span>
               </div>
-              <div key={"kjsdfh" + loadedLayers} style={{ marginTop: 5 }}>
+              <div key={"kjsdfh" + loadedTimeSeriesLayers} style={{ marginTop: 5 }}>
                 {/* <Progress
                   percent={(loadedLayers / timeSeriesLayers.length) * 100}
                   showInfo={false}
                   strokeWidth={2}
                 /> */}
-                {loadedLayers !== timeSeriesLayers.length && (
+                {loadedTimeSeriesLayers !== timeSeriesLayers.length && (
                   <ProgressBar
                     style={{ height: 2 }}
-                    now={(loadedLayers / timeSeriesLayers.length) * 100}
+                    now={(loadedTimeSeriesLayers / timeSeriesLayers.length) * 100}
                     strokeWidth={2}
                   />
                 )}
