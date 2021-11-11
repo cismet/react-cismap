@@ -12,6 +12,8 @@ const Comp = ({
   additionalControls,
   additionalControlsShown,
   additionalControlsToggle,
+  valueMode,
+  setValueMode,
 }) => {
   let titleContent;
   const { history } = useContext(TopicMapContext);
@@ -23,7 +25,10 @@ const Comp = ({
         {additionalControlsToggle && (
           <div style={{ float: "left", paddingLeft: 10 }}>{additionalControlsToggle}</div>
         )}
-        <b>{titleString}: </b> max. Wasserstände
+        <b>{titleString}: </b>{" "}
+        {valueMode === starkregenConstants.SHOW_MAXVALUES
+          ? "max. Wasserstände"
+          : "Wasserstände im zeitlichen Verlauf"}
         <div style={{ float: "right", paddingRight: 10 }}>
           <a
             style={{ color: "#337ab7" }}
@@ -44,7 +49,10 @@ const Comp = ({
         {additionalControlsToggle && (
           <div style={{ float: "left", paddingLeft: 10 }}>{additionalControlsToggle}</div>
         )}
-        <b>{titleString}: </b> max. Fließgeschwindigkeiten
+        <b>{titleString}: </b>{" "}
+        {valueMode === starkregenConstants.SHOW_MAXVALUES
+          ? "max. Fließgeschwindigkeiten"
+          : "Fließgeschwindigkeiten im zeitlichen Verlauf"}
         <div style={{ float: "right", paddingRight: 10 }}>
           <a
             style={{ color: "#337ab7" }}

@@ -242,6 +242,8 @@ function Map({
         <ModeSwitcher
           titleString={modeSwitcherTitle}
           displayMode={state.displayMode}
+          valueMode={state.valueMode}
+          setValueMode={setX.setValueMode}
           additionalControlsToggle={
             <a
               style={{ color: "#337ab7" }}
