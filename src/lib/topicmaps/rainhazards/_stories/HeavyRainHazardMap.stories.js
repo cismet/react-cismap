@@ -153,15 +153,15 @@ export const RainHazardMapWuppertal = () => {
 export const RainHazardMapPaderborn = () => {
   const [gazData, setGazData] = useState([]);
 
-  // const getGazData = async (setGazData, url) => {
-  //   const prefix = "GazDataForStarkregengefahrenkarteByCismet";
-  //   const data = await md5FetchJSON(prefix, url);
+  const getGazData = async (setGazData, url) => {
+    const prefix = "GazDataForStarkregengefahrenkarteByCismet";
+    const data = await md5FetchJSON(prefix, url);
 
-  //   setGazData(data);
-  // };
-  // useEffect(() => {
-  //   getGazData(setGazData, "https://adhocdata.cismet.de/data/adressen_olpe.json");
-  // }, []);
+    setGazData(data);
+  };
+  useEffect(() => {
+    getGazData(setGazData, "https://adhocdata.cismet.de/data/adressen_paderborn.json");
+  }, []);
   return (
     <TopicMapContextProvider
       appKey={appKey + ".Paderborn"}
