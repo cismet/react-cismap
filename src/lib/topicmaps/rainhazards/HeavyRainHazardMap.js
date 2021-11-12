@@ -193,11 +193,15 @@ function Map({
   }
   const [activeTimeSeriesLayer, setActiveTimeSeriesLayer] = useState(0);
 
-  let timeSeriesWMSLayers;
+  let timeSeriesWMSLayers, timeSeriesLayerDescriptions;
   if (state.displayMode === starkregenConstants.SHOW_HEIGHTS) {
     timeSeriesWMSLayers = config.simulations[state.selectedSimulation].depthTimeDimensionLayers;
+    timeSeriesLayerDescriptions =
+      config.simulations[state.selectedSimulation].depthTimeDimensionLayerDescriptions;
   } else {
     timeSeriesWMSLayers = config.simulations[state.selectedSimulation].velocityTimeDimensionLayers;
+    timeSeriesLayerDescriptions =
+      config.simulations[state.selectedSimulation].velocityTimeDimensionLayerDescriptions;
   }
 
   const maxValue = 24;
@@ -268,11 +272,13 @@ function Map({
             <div>
               <div style={{ display: "flex", justifyContent: "space-around" }}>
                 <span style={{ float: "left", paddingLeft: 10 }}></span>
-
-                <div style={{ display: "flex", width: "40%" }}>
+                <div style={{ display: "flex", width: "50%" }}>
                   {/* <Button>
                     <FontAwesomeIcon icon={faPlay} />
                   </Button> */}
+                  <span style={{ marginRight: 10, alignSelf: "center" }}>
+                    {timeSeriesLayerDescriptions[activeTimeSeriesLayer]}
+                  </span>
                   <Slider
                     style={{ flex: "1 0 auto" }}
                     disabled={numberOfLoadedTimeSeriesLayers !== timeSeriesWMSLayers.length}
