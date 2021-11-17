@@ -178,7 +178,7 @@ export const RainHazardMapPaderborn = () => {
         homeZoom={14}
         homeCenter={[51.71905, 8.75439]}
         modeSwitcherTitle="AIS Starkregenvorsorge Paderborn"
-        documentTitle="Starkregengefahrenkarte Paderborn"
+        documentTitle="Preview Starkregengefahrenkarte Paderborn"
         gazData={gazData}
       />
     </TopicMapContextProvider>

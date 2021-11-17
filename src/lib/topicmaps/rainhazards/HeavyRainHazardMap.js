@@ -17,6 +17,7 @@ import {
   checkUrlAndSetStateAccordingly,
   createGetFeatureInfoControls,
   getFeatureInfoRequest,
+  getIntermediateImageUrl,
   setAnimationEnabled,
   setBackgroundIndex,
 } from "./helper";
@@ -44,6 +45,7 @@ import {
 
 import { Slider, Progress, Button } from "antd";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import DataDrivenNonTiledLayer from "../../DataDrivenNonTiledLayer";
 
 const persistenceSettings = [
   "displayMode",
@@ -112,6 +114,7 @@ function Map({
   const [loadingTimeSeriesLayers, setLoadingTimeSeriesLayers] = useState(new Set());
   const [autoplay, setAutoplay] = useState(false);
   const [numberOfLoadedTimeSeriesLayers, setNumberOfLoadedTimeSeriesLayers] = useState(0);
+  const [loadedTimeSeriesLayerImageData, setLoadedTimeSeriesLayerImageData] = useState({});
   const numberOfloadedTimeSeriesLayersRef = useRef();
 
   const resetTimeSeriesStates = () => {
@@ -129,6 +132,10 @@ function Map({
       setNumberOfLoadedTimeSeriesLayers(timeSeriesWMSLayers.length - old.size);
       return old;
     });
+    setLoadedTimeSeriesLayerImageData((old) => {
+      delete old[e.target.wmsParams.layers];
+      return old;
+    });
   };
   const layerLoaded = (e) => {
     // console.log("layer loaded", e.target.wmsParams.layers); //, e.canvas);
@@ -141,11 +148,17 @@ function Map({
       return old;
     });
 
-    // const canvas = e.canvas;
-    // const ctx = canvas.getContext("2d");
-    // const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    // e.canvas = null;
-    // console.log("layer data", data);
+    const canvas = e.canvas;
+    const ctx = canvas.getContext("2d");
+    const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    e.canvas = null;
+
+    setLoadedTimeSeriesLayerImageData((old) => {
+      return {
+        ...old,
+        [e.target.wmsParams.layers]: data,
+      };
+    });
   };
 
   const errorDuringLayerLoading = (e) => {
@@ -191,7 +204,6 @@ function Map({
   } else {
     cursor = "grabbing";
   }
-  const [activeTimeSeriesLayer, setActiveTimeSeriesLayer] = useState(0);
 
   let timeSeriesWMSLayers, timeSeriesLayerDescriptions;
   if (state.displayMode === starkregenConstants.SHOW_HEIGHTS) {
@@ -204,28 +216,44 @@ function Map({
       config.simulations[state.selectedSimulation].velocityTimeDimensionLayerDescriptions;
   }
 
-  const maxValue = 24;
-  const frames = 500;
+  const intermediateValuesCount = 25;
+  const maxValue = timeSeriesWMSLayers.length * intermediateValuesCount;
+  const frames = 500 / intermediateValuesCount;
   const [autoplayUpdater, setAutoplayUpdater] = useState();
+  const [activeTimeSeriesPoint, setActiveTimeSeriesPoint] = useState(1 * intermediateValuesCount);
+
+  const setNextPoint = async () => {
+    return new Promise((resolve) => {
+      setActiveTimeSeriesPoint((oldPoint) => {
+        // console.log("loadedTimeSeriesLayers", numberOfLoadedTimeSeriesLayers);
+
+        if (numberOfloadedTimeSeriesLayersRef.current === timeSeriesWMSLayers.length) {
+          const newPoint = oldPoint + 1;
+          if (newPoint <= maxValue) {
+            // console.log("done", new Date().getTime());
+
+            return newPoint;
+          } else {
+            // console.log("done", new Date().getTime());
+            return 0;
+          }
+        } else {
+          // console.log("done", new Date().getTime());
+          return oldPoint;
+        }
+      });
+    });
+  };
 
   useEffect(() => {
     if (autoplay) {
       if (!autoplayUpdater) {
-        const updater = setInterval(() => {
-          setActiveTimeSeriesLayer((oldLayer) => {
-            // console.log("loadedTimeSeriesLayers", numberOfLoadedTimeSeriesLayers);
+        console.log("setInterval", setInterval);
 
-            if (numberOfloadedTimeSeriesLayersRef.current === timeSeriesWMSLayers.length) {
-              const newLayer = oldLayer + 1;
-              if (newLayer <= maxValue) {
-                return newLayer;
-              } else {
-                return 0;
-              }
-            } else {
-              return oldLayer;
-            }
-          });
+        const updater = setInterval(() => {
+          (async () => {
+            setNextPoint();
+          })();
         }, frames);
         setAutoplayUpdater(updater);
       }
@@ -233,13 +261,40 @@ function Map({
       clearInterval(autoplayUpdater);
       setAutoplayUpdater(undefined);
     }
-  }, [autoplay, autoplayUpdater, numberOfLoadedTimeSeriesLayers, timeSeriesWMSLayers.length]);
+  }, [autoplay, autoplayUpdater, timeSeriesWMSLayers.length]);
+
   if (state) {
     //development purpose cannot happen on a normal instance
 
     if (state.selectedSimulation > config.simulations.length - 1) {
       setX.setSelectedSimulation(0);
       return;
+    }
+
+    const bounds = mapRef?.getBounds();
+
+    // console.log('loadedTimeSeriesLayerImageData[
+    //   timeSeriesWMSLayers[
+    //     Math.round(activeTimeSeriesPoint - intermediateValuesCount / 2) *
+    //       intermediateValuesCount
+    //   ]
+    // ]',loadedTimeSeriesLayerImageData[
+    //   timeSeriesWMSLayers[
+    //     Math.round(activeTimeSeriesPoint - intermediateValuesCount / 2) *
+    //       intermediateValuesCount
+    //   ]
+    // ]);
+
+    const layerIndex0 = Math.round(
+      (activeTimeSeriesPoint - intermediateValuesCount / 2) / intermediateValuesCount
+    );
+    const layerIndex1 =
+      Math.round((activeTimeSeriesPoint - intermediateValuesCount / 2) / intermediateValuesCount) +
+      1;
+
+    const marks = {};
+    for (let i = 0; i < timeSeriesWMSLayers.length; i++) {
+      marks[i * intermediateValuesCount] = "";
     }
     return (
       <div>
@@ -272,22 +327,32 @@ function Map({
             <div>
               <div style={{ display: "flex", justifyContent: "space-around" }}>
                 <span style={{ float: "left", paddingLeft: 10 }}></span>
-                <div style={{ display: "flex", width: "50%" }}>
+                <div style={{ display: "flex", width: "90%" }}>
                   {/* <Button>
                     <FontAwesomeIcon icon={faPlay} />
                   </Button> */}
                   <span style={{ marginRight: 10, alignSelf: "center" }}>
-                    {timeSeriesLayerDescriptions[activeTimeSeriesLayer]}
+                    {/* {timeSeriesLayerDescriptions[activeTimeSeriesPoint]} */}
                   </span>
                   <Slider
+                    marks={marks}
                     style={{ flex: "1 0 auto" }}
                     disabled={numberOfLoadedTimeSeriesLayers !== timeSeriesWMSLayers.length}
                     min={0}
-                    max={timeSeriesWMSLayers.length - 1}
-                    value={activeTimeSeriesLayer}
+                    max={(timeSeriesWMSLayers.length - 1) * intermediateValuesCount}
+                    value={activeTimeSeriesPoint}
                     tipFormatter={null}
                     onChange={(value) => {
-                      setActiveTimeSeriesLayer(parseInt(value));
+                      // console.log("value", value);
+
+                      setActiveTimeSeriesPoint(parseInt(value));
+                    }}
+                    onAfterChange={(value) => {
+                      console.log("value", value);
+                      const snapped =
+                        Math.round(value / intermediateValuesCount) * intermediateValuesCount;
+                      console.log("snapped", snapped);
+                      setActiveTimeSeriesPoint(parseInt(snapped));
                     }}
                   />
                   <Button
@@ -304,7 +369,10 @@ function Map({
                 </div>
                 <span style={{ float: "right", paddingRight: 10 }}></span>
               </div>
-              <div key={"kjsdfh" + numberOfLoadedTimeSeriesLayers} style={{ marginTop: 5 }}>
+              <div
+                key={"numberOfLoadedTimeSeriesLayersPB" + numberOfLoadedTimeSeriesLayers}
+                style={{ marginTop: 5 }}
+              >
                 {/* <Progress
                   percent={(loadedLayers / timeSeriesLayers.length) * 100}
                   showInfo={false}
@@ -317,6 +385,7 @@ function Map({
                     strokeWidth={2}
                   />
                 )}
+
                 {/* {loadedLayers}
                 <br />
                 {timeSeriesLayers.length}
@@ -459,6 +528,7 @@ function Map({
                 caching={false}
               />
             )}
+
           {state.valueMode === starkregenConstants.SHOW_MAXVALUES && state.animationEnabled && (
             <Animation
               key={"Animation.likes.a.key.that.changes.often." + JSON.stringify(state)}
@@ -473,24 +543,30 @@ function Map({
           )}
 
           {state.valueMode === starkregenConstants.SHOW_TIMESERIES &&
+            bounds &&
+            activeTimeSeriesPoint % intermediateValuesCount !== 0 &&
+            loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex0]] &&
+            loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex1]] && (
+              <DataDrivenNonTiledLayer
+                key={"datadrivenLayer." + activeTimeSeriesPoint}
+                data0={loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex0]]}
+                data1={loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex1]]}
+                data0Weight={
+                  1 -
+                  (activeTimeSeriesPoint - layerIndex0 * intermediateValuesCount) /
+                    intermediateValuesCount
+                }
+                data1Weight={
+                  1 -
+                  (layerIndex1 * intermediateValuesCount - activeTimeSeriesPoint) /
+                    intermediateValuesCount
+                }
+                bounds={bounds}
+                opacity={activeTimeSeriesPoint % intermediateValuesCount !== 0 ? 0.8 : 0}
+              />
+            )}
+          {state.valueMode === starkregenConstants.SHOW_TIMESERIES &&
             timeSeriesWMSLayers.map((layerName, index) => {
-              // return (
-              //   <StyledWMSTileLayer
-              //     key={"layer" + index}
-              //     url="https://starkregen-paderborn.cismet.de/geoserver/wms?SERVICE=WMS"
-              //     //   layers={layer}
-              //     layers={layerName}
-              //     styles={
-              //       state.displayMode === starkregenConstants.SHOW_HEIGHTS
-              //         ? "starkregen:depth-blue"
-              //         : "starkregen:velocity"
-              //     }
-              //     transparent="true"
-              //     format="image/png"
-              //     opacity={index === activeTimeSeriesLayer ? 1 : 0}
-              //     zIndex={10 + index}
-              //   />
-              // );
               return (
                 <NonTiledWMSLayer
                   key={"timeserieslayer" + index + state.displayMode}
@@ -505,7 +581,7 @@ function Map({
                     __zIndex: 10000000,
                     minZoom: 0,
                     maxZoom: 100,
-                    opacity: index === activeTimeSeriesLayer ? 0.8 : 0,
+                    opacity: index * intermediateValuesCount === activeTimeSeriesPoint ? 0.8 : 0,
                     transparent: "true",
                     crossOrigin: "anonymous",
                     format: "image/png",
@@ -519,27 +595,6 @@ function Map({
               );
             })}
 
-          {/* <StyledWMSLayer
-            {...{
-              type: "wms",
-              url: "https://starkregen-paderborn.cismet.de/geoserver/wms?SERVICE=WMS",
-              layersMax: "starkregen:velocity_14_max",
-              layers: "starkregen:velocity_14_00h_35m",
-              styles: "starkregen:velocity",
-              __zIndex: 10000000,
-              minZoom: 0,
-              maxZoom: 100,
-              transparent: "true",
-              format: "image/png",
-              version: "1.1.1",
-              onload: (e) => {
-                console.log("layer onload", e);
-              },
-              onerror: (e) => {
-                console.log("layer onerror", e);
-              },
-            }}
-          /> */}
           <ContactButton emailaddress={emailaddress} />
         </TopicMapComponent>
       </div>

@@ -277,3 +277,50 @@ export const createGetFeatureInfoControls = (
     return [];
   }
 };
+
+export const getIntermediateImageUrl = ({ imageData0, imageData1, data0Weight, data1Weight }) => {
+  // console.log("getIntermediateImageUrl{ data0, data1, data0Weight, data1Weight }", {
+  //   imageData0,
+  //   imageData1,
+  //   data0Weight,
+  //   data1Weight,
+  // });
+
+  const data0 = imageData0.data;
+  const data1 = imageData1.data;
+
+  const weightedMean = new Uint8ClampedArray(data0.length);
+  let red, green, blue, alpha;
+  const canvas = document.createElement("canvas");
+  for (let i = 0; i < data0.length; i += 4) {
+    if (data0[i + 3] === 0) {
+      red = 255 * data0Weight + data1[i] * data1Weight;
+      green = 255 * data0Weight + data1[i + 1] * data1Weight;
+      blue = 255 * data0Weight + data1[i + 2] * data1Weight;
+    } else if (data1[i + 3] === 0) {
+      red = data0[i] * data0Weight + 255 * data1Weight;
+      green = data0[i + 1] * data0Weight + 255 * data1Weight;
+      blue = data0[i + 2] * data0Weight + 255 * data1Weight;
+    } else {
+      red = data0[i] * data0Weight + data1[i] * data1Weight;
+      green = data0[i + 1] * data0Weight + data1[i + 1] * data1Weight;
+      blue = data0[i + 2] * data0Weight + data1[i + 2] * data1Weight;
+    }
+
+    alpha = data0[i + 3] * data0Weight + data1[i + 3] * data1Weight;
+
+    weightedMean[i] = red;
+    weightedMean[i + 1] = green;
+    weightedMean[i + 2] = blue;
+    weightedMean[i + 3] = alpha;
+  }
+  // console.log("weightedMean", weightedMean);
+
+  const idata = new ImageData(weightedMean, imageData0.width, imageData0.height);
+  const ctx = canvas.getContext("2d");
+  ctx.putImageData(idata, 0, 0);
+
+  const dataURL = canvas.toDataURL();
+
+  return dataURL;
+};
