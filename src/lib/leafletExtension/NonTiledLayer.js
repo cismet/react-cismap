@@ -11,6 +11,7 @@ import {
   setOptions,
   Util,
 } from "leaflet";
+
 /*
  * L.NonTiledLayer is an addon for leaflet which renders dynamic image overlays
  */
