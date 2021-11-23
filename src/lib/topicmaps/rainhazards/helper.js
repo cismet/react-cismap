@@ -450,8 +450,17 @@ export const getImageDataFromUrl = async (url, width, height) => {
   const dataURL = canvas.toDataURL();
   return dataURL;
 
-  const idata = ctx.getImageData(0, 0, img.width, img.height);
-  return idata;
+  // const idata = ctx.getImageData(0, 0, img.width, img.height);
+  // return idata;
+  // if you want to use this function, you need to add the following to your html:
+  //   <ImageDataLayer
+  //
+  //   key={"datadrivenLayer. + activeTimeSeriesPoint1"}
+  //   // url={loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex1]]}
+  //   data={loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex1]]}
+  //   bounds={mapBounds}
+  //   opacity={opacity1}
+  // />
 };
 
 export const opacityCalculator = (value, layerindex, intermediateValuesCount, maxOpacity) => {
