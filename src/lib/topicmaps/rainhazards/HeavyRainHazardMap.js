@@ -23,6 +23,7 @@ import {
   getMapUrl,
   getImageDataFromUrl,
   getIntermediateImage,
+  opacityCalculator,
 } from "./helper";
 import ModeSwitcher from "./components/ModeSwitcher";
 import FeatureInfoLLayerVis from "./components/FeatureInfoLayerVisualization";
@@ -46,18 +47,12 @@ import {
   faVideo,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { Slider, Progress, Button } from "antd";
+import { Slider, Button } from "antd";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import DataDrivenNonTiledLayer from "./DataDrivenNonTiledLayer";
-import DataDrivenNonTiledLayer2 from "./DataDrivenNonTiledLayer2";
-import DataDrivenNonTiledLayer3 from "./DataDrivenNonTiledLayer3";
 
 import rainHazardWorker from "workerize-loader!./rainHazardWorker"; // eslint-disable-line import/no-webpack-loader-syntax
 import { ImageOverlay } from "react-leaflet";
-
-import BezierEasing from "bezier-easing";
-
-let worker = rainHazardWorker();
+import { convertLength } from "@turf/helpers";
 
 const persistenceSettings = [
   "displayMode",
@@ -184,39 +179,6 @@ function Map({
       return old;
     });
   };
-  const layerLoaded = async (e) => {
-    // console.log("layer loaded", e.target.wmsParams.layers); //, e.canvas);
-    setLoadingTimeSeriesLayers((old) => {
-      // console.log("layer loaded set ", old);
-      // console.log("layer loaded", e.target.wmsParams.layers);
-      old.delete(e.target.wmsParams.layers);
-      // console.log("old", old);
-      setNumberOfLoadedTimeSeriesLayers(timeSeriesWMSLayers.length - old.size);
-      return old;
-    });
-    // const canvas = e.canvas;
-    // const layer = e.target.wmsParams.layers;
-    // const ctx = canvas.getContext("2d");
-    // const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    // setLoadedTimeSeriesLayerImageData((old) => {
-    //   return {
-    //     ...old,
-    //     [layer]: data,
-    //   };
-    // });
-    // if (state.cachingIntermediateLayers) {
-    //   await produceIntermediateData();
-    // }
-  };
-
-  const errorDuringLayerLoading = (e) => {
-    console.log("layer onerror", e.target.wmsParams.layers);
-    setLoadingTimeSeriesLayers((old) => {
-      old.delete(e.target.wmsParams.layers);
-      setNumberOfLoadedTimeSeriesLayers(timeSeriesWMSLayers.length - old.size);
-      return old;
-    });
-  };
 
   useEffect(() => {
     if (persistenceSettings) {
@@ -300,96 +262,18 @@ function Map({
     });
   };
 
-  const getAndStoreImageData = async ({ i, imageData0, imageData1, data0Weight, data1Weight }) => {
-    console.log("getAndStoreImageData", {
-      i,
-      imageData0,
-      imageData1,
-      data0Weight,
-      data1Weight,
-    });
-
-    setTimeout(() => {
-      getIntermediateImageUrl({
-        i,
-        imageData0,
-        imageData1,
-        data0Weight,
-        data1Weight,
-      }).then((image) => {
-        console.log("getAndStoreImageData done ", i);
-        setTimeout(() => {
-          setIntermediateTimeSeriesLayerImageData((old) => {
-            return {
-              ...old,
-              [i]: image,
-            };
-          });
-          setNumberOfIntermediateTimeSeriesLayerImageData(
-            Object.keys(intermediateTimeSeriesLayerImageDataRef.current).length
-          );
-        }, 1);
-      });
-    }, 1);
-  };
-
-  const produceIntermediateData = async () => {
-    if (
-      state.valueMode === starkregenConstants.SHOW_TIMESERIES &&
-      Object.keys(loadedTimeSeriesLayerImageDataRef.current).length > 0 &&
-      Object.keys(loadedTimeSeriesLayerImageDataRef.current).length === timeSeriesWMSLayers.length
-    ) {
-      setTimeout(() => {
-        //Calculate intermediate images (skip the already existing ones)
-        for (
-          let mainLayerIndex = 0;
-          mainLayerIndex < timeSeriesWMSLayers.length - 1;
-          ++mainLayerIndex
-        ) {
-          const layerIndex0 = mainLayerIndex;
-          const layerIndex1 = mainLayerIndex + 1;
-
-          for (let j = 1; j < intermediateValuesCount; ++j) {
-            const i = j + mainLayerIndex * intermediateValuesCount;
-            const data0Weight =
-              1 - (i - layerIndex0 * intermediateValuesCount) / intermediateValuesCount;
-
-            const data1Weight =
-              1 - (layerIndex1 * intermediateValuesCount - i) / intermediateValuesCount;
-
-            const imageData0 =
-              loadedTimeSeriesLayerImageDataRef.current[timeSeriesWMSLayers[layerIndex0]];
-            const imageData1 =
-              loadedTimeSeriesLayerImageDataRef.current[timeSeriesWMSLayers[layerIndex1]];
-
-            getAndStoreImageData({
-              i,
-              layerIndex0,
-              layerIndex1,
-              data0Weight,
-              data1Weight,
-              imageData0,
-              imageData1,
-            });
-          }
-        }
-      }, 100);
-    }
-  };
-
+  //load the image data and store it in loadedTimeSeriesLayerImageData
   useEffect(() => {
-    const conf = {
-      url: "https://starkregen-paderborn.cismet.de/geoserver/wms?SERVICE=WMS",
-      styles: "starkregen:depth-blue",
-      layers: "starkregen:depth_14_00h_55m",
-      transparent: "true",
-      crossOrigin: "anonymous",
-      format: "image/png",
-      version: "1.1.1",
-    };
-
     if (mapBounds && mapSize && state.valueMode === starkregenConstants.SHOW_TIMESERIES) {
-      // setLoadingTimeSeriesLayers(new Set(timeSeriesWMSLayers));
+      const conf = {
+        url: "https://starkregen-paderborn.cismet.de/geoserver/wms?SERVICE=WMS",
+        styles: "starkregen:depth-blue",
+        layers: "starkregen:depth_14_00h_55m",
+        transparent: "true",
+        crossOrigin: "anonymous",
+        format: "image/png",
+        version: "1.1.1",
+      };
       setNumberOfLoadedTimeSeriesLayers(0);
       setLoadedTimeSeriesLayerImageData({});
       setIntermediateTimeSeriesLayerImageData({});
@@ -402,8 +286,6 @@ function Map({
         const url = getMapUrl(wmsParams, mapBounds, mapSize);
         setTimeout(() => {
           getImageDataFromUrl(url, mapSize.x, mapSize.y).then((imageData) => {
-            console.log(url);
-            // console.log(url, imageData);
             setLoadedTimeSeriesLayerImageData((old) => {
               return {
                 ...old,
@@ -414,8 +296,6 @@ function Map({
             setNumberOfLoadedTimeSeriesLayers(
               Object.keys(loadedTimeSeriesLayerImageDataRef.current).length
             );
-
-            //produceIntermediateData(); //will only do work if all layers are loaded
           });
         }, 1);
       }
@@ -443,30 +323,10 @@ function Map({
 
   if (state) {
     //development purpose cannot happen on a normal instance
-
     if (state.selectedSimulation > config.simulations.length - 1) {
       setX.setSelectedSimulation(0);
       return;
     }
-
-    const opacityCalculator = (value, layerindex, intermediateValuesCount, maxOpacity) => {
-      const sub = layerindex * intermediateValuesCount;
-      let ret = 0;
-      const result = (value - sub) / intermediateValuesCount;
-      if (result < 0) {
-        ret = 0;
-      } else if (result <= 1) {
-        ret = result;
-      } else if (result <= 2) {
-        ret = 1 - (result - 1);
-      } else {
-        ret = 0;
-      }
-
-      const x = BezierEasing(0, 0.26, 0.41, 0.96)(ret);
-      return x * maxOpacity;
-      return ret;
-    };
 
     const layerIndex0 = Math.round(
       (activeTimeSeriesPoint - intermediateValuesCount / 2) / intermediateValuesCount
@@ -493,22 +353,14 @@ function Map({
       1
     );
 
-    console.log({
-      layerIndex0,
-      opacity0,
-      layerIndex1,
-      opacity1,
-      // // loadedTimeSeriesLayerImageData,
-      // // timeSeriesWMSLayers,
-      // a: timeSeriesWMSLayers[layerIndex0],
-      // x: loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex0]],
-      // muesstedasein:
-      //   !state.cachingIntermediateLayers &&
-      //   state.valueMode === starkregenConstants.SHOW_TIMESERIES &&
-      //   mapBounds &&
-      //   loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex0]] &&
-      //   loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex1]],
-    });
+    // console.log({
+    //   layerIndex0,
+    //   opacity0,
+    //   layerIndex1,
+    //   opacity1,
+    // });
+
+    console.log("refresh");
 
     return (
       <div>
@@ -559,8 +411,9 @@ function Map({
                     tipFormatter={null}
                     onChange={(value) => {
                       // console.log("value", value);
-
-                      setActiveTimeSeriesPoint(parseInt(value));
+                      setTimeout(() => {
+                        setActiveTimeSeriesPoint(parseInt(value));
+                      }, 1);
                     }}
                     onAfterChange={(value) => {
                       console.log("value", value);
@@ -754,91 +607,7 @@ function Map({
               layerPostfix={config.simulations[state.selectedSimulation].animationPostfix}
             />
           )}
-          {/* the main model result layers */}
-          {/* {state.valueMode === starkregenConstants.SHOW_TIMESERIES &&
-            timeSeriesWMSLayers.map((layerName, index) => {
-              return (
-                <NonTiledWMSLayer
-                  key={"timeserieslayer" + index + state.displayMode}
-                  {...{
-                    type: "wms",
-                    url: "https://starkregen-paderborn.cismet.de/geoserver/wms?SERVICE=WMS",
-                    layers: layerName,
-                    styles:
-                      state.displayMode === starkregenConstants.SHOW_HEIGHTS
-                        ? "starkregen:depth-blue"
-                        : "starkregen:velocity",
-                    __zIndex: 10000000,
-                    minZoom: 0,
-                    maxZoom: 100,
-                    opacity: index * intermediateValuesCount === activeTimeSeriesPoint ? 0.8 : 0,
-                    _opacity: 0,
-                    transparent: "true",
-                    crossOrigin: "anonymous",
-                    format: "image/png",
-                    version: "1.1.1",
-
-                    onload: layerLoaded,
-                    onloading: layerLoadingStarted,
-                    onerror: errorDuringLayerLoading,
-                  }}
-                />
-              );
-            })} */}
-
-          {/* Intermediate Layers */}
-          {/* {state.cachingIntermediateLayers &&
-            state.valueMode === starkregenConstants.SHOW_TIMESERIES &&
-            Object.keys(intermediateTimeSeriesLayerImageData).length ===
-              (timeSeriesWMSLayers.length - 1) * (intermediateValuesCount - 1) &&
-            Object.keys(intermediateTimeSeriesLayerImageData).map((key, index) => {
-              // get integer value of key
-              const keyInt = parseInt(key, 10);
-
-              return (
-                <ImageOverlay
-                  key={"animationlayer." + index}
-                  url={intermediateTimeSeriesLayerImageData[key]}
-                  bounds={mapBounds}
-                  opacity={keyInt === activeTimeSeriesPoint ? 0.8 : 0}
-                />
-                // <ImageDataLayer
-                //   key={"ImageDataLayer" + index}
-                //   data={intermediateTimeSeriesLayerImageData[key]}
-                //   bounds={mapBounds}
-                //   opacity={keyInt === activeTimeSeriesPoint ? 0.8 : 0}
-                // />
-              );
-            })} */}
-
-          {/* {!state.cachingIntermediateLayers &&
-            state.valueMode === starkregenConstants.SHOW_TIMESERIES &&
-            mapBounds &&
-            loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex0]] &&
-            loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex1]] && (
-              <DataDrivenNonTiledLayer3
-                // key={"datadrivenLayer." + activeTimeSeriesPoint}
-                key={"datadrivenLayer. + activeTimeSeriesPoint"}
-                data0={loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex0]]}
-                data1={loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex1]]}
-                data0Weight={
-                  1 -
-                  (activeTimeSeriesPoint - layerIndex0 * intermediateValuesCount) /
-                    intermediateValuesCount
-                }
-                data1Weight={
-                  1 -
-                  (layerIndex1 * intermediateValuesCount - activeTimeSeriesPoint) /
-                    intermediateValuesCount
-                }
-                bounds={mapBounds}
-                opacity={0.8}
-                _opacity={activeTimeSeriesPoint % intermediateValuesCount === 0 ? 0 : 0.8}
-              />
-            )} */}
-
-          {!state.cachingIntermediateLayers &&
-            state.valueMode === starkregenConstants.SHOW_TIMESERIES &&
+          {state.valueMode === starkregenConstants.SHOW_TIMESERIES &&
             mapBounds &&
             loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex0]] &&
             (loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex1]] ||
