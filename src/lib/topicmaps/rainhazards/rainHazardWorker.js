@@ -1,11 +1,3 @@
-export async function doubleString(string) {
-  try {
-    return string + "..." + string;
-  } catch (err) {
-    console.log("worker error", err);
-  }
-}
-
 // export async function getImageDataFromCanvas(canvas) {
 //   try {
 //     const ctx = canvas.getContext("2d");

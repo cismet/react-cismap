@@ -8,6 +8,7 @@ import FeatureInfoModeBoxForHeights from "./components/FeatureInfoModeBoxForHeig
 import FeatureInfoModeBoxForVelocityAndDirection from "./components/FeatureInfoModeBoxForVelocityAndDirection";
 import FeatureInfoModeButton from "./components/FeatureInfoModeButton";
 import rainHazardWorker from "workerize-loader!./rainHazardWorker"; // eslint-disable-line import/no-webpack-loader-syntax
+import BezierEasing from "bezier-easing";
 
 const worker = new rainHazardWorker();
 
@@ -451,4 +452,23 @@ export const getImageDataFromUrl = async (url, width, height) => {
 
   const idata = ctx.getImageData(0, 0, img.width, img.height);
   return idata;
+};
+
+export const opacityCalculator = (value, layerindex, intermediateValuesCount, maxOpacity) => {
+  const sub = layerindex * intermediateValuesCount;
+  let ret = 0;
+  const result = (value - sub) / intermediateValuesCount;
+  if (result < 0) {
+    ret = 0;
+  } else if (result <= 1) {
+    ret = result;
+  } else if (result <= 2) {
+    ret = 1 - (result - 1);
+  } else {
+    ret = 0;
+  }
+
+  const x = BezierEasing(0, 0.26, 0.41, 0.96)(ret);
+  return x * maxOpacity;
+  return ret;
 };
