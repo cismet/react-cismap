@@ -134,52 +134,7 @@ function Map({
     setCurrentFeatureInfoSelectedSimulation: set("currentFeatureInfoSelectedSimulation"),
   };
 
-  const [loadingTimeSeriesLayers, setLoadingTimeSeriesLayers] = useState(new Set());
-  const [autoplay, setAutoplay] = useState(false);
-  const [numberOfLoadedTimeSeriesLayers, setNumberOfLoadedTimeSeriesLayers] = useState(0);
-  const [loadedTimeSeriesLayerImageData, setLoadedTimeSeriesLayerImageData] = useState({});
-  const [intermediateTimeSeriesLayerImageData, setIntermediateTimeSeriesLayerImageData] = useState(
-    {}
-  );
-  const [
-    numberOfIntermediateTimeSeriesLayerImageData,
-    setNumberOfIntermediateTimeSeriesLayerImageData,
-  ] = useState(0);
-
-  const numberOfloadedTimeSeriesLayersRef = useRef();
-  const numberOfIntermediateTimeSeriesLayerImageDataRef = useRef();
-  const loadedTimeSeriesLayerImageDataRef = useRef();
-  const intermediateTimeSeriesLayerImageDataRef = useRef();
-
-  useEffect(() => {
-    numberOfloadedTimeSeriesLayersRef.current = numberOfLoadedTimeSeriesLayers;
-  }, [numberOfLoadedTimeSeriesLayers]);
-  useEffect(() => {
-    numberOfIntermediateTimeSeriesLayerImageDataRef.current = numberOfIntermediateTimeSeriesLayerImageData;
-  }, [numberOfIntermediateTimeSeriesLayerImageData]);
-  useEffect(() => {
-    loadedTimeSeriesLayerImageDataRef.current = loadedTimeSeriesLayerImageData;
-  }, [loadedTimeSeriesLayerImageData]);
-  useEffect(() => {
-    intermediateTimeSeriesLayerImageDataRef.current = intermediateTimeSeriesLayerImageData;
-  }, [intermediateTimeSeriesLayerImageData]);
-
-  const resetTimeSeriesStates = () => {
-    setLoadingTimeSeriesLayers(new Set());
-    setNumberOfLoadedTimeSeriesLayers(0);
-  };
-  const layerLoadingStarted = (e) => {
-    setLoadingTimeSeriesLayers((old) => {
-      old.add(e.target.wmsParams.layers);
-      setNumberOfLoadedTimeSeriesLayers(timeSeriesWMSLayers.length - old.size);
-      return old;
-    });
-    setLoadedTimeSeriesLayerImageData((old) => {
-      delete old[e.target.wmsParams.layers];
-      return old;
-    });
-  };
-
+  //Startup
   useEffect(() => {
     if (persistenceSettings) {
       for (const prop of persistenceSettings) {
@@ -188,18 +143,30 @@ function Map({
         setFromLocalforage(localforagekey, setter);
       }
     }
-  }, []); //[set]);
+
+    document.title = documentTitle;
+    checkUrlAndSetStateAccordingly(state, setX, history, resetTimeSeriesStates);
+  }, []);
+
+  const [loadingTimeSeriesLayers, setLoadingTimeSeriesLayers] = useState(new Set());
+
+  const [autoplay, setAutoplay] = useState(false);
+  const [loadedTimeSeriesLayerImageData, setLoadedTimeSeriesLayerImageData] = useState({});
+  const loadedTimeSeriesLayerImageDataRef = useRef();
+
+  useEffect(() => {
+    loadedTimeSeriesLayerImageDataRef.current = loadedTimeSeriesLayerImageData;
+  }, [loadedTimeSeriesLayerImageData]);
+
+  const resetTimeSeriesStates = () => {
+    setLoadingTimeSeriesLayers(new Set());
+  };
 
   useEffect(() => {
     if (mapRef && mapRef.attributionControl) {
       mapRef.attributionControl.setPrefix("");
     }
   }, [mapRef]);
-
-  useEffect(() => {
-    document.title = documentTitle;
-    checkUrlAndSetStateAccordingly(state, setX, history, resetTimeSeriesStates);
-  }, []);
 
   //check for changes in url and set appMode accordingly
   useEffect(() => {
@@ -214,6 +181,14 @@ function Map({
   } else {
     cursor = "grabbing";
   }
+
+  const getNumberOfLoadedTimeSeriesLayers = () => {
+    if (loadedTimeSeriesLayerImageDataRef.current === undefined) {
+      return 0;
+    } else {
+      return Object.keys(loadedTimeSeriesLayerImageDataRef.current).length;
+    }
+  };
 
   let timeSeriesWMSLayers, timeSeriesLayerDescriptions;
   if (state.displayMode === starkregenConstants.SHOW_HEIGHTS) {
@@ -274,10 +249,8 @@ function Map({
         format: "image/png",
         version: "1.1.1",
       };
-      setNumberOfLoadedTimeSeriesLayers(0);
       setLoadedTimeSeriesLayerImageData({});
-      setIntermediateTimeSeriesLayerImageData({});
-      setNumberOfIntermediateTimeSeriesLayerImageData(0);
+
       for (const layer of timeSeriesWMSLayers) {
         const wmsParams = {
           ...conf,
@@ -292,10 +265,6 @@ function Map({
                 [layer]: imageData,
               };
             });
-
-            setNumberOfLoadedTimeSeriesLayers(
-              Object.keys(loadedTimeSeriesLayerImageDataRef.current).length
-            );
           });
         }, 1);
       }
@@ -360,12 +329,10 @@ function Map({
     //   opacity1,
     // });
 
-    console.log("refresh");
-
     return (
       <div>
         <ModeSwitcher
-          key={"ModeSwitcher" + numberOfLoadedTimeSeriesLayers}
+          key={"ModeSwitcher"}
           titleString={modeSwitcherTitle}
           displayMode={state.displayMode}
           valueMode={state.valueMode}
@@ -404,7 +371,7 @@ function Map({
                   <Slider
                     marks={marks}
                     style={{ flex: "1 0 auto" }}
-                    disabled={numberOfLoadedTimeSeriesLayers !== timeSeriesWMSLayers.length}
+                    disabled={getNumberOfLoadedTimeSeriesLayers() !== timeSeriesWMSLayers.length}
                     min={0}
                     max={(timeSeriesWMSLayers.length - 1) * intermediateValuesCount}
                     value={activeTimeSeriesPoint}
@@ -441,23 +408,14 @@ function Map({
                 // key={"numberOfLoadedTimeSeriesLayersPB" + getLoadedTSCount()}
                 style={{ marginTop: 5 }}
               >
-                {numberOfLoadedTimeSeriesLayers !== timeSeriesWMSLayers.length && (
+                {getNumberOfLoadedTimeSeriesLayers() !== timeSeriesWMSLayers.length && (
                   <ProgressBar
-                    key={
-                      "loadedTSCount" +
-                      numberOfLoadedTimeSeriesLayers +
-                      numberOfIntermediateTimeSeriesLayerImageData
-                    }
+                    key={"loadedTSCount" + getNumberOfLoadedTimeSeriesLayers()}
                     style={{ height: 2 }}
-                    now={(numberOfLoadedTimeSeriesLayers / timeSeriesWMSLayers.length) * 100}
+                    now={(getNumberOfLoadedTimeSeriesLayers() / timeSeriesWMSLayers.length) * 100}
                     strokeWidth={2}
                   />
                 )}
-                {/* <span>
-                  {activeTimeSeriesPoint} -- {numberOfLoadedTimeSeriesLayers} +{" "}
-                  {numberOfIntermediateTimeSeriesLayerImageData} max ={timeSeriesWMSLayers.length} +{" "}
-                  {(timeSeriesWMSLayers.length - 1) * intermediateValuesCount} +1
-                </span> */}
               </div>
             </div>
           }
