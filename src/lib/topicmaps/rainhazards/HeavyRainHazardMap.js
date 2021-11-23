@@ -399,7 +399,7 @@ function Map({
                     }}
                   >
                     {!autoplay && <FontAwesomeIcon icon={faPlay} />}
-                    {autoplay && <FontAwesomeIcon icon={faPause} className="fa-spin" />}
+                    {autoplay && <FontAwesomeIcon icon={faPause} />}
                   </Button>
                 </div>
                 <span style={{ float: "right", paddingRight: 10 }}></span>
