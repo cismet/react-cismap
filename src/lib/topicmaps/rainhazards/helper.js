@@ -429,6 +429,7 @@ function asyncImageLoader(url, now, refreshTSRef) {
     image.crossOrigin = "Anonymous";
     const aborter = setInterval(() => {
       if (now !== refreshTSRef.current) {
+        image.src = null;
         clearInterval(aborter);
         resolve(undefined);
       }
