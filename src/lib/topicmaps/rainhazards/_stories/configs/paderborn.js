@@ -169,10 +169,10 @@ const config = {
       animationPrefix: "",
       animationPostfix: "_14_max",
       name: "Stärke 7",
-      title: "Starkregen SRI 7 (52,10 l/m² in 1h)",
+      title: "Starkregen SRI 7 (54,10 l/m² in 1h)",
       icon: "bar-chart",
       subtitle:
-        "Simulation eines einstündigen Starkregens mit 52,10 Liter/m² Niederschlag (Starkregenindex SRI 7) in ganz Paderborn, statistische Wiederkehrzeit 100 Jahre",
+        "Simulation eines einstündigen Starkregens mit 54,10 Liter/m² Niederschlag (Starkregenindex SRI 7) für das hydrologische Einzugsgebiet Paderborns, statistische Wiederkehrzeit 100 Jahre.",
     },
   ],
 
