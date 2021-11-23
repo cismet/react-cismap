@@ -55,6 +55,8 @@ import DataDrivenNonTiledLayer3 from "./DataDrivenNonTiledLayer3";
 import rainHazardWorker from "workerize-loader!./rainHazardWorker"; // eslint-disable-line import/no-webpack-loader-syntax
 import { ImageOverlay } from "react-leaflet";
 
+import BezierEasing from "bezier-easing";
+
 let worker = rainHazardWorker();
 
 const persistenceSettings = [
@@ -192,19 +194,19 @@ function Map({
       setNumberOfLoadedTimeSeriesLayers(timeSeriesWMSLayers.length - old.size);
       return old;
     });
-    const canvas = e.canvas;
-    const layer = e.target.wmsParams.layers;
-    const ctx = canvas.getContext("2d");
-    const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    setLoadedTimeSeriesLayerImageData((old) => {
-      return {
-        ...old,
-        [layer]: data,
-      };
-    });
-    if (state.cachingIntermediateLayers) {
-      await produceIntermediateData();
-    }
+    // const canvas = e.canvas;
+    // const layer = e.target.wmsParams.layers;
+    // const ctx = canvas.getContext("2d");
+    // const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    // setLoadedTimeSeriesLayerImageData((old) => {
+    //   return {
+    //     ...old,
+    //     [layer]: data,
+    //   };
+    // });
+    // if (state.cachingIntermediateLayers) {
+    //   await produceIntermediateData();
+    // }
   };
 
   const errorDuringLayerLoading = (e) => {
@@ -262,12 +264,15 @@ function Map({
       config.simulations[state.selectedSimulation].velocityTimeDimensionLayerDescriptions;
   }
 
-  const intermediateValuesCount = 5;
+  const initialLayerIndex = 1;
+  const intermediateValuesCount = 25;
   const maxValue = timeSeriesWMSLayers.length * intermediateValuesCount;
-  const frames = 300 / intermediateValuesCount;
-  // const frames = 10;
+  // const frames = 50 / intermediateValuesCount;
+  const frames = 1;
   const [autoplayUpdater, setAutoplayUpdater] = useState();
-  const [activeTimeSeriesPoint, setActiveTimeSeriesPoint] = useState(5 * intermediateValuesCount);
+  const [activeTimeSeriesPoint, setActiveTimeSeriesPoint] = useState(
+    initialLayerIndex * intermediateValuesCount
+  );
 
   const setNextPoint = async () => {
     return new Promise((resolve) => {
@@ -373,6 +378,51 @@ function Map({
   };
 
   useEffect(() => {
+    const conf = {
+      url: "https://starkregen-paderborn.cismet.de/geoserver/wms?SERVICE=WMS",
+      styles: "starkregen:depth-blue",
+      layers: "starkregen:depth_14_00h_55m",
+      transparent: "true",
+      crossOrigin: "anonymous",
+      format: "image/png",
+      version: "1.1.1",
+    };
+
+    if (mapBounds && mapSize && state.valueMode === starkregenConstants.SHOW_TIMESERIES) {
+      // setLoadingTimeSeriesLayers(new Set(timeSeriesWMSLayers));
+      setNumberOfLoadedTimeSeriesLayers(0);
+      setLoadedTimeSeriesLayerImageData({});
+      setIntermediateTimeSeriesLayerImageData({});
+      setNumberOfIntermediateTimeSeriesLayerImageData(0);
+      for (const layer of timeSeriesWMSLayers) {
+        const wmsParams = {
+          ...conf,
+          layers: layer,
+        };
+        const url = getMapUrl(wmsParams, mapBounds, mapSize);
+        setTimeout(() => {
+          getImageDataFromUrl(url, mapSize.x, mapSize.y).then((imageData) => {
+            console.log(url);
+            // console.log(url, imageData);
+            setLoadedTimeSeriesLayerImageData((old) => {
+              return {
+                ...old,
+                [layer]: imageData,
+              };
+            });
+
+            setNumberOfLoadedTimeSeriesLayers(
+              Object.keys(loadedTimeSeriesLayerImageDataRef.current).length
+            );
+
+            //produceIntermediateData(); //will only do work if all layers are loaded
+          });
+        }, 1);
+      }
+    }
+  }, [mapBounds, mapSize, state.valueMode === starkregenConstants.SHOW_TIMESERIES]);
+
+  useEffect(() => {
     if (autoplay) {
       if (!autoplayUpdater) {
         const updater = setInterval(() => {
@@ -399,6 +449,25 @@ function Map({
       return;
     }
 
+    const opacityCalculator = (value, layerindex, intermediateValuesCount, maxOpacity) => {
+      const sub = layerindex * intermediateValuesCount;
+      let ret = 0;
+      const result = (value - sub) / intermediateValuesCount;
+      if (result < 0) {
+        ret = 0;
+      } else if (result <= 1) {
+        ret = result;
+      } else if (result <= 2) {
+        ret = 1 - (result - 1);
+      } else {
+        ret = 0;
+      }
+
+      const x = BezierEasing(0, 0.26, 0.41, 0.96)(ret);
+      return x * maxOpacity;
+      return ret;
+    };
+
     const layerIndex0 = Math.round(
       (activeTimeSeriesPoint - intermediateValuesCount / 2) / intermediateValuesCount
     );
@@ -411,20 +480,35 @@ function Map({
       marks[i * intermediateValuesCount] = "";
     }
 
-    // console.log({
-    //   layerIndex0,
-    //   layerIndex1,
-    //   // loadedTimeSeriesLayerImageData,
-    //   // timeSeriesWMSLayers,
-    //   a: timeSeriesWMSLayers[layerIndex0],
-    //   x: loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex0]],
-    //   muesstedasein:
-    //     !state.cachingIntermediateLayers &&
-    //     state.valueMode === starkregenConstants.SHOW_TIMESERIES &&
-    //     mapBounds &&
-    //     loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex0]] &&
-    //     loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex1]],
-    // });
+    const opacity0 = opacityCalculator(
+      activeTimeSeriesPoint,
+      layerIndex0 - 1,
+      intermediateValuesCount,
+      1
+    );
+    const opacity1 = opacityCalculator(
+      activeTimeSeriesPoint,
+      layerIndex1 - 1,
+      intermediateValuesCount,
+      1
+    );
+
+    console.log({
+      layerIndex0,
+      opacity0,
+      layerIndex1,
+      opacity1,
+      // // loadedTimeSeriesLayerImageData,
+      // // timeSeriesWMSLayers,
+      // a: timeSeriesWMSLayers[layerIndex0],
+      // x: loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex0]],
+      // muesstedasein:
+      //   !state.cachingIntermediateLayers &&
+      //   state.valueMode === starkregenConstants.SHOW_TIMESERIES &&
+      //   mapBounds &&
+      //   loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex0]] &&
+      //   loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex1]],
+    });
 
     return (
       <div>
@@ -458,7 +542,7 @@ function Map({
             <div>
               <div style={{ display: "flex", justifyContent: "space-around" }}>
                 <span style={{ float: "left", paddingLeft: 10 }}></span>
-                <div style={{ display: "flex", width: "60%" }}>
+                <div style={{ display: "flex", width: "90%" }}>
                   {/* <Button>
                     <FontAwesomeIcon icon={faPlay} />
                   </Button> */}
@@ -466,7 +550,7 @@ function Map({
                     {/* {timeSeriesLayerDescriptions[activeTimeSeriesPoint]} */}
                   </span>
                   <Slider
-                    nomarks_marks={marks}
+                    marks={marks}
                     style={{ flex: "1 0 auto" }}
                     disabled={numberOfLoadedTimeSeriesLayers !== timeSeriesWMSLayers.length}
                     min={0}
@@ -504,43 +588,23 @@ function Map({
                 // key={"numberOfLoadedTimeSeriesLayersPB" + getLoadedTSCount()}
                 style={{ marginTop: 5 }}
               >
-                {/* <Progress
-                  percent={(loadedLayers / timeSeriesLayers.length) * 100}
-                  showInfo={false}
-                  strokeWidth={2}
-                /> */}
-                {/* {           (numberOfLoadedTimeSeriesLayers !== timeSeriesWMSLayers.length && ( */}
-                <ProgressBar
-                  key={
-                    "loadedTSCount" +
-                    numberOfLoadedTimeSeriesLayers +
-                    numberOfIntermediateTimeSeriesLayerImageData
-                  }
-                  style={{ height: 2 }}
-                  now={(numberOfLoadedTimeSeriesLayers / timeSeriesWMSLayers.length) * 100}
-                  strokeWidth={2}
-                />
-                <ProgressBar
-                  key={
-                    "loadedTSCountYYYY" +
-                    numberOfLoadedTimeSeriesLayers +
-                    numberOfIntermediateTimeSeriesLayerImageData
-                  }
-                  style={{ height: 2 }}
-                  now={
-                    ((numberOfLoadedTimeSeriesLayers +
-                      numberOfIntermediateTimeSeriesLayerImageData) /
-                      ((timeSeriesWMSLayers.length - 1) * intermediateValuesCount)) *
-                    100
-                  }
-                  strokeWidth={2}
-                />
-                {/* ))} */}
-                <span>
+                {numberOfLoadedTimeSeriesLayers !== timeSeriesWMSLayers.length && (
+                  <ProgressBar
+                    key={
+                      "loadedTSCount" +
+                      numberOfLoadedTimeSeriesLayers +
+                      numberOfIntermediateTimeSeriesLayerImageData
+                    }
+                    style={{ height: 2 }}
+                    now={(numberOfLoadedTimeSeriesLayers / timeSeriesWMSLayers.length) * 100}
+                    strokeWidth={2}
+                  />
+                )}
+                {/* <span>
                   {activeTimeSeriesPoint} -- {numberOfLoadedTimeSeriesLayers} +{" "}
                   {numberOfIntermediateTimeSeriesLayerImageData} max ={timeSeriesWMSLayers.length} +{" "}
                   {(timeSeriesWMSLayers.length - 1) * intermediateValuesCount} +1
-                </span>
+                </span> */}
               </div>
             </div>
           }
@@ -691,7 +755,7 @@ function Map({
             />
           )}
           {/* the main model result layers */}
-          {state.valueMode === starkregenConstants.SHOW_TIMESERIES &&
+          {/* {state.valueMode === starkregenConstants.SHOW_TIMESERIES &&
             timeSeriesWMSLayers.map((layerName, index) => {
               return (
                 <NonTiledWMSLayer
@@ -720,7 +784,7 @@ function Map({
                   }}
                 />
               );
-            })}
+            })} */}
 
           {/* Intermediate Layers */}
           {/* {state.cachingIntermediateLayers &&
@@ -747,7 +811,7 @@ function Map({
               );
             })} */}
 
-          {!state.cachingIntermediateLayers &&
+          {/* {!state.cachingIntermediateLayers &&
             state.valueMode === starkregenConstants.SHOW_TIMESERIES &&
             mapBounds &&
             loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex0]] &&
@@ -768,8 +832,37 @@ function Map({
                     intermediateValuesCount
                 }
                 bounds={mapBounds}
-                opacity={activeTimeSeriesPoint % intermediateValuesCount === 0 ? 0 : 0.8}
+                opacity={0.8}
+                _opacity={activeTimeSeriesPoint % intermediateValuesCount === 0 ? 0 : 0.8}
               />
+            )} */}
+
+          {!state.cachingIntermediateLayers &&
+            state.valueMode === starkregenConstants.SHOW_TIMESERIES &&
+            mapBounds &&
+            loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex0]] &&
+            (loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex1]] ||
+              layerIndex1 === timeSeriesWMSLayers.length) && (
+              <>
+                <ImageOverlay
+                  // key={"datadrivenLayer." + activeTimeSeriesPoint}
+                  key={"datadrivenLayer. + activeTimeSeriesPoint0"}
+                  url={loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex0]]}
+                  bounds={mapBounds}
+                  opacity={opacity0}
+                  _opacity={activeTimeSeriesPoint % intermediateValuesCount === 0 ? 0 : 0.8}
+                />
+                {layerIndex1 < timeSeriesWMSLayers.length && (
+                  <ImageOverlay
+                    // key={"datadrivenLayer." + activeTimeSeriesPoint}
+                    key={"datadrivenLayer. + activeTimeSeriesPoint1"}
+                    url={loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex1]]}
+                    bounds={mapBounds}
+                    opacity={opacity1}
+                    _opacity={activeTimeSeriesPoint % intermediateValuesCount === 0 ? 0 : 0.8}
+                  />
+                )}
+              </>
             )}
 
           <ContactButton emailaddress={emailaddress} />

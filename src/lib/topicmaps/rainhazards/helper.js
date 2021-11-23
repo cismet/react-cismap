@@ -400,7 +400,11 @@ export const getMapUrl = (conf, bounds, size) => {
   return url;
 };
 
-export const getImageDataFromUrl = async (url, width, height) => {
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export const _getImageDataFromUrl = async (url, width, height) => {
   const response = await fetch(url);
   const blob = await response.blob();
   const img = await createImageBitmap(blob);
@@ -410,8 +414,40 @@ export const getImageDataFromUrl = async (url, width, height) => {
   const ctx = canvas.getContext("2d");
   ctx.drawImage(img, 0, 0);
 
-  // const dataURL = canvas.toDataURL();
-  // return dataURL;
+  const dataURL = canvas.toDataURL();
+  return dataURL;
+
+  // const idata = ctx.getImageData(0, 0, img.width, img.height);
+  // return idata;
+};
+
+function asyncImageLoader(url) {
+  return new Promise((resolve, reject) => {
+    var image = new Image();
+    image.src = url;
+    image.crossOrigin = "Anonymous";
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(new Error("could not load image"));
+  });
+}
+
+export const getImageDataFromUrl = async (url, width, height) => {
+  const img = await asyncImageLoader(url);
+
+  // const response = await fetch(url);
+  // const blob = await response.blob();
+  // const img = await createImageBitmap(blob);
+  // const imageObjectURL = URL.createObjectURL(blob);
+  // console.log("imageObjectURL", imageObjectURL);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(img, 0, 0);
+
+  const dataURL = canvas.toDataURL();
+  return dataURL;
 
   const idata = ctx.getImageData(0, 0, img.width, img.height);
   return idata;
