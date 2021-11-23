@@ -148,7 +148,11 @@ function Map({
     checkUrlAndSetStateAccordingly(state, setX, history, resetTimeSeriesStates);
   }, []);
 
-  const [loadingTimeSeriesLayers, setLoadingTimeSeriesLayers] = useState(new Set());
+  const [refreshTS, setRefreshTS] = useState();
+  const refreshTSRef = useRef(undefined);
+  useEffect(() => {
+    refreshTSRef.current = refreshTS;
+  }, [refreshTS]);
 
   const [autoplay, setAutoplay] = useState(false);
   const [loadedTimeSeriesLayerImageData, setLoadedTimeSeriesLayerImageData] = useState({});
@@ -163,7 +167,7 @@ function Map({
   }, [loadedTimeSeriesLayerImageData]);
 
   const resetTimeSeriesStates = () => {
-    setLoadingTimeSeriesLayers(new Set());
+    console.warn("resetTimeSeriesStates has to be implemented");
   };
 
   useEffect(() => {
@@ -243,7 +247,7 @@ function Map({
         version: "1.1.1",
       };
       const now = new Date().getTime();
-
+      setRefreshTS(now);
       setTimeout(() => {
         setLoadedTimeSeriesLayerImageData({});
       }, 1);
@@ -256,13 +260,15 @@ function Map({
           };
           const url = getMapUrl(wmsParams, mapBounds, mapSize);
           setTimeout(() => {
-            getImageDataFromUrl(url, mapSize.x, mapSize.y).then((imageData) => {
-              setLoadedTimeSeriesLayerImageData((old) => {
-                return {
-                  ...old,
-                  [layer]: imageData,
-                };
-              });
+            getImageDataFromUrl(url, mapSize.x, mapSize.y, now, refreshTSRef).then((imageData) => {
+              if (now === refreshTSRef.current) {
+                setLoadedTimeSeriesLayerImageData((old) => {
+                  return {
+                    ...old,
+                    [layer]: imageData,
+                  };
+                });
+              }
             });
           }, 1);
         }

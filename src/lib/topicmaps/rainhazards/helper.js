@@ -422,19 +422,31 @@ export const _getImageDataFromUrl = async (url, width, height) => {
   // return idata;
 };
 
-function asyncImageLoader(url) {
+function asyncImageLoader(url, now, refreshTSRef) {
   return new Promise((resolve, reject) => {
     var image = new Image();
     image.src = url;
     image.crossOrigin = "Anonymous";
-    image.onload = () => resolve(image);
-    image.onerror = () => reject(new Error("could not load image"));
+    const aborter = setInterval(() => {
+      if (now !== refreshTSRef.current) {
+        clearInterval(aborter);
+        resolve(undefined);
+      }
+    }, 10);
+    image.onload = () => {
+      clearInterval(aborter);
+      resolve(image);
+    };
+    image.onerror = () => {
+      clearInterval(aborter);
+      reject(new Error("could not load image"));
+    };
   });
 }
 
-export const getImageDataFromUrl = async (url, width, height) => {
-  const img = await asyncImageLoader(url);
-
+export const getImageDataFromUrl = async (url, width, height, now, refreshTSRef) => {
+  const img = await asyncImageLoader(url, now, refreshTSRef);
+  if (now !== refreshTSRef.current) return;
   // const response = await fetch(url);
   // const blob = await response.blob();
   // const img = await createImageBitmap(blob);
@@ -445,9 +457,11 @@ export const getImageDataFromUrl = async (url, width, height) => {
   canvas.width = width;
   canvas.height = height;
   const ctx = canvas.getContext("2d");
+  if (now !== refreshTSRef.current) return;
   ctx.drawImage(img, 0, 0);
-
+  if (now !== refreshTSRef.current) return;
   const dataURL = canvas.toDataURL();
+  if (now !== refreshTSRef.current) return;
   return dataURL;
 
   // const idata = ctx.getImageData(0, 0, img.width, img.height);
