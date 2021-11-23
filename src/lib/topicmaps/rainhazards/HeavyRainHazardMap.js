@@ -183,6 +183,17 @@ function Map({
     });
   }, [history]);
 
+  const snapValue = (value) => {
+    const snapped = Math.round(value / intermediateValuesCount) * intermediateValuesCount;
+    console.log("snapped", snapped);
+
+    setActiveTimeSeriesPoint(parseInt(snapped));
+
+    setTimeout(() => {
+      console.log("snapped activeTimeSeriesPoint", activeTimeSeriesPointRef.current);
+    }, 100);
+  };
+
   let cursor;
   if (state.featureInfoModeActivated) {
     cursor = "crosshair";
@@ -210,6 +221,10 @@ function Map({
   const [activeTimeSeriesPoint, setActiveTimeSeriesPoint] = useState(
     initialLayerIndex * intermediateValuesCount
   );
+  const activeTimeSeriesPointRef = useRef();
+  useEffect(() => {
+    activeTimeSeriesPointRef.current = activeTimeSeriesPoint;
+  }, [activeTimeSeriesPoint]);
 
   const setNextPoint = async () => {
     await setActiveTimeSeriesPoint((oldPoint) => {
@@ -280,18 +295,15 @@ function Map({
     if (autoplay) {
       if (!autoplayUpdater) {
         const updater = setInterval(() => {
-          (async () => {
-            // console.log("x");s
-            setTimeout(() => {
-              setNextPoint();
-            }, 0);
-          })();
+          setNextPoint();
         }, frames);
         setAutoplayUpdater(updater);
       }
     } else {
       clearInterval(autoplayUpdater);
+
       setAutoplayUpdater(undefined);
+      snapValue(activeTimeSeriesPointRef.current);
     }
   }, [autoplay, autoplayUpdater, timeSeriesWMSLayers.length]);
 
@@ -389,10 +401,7 @@ function Map({
                     }}
                     onAfterChange={(value) => {
                       console.log("value", value);
-                      const snapped =
-                        Math.round(value / intermediateValuesCount) * intermediateValuesCount;
-                      console.log("snapped", snapped);
-                      setActiveTimeSeriesPoint(parseInt(snapped));
+                      snapValue(value);
                     }}
                   />
                   <Button
