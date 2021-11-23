@@ -378,12 +378,14 @@ function Map({
             <div>
               <div style={{ display: "flex", justifyContent: "space-around" }}>
                 <span style={{ float: "left", paddingLeft: 10 }}></span>
-                <div style={{ display: "flex", width: "90%" }}>
+                <div style={{ display: "flex", width: "60%" }}>
                   {/* <Button>
                     <FontAwesomeIcon icon={faPlay} />
                   </Button> */}
                   <span style={{ marginRight: 10, alignSelf: "center" }}>
-                    {/* {timeSeriesLayerDescriptions[activeTimeSeriesPoint]} */}
+                    {(activeTimeSeriesPoint / intermediateValuesCount) % 1 <= 0.5
+                      ? timeSeriesLayerDescriptions[layerIndex0]
+                      : timeSeriesLayerDescriptions[layerIndex1]}
                   </span>
                   <Slider
                     _marks={marks}
