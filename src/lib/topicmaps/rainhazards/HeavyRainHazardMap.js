@@ -348,14 +348,12 @@ function Map({
     const opacity0 = opacityCalculator(
       activeTimeSeriesPoint,
       layerIndex0 - 1,
-      intermediateValuesCount,
-      0.8
+      intermediateValuesCount
     );
     const opacity1 = opacityCalculator(
       activeTimeSeriesPoint,
       layerIndex1 - 1,
-      intermediateValuesCount,
-      0.8
+      intermediateValuesCount
     );
 
     // console.log({

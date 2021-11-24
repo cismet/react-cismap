@@ -8,9 +8,12 @@ import FeatureInfoModeBoxForHeights from "./components/FeatureInfoModeBoxForHeig
 import FeatureInfoModeBoxForVelocityAndDirection from "./components/FeatureInfoModeBoxForVelocityAndDirection";
 import FeatureInfoModeButton from "./components/FeatureInfoModeButton";
 import rainHazardWorker from "workerize-loader!./rainHazardWorker"; // eslint-disable-line import/no-webpack-loader-syntax
-import BezierEasing from "bezier-easing";
-
+import Spliner from "cubic-spline";
 const worker = new rainHazardWorker();
+
+const xs = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
+const ys = [0.8, 0.9, 0.95, 0.95, 1, 1.05, 1, 0.95, 0.95, 0.9, 0.8];
+const spline = new Spliner(xs, ys);
 
 export const getRoundedValueStringForValue = (featureValue) => {
   if (featureValue > 1.5) {
@@ -478,7 +481,7 @@ export const getImageDataFromUrl = async (url, width, height, now, refreshTSRef)
   // />
 };
 
-export const opacityCalculator = (value, layerindex, intermediateValuesCount, maxOpacity) => {
+export const opacityCalculator = (value, layerindex, intermediateValuesCount) => {
   const sub = layerindex * intermediateValuesCount;
   let ret = 0;
   const result = (value - sub) / intermediateValuesCount;
@@ -486,13 +489,13 @@ export const opacityCalculator = (value, layerindex, intermediateValuesCount, ma
     ret = 0;
   } else if (result <= 1) {
     ret = result;
+    // console.log("right opacity", ret, "*", spline.at(ret), "=", ret * spline.at(ret));
   } else if (result <= 2) {
     ret = 1 - (result - 1);
+    // console.log("left opacity", ret, "*", spline.at(ret), "=", ret * spline.at(ret));
   } else {
     ret = 0;
   }
 
-  const x = BezierEasing(0, 0.26, 0.41, 0.96)(ret);
-  return x * maxOpacity;
-  return ret;
+  return ret * spline.at(ret);
 };
