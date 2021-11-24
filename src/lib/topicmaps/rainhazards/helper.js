@@ -12,7 +12,7 @@ import Spliner from "cubic-spline";
 const worker = new rainHazardWorker();
 
 const xs = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
-const ys = [0.8, 0.9, 0.95, 0.95, 1, 1.05, 1, 0.95, 0.95, 0.9, 0.8];
+const ys = [0.85, 0.9, 0.96, 1.01, 1.04, 1.05, 1.04, 1.01, 0.96, 0.9, 0.85];
 const spline = new Spliner(xs, ys);
 
 export const getRoundedValueStringForValue = (featureValue) => {
@@ -498,4 +498,18 @@ export const opacityCalculator = (value, layerindex, intermediateValuesCount) =>
   }
 
   return ret * spline.at(ret);
+};
+
+export const getTsMeta = (state, config) => {
+  let timeSeriesWMSLayers, timeSeriesLayerDescriptions;
+  if (state.displayMode === starkregenConstants.SHOW_HEIGHTS) {
+    timeSeriesWMSLayers = config.simulations[state.selectedSimulation].depthTimeDimensionLayers;
+    timeSeriesLayerDescriptions =
+      config.simulations[state.selectedSimulation].depthTimeDimensionLayerDescriptions;
+  } else {
+    timeSeriesWMSLayers = config.simulations[state.selectedSimulation].velocityTimeDimensionLayers;
+    timeSeriesLayerDescriptions =
+      config.simulations[state.selectedSimulation].velocityTimeDimensionLayerDescriptions;
+  }
+  return { timeSeriesWMSLayers, timeSeriesLayerDescriptions };
 };
