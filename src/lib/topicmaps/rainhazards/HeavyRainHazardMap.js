@@ -84,6 +84,10 @@ function Map({
 
   const [mapSize, setMapSize] = useState();
   const [mapBounds, setMapBounds] = useState();
+  const mapBoundsRef = useRef();
+  useEffect(() => {
+    mapBoundsRef.current = mapBounds;
+  }, [mapBounds]);
 
   useEffect(() => {
     setMapSize((old) => {
@@ -163,7 +167,13 @@ function Map({
   ] = useState(0);
   useEffect(() => {
     loadedTimeSeriesLayerImageDataRef.current = loadedTimeSeriesLayerImageData;
-    setNumberOfLoadedTimeSeriesLayerImageData(Object.keys(loadedTimeSeriesLayerImageData).length);
+    const count = Object.keys(loadedTimeSeriesLayerImageData).length;
+    setNumberOfLoadedTimeSeriesLayerImageData(count);
+    if (count === timeSeriesWMSLayers.length) {
+      //lastlayer loaded
+      //snap to a layer to fill the snapped layer state
+      snapValue(activeTimeSeriesPointRef.current);
+    }
   }, [loadedTimeSeriesLayerImageData]);
 
   const resetTimeSeriesStates = () => {
@@ -183,15 +193,22 @@ function Map({
     });
   }, [history]);
 
-  const snapValue = (value) => {
-    const snapped = Math.round(value / intermediateValuesCount) * intermediateValuesCount;
-    console.log("snapped", snapped);
+  const [snappedLayer, setSnappedLayer] = useState();
 
+  const snapValue = (value) => {
+    const snappedIndex = Math.round(value / intermediateValuesCount);
+    const snapped = snappedIndex * intermediateValuesCount;
     setActiveTimeSeriesPoint(parseInt(snapped));
 
-    setTimeout(() => {
-      console.log("snapped activeTimeSeriesPoint", activeTimeSeriesPointRef.current);
-    }, 100);
+    const snappedLayer = {
+      mapBounds: mapBoundsRef?.current,
+      snappedTimeSeriesPoint: snapped,
+      snappedIndex: snappedIndex,
+      layerkey: timeSeriesWMSLayers[snappedIndex],
+      layervalue: loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[snappedIndex]],
+    };
+
+    setSnappedLayer(snappedLayer);
   };
 
   let cursor;
@@ -307,6 +324,8 @@ function Map({
     }
   }, [autoplay, autoplayUpdater, timeSeriesWMSLayers.length]);
 
+  // layer handling for progressbar
+
   if (state) {
     //development purpose cannot happen on a normal instance
     if (state.selectedSimulation > config.simulations.length - 1) {
@@ -330,13 +349,13 @@ function Map({
       activeTimeSeriesPoint,
       layerIndex0 - 1,
       intermediateValuesCount,
-      1
+      0.8
     );
     const opacity1 = opacityCalculator(
       activeTimeSeriesPoint,
       layerIndex1 - 1,
       intermediateValuesCount,
-      1
+      0.8
     );
 
     // console.log({
@@ -402,7 +421,6 @@ function Map({
                       }, 1);
                     }}
                     onAfterChange={(value) => {
-                      console.log("value", value);
                       snapValue(value);
                     }}
                   />
@@ -593,8 +611,26 @@ function Map({
               layerPostfix={config.simulations[state.selectedSimulation].animationPostfix}
             />
           )}
+
+          {state.valueMode === starkregenConstants.SHOW_TIMESERIES &&
+            snappedLayer?.layervalue &&
+            snappedLayer?.mapBounds &&
+            activeTimeSeriesPoint % intermediateValuesCount === 0 &&
+            activeTimeSeriesPoint === snappedLayer?.snappedTimeSeriesPoint && (
+              <ImageOverlay
+                // key={"datadrivenLayer." + activeTimeSeriesPoint}
+                key={"snappedLayer."}
+                url={snappedLayer.layervalue}
+                bounds={snappedLayer.mapBounds}
+                opacity={0.8}
+              />
+            )}
+
           {state.valueMode === starkregenConstants.SHOW_TIMESERIES &&
             mapBounds &&
+            (activeTimeSeriesPoint % intermediateValuesCount !== 0 ||
+              (activeTimeSeriesPoint % intermediateValuesCount === 0 &&
+                activeTimeSeriesPoint !== snappedLayer?.snappedTimeSeriesPoint)) &&
             loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex0]] &&
             (loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[layerIndex1]] ||
               layerIndex1 === timeSeriesWMSLayers.length) && (
