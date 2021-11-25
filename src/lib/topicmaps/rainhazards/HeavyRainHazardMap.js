@@ -116,6 +116,12 @@ function Map({
   const [state, dispatch] = useImmer({
     ...initialState,
   });
+  const stateRef = useRef();
+
+  useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
+
   const set = (prop, noTest = false, onChange = () => {}) => {
     return (x) => {
       dispatch((state) => {
@@ -125,8 +131,11 @@ function Map({
             localforage.setItem("@" + appKey + ".starkregen." + prop, x);
           }
           state[prop] = x;
+
           if (changed) {
-            onChange();
+            setTimeout(() => {
+              onChange();
+            }, 10);
           }
         }
       });
@@ -134,20 +143,36 @@ function Map({
   };
 
   const setX = {
-    setFeatureInfoModeActivation: set("featureInfoModeActivated"),
     setAnimationEnabled: set("animationEnabled"),
     setBackgroundIndex: set("selectedBackground"),
-    setSelectedSimulation: set("selectedSimulation"),
+    //SWITCH between simulations
+    setSelectedSimulation: set("selectedSimulation", false, () => {
+      if (stateRef.current.featureInfoModeActivated) {
+        getFeatureInfoRequest(undefined, stateRef.current, setX, config, true);
+      }
+    }),
+
+    //displayMode can be SHOW_HEIGHTS or SHOW_VELOCITY
     setDisplayMode: set("displayMode", false, () => {
       setSnappedLayer(undefined);
       setLoadedTimeSeriesLayerImageData({});
       setAutoplay(false);
+      if (stateRef.current.featureInfoModeActivated) {
+        getFeatureInfoRequest(undefined, stateRef.current, setX, config, true);
+      }
     }),
-    setValueMode: set("valueMode"),
+    //valueMode can be SHOW_MAXVALUES or SHOW_TIMESERIES
+    setValueMode: set("valueMode", false, () => {
+      if (stateRef.current.featureInfoModeActivated) {
+        getFeatureInfoRequest(undefined, stateRef.current, setX, config, true);
+      }
+    }),
     setCurrentFeatureInfoValue: set("currentFeatureInfoValue"),
     setCurrentFeatureInfoPosition: set("currentFeatureInfoPosition"),
-    setFeatureInfoModeActivated: set("featureInfoModeActivated"),
+    setFeatureInfoModeActivation: set("featureInfoModeActivated"),
     setCurrentFeatureInfoSelectedSimulation: set("currentFeatureInfoSelectedSimulation"),
+    setCurrentFeatureInfoSelectedDisplayMode: set("currentFeatureInfoSelectedDisplayMode"),
+    setCurrentFeatureInfoSelectedValueMode: set("currentFeatureInfoSelectedValueMode"),
   };
 
   //Startup
@@ -260,14 +285,15 @@ function Map({
     cursor = "grabbing";
   }
 
-  const initialLayerIndex = 1;
-  const intermediateValuesCount = 30;
+  const initialLayerIndex =
+    state?.timeseriesInitialIndex !== undefined ? state?.timeseriesInitialIndex : 2;
+  const intermediateValuesCount = state?.timeseriesIntermediateValuesCount || 20;
 
   const maxValue =
     (config.simulations[state.selectedSimulation].depthTimeDimensionLayers.length - 1) *
     intermediateValuesCount;
-  const frames = 50 / intermediateValuesCount;
-  //const frames = 1;
+  const frames = state?.timeseriesAninationNumerator || 20 / intermediateValuesCount;
+
   const [autoplayUpdater, setAutoplayUpdater] = useState();
   const [activeTimeSeriesPoint, setActiveTimeSeriesPoint] = useState(
     initialLayerIndex * intermediateValuesCount

@@ -25,12 +25,16 @@ export const getRoundedValueStringForValue = (featureValue) => {
   }
 };
 
-export const getFeatureInfoRequest = (mapEvent, state, setX, config) => {
+export const getFeatureInfoRequest = (mapEvent, state, setX, config, forced = false) => {
+  console.log("getFeatureInfoRequest", mapEvent, state, setX, config);
   let pos;
   if (!mapEvent) {
     if (
       state.currentFeatureInfoPosition &&
-      state.currentFeatureInfoSelectedSimulation !== state.selectedSimulation
+      (forced ||
+        state.currentFeatureInfoSelectedSimulation !== state.selectedSimulation ||
+        state.currentFeatureInfoSelectedDisplayMode !== state.displayMode ||
+        state.currentFeatureInfoSelectedValueMode !== state.valueMode)
     ) {
       pos = state.currentFeatureInfoPosition;
     } else {
@@ -42,93 +46,95 @@ export const getFeatureInfoRequest = (mapEvent, state, setX, config) => {
       mapEvent.latlng.lat,
     ]);
   }
-  if (state.displayMode === starkregenConstants.SHOW_HEIGHTS) {
-    const minimalBoxSize = 0.0001;
-    const selectedSimulation = config.simulations[state.selectedSimulation].depthLayer;
-    const getFetureInfoRequestUrl =
-      config.modelWMS +
-      `&request=GetFeatureInfo&` +
-      `format=image%2Fpng&transparenttrue&` +
-      `version=1.1.1&tiled=true&` +
-      `width=1&height=1&srs=EPSG%3A3857&` +
-      `bbox=` +
-      `${pos[0] - minimalBoxSize},` +
-      `${pos[1] - minimalBoxSize},` +
-      `${pos[0] + minimalBoxSize},` +
-      `${pos[1] + minimalBoxSize}&` +
-      `x=0&y=0&` +
-      `layers=${selectedSimulation}&` +
-      `QUERY_LAYERS=${selectedSimulation}&` +
-      `INFO_FORMAT=application/vnd.ogc.gml`;
-    let valueKey = "starkregen:depth";
-    if (/Edge/.test(navigator.userAgent)) {
-      valueKey = "value";
-    }
-    fetch(getFetureInfoRequestUrl)
-      .then((response) => {
-        if (response.ok) {
-          return response.text();
-        } else {
-          throw new Error("Server response wasn't OK");
-        }
-      })
-      .then((data) => {
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(data, "text/xml");
-        const value = parseFloat(xmlDoc.getElementsByTagName(valueKey)[0].textContent, 10);
 
-        setX.setCurrentFeatureInfoSelectedSimulation(state.selectedSimulation);
-        setX.setCurrentFeatureInfoValue(value);
-        setX.setCurrentFeatureInfoPosition(pos);
-      })
-      .catch((error) => {
-        console.log("error during fetch", error);
-      });
+  // if (state.displayMode === starkregenConstants.SHOW_HEIGHTS) {
+  const minimalBoxSize = 0.0001;
+  let layersString;
+  if (state.valueMode === starkregenConstants.SHOW_MAXVALUES) {
+    if (state.displayMode === starkregenConstants.SHOW_HEIGHTS) {
+      valueAttributeName = "depth";
+      layersString = config.simulations[state.selectedSimulation].depthLayer;
+    } else {
+      valueAttributeName = "velocity";
+      layersString = config.simulations[state.selectedSimulation].velocityLayer;
+    }
   } else {
-    const minimalBoxSize = 0.0001;
-    const selectedSimulation = config.simulations[state.selectedSimulation].velocityLayer;
-
-    const getFetureInfoRequestUrl =
-      config.modelWMS +
-      `&VERSION=1.1.1&REQUEST=GetFeatureInfo&` +
-      `format=image%2Fpng&transparenttrue&` +
-      `version=1.1.1&tiled=true&` +
-      `width=1&height=1&srs=EPSG%3A3857&` +
-      `bbox=` +
-      `${pos[0] - minimalBoxSize},` +
-      `${pos[1] - minimalBoxSize},` +
-      `${pos[0] + minimalBoxSize},` +
-      `${pos[1] + minimalBoxSize}&` +
-      `x=0&y=0&` +
-      `layers=${selectedSimulation}&` +
-      `QUERY_LAYERS=${selectedSimulation}&` +
-      `INFO_FORMAT=application/vnd.ogc.gml`;
-
-    let valueKey = "starkregen:velocity";
-    if (/Edge/.test(navigator.userAgent)) {
-      valueKey = "value";
+    if (state.displayMode === starkregenConstants.SHOW_HEIGHTS) {
+      valueAttributeName = "depth";
+      layersString = config.simulations[state.selectedSimulation].depthTimeDimensionLayers.join(
+        ","
+      );
+    } else {
+      valueAttributeName = "velocity";
+      layersString = config.simulations[state.selectedSimulation].velocityTimeDimensionLayers.join(
+        ","
+      );
     }
-
-    fetch(getFetureInfoRequestUrl)
-      .then((response) => {
-        if (response.ok) {
-          return response.text();
-        } else {
-          throw new Error("Server response wasn't OK");
-        }
-      })
-      .then((data) => {
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(data, "text/xml");
-        const value = parseFloat(xmlDoc.getElementsByTagName(valueKey)[0].textContent, 10);
-        setX.setCurrentFeatureInfoSelectedSimulation(state.selectedSimulation);
-        setX.setCurrentFeatureInfoValue(value);
-        setX.setCurrentFeatureInfoPosition(pos);
-      })
-      .catch((error) => {
-        console.log("error during fetch", error);
-      });
   }
+  let valueAttributeName;
+  if (state.displayMode === starkregenConstants.SHOW_HEIGHTS) {
+    valueAttributeName = "depth";
+  } else {
+    valueAttributeName = "velocity";
+  }
+
+  const getFetureInfoRequestUrl =
+    config.modelWMS +
+    `&request=GetFeatureInfo&` +
+    `format=image%2Fpng&transparenttrue&` +
+    `version=1.1.1&tiled=true&` +
+    `width=1&height=1&srs=EPSG%3A3857&` +
+    `bbox=` +
+    `${pos[0] - minimalBoxSize},` +
+    `${pos[1] - minimalBoxSize},` +
+    `${pos[0] + minimalBoxSize},` +
+    `${pos[1] + minimalBoxSize}&` +
+    `x=0&y=0&` +
+    `layers=${layersString}&` +
+    `feature_count=100&` +
+    `QUERY_LAYERS=${layersString}&` +
+    `INFO_FORMAT=application/json`;
+
+  fetch(getFetureInfoRequestUrl)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Server response wasn't OK");
+      }
+    })
+    .then((data) => {
+      let value;
+      if (state.valueMode === starkregenConstants.SHOW_MAXVALUES) {
+        setX.setCurrentFeatureInfoSelectedSimulation(state.selectedSimulation);
+        console.log("data.features[0].properties", data.features[0].properties);
+
+        value = data.features[0].properties[valueAttributeName];
+      } else {
+        const valueArray = data.features.map((f) => f.properties[valueAttributeName]);
+        const dataContainer = [];
+        let i = 0;
+        for (const layer of config.simulations[state.selectedSimulation].depthTimeDimensionLayerX) {
+          dataContainer.push({
+            time: layer,
+            value: valueArray[i] !== -1 ? Math.round(valueArray[i] * 100) : undefined,
+          });
+          i++;
+        }
+
+        value = dataContainer;
+      }
+      console.log("setCurrentFeatureInfoValue", value);
+
+      setX.setCurrentFeatureInfoSelectedSimulation(state.selectedSimulation);
+      setX.setCurrentFeatureInfoValue(value);
+      setX.setCurrentFeatureInfoPosition(pos);
+      setX.setCurrentFeatureInfoSelectedDisplayMode(state.displayMode);
+      setX.setCurrentFeatureInfoSelectedValueMode(state.valueMode);
+    })
+    .catch((error) => {
+      console.log("error during fetch", error);
+    });
 };
 
 export const checkUrlAndSetStateAccordingly = (
@@ -231,7 +237,7 @@ export const setFeatureInfoModeActivation = (
       );
     }
   }
-  setX.setFeatureInfoModeActivated(activated);
+  setX.setFeatureInfoModeActivation(activated);
 };
 
 export const createGetFeatureInfoControls = (
