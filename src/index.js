@@ -92,6 +92,7 @@ ReactDOM.render(
     {/* <RainHazardMapExamples.RainHazardMapOlpe /> */}
     {/* <RainHazardMapExamples.RainHazardMapWuppertal /> */}
     <RainHazardMapExamples.RainHazardMapPaderborn />
+    {/* <RainHazardMapExamples.TimeSeriesChart /> */}
   </div>,
   document.getElementById("root")
 );
