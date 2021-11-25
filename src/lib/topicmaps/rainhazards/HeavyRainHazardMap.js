@@ -66,6 +66,7 @@ const persistenceSettings = [
   "selectedBackground",
   "animationEnabled",
   "valueMode",
+  "featureInfoModeActivated",
 ];
 
 function Map({

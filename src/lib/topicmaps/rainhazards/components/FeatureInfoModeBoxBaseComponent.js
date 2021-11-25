@@ -1,20 +1,54 @@
 import React from "react";
+import Color from "color";
 import Icon from "../../../commons/Icon";
 import Well from "../../../commons/Well";
-import Color from "color";
-
+import FeatureInfoScalarBaseComponent from "./FeatureInfoScalarBaseComponent";
+import { getRoundedValueStringForValue } from "../helper";
+import FeatureInfoLineChartBaseComponent from "./FeatureInfoLineChartBaseComponent";
 /* eslint-disable jsx-a11y/anchor-is-valid */
-const getRoundedValueStringForValue = (featureValue) => {
-  if (featureValue > 6) {
-    return `> 6 m/s`;
-  } else if (featureValue < 0.2) {
-    return `< 0,2 m/s`;
-  } else {
-    return `ca. ${(Math.round(featureValue * 10) / 10).toString().replace(".", ",")} m/s`;
-  }
-};
 
-const Comp = ({ setFeatureInfoModeActivation, featureInfoValue, showModalMenu, legendObject }) => {
+const Comp = ({
+  setFeatureInfoModeActivation,
+  featureInfoValue,
+  showModalMenu,
+  legendObject,
+  width = "205px",
+  innerHeight = undefined,
+  header = "Header nicht gesetzt",
+  featureValueProcessor = (value) => value,
+  noValueText = "noValueText nicht gestezt",
+  footerLink,
+  valueUI,
+  ytitle,
+  xtitle,
+}) => {
+  let _footerLink = footerLink;
+  if (!_footerLink) {
+    _footerLink = (
+      <a style={{ color: "#337ab7" }} onClick={() => showModalMenu("aussagekraft")}>
+        Information zur Aussagekraft
+      </a>
+    );
+  }
+  let _valueUI = valueUI;
+
+  if (!_valueUI) {
+    //check if featureInfoValue is a number or an array of numbers
+
+    if (Array.isArray(featureInfoValue)) {
+      _valueUI = (
+        <FeatureInfoLineChartBaseComponent
+          {...{ featureInfoValue, featureValueProcessor, noValueText, xtitle, ytitle }}
+        />
+      );
+    } else {
+      _valueUI = (
+        <FeatureInfoScalarBaseComponent
+          {...{ featureInfoValue, featureValueProcessor, noValueText }}
+        />
+      );
+    }
+  }
   let headerColor = "#7e7e7e";
   if (featureInfoValue) {
     for (const item of legendObject) {
@@ -40,8 +74,7 @@ const Comp = ({ setFeatureInfoModeActivation, featureInfoValue, showModalMenu, l
         pointerEvents: "auto",
         marginBottom: 5,
         float: "right",
-        width: "205px",
-        height_: "145px",
+        width: width,
       }}
     >
       <table style={{ width: "100%" }}>
@@ -56,10 +89,11 @@ const Comp = ({ setFeatureInfoModeActivation, featureInfoValue, showModalMenu, l
                 paddingBottom: "0px",
                 background: headerColor,
                 color: textColor,
+
                 textAlign: "left",
               }}
             >
-              Maximale Fließgeschwindigkeit
+              {header}
             </td>
             <td
               style={{
@@ -91,6 +125,7 @@ const Comp = ({ setFeatureInfoModeActivation, featureInfoValue, showModalMenu, l
         style={{
           opacity: "0.9",
           paddingBottom: "0px",
+          height: innerHeight,
         }}
       >
         <table style={{ width: "100%", paddingBottom: "0px" }}>
@@ -104,20 +139,7 @@ const Comp = ({ setFeatureInfoModeActivation, featureInfoValue, showModalMenu, l
                   paddingBottom: "0px",
                 }}
               >
-                {featureInfoValue !== undefined && (
-                  <h2
-                    style={{
-                      marginTop: 0,
-                      marginBottom: 0,
-                      textAlign: "center",
-                    }}
-                  >
-                    {getRoundedValueStringForValue(featureInfoValue)}
-                  </h2>
-                )}
-                {featureInfoValue === undefined && (
-                  <p>Klick in die Karte zur Abfrage der simulierten max. Fließgeschwindigkeit</p>
-                )}
+                {_valueUI}
               </td>
             </tr>
             {featureInfoValue !== undefined && (
@@ -131,9 +153,7 @@ const Comp = ({ setFeatureInfoModeActivation, featureInfoValue, showModalMenu, l
                     textAlign: "center",
                   }}
                 >
-                  <a className="renderAsProperLink" onClick={() => showModalMenu("aussagekraft")}>
-                    Information zur Aussagekraft
-                  </a>
+                  {_footerLink}
                 </td>
               </tr>
             )}

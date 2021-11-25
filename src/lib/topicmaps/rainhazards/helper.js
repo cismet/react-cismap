@@ -4,8 +4,7 @@ import proj4 from "proj4";
 import { starkregenConstants } from "./constants";
 import queryString from "query-string";
 import { modifyQueryPart } from "../../tools/routingHelper";
-import FeatureInfoModeBoxForHeights from "./components/FeatureInfoModeBoxForHeights";
-import FeatureInfoModeBoxForVelocityAndDirection from "./components/FeatureInfoModeBoxForVelocityAndDirection";
+import FeatureInfoModeBoxBaseComponent from "./components/FeatureInfoModeBoxBaseComponent";
 import FeatureInfoModeButton from "./components/FeatureInfoModeButton";
 import rainHazardWorker from "workerize-loader!./rainHazardWorker"; // eslint-disable-line import/no-webpack-loader-syntax
 import Spliner from "cubic-spline";
@@ -114,13 +113,14 @@ export const getFeatureInfoRequest = (mapEvent, state, setX, config, forced = fa
         for (const layer of config.simulations[state.selectedSimulation].depthTimeDimensionLayerX) {
           dataContainer.push({
             time: layer,
-            value: valueArray[i] !== -1 ? Math.round(valueArray[i] * 100) : undefined,
+            value: valueArray[i] !== -1 ? valueArray[i] : undefined,
           });
           i++;
         }
 
         value = dataContainer;
       }
+      // console.log("value of featureInfoRequest", value);
 
       setX.setCurrentFeatureInfoSelectedSimulation(state.selectedSimulation);
       setX.setCurrentFeatureInfoValue(value);
@@ -246,26 +246,90 @@ export const createGetFeatureInfoControls = (
 ) => {
   if (state) {
     if (state.featureInfoModeActivated === true) {
-      if (state.displayMode === starkregenConstants.SHOW_HEIGHTS) {
+      if (
+        state.displayMode === starkregenConstants.SHOW_HEIGHTS &&
+        state.valueMode === starkregenConstants.SHOW_MAXVALUES
+      ) {
         return [
-          <FeatureInfoModeBoxForHeights
+          <FeatureInfoModeBoxBaseComponent
             setFeatureInfoModeActivation={(activated) =>
               setFeatureInfoModeActivation(activated, setX, currentZoom, state, history, config)
             }
             featureInfoValue={state.currentFeatureInfoValue}
             showModalMenu={showModalMenu}
             legendObject={config.heightsLegend}
+            header="Maximaler Wasserstand"
+            featureValueProcessor={getRoundedValueStringForValue}
+            noValueText="Klick in die Karte zur Abfrage des simulierten max. Wasserstandes"
           />,
         ];
-      } else {
+      } else if (
+        state.displayMode === starkregenConstants.SHOW_HEIGHTS &&
+        state.valueMode === starkregenConstants.SHOW_TIMESERIES
+      ) {
         return [
-          <FeatureInfoModeBoxForVelocityAndDirection
+          <FeatureInfoModeBoxBaseComponent
+            setFeatureInfoModeActivation={(activated) =>
+              setFeatureInfoModeActivation(activated, setX, currentZoom, state, history, config)
+            }
+            featureInfoValue={state.currentFeatureInfoValue}
+            showModalMenu={showModalMenu}
+            legendObject={config.heightsLegend}
+            featureValueProcessor={(featureValue) => {
+              return Math.round(featureValue * 100);
+            }}
+            header="Wasserstände im zeitlichen Verlauf"
+            width={"250px"}
+            noValueText="Klick in die Karte zur Abfrage der Wasserstände im zeitlichen Verlauf"
+            ytitle="Tiefe in cm"
+          />,
+        ];
+      } else if (
+        state.displayMode === starkregenConstants.SHOW_VELOCITY &&
+        state.valueMode === starkregenConstants.SHOW_MAXVALUES
+      ) {
+        return [
+          <FeatureInfoModeBoxBaseComponent
             setFeatureInfoModeActivation={(activated) =>
               setFeatureInfoModeActivation(activated, setX, currentZoom, state, history, config)
             }
             featureInfoValue={state.currentFeatureInfoValue}
             showModalMenu={showModalMenu}
             legendObject={config.velocityLegend}
+            header="Maximale Fließgeschwindigkeit"
+            featureValueProcessor={(featureValue) => {
+              if (featureValue > 6) {
+                return `> 6 m/s`;
+              } else if (featureValue < 0.2) {
+                return `< 0,2 m/s`;
+              } else {
+                return `ca. ${(Math.round(featureValue * 10) / 10)
+                  .toString()
+                  .replace(".", ",")} m/s`;
+              }
+            }}
+            noValueText="Klick in die Karte zur Abfrage der simulierten max. Fließgeschwindigkeit"
+          />,
+        ];
+      } else if (
+        state.displayMode === starkregenConstants.SHOW_VELOCITY &&
+        state.valueMode === starkregenConstants.SHOW_TIMESERIES
+      ) {
+        return [
+          <FeatureInfoModeBoxBaseComponent
+            setFeatureInfoModeActivation={(activated) =>
+              setFeatureInfoModeActivation(activated, setX, currentZoom, state, history, config)
+            }
+            featureInfoValue={state.currentFeatureInfoValue}
+            showModalMenu={showModalMenu}
+            legendObject={config.velocityLegend}
+            featureValueProcessor={(featureValue) => {
+              return Math.round(featureValue * 100) / 100;
+            }}
+            header="Maximale Fließgeschwindigkeit"
+            width={"250px"}
+            noValueText="Klick in die Karte zur Abfrage der simulierten Fließgeschwindigkeiten im zeitlichen Verlau"
+            ytitle="Geschwindigkeit in m/s"
           />,
         ];
       }
@@ -275,11 +339,21 @@ export const createGetFeatureInfoControls = (
           setFeatureInfoModeActivation={(activated) =>
             setFeatureInfoModeActivation(activated, setX, currentZoom, state, history, config)
           }
-          title={
-            state.displayMode === starkregenConstants.SHOW_HEIGHTS
-              ? "Maximalen Wasserstand abfragen"
-              : "Maximale Fließgeschwindigkeit abfragen"
-          }
+          title={(() => {
+            if (state.displayMode === starkregenConstants.SHOW_HEIGHTS) {
+              if (state.valueMode === starkregenConstants.SHOW_MAXVALUES) {
+                return "Maximalen Wasserstand abfragen";
+              } else {
+                return "Wasserstände im zeitlichen Verlauf abfragen";
+              }
+            } else if (state.displayMode === starkregenConstants.SHOW_VELOCITY) {
+              if (state.valueMode === starkregenConstants.SHOW_MAXVALUES) {
+                return "Maximale Fließgeschwindigkeit abfragen";
+              } else {
+                return "Fließgeschwindigkeit im zeitlichen Verlauf abfragen";
+              }
+            }
+          })()}
         />,
       ];
     }
