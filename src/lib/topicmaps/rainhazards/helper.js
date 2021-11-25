@@ -26,7 +26,6 @@ export const getRoundedValueStringForValue = (featureValue) => {
 };
 
 export const getFeatureInfoRequest = (mapEvent, state, setX, config, forced = false) => {
-  console.log("getFeatureInfoRequest", mapEvent, state, setX, config);
   let pos;
   if (!mapEvent) {
     if (
@@ -107,8 +106,6 @@ export const getFeatureInfoRequest = (mapEvent, state, setX, config, forced = fa
       let value;
       if (state.valueMode === starkregenConstants.SHOW_MAXVALUES) {
         setX.setCurrentFeatureInfoSelectedSimulation(state.selectedSimulation);
-        console.log("data.features[0].properties", data.features[0].properties);
-
         value = data.features[0].properties[valueAttributeName];
       } else {
         const valueArray = data.features.map((f) => f.properties[valueAttributeName]);
@@ -124,7 +121,6 @@ export const getFeatureInfoRequest = (mapEvent, state, setX, config, forced = fa
 
         value = dataContainer;
       }
-      console.log("setCurrentFeatureInfoValue", value);
 
       setX.setCurrentFeatureInfoSelectedSimulation(state.selectedSimulation);
       setX.setCurrentFeatureInfoValue(value);
