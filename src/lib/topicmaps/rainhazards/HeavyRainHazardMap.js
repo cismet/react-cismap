@@ -187,6 +187,10 @@ function Map({
     }
     document.title = documentTitle;
     checkUrlAndSetStateAccordingly(state, setX, history, resetTimeSeriesStates);
+    setFromLocalforage(
+      "@" + appKey + ".starkregen.activeTimeSeriesPoint",
+      _setActiveTimeSeriesPoint
+    );
   }, []);
 
   let { timeSeriesWMSLayers, timeSeriesLayerDescriptions } = getTsMeta(state, config);
@@ -296,9 +300,16 @@ function Map({
   const frames = state?.timeseriesAninationNumerator || 20 / intermediateValuesCount;
 
   const [autoplayUpdater, setAutoplayUpdater] = useState();
-  const [activeTimeSeriesPoint, setActiveTimeSeriesPoint] = useState(
+  const [activeTimeSeriesPoint, _setActiveTimeSeriesPoint] = useState(
     initialLayerIndex * intermediateValuesCount
   );
+
+  const setActiveTimeSeriesPoint = (valueOrFunction) => {
+    const value = _setActiveTimeSeriesPoint(valueOrFunction);
+    (async (value) => {
+      localforage.setItem("@" + appKey + ".starkregen.activeTimeSeriesPoint", value);
+    })(value);
+  };
   const activeTimeSeriesPointRef = useRef();
   const [tsLayerProps, setTsLayerProps] = useState({});
 
