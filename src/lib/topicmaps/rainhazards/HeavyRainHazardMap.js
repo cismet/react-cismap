@@ -189,7 +189,7 @@ function Map({
     checkUrlAndSetStateAccordingly(state, setX, history, resetTimeSeriesStates);
     setFromLocalforage(
       "@" + appKey + ".starkregen.activeTimeSeriesPoint",
-      _setActiveTimeSeriesPoint
+      setActiveTimeSeriesPoint
     );
   }, []);
 
@@ -300,16 +300,10 @@ function Map({
   const frames = state?.timeseriesAninationNumerator || 20 / intermediateValuesCount;
 
   const [autoplayUpdater, setAutoplayUpdater] = useState();
-  const [activeTimeSeriesPoint, _setActiveTimeSeriesPoint] = useState(
+  const [activeTimeSeriesPoint, setActiveTimeSeriesPoint] = useState(
     initialLayerIndex * intermediateValuesCount
   );
 
-  const setActiveTimeSeriesPoint = (valueOrFunction) => {
-    const value = _setActiveTimeSeriesPoint(valueOrFunction);
-    (async (value) => {
-      localforage.setItem("@" + appKey + ".starkregen.activeTimeSeriesPoint", value);
-    })(value);
-  };
   const activeTimeSeriesPointRef = useRef();
   const [tsLayerProps, setTsLayerProps] = useState({});
 
@@ -332,12 +326,20 @@ function Map({
       layerIndex1 - 1,
       intermediateValuesCount
     );
+
     setTsLayerProps({
       layerIndex0: layerIndex0,
       layerIndex1: layerIndex1,
       opacity0: opacity0,
       opacity1: opacity1,
     });
+
+    (async () => {
+      localforage.setItem(
+        "@" + appKey + ".starkregen.activeTimeSeriesPoint",
+        activeTimeSeriesPoint
+      );
+    })();
   }, [activeTimeSeriesPoint]);
 
   const setNextPoint = async () => {
