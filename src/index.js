@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "leaflet/dist/leaflet.css";
 import "./lib/topicMaps.css";
 import "antd/dist/antd.css";
-
+import "./index.css";
 import * as TopicMapsExamples from "./lib/_stories/complex/TopicMap.stories";
 import * as GenericTopicMapsExamples from "./lib/_stories/complex/GenericTopicMap.stories";
 import * as MapLibreExamples from "./lib/_stories/vector/SimpleMapLibreLayer";
