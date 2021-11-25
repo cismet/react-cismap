@@ -221,7 +221,7 @@ const config = {
     },
   ],
   heightsLegend: [
-    { title: "20 cm", lt: 0.1, bg: "#88B2EA" },
+    { title: "20 cm", lt: 0.05, bg: "#88B2EA" },
     { title: "40 cm", lt: 0.3, bg: "#508CE0" },
     { title: "75 cm", lt: 0.5, bg: "#3266B4" },
     { title: "100 cm", lt: 1.0, bg: "#5018B3" },
