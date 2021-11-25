@@ -46,9 +46,9 @@ const overridingBaseLayerConf = {
 };
 
 const config = {
-  upperleftX: 868414.213,
-  upperleftY: 6637094.997,
-  pixelsize: 1.58951027354417,
+  upperleftX: 961346.308,
+  upperleftY: 6764262.003,
+  pixelsize: 1.613622359521981,
   minAnimationZoom: 17,
   minFeatureInfoZoom: 19,
   timeSeriesAvailable: true,
