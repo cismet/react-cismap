@@ -38,7 +38,7 @@ export class StyledWMSTileLayer_ extends WMSTileLayer {
         console.debug("this.leafletElemen not set");
       }
     } else {
-      console.debug("no cssFilter set");
+      // console.debug("no cssFilter set");
     }
   }
 
