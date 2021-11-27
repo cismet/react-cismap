@@ -4,7 +4,8 @@ import Icon from "../../../commons/Icon";
 import Well from "../../../commons/Well";
 import FeatureInfoScalarBaseComponent from "./FeatureInfoScalarBaseComponent";
 import { getRoundedValueStringForValue } from "../helper";
-import FeatureInfoLineChartBaseComponent from "./FeatureInfoLineChartBaseComponent";
+// import FeatureInfoLineChartBaseComponent from "./FeatureInfoLineChartBaseComponentChartkick";
+import FeatureInfoLineChartBaseComponent from "./FeatureInfoLineChartBaseComponentRecharts";
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 const Comp = ({
@@ -16,11 +17,15 @@ const Comp = ({
   innerHeight = undefined,
   header = "Header nicht gesetzt",
   featureValueProcessor = (value) => value,
-  noValueText = "noValueText nicht gestezt",
+  featureSingleValueProcessor = (value) => value,
+  noValueText = "noValueText nicht gesetzt",
   footerLink,
   valueUI,
   ytitle,
   xtitle,
+  activeTimeSeriesPoint,
+  intermediateValuesCount,
+  setActiveTimeSeriesPoint,
 }) => {
   let _footerLink = footerLink;
   if (!_footerLink) {
@@ -32,36 +37,64 @@ const Comp = ({
   }
   let _valueUI = valueUI;
 
-  if (!_valueUI) {
-    //check if featureInfoValue is a number or an array of numbers
-
-    if (Array.isArray(featureInfoValue)) {
-      _valueUI = (
-        <FeatureInfoLineChartBaseComponent
-          {...{ featureInfoValue, featureValueProcessor, noValueText, xtitle, ytitle }}
-        />
-      );
-    } else {
-      _valueUI = (
-        <FeatureInfoScalarBaseComponent
-          {...{ featureInfoValue, featureValueProcessor, noValueText }}
-        />
-      );
-    }
+  if (!featureInfoValue) {
+    _valueUI = <p>{noValueText}</p>;
   }
+
   let headerColor = "#7e7e7e";
-  if (featureInfoValue) {
+  let currentFeatureInfoValue;
+
+  let currentindex;
+  if (Array.isArray(featureInfoValue)) {
+    currentindex = Math.round(activeTimeSeriesPoint / intermediateValuesCount);
+    currentFeatureInfoValue = featureInfoValue[currentindex]?.value;
+  } else {
+    currentFeatureInfoValue = featureInfoValue;
+  }
+  if (currentFeatureInfoValue) {
     for (const item of legendObject) {
-      if (featureInfoValue > item.lt) {
+      if (currentFeatureInfoValue > item.lt) {
         headerColor = item.bg;
       }
     }
   }
+
   let textColor = "black";
   let backgroundColor = new Color(headerColor);
   if (backgroundColor.isDark()) {
     textColor = "white";
   }
+
+  if (!_valueUI) {
+    //check if featureInfoValue is a number or an array of numbers
+    if (Array.isArray(featureInfoValue)) {
+      _valueUI = (
+        <FeatureInfoLineChartBaseComponent
+          {...{
+            featureInfoValue,
+            currentFeatureInfoValue,
+            featureValueProcessor,
+            featureSingleValueProcessor,
+            noValueText,
+            xtitle,
+            ytitle,
+            activeTimeSeriesPoint,
+            intermediateValuesCount,
+            headerColor,
+            textColor,
+            setActiveTimeSeriesPoint,
+          }}
+        />
+      );
+    } else {
+      _valueUI = (
+        <FeatureInfoScalarBaseComponent
+          {...{ featureInfoValue, featureValueProcessor, noValueText, headerColor, textColor }}
+        />
+      );
+    }
+  }
+
   if (featureInfoValue <= 0) {
     featureInfoValue = 0;
   }

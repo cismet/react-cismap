@@ -91,6 +91,7 @@
 		"react-markdown": "^5.0.3",
 		"react-scroll": "^1.8.1",
 		"react-svg-inline": "^2.1.1",
+		"recharts": "^2.1.6",
 		"reproject": "^1.2.5",
 		"slugify": "^1.4.6",
 		"svg-create-element": "^1.0.0",

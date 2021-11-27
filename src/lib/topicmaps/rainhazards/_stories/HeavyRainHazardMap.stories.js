@@ -184,6 +184,12 @@ export const RainHazardMapPaderborn = () => {
         modeSwitcherTitle="AIS Starkregenvorsorge Paderborn"
         documentTitle="Preview Starkregengefahrenkarte Paderborn"
         gazData={gazData}
+        customFeatureInfoUIs={{
+          maxDepth: undefined,
+          maxVelocity: undefined,
+          tsDepths: undefined,
+          tsVelocities: undefined,
+        }}
       />
     </TopicMapContextProvider>
   );

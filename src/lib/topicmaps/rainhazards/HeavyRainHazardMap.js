@@ -80,6 +80,7 @@ function Map({
   gazData = [],
   documentTitle,
   emailaddress,
+  customFeatureInfoUIs,
 }) {
   const { history, appKey } = useContext(TopicMapContext);
   const { routedMapRef } = useContext(TopicMapContext);
@@ -605,14 +606,18 @@ function Map({
               selectedBackgroundIndex={state.selectedBackground}
               secondaryInfoBoxElements={
                 !config.hideMeasurements
-                  ? createGetFeatureInfoControls(
+                  ? createGetFeatureInfoControls({
                       state,
                       setX,
                       currentZoom,
                       history,
                       showModalMenu,
-                      config
-                    )
+                      config,
+                      activeTimeSeriesPoint,
+                      intermediateValuesCount,
+                      customFeatureInfoUIs,
+                      setActiveTimeSeriesPoint,
+                    })
                   : []
               }
             />

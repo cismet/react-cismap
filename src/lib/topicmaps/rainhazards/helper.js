@@ -110,7 +110,7 @@ export const getFeatureInfoRequest = (mapEvent, state, setX, config, forced = fa
         const valueArray = data.features.map((f) => f.properties[valueAttributeName]);
         const dataContainer = [];
         let i = 0;
-        for (const layer of config.simulations[state.selectedSimulation].depthTimeDimensionLayerX) {
+        for (const layer of config.simulations[state.selectedSimulation].timeDimensionLayerX) {
           dataContainer.push({
             time: layer,
             value: valueArray[i] !== -1 ? valueArray[i] : undefined,
@@ -236,15 +236,27 @@ export const setFeatureInfoModeActivation = (
   setX.setFeatureInfoModeActivation(activated);
 };
 
-export const createGetFeatureInfoControls = (
+export const createGetFeatureInfoControls = ({
   state,
   setX,
   currentZoom,
   history,
   showModalMenu,
-  config
-) => {
+  config,
+  customFeatureInfoUIs,
+  activeTimeSeriesPoint,
+  intermediateValuesCount,
+  setActiveTimeSeriesPoint,
+}) => {
   if (state) {
+    const input = {
+      setFeatureInfoModeActivation: (activated) =>
+        setFeatureInfoModeActivation(activated, setX, currentZoom, state, history, config),
+      featureInfoValue: state.currentFeatureInfoValue,
+      showModalMenu,
+      activeTimeSeriesPoint,
+      intermediateValuesCount,
+    };
     if (state.featureInfoModeActivated === true) {
       if (
         state.displayMode === starkregenConstants.SHOW_HEIGHTS &&
@@ -252,15 +264,22 @@ export const createGetFeatureInfoControls = (
       ) {
         return [
           <FeatureInfoModeBoxBaseComponent
-            setFeatureInfoModeActivation={(activated) =>
-              setFeatureInfoModeActivation(activated, setX, currentZoom, state, history, config)
-            }
-            featureInfoValue={state.currentFeatureInfoValue}
-            showModalMenu={showModalMenu}
+            {...input}
             legendObject={config.heightsLegend}
             header="Maximaler Wasserstand"
             featureValueProcessor={getRoundedValueStringForValue}
             noValueText="Klick in die Karte zur Abfrage des simulierten max. Wasserstandes"
+            valueUI={
+              customFeatureInfoUIs?.maxDepth &&
+              customFeatureInfoUIs.maxDepth({
+                state,
+                setX,
+                currentZoom,
+                history,
+                showModalMenu,
+                config,
+              })
+            }
           />,
         ];
       } else if (
@@ -269,19 +288,28 @@ export const createGetFeatureInfoControls = (
       ) {
         return [
           <FeatureInfoModeBoxBaseComponent
-            setFeatureInfoModeActivation={(activated) =>
-              setFeatureInfoModeActivation(activated, setX, currentZoom, state, history, config)
-            }
-            featureInfoValue={state.currentFeatureInfoValue}
-            showModalMenu={showModalMenu}
+            {...input}
             legendObject={config.heightsLegend}
             featureValueProcessor={(featureValue) => {
               return Math.round(featureValue * 100);
             }}
+            featureSingleValueProcessor={getRoundedValueStringForValue}
             header="Wasserstände im zeitlichen Verlauf"
             width={"250px"}
             noValueText="Klick in die Karte zur Abfrage der Wasserstände im zeitlichen Verlauf"
             ytitle="Tiefe in cm"
+            setActiveTimeSeriesPoint={setActiveTimeSeriesPoint}
+            valueUI={
+              customFeatureInfoUIs?.tsDepths &&
+              customFeatureInfoUIs.tsDepths({
+                state,
+                setX,
+                currentZoom,
+                history,
+                showModalMenu,
+                config,
+              })
+            }
           />,
         ];
       } else if (
@@ -290,11 +318,7 @@ export const createGetFeatureInfoControls = (
       ) {
         return [
           <FeatureInfoModeBoxBaseComponent
-            setFeatureInfoModeActivation={(activated) =>
-              setFeatureInfoModeActivation(activated, setX, currentZoom, state, history, config)
-            }
-            featureInfoValue={state.currentFeatureInfoValue}
-            showModalMenu={showModalMenu}
+            {...input}
             legendObject={config.velocityLegend}
             header="Maximale Fließgeschwindigkeit"
             featureValueProcessor={(featureValue) => {
@@ -309,6 +333,17 @@ export const createGetFeatureInfoControls = (
               }
             }}
             noValueText="Klick in die Karte zur Abfrage der simulierten max. Fließgeschwindigkeit"
+            valueUI={
+              customFeatureInfoUIs?.maxVelocity &&
+              customFeatureInfoUIs.maxVelocity({
+                state,
+                setX,
+                currentZoom,
+                history,
+                showModalMenu,
+                config,
+              })
+            }
           />,
         ];
       } else if (
@@ -317,11 +352,7 @@ export const createGetFeatureInfoControls = (
       ) {
         return [
           <FeatureInfoModeBoxBaseComponent
-            setFeatureInfoModeActivation={(activated) =>
-              setFeatureInfoModeActivation(activated, setX, currentZoom, state, history, config)
-            }
-            featureInfoValue={state.currentFeatureInfoValue}
-            showModalMenu={showModalMenu}
+            {...input}
             legendObject={config.velocityLegend}
             featureValueProcessor={(featureValue) => {
               return Math.round(featureValue * 100) / 100;
@@ -330,6 +361,18 @@ export const createGetFeatureInfoControls = (
             width={"250px"}
             noValueText="Klick in die Karte zur Abfrage der simulierten Fließgeschwindigkeiten im zeitlichen Verlau"
             ytitle="Geschwindigkeit in m/s"
+            setActiveTimeSeriesPoint={setActiveTimeSeriesPoint}
+            valueUI={
+              customFeatureInfoUIs?.tsVelocities &&
+              customFeatureInfoUIs.tsVelocities({
+                state,
+                setX,
+                currentZoom,
+                history,
+                showModalMenu,
+                config,
+              })
+            }
           />,
         ];
       }
