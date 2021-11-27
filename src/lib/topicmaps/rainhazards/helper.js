@@ -14,13 +14,22 @@ const xs = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
 const ys = [0.85, 0.9, 0.96, 1.01, 1.04, 1.05, 1.04, 1.01, 0.96, 0.9, 0.85];
 const spline = new Spliner(xs, ys);
 
-export const getRoundedValueStringForValue = (featureValue) => {
+export const getRoundedDepthValueStringForValue = (featureValue) => {
   if (featureValue > 1.5) {
     return `> 150 cm`;
   } else if (featureValue < 0.1) {
     return `< 10 cm`;
   } else {
     return `ca. ${Math.round(featureValue * 10.0) * 10.0} cm`;
+  }
+};
+export const getRoundedVelocityValueStringForValue = (featureValue) => {
+  if (featureValue > 6) {
+    return `> 6 m/s`;
+  } else if (featureValue < 0.2) {
+    return `< 0,2 m/s`;
+  } else {
+    return `ca. ${(Math.round(featureValue * 10) / 10).toString().replace(".", ",")} m/s`;
   }
 };
 
@@ -275,7 +284,7 @@ export const createGetFeatureInfoControls = ({
             {...input}
             legendObject={config.heightsLegend}
             header="Maximaler Wasserstand"
-            featureValueProcessor={getRoundedValueStringForValue}
+            featureValueProcessor={getRoundedDepthValueStringForValue}
             noValueText="Klick in die Karte zur Abfrage des simulierten max. Wasserstandes"
             valueUI={
               customFeatureInfoUIs?.maxDepth &&
@@ -301,7 +310,8 @@ export const createGetFeatureInfoControls = ({
             featureValueProcessor={(featureValue) => {
               return Math.round(featureValue * 100);
             }}
-            featureSingleValueProcessor={getRoundedValueStringForValue}
+            featureSingleValueProcessor={getRoundedDepthValueStringForValue}
+            chartValueProcessor={(value) => value / 100}
             header="Wasserstände im zeitlichen Verlauf"
             width={"250px"}
             noValueText="Klick in die Karte zur Abfrage der Wasserstände im zeitlichen Verlauf"
@@ -329,17 +339,7 @@ export const createGetFeatureInfoControls = ({
             {...input}
             legendObject={config.velocityLegend}
             header="Maximale Fließgeschwindigkeit"
-            featureValueProcessor={(featureValue) => {
-              if (featureValue > 6) {
-                return `> 6 m/s`;
-              } else if (featureValue < 0.2) {
-                return `< 0,2 m/s`;
-              } else {
-                return `ca. ${(Math.round(featureValue * 10) / 10)
-                  .toString()
-                  .replace(".", ",")} m/s`;
-              }
-            }}
+            featureValueProcessor={getRoundedVelocityValueStringForValue}
             noValueText="Klick in die Karte zur Abfrage der simulierten max. Fließgeschwindigkeit"
             valueUI={
               customFeatureInfoUIs?.maxVelocity &&
@@ -365,6 +365,8 @@ export const createGetFeatureInfoControls = ({
             featureValueProcessor={(featureValue) => {
               return Math.round(featureValue * 100) / 100;
             }}
+            featureSingleValueProcessor={getRoundedVelocityValueStringForValue}
+            chartValueProcessor={(value) => value}
             header="Maximale Fließgeschwindigkeit"
             width={"250px"}
             noValueText="Klick in die Karte zur Abfrage der simulierten Fließgeschwindigkeiten im zeitlichen Verlau"

@@ -3,7 +3,7 @@ import Color from "color";
 import Icon from "../../../commons/Icon";
 import Well from "../../../commons/Well";
 import FeatureInfoScalarBaseComponent from "./FeatureInfoScalarBaseComponent";
-import { getRoundedValueStringForValue } from "../helper";
+import { getRoundedDepthValueStringForValue } from "../helper";
 // import FeatureInfoLineChartBaseComponent from "./FeatureInfoLineChartBaseComponentChartkick";
 import FeatureInfoLineChartBaseComponent from "./FeatureInfoLineChartBaseComponentRecharts";
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -18,6 +18,8 @@ const Comp = ({
   header = "Header nicht gesetzt",
   featureValueProcessor = (value) => value,
   featureSingleValueProcessor = (value) => value,
+  chartValueProcessor = (value) => value,
+
   noValueText = "noValueText nicht gesetzt",
   footerLink,
   valueUI,
@@ -83,6 +85,7 @@ const Comp = ({
             headerColor,
             textColor,
             setActiveTimeSeriesPoint,
+            chartValueProcessor,
           }}
         />
       );

@@ -23,6 +23,7 @@ const Comp = ({
   textColor,
   currentFeatureInfoValue,
   setActiveTimeSeriesPoint,
+  chartValueProcessor,
 }) => {
   const map = {};
   const data = [];
@@ -49,8 +50,6 @@ const Comp = ({
   const maxTimeSeriesPoint = (data.length - 1) * intermediateValuesCount;
   const activeTimeSeriesPointPosition =
     (activeTimeSeriesPoint / maxTimeSeriesPoint) * (maxTimePoint - minTimePoint) + initialOffset;
-
-  const [dragActive, setDragActive] = React.useState(false);
 
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -161,7 +160,8 @@ const Comp = ({
                     paddingRight: "10px",
                   }}
                 >
-                  {featureSingleValueProcessor(hovVal.value / 100)}
+                  {/* {hovVal.value} */}
+                  {featureSingleValueProcessor(chartValueProcessor(hovVal.value))}
                 </div>
               );
             } else {
