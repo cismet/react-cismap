@@ -25,6 +25,7 @@ import {
   getIntermediateImage,
   opacityCalculator,
   getTsMeta,
+  assureMinZoomLevel,
 } from "./helper";
 import ModeSwitcher from "./components/ModeSwitcher";
 import FeatureInfoLLayerVis from "./components/FeatureInfoLayerVisualization";
@@ -573,6 +574,7 @@ function Map({
           minZoom={minZoom}
           onclick={(event) => {
             if (state.featureInfoModeActivated) {
+              assureMinZoomLevel(currentZoom, config.minFeatureInfoZoom, history, event?.latlng);
               getFeatureInfoRequest(event, state, setX, config);
             }
           }}

@@ -24,8 +24,40 @@ export const getRoundedValueStringForValue = (featureValue) => {
   }
 };
 
+export const setFeatureInfoModeActivation = (
+  activated,
+  setX,
+  currentZoom,
+  state,
+  history,
+  config
+) => {
+  if (!activated) {
+    setX.setCurrentFeatureInfoValue(undefined);
+    setX.setCurrentFeatureInfoPosition(undefined);
+  } else {
+    assureMinZoomLevel(currentZoom, config.minFeatureInfoZoom, history);
+  }
+  setX.setFeatureInfoModeActivation(activated);
+};
+
+export const assureMinZoomLevel = (currentZoom, minFeatureInfoZoom, history, latlng) => {
+  if (currentZoom < minFeatureInfoZoom) {
+    const searchObject = { zoom: minFeatureInfoZoom };
+    if (latlng) {
+      searchObject.lat = latlng.lat;
+      searchObject.lng = latlng.lng;
+    }
+
+    history.push(
+      history.location.pathname + modifyQueryPart(history.location.search, searchObject)
+    );
+  }
+};
+
 export const getFeatureInfoRequest = (mapEvent, state, setX, config, forced = false) => {
   let pos;
+
   if (!mapEvent) {
     if (
       state.currentFeatureInfoPosition &&
@@ -210,30 +242,6 @@ export const setBackgroundIndex = (index, history, setX) => {
     );
   }
   setX.setBackgroundIndex(index);
-};
-
-export const setFeatureInfoModeActivation = (
-  activated,
-  setX,
-  currentZoom,
-  state,
-  history,
-  config
-) => {
-  if (!activated) {
-    setX.setCurrentFeatureInfoValue(undefined);
-    setX.setCurrentFeatureInfoPosition(undefined);
-  } else {
-    if (currentZoom < config.minFeatureInfoZoom) {
-      history.push(
-        history.location.pathname +
-          modifyQueryPart(history.location.search, {
-            zoom: config.minFeatureInfoZoom,
-          })
-      );
-    }
-  }
-  setX.setFeatureInfoModeActivation(activated);
 };
 
 export const createGetFeatureInfoControls = ({

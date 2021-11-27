@@ -1,3 +1,4 @@
+import { random } from "chroma-js";
 import React, { useEffect } from "react";
 import {
   LineChart,
@@ -48,7 +49,8 @@ const Comp = ({
   const maxTimeSeriesPoint = (data.length - 1) * intermediateValuesCount;
   const activeTimeSeriesPointPosition =
     (activeTimeSeriesPoint / maxTimeSeriesPoint) * (maxTimePoint - minTimePoint) + initialOffset;
-  console.log("hoveringValueRef.current", hoveringValueRef.current, currentFeatureInfoValue);
+
+  const [dragActive, setDragActive] = React.useState(false);
 
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -60,7 +62,15 @@ const Comp = ({
           left: 1,
           bottom: 1,
         }}
-        style={{ fontFamily: "Roboto, sans-serif" }}
+        style={{
+          fontFamily: "Roboto, sans-serif",
+          WebkitTouchCallout: "none",
+          WebkitUserSelect: "none",
+          KhtmlUserSelect: "none",
+          MozUserSelect: "none",
+          MsUserSelect: "none",
+          userSelect: "none",
+        }}
         width={230}
         height={160}
         data={data}
@@ -70,7 +80,6 @@ const Comp = ({
               ((hoveringValueRef.current.time - minTimePoint) / (maxTimePoint - minTimePoint)) *
               maxTimeSeriesPoint;
             setActiveTimeSeriesPoint(newActiveTimeSeriesPoint);
-            // setHoveringValue(undefined);
           }
         }}
       >
@@ -123,7 +132,8 @@ const Comp = ({
         </ReferenceLine>
 
         <Tooltip
-          content={({ active, payload, label }) => {
+          content={(e) => {
+            const { active, payload, label } = e;
             let hovVal = payload[0]?.payload;
 
             if (hovVal === undefined && active === true && label) {
