@@ -36,6 +36,7 @@ const Comp = ({
     data.push(entry);
     map[entry.time] = entry.value;
   }
+  console.log("data", data);
 
   const [hoveringValue, setHoveringValue] = React.useState();
   const hoveringValueRef = React.useRef(hoveringValue);
@@ -99,7 +100,16 @@ const Comp = ({
             />
           )}
         </XAxis>
-        <YAxis tick={{ fontSize: 10 }} width={ytitle !== undefined ? 40 : undefined}>
+        <YAxis
+          tickCount={10}
+          tickFormatter={(featureValue) => {
+            return Math.round(featureValue * 10) / 10;
+          }}
+          type="number"
+          allowDecimals={true}
+          tick={{ fontSize: 10 }}
+          width={ytitle !== undefined ? 40 : undefined}
+        >
           {ytitle && (
             <Label
               fontSize={12}
