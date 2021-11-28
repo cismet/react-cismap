@@ -1,5 +1,5 @@
 import React from "react";
-const Comp = ({ featureInfoValue, featureValueProcessor, noValueText }) => {
+const Comp = ({ featureInfoValue, featureValueProcessor }) => {
   return (
     <div>
       <h2
@@ -9,7 +9,8 @@ const Comp = ({ featureInfoValue, featureValueProcessor, noValueText }) => {
           textAlign: "center",
         }}
       >
-        {featureValueProcessor(featureInfoValue)}
+        {featureInfoValue !== -10 && featureValueProcessor(featureInfoValue)}
+        {featureInfoValue === -10 && "..."}
       </h2>
     </div>
   );

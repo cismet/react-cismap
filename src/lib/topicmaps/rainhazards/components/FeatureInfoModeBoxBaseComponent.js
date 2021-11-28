@@ -3,7 +3,6 @@ import Color from "color";
 import Icon from "../../../commons/Icon";
 import Well from "../../../commons/Well";
 import FeatureInfoScalarBaseComponent from "./FeatureInfoScalarBaseComponent";
-import { getRoundedDepthValueStringForValue } from "../helper";
 // import FeatureInfoLineChartBaseComponent from "./FeatureInfoLineChartBaseComponentChartkick";
 import FeatureInfoLineChartBaseComponent from "./FeatureInfoLineChartBaseComponentRecharts";
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -28,6 +27,10 @@ const Comp = ({
   activeTimeSeriesPoint,
   intermediateValuesCount,
   setActiveTimeSeriesPoint,
+  valueMode,
+  displayMode,
+  currentFeatureInfoSelectedDisplayMode,
+  currentFeatureInfoSelectedValueMode,
 }) => {
   let _footerLink = footerLink;
   if (!_footerLink) {
@@ -46,17 +49,26 @@ const Comp = ({
   let headerColor = "#7e7e7e";
   let currentFeatureInfoValue;
 
-  let currentindex;
-  if (Array.isArray(featureInfoValue)) {
-    currentindex = Math.round(activeTimeSeriesPoint / intermediateValuesCount);
-    currentFeatureInfoValue = featureInfoValue[currentindex]?.value;
-  } else {
-    currentFeatureInfoValue = featureInfoValue;
-  }
-  if (currentFeatureInfoValue) {
-    for (const item of legendObject) {
-      if (currentFeatureInfoValue > item.lt) {
-        headerColor = item.bg;
+  if (
+    valueMode &&
+    currentFeatureInfoSelectedDisplayMode &&
+    displayMode &&
+    currentFeatureInfoSelectedDisplayMode &&
+    valueMode === currentFeatureInfoSelectedValueMode &&
+    displayMode === currentFeatureInfoSelectedDisplayMode
+  ) {
+    let currentindex;
+    if (Array.isArray(featureInfoValue)) {
+      currentindex = Math.round(activeTimeSeriesPoint / intermediateValuesCount);
+      currentFeatureInfoValue = featureInfoValue[currentindex]?.value;
+    } else {
+      currentFeatureInfoValue = featureInfoValue;
+    }
+    if (currentFeatureInfoValue) {
+      for (const item of legendObject) {
+        if (currentFeatureInfoValue > item.lt) {
+          headerColor = item.bg;
+        }
       }
     }
   }
@@ -97,6 +109,7 @@ const Comp = ({
       );
     }
   }
+  console.log("");
 
   if (featureInfoValue <= 0) {
     featureInfoValue = 0;

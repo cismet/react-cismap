@@ -90,6 +90,7 @@ export const getFeatureInfoRequest = (mapEvent, state, setX, config, forced = fa
   const minimalBoxSize = 0.0001;
   let layersString;
   if (state.valueMode === starkregenConstants.SHOW_MAXVALUES) {
+    setX.setCurrentFeatureInfoValue(-10);
     if (state.displayMode === starkregenConstants.SHOW_HEIGHTS) {
       valueAttributeName = "depth";
       layersString = config.simulations[state.selectedSimulation].depthLayer;
@@ -98,6 +99,8 @@ export const getFeatureInfoRequest = (mapEvent, state, setX, config, forced = fa
       layersString = config.simulations[state.selectedSimulation].velocityLayer;
     }
   } else {
+    setX.setCurrentFeatureInfoValue([]);
+
     if (state.displayMode === starkregenConstants.SHOW_HEIGHTS) {
       valueAttributeName = "depth";
       layersString = config.simulations[state.selectedSimulation].depthTimeDimensionLayers.join(
@@ -274,6 +277,13 @@ export const createGetFeatureInfoControls = ({
       activeTimeSeriesPoint,
       intermediateValuesCount,
     };
+
+    const stateInfo = {
+      valueMode: state.valueMode,
+      displayMode: state.displayMode,
+      currentFeatureInfoSelectedDisplayMode: state.currentFeatureInfoSelectedDisplayMode,
+      currentFeatureInfoSelectedValueMode: state.currentFeatureInfoSelectedValueMode,
+    };
     if (state.featureInfoModeActivated === true) {
       if (
         state.displayMode === starkregenConstants.SHOW_HEIGHTS &&
@@ -282,6 +292,7 @@ export const createGetFeatureInfoControls = ({
         return [
           <FeatureInfoModeBoxBaseComponent
             {...input}
+            {...stateInfo}
             legendObject={config.heightsLegend}
             header="Maximaler Wasserstand"
             featureValueProcessor={getRoundedDepthValueStringForValue}
@@ -297,6 +308,7 @@ export const createGetFeatureInfoControls = ({
                 config,
               })
             }
+            {...stateInfo}
           />,
         ];
       } else if (
@@ -306,6 +318,7 @@ export const createGetFeatureInfoControls = ({
         return [
           <FeatureInfoModeBoxBaseComponent
             {...input}
+            {...stateInfo}
             legendObject={config.heightsLegend}
             featureValueProcessor={(featureValue) => {
               return Math.round(featureValue * 100);
@@ -337,6 +350,7 @@ export const createGetFeatureInfoControls = ({
         return [
           <FeatureInfoModeBoxBaseComponent
             {...input}
+            {...stateInfo}
             legendObject={config.velocityLegend}
             header="Maximale Fließgeschwindigkeit"
             featureValueProcessor={getRoundedVelocityValueStringForValue}
@@ -361,15 +375,16 @@ export const createGetFeatureInfoControls = ({
         return [
           <FeatureInfoModeBoxBaseComponent
             {...input}
+            {...stateInfo}
             legendObject={config.velocityLegend}
             featureValueProcessor={(featureValue) => {
               return Math.round(featureValue * 100) / 100;
             }}
             featureSingleValueProcessor={getRoundedVelocityValueStringForValue}
             chartValueProcessor={(value) => value}
-            header="Maximale Fließgeschwindigkeit"
+            header="Fließgeschwindigkeit im zeitlichen Verlauf"
             width={"250px"}
-            noValueText="Klick in die Karte zur Abfrage der simulierten Fließgeschwindigkeiten im zeitlichen Verlau"
+            noValueText="Klick in die Karte zur Abfrage der simulierten Fließgeschwindigkeiten im zeitlichen Verlauf"
             ytitle="Geschwindigkeit in m/s"
             setActiveTimeSeriesPoint={setActiveTimeSeriesPoint}
             valueUI={
