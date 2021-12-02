@@ -157,7 +157,8 @@ export const md5ActionFetchDAQ = async (prefix, apiUrl, jwt, daqKey) => {
       }
     );
 
-    if (response.status >= 200 && response.status < 300) {
+    if (response.status >= 200 && response.status < 400) {
+      //200,298,299,304
       const content = await response.json();
       if (content.res) {
         try {
@@ -165,9 +166,11 @@ export const md5ActionFetchDAQ = async (prefix, apiUrl, jwt, daqKey) => {
           let status = result.status;
           let data, time;
 
-          if (status === 200) {
+          if (status === 200 || status === 298 || status === 299) {
             console.log("DAQ cache miss for " + daqKey);
-
+            if (status !== 200) {
+              console.log("server side DAQ view problem.  status " + status);
+            }
             data = JSON.parse(result.content);
             time = result.time;
             await localforage.setItem(dataKey, result.content);
