@@ -57,7 +57,7 @@ const Comp = ({
   return (
     <Modal
       style={{
-        zIndex: 2900000000,
+        zIndex: 10000000,
       }}
       height="100%"
       size="xl"

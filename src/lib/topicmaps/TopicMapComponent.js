@@ -291,7 +291,7 @@ const TopicMapComponent = (props) => {
                 <OverlayTrigger
                   placement="left"
                   overlay={
-                    <Tooltip style={{ zIndex: 3000000000 }} id="helpTooltip">
+                    <Tooltip style={{ zIndex: 20000000 }} id="helpTooltip">
                       {applicationMenuTooltipString}
                     </Tooltip>
                   }

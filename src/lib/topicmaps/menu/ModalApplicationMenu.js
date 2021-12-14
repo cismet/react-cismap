@@ -54,7 +54,7 @@ const GenericModalApplicationMenu = ({
   return (
     <Modal
       style={{
-        zIndex: 3000000000,
+        zIndex: 30000000,
       }}
       height="100%"
       size="xl"

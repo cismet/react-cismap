@@ -39,7 +39,7 @@ const COMP = ({
     return (
       <Tooltip
         style={{
-          zIndex: 3000000000,
+          zIndex: 20000000,
         }}
         id="searchTooltip"
       >
@@ -50,7 +50,7 @@ const COMP = ({
   gazClearTooltipProvider = () => (
     <Tooltip
       style={{
-        zIndex: 3000000000,
+        zIndex: 20000000,
       }}
       id="gazClearTooltip"
     >
