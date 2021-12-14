@@ -1,61 +1,30 @@
-import React, { useState, useRef, useEffect } from "react";
-import { RoutedMap, MappingConstants } from "../../index";
-import GazetteerSearchComponent from "../../GazetteerSearchComponent";
-import GazetteerHitDisplay from "../../GazetteerHitDisplay";
-import { md5FetchText } from "../../tools/fetching";
-import { getGazDataForTopicIds } from "../../tools/gazetteerHelper";
-import ProjSingleGeoJson from "../../ProjSingleGeoJson";
-import { storiesCategory } from "./StoriesConf";
-import TopicMapContextProvider from "../../contexts/TopicMapContextProvider";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, useRef, useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import IconComp from "../../commons/Icon";
-import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
+import TopicMapContextProvider from "../../contexts/TopicMapContextProvider";
+import FeatureCollection from "../../FeatureCollection";
+import GazetteerHitDisplay from "../../GazetteerHitDisplay";
+import GazetteerSearchComponent from "../../GazetteerSearchComponent";
+import { MappingConstants, RoutedMap } from "../../index";
+import ProjSingleGeoJson from "../../ProjSingleGeoJson";
+import StyledWMSTileLayer from "../../StyledWMSTileLayer";
+import { md5FetchText } from "../../tools/fetching";
+import { getGazDataForTopicIds } from "../../tools/gazetteerHelper";
+import { getClusterIconCreatorFunction } from "../../tools/uiHelper";
+import getGTMFeatureStyler from "../../topicmaps/generic/GTMStyler";
+import GenericInfoBoxFromFeature from "../../topicmaps/GenericInfoBoxFromFeature";
+import TopicMapComponent from "../../topicmaps/TopicMapComponent";
+import { storiesCategory } from "./StoriesConf";
 
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { getGazData } from "../../_stories/complex/StoriesConf";
 
 export default {
   title: storiesCategory + "GazetteerSearchControl",
-};
-
-const getGazData = async (setData) => {
-  const prefix = "GazDataForStories";
-  const sources = {};
-
-  // gazData.push(await md5FetchJSON(prefix, 'https://updates.cismet.de/test/adressen.json'));
-  sources.adressen = await md5FetchText(
-    prefix,
-    "https://wunda-geoportal.cismet.de/data/3857/adressen.json"
-  );
-  sources.bezirke = await md5FetchText(
-    prefix,
-    "https://wunda-geoportal.cismet.de/data/3857/bezirke.json"
-  );
-  sources.quartiere = await md5FetchText(
-    prefix,
-    "https://wunda-geoportal.cismet.de/data/3857/quartiere.json"
-  );
-  sources.pois = await md5FetchText(
-    prefix,
-    "https://wunda-geoportal.cismet.de/data/3857/pois.json"
-  );
-  sources.kitas = await md5FetchText(
-    prefix,
-    "https://wunda-geoportal.cismet.de/data/3857/kitas.json"
-  );
-
-  const gazData = getGazDataForTopicIds(sources, [
-    "pois",
-    "kitas",
-    "bezirke",
-    "quartiere",
-    "adressen",
-  ]);
-
-  setData(gazData);
 };
 
 export const SimpleMapWithDetachedGazetteerSearchBox = () => {

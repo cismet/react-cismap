@@ -67,7 +67,7 @@ ReactDOM.render(
     {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
     {/* <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers /> */}
-    {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox /> */}
+    <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox />
     {/* <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Wasserstofftankstelle /> */}
     {/* <TopicMapsExamples.TopicMapWithWithStaticFilter /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayer /> */}
@@ -86,9 +86,10 @@ ReactDOM.render(
     {/* <PhotoLightBoxExamples.SimplePhotoLightBox /> */}
     {/* <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptions /> */}
     {/* <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptionsAndExternalLinks /> */}
-    <RainHazardMapExamples.RainHazardMapHaltern />
+    {/* <RainHazardMapExamples.RainHazardMapHaltern /> */}
     {/* <RainHazardMapExamples.RainHazardMapOlpe /> */}
     {/* <RainHazardMapExamples.RainHazardMapWuppertal /> */}
+    {/* <GazetteerSearchBoxExamples.SimpleMapWithRemoteControlledGazetteerSearchBox /> */}
   </div>,
   document.getElementById("root")
 );

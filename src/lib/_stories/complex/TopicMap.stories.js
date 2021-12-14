@@ -7,7 +7,7 @@ import {
 import GazetteerSearchControl from "../../GazetteerSearchControl";
 import GazetteerHitDisplay from "../../GazetteerHitDisplay";
 import ProjSingleGeoJson from "../../ProjSingleGeoJson";
-import { storiesCategory, getGazData, host } from "./StoriesConf";
+import { storiesCategory, getGazData, host, getGazData25387 } from "./StoriesConf";
 import TopicMapComponent from "../../topicmaps/TopicMapComponent";
 import GenericInfoBoxFromFeature from "../../topicmaps/GenericInfoBoxFromFeature";
 import FeatureCollectionDisplay from "../../FeatureCollectionDisplay";
@@ -1017,7 +1017,7 @@ export const TopicMapWithCustomLayerSetAndAdditionalOverlayLayers = () => {
 export const TopicMapWithWithFilterDrivenTitleBox = () => {
   const [gazData, setGazData] = useState([]);
   useEffect(() => {
-    getGazData(setGazData);
+    getGazData25387(setGazData);
   }, []);
 
   return (
@@ -1161,6 +1161,21 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
         }
         secondaryInfo={<InfoPanel />}
         // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+        gazetteerHitTrigger={(hits) => {
+          if (Array.isArray(hits) && hits[0]?.more?.id) {
+            setSelectedFeatureByPredicate((feature) => {
+              try {
+                const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
+                if (check === true) {
+                  zoomToFeature(feature);
+                }
+                return check;
+              } catch (e) {
+                return false;
+              }
+            });
+          }
+        }}
       >
         <FeatureCollection />
       </TopicMapComponent>
