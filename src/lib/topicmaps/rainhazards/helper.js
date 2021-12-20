@@ -85,7 +85,7 @@ export const getFeatureInfoRequest = (mapEvent, state, setX, config, forced = fa
       mapEvent.latlng.lat,
     ]);
   }
-
+  let valueAttributeName;
   // if (state.displayMode === starkregenConstants.SHOW_HEIGHTS) {
   const minimalBoxSize = 0.0001;
   let layersString;
@@ -113,7 +113,7 @@ export const getFeatureInfoRequest = (mapEvent, state, setX, config, forced = fa
       );
     }
   }
-  let valueAttributeName;
+
   if (state.displayMode === starkregenConstants.SHOW_HEIGHTS) {
     valueAttributeName = "depth";
   } else {
