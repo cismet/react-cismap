@@ -274,6 +274,7 @@ function Map({
       layerkey: timeSeriesWMSLayers[index],
       layervalue: loadedTimeSeriesLayerImageData[timeSeriesWMSLayers[index]],
       snappedDisplayMode: state.displayMode,
+      snappedSelectedSimulation: state.selectedSimulation,
     };
     setSnappedLayer(snappedLayer);
   };
@@ -417,6 +418,7 @@ function Map({
     mapSize,
     state.valueMode === starkregenConstants.SHOW_TIMESERIES,
     state.displayMode,
+    state.selectedSimulation,
     blockLoading,
   ]);
 
@@ -719,7 +721,8 @@ function Map({
             snappedLayer?.layervalue &&
             snappedLayer?.mapBounds &&
             activeTimeSeriesPoint % intermediateValuesCount === 0 &&
-            activeTimeSeriesPoint === snappedLayer?.snappedTimeSeriesPoint && (
+            activeTimeSeriesPoint === snappedLayer?.snappedTimeSeriesPoint &&
+            state.selectedSimulation === snappedLayer?.snappedSelectedSimulation && (
               <ImageOverlay
                 // key={"datadrivenLayer." + activeTimeSeriesPoint}
                 key={"snappedLayer."}
