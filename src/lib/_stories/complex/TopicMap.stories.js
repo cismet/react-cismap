@@ -1161,21 +1161,21 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
         }
         secondaryInfo={<InfoPanel />}
         // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
-        gazetteerHitTrigger={(hits) => {
-          if (Array.isArray(hits) && hits[0]?.more?.id) {
-            setSelectedFeatureByPredicate((feature) => {
-              try {
-                const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
-                if (check === true) {
-                  zoomToFeature(feature);
-                }
-                return check;
-              } catch (e) {
-                return false;
-              }
-            });
-          }
-        }}
+        // gazetteerHitTrigger={(hits) => {
+        //   if (Array.isArray(hits) && hits[0]?.more?.id) {
+        //     setSelectedFeatureByPredicate((feature) => {
+        //       try {
+        //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
+        //         if (check === true) {
+        //           zoomToFeature(feature);
+        //         }
+        //         return check;
+        //       } catch (e) {
+        //         return false;
+        //       }
+        //     });
+        //   }
+        // }}
       >
         <FeatureCollection />
       </TopicMapComponent>
