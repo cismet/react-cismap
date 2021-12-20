@@ -109,7 +109,6 @@ const Comp = ({
       );
     }
   }
-  console.log("");
 
   if (featureInfoValue <= 0) {
     featureInfoValue = 0;

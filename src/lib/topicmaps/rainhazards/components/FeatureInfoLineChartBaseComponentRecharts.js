@@ -39,7 +39,6 @@ const Comp = ({
     data.push(entry);
     map[entry.time] = entry.value;
   }
-  console.log("data", data);
 
   const [hoveringValue, setHoveringValue] = React.useState();
   const hoveringValueRef = React.useRef(hoveringValue);
