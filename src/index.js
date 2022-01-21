@@ -8,11 +8,10 @@ import "./lib/topicMaps.css";
 import * as TopicMapsExamples from "./lib/_stories/complex/TopicMap.stories";
 import * as GenericTopicMapsExamples from "./lib/_stories/complex/GenericTopicMap.stories";
 import * as MapLibreExamples from "./lib/_stories/vector/SimpleMapLibreLayer";
-import * as AnimationExamples from "./lib/_stories/vectorfieldanimation/SimpleVFAExample";
+
 import * as InfoBoxExamples from "./lib/topicmaps/_stories/InfoBox.stories";
 import * as GazetteerSearchBoxExamples from "./lib/_stories/mainComponents/GazetteerSearchControl.stories";
 import * as PhotoLightBoxExamples from "./lib/topicmaps/_stories/PhotoLightbox.stories";
-import * as RainHazardMapExamples from "./lib/topicmaps/rainhazards/_stories/HeavyRainHazardMap.stories";
 
 const TestContext = React.createContext();
 
@@ -86,9 +85,7 @@ ReactDOM.render(
     {/* <PhotoLightBoxExamples.SimplePhotoLightBox /> */}
     {/* <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptions /> */}
     {/* <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptionsAndExternalLinks /> */}
-    {/* <RainHazardMapExamples.RainHazardMapHaltern /> */}
-    {/* <RainHazardMapExamples.RainHazardMapOlpe /> */}
-    {/* <RainHazardMapExamples.RainHazardMapWuppertal /> */}
+
     {/* <GazetteerSearchBoxExamples.SimpleMapWithRemoteControlledGazetteerSearchBox /> */}
   </div>,
   document.getElementById("root")
