@@ -15,14 +15,14 @@ import * as PhotoLightBoxExamples from "./lib/topicmaps/_stories/PhotoLightbox.s
 
 const TestContext = React.createContext();
 
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function () {
-    navigator.serviceWorker
-      .register("/offlineVectorTilesServiceWorker.js")
-      .then((res) => console.log("zzz service worker registered", res))
-      .catch((err) => console.log("service worker not registered", err));
-  });
-}
+// if ("serviceWorker" in navigator) {
+//   window.addEventListener("load", function () {
+//     navigator.serviceWorker
+//       .register("/offlineVectorTilesServiceWorker.js")
+//       .then((res) => console.log("zzz service worker registered", res))
+//       .catch((err) => console.log("service worker not registered", err));
+//   });
+// }
 
 const ContextDisplay = () => {
   const testContextValue = useContext(TestContext);

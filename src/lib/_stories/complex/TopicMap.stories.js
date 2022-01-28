@@ -42,7 +42,9 @@ import queryString from "query-string";
 import { nordbahntrasse } from "../_data/Demo";
 import { defaultLayerConf } from "../../tools/layerFactory";
 import MapLibreLayer from "../../vector/MapLibreLayer";
-
+import Button from "react-bootstrap/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSync } from "@fortawesome/free-solid-svg-icons";
 export default {
   title: storiesCategory + "TopicMapComponent",
 };
@@ -1020,6 +1022,24 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
     getGazData25387(setGazData);
   }, []);
 
+  const backgroundConfigurations = {
+    topo: {
+      layerkey: "hillshade|bplan_abkg@30|wupp-plan-live@20",
+      src: "/images/rain-hazard-map-bg/topo.png",
+      title: "Top. Karte",
+    },
+    lbk: {
+      layerkey: "wupp-plan-live@100|trueOrtho2020@75|rvrSchrift@100",
+      src: "/images/rain-hazard-map-bg/ortho.png",
+      title: "Luftbildkarte",
+    },
+    stadtplan: {
+      layerkey: "wupp-plan-live@90",
+      src: "/images/rain-hazard-map-bg/citymap.png",
+      title: "Stadtplan",
+    },
+  };
+
   return (
     <TopicMapContextProvider
       referenceSystemDefinition={MappingConstants.proj4crs25832def}
@@ -1076,8 +1096,42 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
               opacity={0.7}
             />
           ),
+          additionalControls: (
+            <a
+              className="renderAsLink"
+              onClick={() => {
+                console.log("yksjdfhdskljfhldfkashj");
+              }}
+            >
+              <FontAwesomeIcon icon={faSync}></FontAwesomeIcon>
+            </a>
+          ),
         },
       }}
+      backgroundConfigurations={backgroundConfigurations}
+      backgroundModes={[
+        {
+          title: "Stadtplan (Tag)",
+          mode: "default",
+          layerKey: "stadtplan",
+          additionalControls: (
+            <a
+              className="renderAsLink"
+              onClick={() => {
+                console.log("yksjdfhdskljfhldfkashj");
+              }}
+            >
+              <FontAwesomeIcon icon={faSync}></FontAwesomeIcon>
+            </a>
+          ),
+        },
+        {
+          title: "Stadtplan (Nacht)",
+          mode: "night",
+          layerKey: "stadtplan",
+        },
+        { title: "Luftbildkarte", mode: "default", layerKey: "lbk" },
+      ]}
       titleFactory={({ featureCollectionContext }) => {
         const getThemaById = (id) => {
           const result = featureCollectionContext?.items?.find((item) => item?.thema?.id === id);
