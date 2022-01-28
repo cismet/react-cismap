@@ -14,16 +14,6 @@ class MapboxGlLayer extends GridLayer {
   }
 
   createLeafletElement(props) {
-    // console.log("xxxx createleafletElement", props);
-
-    if (navigator.serviceWorker && navigator.serviceWorker.controller && props.offlineConfig) {
-      navigator.serviceWorker.controller.postMessage({
-        type: "SETCARMAOFFLINECONFIG",
-        offline: props.offline,
-        config: props.offlineConfig,
-      });
-    }
-
     const { map } = props.leaflet || this.context;
 
     map.on("layeradd", (e) => {
