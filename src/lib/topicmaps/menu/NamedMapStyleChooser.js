@@ -133,6 +133,7 @@ const NamedMapStyleChooser = ({
               inline
               label={item.title + " "}
             />
+            {item.additionalControls}
             {vertical !== false && <br />}
           </span>
         );
