@@ -20,6 +20,7 @@ import {
   FeatureCollectionContext,
   FeatureCollectionDispatchContext,
 } from "../../contexts/FeatureCollectionContextProvider";
+import LogConsole from "../../tools/LogConsole";
 import AppMenu from "../../topicmaps/menu/DefaultAppMenu";
 import { getClusterIconCreatorFunction, getSimpleHelpForTM } from "../../tools/uiHelper";
 import { Form } from "react-bootstrap";
@@ -1192,6 +1193,7 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
         }
       }}
     >
+      <LogConsole ghostModeAvailable={true} minifyAvailable={true} />
       <TopicMapComponent
         modalMenu={<MyMenu />}
         gazData={gazData}
