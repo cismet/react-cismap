@@ -91,7 +91,12 @@ const NamedMapStyleChooser = ({
                   }}
                   checked={activeAdditionalLayerKeys?.includes(layerConfKey)}
                   inline
-                  label={layerConf.title}
+                  label={
+                    <span>
+                      {layerConf.title}
+                      {layerConf.additionalControls ? layerConf.additionalControls : null}
+                    </span>
+                  }
                 ></Form.Check>
               </Form.Group>
             );
