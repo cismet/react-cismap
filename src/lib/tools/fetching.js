@@ -40,8 +40,6 @@ export const md5FetchJSON = async (prefix, uri) => {
 
 export const cachedJSON = async (prefix, uri) => {
   console.log("uri to fetch from cache", uri);
-
-  let md5 = await (await fetch(uri + ".md5", noCacheInit)).text();
   try {
     const jsonStringInCache = await localforage.getItem("@" + prefix + ".." + uri);
     return new Promise((resolve, reject) => {
