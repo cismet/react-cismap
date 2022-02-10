@@ -7,6 +7,44 @@ import {
   TopicMapStylingContext,
   TopicMapStylingDispatchContext,
 } from "../../contexts/TopicMapStylingContextProvider";
+import { OfflineLayerCacheContext } from "../../contexts/OfflineLayerCacheContextProvider";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faCog, faDownload, faSpinner } from "@fortawesome/free-solid-svg-icons";
+
+const OfflineStatus = ({ status, style }) => {
+  // const [status, setStatus] = useState();
+  // useEffect(() => {
+  //   setStatus(cacheInfoRef.current[statusKey]);
+  // }, [cacheInfoRef, cacheInfoRef.current, statusKey]);
+
+  if (status === undefined) {
+    return null;
+  }
+  if (status === "loading") {
+    return (
+      <span style={{ color: "#999999", ...style }}>
+        <FontAwesomeIcon icon={faSpinner} spin />
+      </span>
+    );
+  } else if (status === "loaded") {
+    return (
+      <span style={{ color: "#999999", ...style }}>
+        <FontAwesomeIcon icon={faCog} spin />
+      </span>
+    );
+  } else if (status.startsWith("cache")) {
+    return (
+      <span style={{ color: "#999999", ...style }}>
+        <FontAwesomeIcon icon={faDownload} />
+        {status === "cache filled" && "*"}
+        {status === "cache try" && "~"}
+      </span>
+    );
+  } else {
+    console.warn("OfflineStatus status not known (should not be the case)", status);
+    return null;
+  }
+};
 
 // Since this component is simple and static, there's no parent container for it.
 const NamedMapStyleChooser = ({
@@ -21,8 +59,10 @@ const NamedMapStyleChooser = ({
   vertical = false,
   children,
   defaultContextValues = {},
+  offlineLoadingStateKey,
 }) => {
   const { history } = useContext(TopicMapContext) || defaultContextValues;
+  const { cacheStatus } = useContext(OfflineLayerCacheContext);
   const {
     backgroundModes,
     selectedBackground,
@@ -62,9 +102,20 @@ const NamedMapStyleChooser = ({
       <Form.Label>{title}</Form.Label>
       <br />
       {additionalLayerConfiguration !== undefined && (
-        <div style={{ marginBottom: 10 }}>
+        <div
+          key={
+            "additionalLayerConfiguration" + offlineLoadingStateKey + JSON.stringify(cacheStatus)
+          }
+          style={{ marginBottom: 10 }}
+        >
           {Object.keys(additionalLayerConfiguration).map((layerConfKey, index) => {
             const layerConf = additionalLayerConfiguration[layerConfKey];
+            console.log(
+              "xxx cacheStatus[layerConf.offlineDataStoreKey]",
+              cacheStatus[layerConf.offlineDataStoreKey],
+              layerConf,
+              cacheStatus
+            );
 
             return (
               <Form.Group
@@ -74,7 +125,7 @@ const NamedMapStyleChooser = ({
                 <Form.Check
                   type="checkbox"
                   readOnly={true}
-                  key={"div.layerConf.chk." + index}
+                  key={"div.layerConf.chk." + index + "."}
                   onClick={(e) => {
                     let newActiveAdditionalLayerKeys;
                     if (e.target.checked === false) {
@@ -94,7 +145,10 @@ const NamedMapStyleChooser = ({
                   label={
                     <span>
                       {layerConf.title}
-                      {layerConf.additionalControls ? layerConf.additionalControls : null}
+                      <OfflineStatus
+                        style={{ marginLeft: "5px" }}
+                        status={cacheStatus[layerConf.offlineDataStoreKey]}
+                      />
                     </span>
                   }
                 ></Form.Check>
@@ -104,13 +158,14 @@ const NamedMapStyleChooser = ({
         </div>
       )}
       {children !== undefined && beforelayerradios === true && children}
+
       {_modes.map((item, key) => {
         return (
           <span key={"radiobutton.nr." + key}>
             <Form.Check
               type="radio"
               id={"cboMapStyleChooser_" + key}
-              key={key}
+              key={"radio" + key + "." + offlineLoadingStateKey}
               readOnly={true}
               onClick={(e) => {
                 if (e.target.checked === true) {
@@ -136,9 +191,20 @@ const NamedMapStyleChooser = ({
               }
               name="mapBackground"
               inline
-              label={item.title + " "}
+              label={
+                <span>
+                  {item.title}
+                  {item.additionalControls && (
+                    <span style={{ marginLeft: 5 }}>{item.additionalControls}</span>
+                  )}
+                  <OfflineStatus
+                    style={{ marginLeft: "5px" }}
+                    status={cacheStatus[item.offlineDataStoreKey]}
+                  />
+                </span>
+              }
             />
-            {item.additionalControls}
+
             {vertical !== false && <br />}
           </span>
         );

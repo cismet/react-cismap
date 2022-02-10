@@ -35,7 +35,7 @@ const SettingsPanel = (props) => {
     width,
     setLayerByKey,
     activeLayerKey,
-    backgroundModes,
+    backgroundModes: _backgroundModes,
     changeMarkerSymbolSize,
     currentMarkerSize,
     getSymbolSVG,
@@ -51,7 +51,10 @@ const SettingsPanel = (props) => {
     skipBackgroundSettings = false,
     skipSymbolsizeSetting = false,
     defaultContextValues = {},
+    offlineLoadingStateKey,
   } = props;
+  console.log("xxx offlineLoadingStateKey", offlineLoadingStateKey);
+
   const { setAppMenuActiveMenuSection, setAppMenuVisible } =
     useContext(UIDispatchContext) || defaultContextValues;
   const { activeMenuSection } = useContext(UIContext) || defaultContextValues;
@@ -75,11 +78,10 @@ const SettingsPanel = (props) => {
     useContext(FeatureCollectionDispatchContext) || defaultContextValues;
   const { windowSize } = useContext(ResponsiveTopicMapContext) || defaultContextValues;
 
-  const {
-    backgroundModes: backgroundModesFromContext,
-    selectedBackground,
-    backgroundConfigurations,
-  } = useContext(TopicMapStylingContext) || defaultContextValues;
+  const { backgroundModesFromContexts, selectedBackground, backgroundConfigurations } =
+    useContext(TopicMapStylingContext) || defaultContextValues;
+
+  const backgroundModes = backgroundModesFromContexts || _backgroundModes;
 
   const _width = width || windowSize?.width;
   const _changeMarkerSymbolSize = changeMarkerSymbolSize || setMarkerSymbolSize;
@@ -350,6 +352,7 @@ const SettingsPanel = (props) => {
     settingsSections.push(
       <NamedMapStyleChooser
         key={"nmsc"}
+        offlineLoadingStateKey={offlineLoadingStateKey}
         currentNamedMapStyle={_namedMapStyle}
         pathname={_urlPathname}
         search={_urlSearch}
@@ -370,10 +373,11 @@ const SettingsPanel = (props) => {
       />
     );
   }
+  console.log("xxx render ", offlineLoadingStateKey);
 
   return (
     <Section
-      key={"GenericModalMenuSection." + symbolColor}
+      key={"GenericModalMenuSection." + symbolColor + JSON.stringify()}
       sectionKey="settings"
       sectionTitle="Einstellungen"
       sectionBsStyle="success"

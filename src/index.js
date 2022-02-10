@@ -1,28 +1,12 @@
-import React, { useContext, useState } from "react";
-import ReactDOM from "react-dom";
-
-import "react-bootstrap-typeahead/css/Typeahead.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "leaflet/dist/leaflet.css";
+import React, { useContext, useState } from "react";
+import "react-bootstrap-typeahead/css/Typeahead.css";
+import ReactDOM from "react-dom";
 import "./lib/topicMaps.css";
 import * as TopicMapsExamples from "./lib/_stories/complex/TopicMap.stories";
-import * as GenericTopicMapsExamples from "./lib/_stories/complex/GenericTopicMap.stories";
-import * as MapLibreExamples from "./lib/_stories/vector/SimpleMapLibreLayer";
-
-import * as InfoBoxExamples from "./lib/topicmaps/_stories/InfoBox.stories";
-import * as GazetteerSearchBoxExamples from "./lib/_stories/mainComponents/GazetteerSearchControl.stories";
-import * as PhotoLightBoxExamples from "./lib/topicmaps/_stories/PhotoLightbox.stories";
 
 const TestContext = React.createContext();
-
-// if ("serviceWorker" in navigator) {
-//   window.addEventListener("load", function () {
-//     navigator.serviceWorker
-//       .register("/offlineVectorTilesServiceWorker.js")
-//       .then((res) => console.log("zzz service worker registered", res))
-//       .catch((err) => console.log("service worker not registered", err));
-//   });
-// }
 
 const ContextDisplay = () => {
   const testContextValue = useContext(TestContext);
@@ -66,7 +50,8 @@ ReactDOM.render(
     {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
     {/* <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers /> */}
-    <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox />
+    {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox /> */}
+    <TopicMapsExamples.TopicMapWithOfflineDataConfiguration />
     {/* <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Wasserstofftankstelle /> */}
     {/* <TopicMapsExamples.TopicMapWithWithStaticFilter /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayer /> */}

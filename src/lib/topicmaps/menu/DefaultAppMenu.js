@@ -20,6 +20,7 @@ const AppMenu = (props) => {
     previewMapPosition,
     previewFeatureCollectionCount,
     titleCheckBoxlabel,
+    offlineLoadingStateKey,
   } = props;
 
   let _menuIntroduction;

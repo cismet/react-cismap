@@ -78,6 +78,7 @@ const TopicMapComponent = (props) => {
     gazetteerHitTrigger,
     gazetteerSearchControl = true,
     hamburgerMenu = true,
+    offlineLoadingStateKey,
   } = props;
   const { history, referenceSystem, referenceSystemDefinition, maskingPolygon } = useContext(
     TopicMapContext
@@ -194,7 +195,9 @@ const TopicMapComponent = (props) => {
     }
   }
 
-  const _modalMenu = modalMenu || <DefaultAppMenu />;
+  const _modalMenu = modalMenu || (
+    <DefaultAppMenu offlineLoadingStateKey={offlineLoadingStateKey} />
+  );
 
   return (
     <div>

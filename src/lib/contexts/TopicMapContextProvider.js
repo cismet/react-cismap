@@ -14,6 +14,7 @@ import { getType } from "@turf/invariant";
 import envelope from "@turf/envelope";
 import { convertBBox2Bounds } from "../tools/gisHelper";
 import { MappingConstants } from "..";
+import { OfflineLayerCacheContextProvider } from "./OfflineLayerCacheContextProvider";
 
 const defaultState = {
   location: undefined,
@@ -37,6 +38,7 @@ const TopicMapContextProvider = ({
   responsiveContextEnabled = true,
   stylingContextEnabled = true,
   uiContextEnabled = true,
+  offlineLayerCacheContextEnabled = true,
   getFeatureStyler,
   featureTooltipFunction,
   getColorFromProperties,
@@ -94,6 +96,8 @@ const TopicMapContextProvider = ({
   backgroundModes,
   infoBoxPixelWidth,
   searchBoxPixelWidth,
+  offlineCacheConfig,
+  initialLoadingDelay,
 }) => {
   const [state, dispatch] = useImmer({
     ...defaultState,
@@ -223,19 +227,25 @@ const TopicMapContextProvider = ({
               infoBoxPixelWidth={infoBoxPixelWidth}
               searchBoxPixelWidth={searchBoxPixelWidth}
             >
-              <UIContextProvider
-                enabled={uiContextEnabled}
-                appKey={appKey}
-                persistenceSettings={persistenceSettings}
+              <OfflineLayerCacheContextProvider
+                enabled={offlineLayerCacheContextEnabled}
+                offlineCacheConfig={offlineCacheConfig}
+                initialLoadingDelay={initialLoadingDelay}
               >
-                <LightBoxContextProvider
-                  enabled={lightBoxEnabled}
+                <UIContextProvider
+                  enabled={uiContextEnabled}
                   appKey={appKey}
                   persistenceSettings={persistenceSettings}
                 >
-                  {children}
-                </LightBoxContextProvider>
-              </UIContextProvider>
+                  <LightBoxContextProvider
+                    enabled={lightBoxEnabled}
+                    appKey={appKey}
+                    persistenceSettings={persistenceSettings}
+                  >
+                    {children}
+                  </LightBoxContextProvider>
+                </UIContextProvider>
+              </OfflineLayerCacheContextProvider>
             </ResponsiveTopicMapContextProvider>
           </FeatureCollectionContextProvider>
         </TopicMapStylingContextProvider>

@@ -89,6 +89,7 @@ const TopicMapStylingContextProvider = ({
     namedMapStyle,
     backgroundConfigurations: backgroundConfigurations || defaultBackgroundConfigurations,
     backgroundModes: backgroundModes || defaultBackgroundModes,
+    updater: 0,
   });
 
   const contextKey = "styling";
@@ -114,6 +115,7 @@ const TopicMapStylingContextProvider = ({
     }
   }, []);
   const setX = {
+    setUpdater: set("updater"),
     setNamedMapStyle: set("namedMapStyle"),
     setMarkerSymbolSize: set("markerSymbolSize"),
     setSelectedBackground: set("selectedBackground"),
