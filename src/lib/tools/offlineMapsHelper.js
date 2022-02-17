@@ -111,7 +111,6 @@ export const loadAndCacheOfflineMapData = async (offlineConfig = {}, setCacheInf
   if (offlineConfig?.dataStores && Array.isArray(offlineConfig.dataStores)) {
     for (const dataStore of offlineConfig.dataStores) {
       addCacheInfo(dataStore.key, "loading");
-      // await timeout(2000);
       const hit = await db[OBJECTSTORE].get("md5." + dataStore.key);
       const cacheMD5 = hit?.value;
 
@@ -209,7 +208,10 @@ export const configureOfflineMapDataInterceptor = (offlineConfig) => {
       config: offlineConfig,
     });
   } else {
-    console.log("cismap offline vector map SW:: no service worker or offlineConfig available");
+    console.log("cismap offline vector map SW:: no service worker or offlineConfig available", {
+      offlineConfig,
+      navigator_serviceWorker: navigator.serviceWorker,
+    });
   }
 };
 
