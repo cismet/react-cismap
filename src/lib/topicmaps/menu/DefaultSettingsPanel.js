@@ -53,7 +53,6 @@ const SettingsPanel = (props) => {
     defaultContextValues = {},
     offlineLoadingStateKey,
   } = props;
-  console.log("xxx offlineLoadingStateKey", offlineLoadingStateKey);
 
   const { setAppMenuActiveMenuSection, setAppMenuVisible } =
     useContext(UIDispatchContext) || defaultContextValues;
@@ -373,7 +372,6 @@ const SettingsPanel = (props) => {
       />
     );
   }
-  console.log("xxx render ", offlineLoadingStateKey);
 
   return (
     <Section

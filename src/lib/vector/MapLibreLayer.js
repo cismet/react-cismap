@@ -1,62 +1,87 @@
-import L from "leaflet";
-import {} from "maplibre-gl";
-import {} from "./mapbox-gl-leaflet";
+import React, { useContext, useEffect } from "react";
+import MapLibreLayerBaseComponent from "./MapLibreLayerBaseComponent";
+import maplibreGl from "maplibre-gl";
+import { customOfflineFetch } from "../tools/offlineMapsHelper";
+import { OfflineLayerCacheContext } from "../contexts/OfflineLayerCacheContextProvider";
 
-import { GridLayer } from "react-leaflet";
-import { defaultProps } from "react-svg-inline";
-
-class MapboxGlLayer extends GridLayer {
-  constructor(props) {
-    super(props);
-
-    this._addLayer = this._addLayer.bind(this);
-    this._removeLayer = this._removeLayer.bind(this);
-  }
-
-  createLeafletElement(props) {
-    const { map } = props.leaflet || this.context;
-
-    map.on("layeradd", (e) => {
-      this._addLayer(e);
+const fetchy = (url, callback) => {
+  fetch(url)
+    .then((res) => res.arrayBuffer())
+    .then((buf) => {
+      console.log("fetched bufX", buf);
+      callback(null, buf, null, null);
     });
+};
 
-    map.on("layerremove", (e) => {
-      this._removeLayer(e);
-    });
-    const layer = L.mapboxGL({ id: "xxx", accessToken: "multipass", pane: "xxx", ...props });
-    // console.log("xxx layer", layer);
-    setTimeout(() => {
-      const map = layer.getMapboxMap();
-      this.mapBoxMap = map;
-      if (props.opacity || props.textOpacity || props.iconOpacity) {
-        map.getStyle().layers.map((layer) => {
-          if (layer.type === "symbol") {
-            map.setPaintProperty(layer.id, `icon-opacity`, props.iconOpacity || props.opacity || 1);
-            map.setPaintProperty(layer.id, `text-opacity`, props.textOpacity || props.opacity || 1);
+const MapLibreLayer = (_props) => {
+  const [ready, setReady] = React.useState(!_props.offlineAvailable);
+  const [props, setProps] = React.useState(_props);
+  const { offlineCacheConfig } = useContext(OfflineLayerCacheContext) || {
+    offlineCacheConfig: undefined,
+  };
+
+  useEffect(() => {
+    (async () => {
+      if (props.offlineAvailable) {
+        maplibreGl.addProtocol("indexedDB", (params, callback) => {
+          let url = params.url.replace("indexedDB://", "");
+          //   console.log("indexedDB:: url", url);
+
+          // fetchy(url, callback);
+
+          // customOfflineFetch(url, offlineConfig, callback);
+
+          if (url.indexOf("style.json_____") > -1) {
+            fetchy(url, callback);
           } else {
-            map.setPaintProperty(layer.id, `${layer.type}-opacity`, props.opacity || 1);
+            customOfflineFetch(url, offlineCacheConfig, callback);
           }
+
+          return {
+            cancel: () => {
+              console.log("Cancel not implemented");
+            },
+          };
         });
+
+        //fetch an manipulate the style and metadata json
+        let style;
+
+        try {
+          style = await (await fetch(props.style)).json();
+          //add "indexdDB" protocoll to all urls
+          style.glyphs = "indexedDB://" + style.glyphs;
+          //don't use cache for sprites since the add protocol mechanism doesn't work for sprites
+          //   style.sprite = "indexedDB://" + style.sprite;
+          for (const datapackage of Object.keys(style.sources)) {
+            console.log("offlineStyle datapackage", datapackage);
+            const url = style.sources[datapackage].url;
+            delete style.sources[datapackage].url;
+            const dp = await (await fetch(url)).json();
+            for (let i = 0; i < dp.tiles.length; i++) {
+              dp.tiles[i] = "indexedDB://" + dp.tiles[i];
+            }
+
+            style.sources[datapackage] = { ...style.sources[datapackage], ...dp };
+            const newProps = { ...props };
+            newProps.style = style;
+            setProps(newProps);
+            console.log("offlineStyle newProps", newProps);
+          }
+
+          setReady(true);
+        } catch (e) {
+          console.log("offlineStyleException", e);
+        }
       }
-    }, 400);
+    })();
+  }, []);
 
-    return layer;
+  if (ready) {
+    return <MapLibreLayerBaseComponent {...props} />;
+  } else {
+    return null;
   }
+};
 
-  _addLayer({ layer }) {
-    this._layer = layer;
-    const { _map } = this._layer;
-
-    if (_map) {
-      // Force a resize calculation on the map so that
-      // Mapbox GL layer correctly repaints its height after it has been added.
-      setTimeout(_map._onResize, 200);
-    }
-  }
-
-  _removeLayer() {
-    this._layer = null;
-  }
-}
-
-export default MapboxGlLayer;
+export default MapLibreLayer;

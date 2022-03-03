@@ -12,7 +12,7 @@ const OfflineLayerCacheContextProvider = ({
   initialLoadingDelay = 1500,
   children,
 }) => {
-  const [state, dispatch] = useImmer({ ...defaultState });
+  const [state, dispatch] = useImmer({ ...defaultState, offlineCacheConfig });
   const contextKey = "lightbox";
   const set = (prop, noTest) => {
     return (x) => {
@@ -22,7 +22,6 @@ const OfflineLayerCacheContextProvider = ({
     };
   };
   useEffect(() => {
-    console.log("OfflineLayerCacheContextProvider useEffect", offlineCacheConfig);
     setTimeout(() => {
       loadAndCacheOfflineMapData(offlineCacheConfig, setCacheInfoForKey).then(() => {
         // setReadyToUse(true);

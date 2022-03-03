@@ -16,91 +16,63 @@ function timeout(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export const extendSW4OfflineMaps = (sw) => {
-  const self = sw;
+export const customOfflineFetch = async (url, options, callback) => {
+  const CONSOLEDEBUG = options?.consoleDebug;
 
-  self.addEventListener("activate", (evt) => {
-    console.log("Extended ServiceWorker with cismap offline maps support activated");
-  });
+  try {
+    for (const rule of options.rules) {
+      if (url.startsWith(rule.origin)) {
+        if (CONSOLEDEBUG) console.log("cismap offline vector map helper:: intercept " + url);
+        if (url.indexOf("sprite") > -1) {
+          console.log("XXXX sprite");
+        }
 
-  let globalOfflineConfig;
+        const path = decodeURIComponent(rule.cachePath + url.replace(rule.origin, ""));
 
-  self.addEventListener("message", (event) => {
-    if (event?.data?.config?.consoleDebug)
-      console.log("cismap offline vector map SW messageEvent", event);
-    if (event.data && event.data.type === "SET_CISMAP_OFFLINE_CONFIG") {
-      globalOfflineConfig = event.data.config;
-      console.log("cismap offline vector consfiguration set:", globalOfflineConfig);
-    }
-  });
+        const hit = await db[OBJECTSTORE].get(path);
+        if (hit) {
+          if (CONSOLEDEBUG)
+            console.log("cismap offline vector map helper:: found a cache entry for " + path + ".");
 
-  const cachedFetch = async (req) => {
-    const CONSOLEDEBUG = globalOfflineConfig?.consoleDebug;
-    try {
-      for (const rule of globalOfflineConfig.rules) {
-        if (req.url.startsWith(rule.origin)) {
-          if (rule.block === true) {
-            if (CONSOLEDEBUG) console.log("cismap offline vector map SW:: blocked request");
-
-            return new Response();
-          } else {
-            if (CONSOLEDEBUG) console.log("cismap offline vector map SW:: intercept " + req.url);
-
-            const path = decodeURIComponent(rule.cachePath + req.url.replace(rule.origin, ""));
-
-            const hit = await db[OBJECTSTORE].get(path);
-            if (hit) {
-              if (CONSOLEDEBUG)
-                console.log("cismap offline vector map SW:: found a cache entry for " + path + ".");
-              return new Response(hit.value);
-            } else {
-              if (CONSOLEDEBUG)
-                console.log(
-                  "cismap offline vector map SW:: missed a cache entry for " +
-                    path +
-                    " (" +
-                    req.url +
-                    ")."
-                );
-              if (rule.realServerFallback === true) {
-                console.log("cismap offline vector map SW:: try to fix miss online");
-                try {
-                  return await fetch(req);
-                } catch (e) {
-                  console.log(
-                    "cismap offline vector map SW:: empty Response because of the exception in retry",
-                    e
-                  );
-                  return new Response();
-                }
-              } else {
-                console.log("cismap offline vector map SW:: empty Response because of the miss");
-                return new Response();
-              }
+          callback(null, hit.value.buffer, null, null);
+          return;
+        } else {
+          if (CONSOLEDEBUG)
+            console.log(
+              "cismap offline vector map helper:: missed a cache entry for " +
+                path +
+                " (" +
+                url +
+                ")."
+            );
+          if (rule.realServerFallback === true) {
+            console.log("cismap offline vector map helper:: try to fix miss online");
+            try {
+              fetch(url)
+                .then((res) => res.arrayBuffer())
+                .then((buf) => {
+                  callback(null, buf, null, null);
+                  return;
+                });
+            } catch (e) {
+              console.log(
+                "cismap offline vector map helper:: empty Response because of the exception in retry",
+                e
+              );
             }
+          } else {
+            console.log("cismap offline vector map helper:: empty Response because of the miss");
           }
         }
       }
-      if (CONSOLEDEBUG)
-        // console.log(
-        //   "cismap offline vector map SW:: non interception for " + req.url,
-        //   offlineConfig
-        // );
-        return await fetch(req);
-    } catch (e) {
-      if (CONSOLEDEBUG) console.log("cismap offline vector map SW:: Error in cachedFetch", e);
     }
-    return await fetch(req);
-  };
-
-  self.addEventListener("fetch", (fetchEvent) => {
-    fetchEvent.respondWith(cachedFetch(fetchEvent.request));
-  });
+    if (CONSOLEDEBUG) console.log("cismap offline vector map helper:: non interception for " + url);
+  } catch (e) {
+    if (CONSOLEDEBUG) console.log("cismap offline vector map helper:: Error in cachedFetch", e);
+  }
 };
 
 export const loadAndCacheOfflineMapData = async (offlineConfig = {}, setCacheInfoForKey) => {
-  configureOfflineMapDataInterceptor(offlineConfig);
-
   const addCacheInfo = (key, info) => {
     // setCacheInfo((old) => {
     //   let ret = JSON.parse(JSON.stringify(old));
@@ -112,7 +84,7 @@ export const loadAndCacheOfflineMapData = async (offlineConfig = {}, setCacheInf
     setCacheInfoForKey(key, info);
   };
   const CONSOLEDEBUG = offlineConfig?.consoleDebug;
-  if (CONSOLEDEBUG) console.log("caching cismap offline vector map data:: startup #2");
+  if (CONSOLEDEBUG) console.log("caching cismap offline vector map data:: startup");
   if (offlineConfig?.dataStores && Array.isArray(offlineConfig.dataStores)) {
     for (const dataStore of offlineConfig.dataStores) {
       addCacheInfo(dataStore.key, "loading");
@@ -203,42 +175,3 @@ export const loadAndCacheOfflineMapData = async (offlineConfig = {}, setCacheInf
     console.log("caching cismap offline vector map data:: no dataStores found", offlineConfig);
   }
 };
-
-export const configureOfflineMapDataInterceptor = (offlineConfig) => {
-  if (navigator.serviceWorker && navigator.serviceWorker.controller && offlineConfig) {
-    console.log("cismap offline vector map SW:: will set configuration", offlineConfig);
-
-    navigator.serviceWorker.controller.postMessage({
-      type: "SET_CISMAP_OFFLINE_CONFIG",
-      config: offlineConfig,
-    });
-  } else {
-    console.log("cismap offline vector map SW:: no service worker or offlineConfig available", {
-      offlineConfig,
-      navigator_serviceWorker: navigator.serviceWorker,
-    });
-  }
-};
-
-// export const useOfflineMapDataCache = (
-//   offlineConfig,
-//   delay = 1500,
-//   loadingStateChangedNotifier
-// ) => {
-//   const [cacheInfo, _setCacheInfo] = useState({});
-//   const [readyToUse, setReadyToUse] = useState(false);
-
-//   const setCacheInfo = (x) => {
-//     loadingStateChangedNotifier();
-//     return _setCacheInfo(x);
-//   };
-//   useEffect(() => {
-//     setTimeout(() => {
-//       loadAndCacheOfflineMapData(offlineConfig, setCacheInfo).then(() => {
-//         setReadyToUse(true);
-//       });
-//     }, delay);
-//   }, []);
-
-//   return { readyToUse, cacheInfo };
-// };

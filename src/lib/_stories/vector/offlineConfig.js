@@ -1738,3 +1738,86 @@ export const layerStyleObject = {
     },
   ],
 };
+
+export const offlineConfig = {
+  rules: [
+    {
+      origin: "https://omt.map-hosting.de/fonts/Klokantech Noto",
+      cachePath: "fonts/Open",
+      realServerFallback: false,
+    },
+    {
+      origin: "https://omt.map-hosting.de/fonts",
+      cachePath: "fonts",
+      realServerFallback: false,
+    },
+    {
+      origin: "https://omt.map-hosting.de/styles",
+      cachePath: "styles",
+      realServerFallback: false,
+    },
+    {
+      origin: "https://omt.map-hosting.de/data/v3.json",
+      cachePath: "v3.json",
+      realServerFallback: false,
+    },
+    {
+      origin: "https://omt.map-hosting.de/data/v3",
+      cachePath: "tiles",
+      realServerFallback: false,
+    },
+
+    // {
+    //   origin: "https://events.mapbox.com/events/v2?access_token=multipass",
+    //   block: true,
+    // },
+    // {
+    //   origin: "https://omt.map-hosting.de/data/gewaesser.json",
+    //   cachePath: "gewaesser.json",
+    //   realServerFallback: false,
+    // },
+    // {
+    //   origin: "https://omt.map-hosting.de/data/gewaesser",
+    //   cachePath: "tiles.gewaesser",
+    //   realServerFallback: false,
+    // },
+    // {
+    //   origin: "https://omt.map-hosting.de/data/kanal.json",
+    //   cachePath: "kanal.json",
+    //   realServerFallback: false,
+    // },
+    // {
+    //   origin: "https://omt.map-hosting.de/data/kanal",
+    //   cachePath: "tiles.kanal",
+    //   realServerFallback: false,
+    // },
+    // {
+    //   origin: "https://omt.map-hosting.de/data/brunnen.json",
+    //   cachePath: "brunnen.json",
+    //   realServerFallback: false,
+    // },
+    // {
+    //   origin: "https://omt.map-hosting.de/data/brunnen",
+    //   cachePath: "tiles.brunnen",
+    //   realServerFallback: false,
+    // },
+  ],
+  dataStores: [
+    {
+      name: "Vektorkarte für Wuppertal",
+      key: "wuppBasemap",
+      url: "https://offline-data.cismet.de/offline-data/wupp.zip",
+    },
+    //   {
+    //     name: "Fonts für Openmaptiles",
+    //     key: "fonts",
+    //     url: "https://offline-data.cismet.de/offline-data/fonts.zip",
+    //   },
+    // {
+    //   name: "Gewässer, Kanal und Brunnendaten",
+    //   key: "umweltalarm",
+    //   url: "https://offline-data.cismet.de/offline-data/umweltalarm.zip",
+    // },
+  ],
+  consoleDebug: true,
+};

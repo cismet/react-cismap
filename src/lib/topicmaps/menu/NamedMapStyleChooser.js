@@ -110,12 +110,6 @@ const NamedMapStyleChooser = ({
         >
           {Object.keys(additionalLayerConfiguration).map((layerConfKey, index) => {
             const layerConf = additionalLayerConfiguration[layerConfKey];
-            console.log(
-              "xxx cacheStatus[layerConf.offlineDataStoreKey]",
-              cacheStatus[layerConf.offlineDataStoreKey],
-              layerConf,
-              cacheStatus
-            );
 
             return (
               <Form.Group
