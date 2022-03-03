@@ -5,6 +5,7 @@ import "react-bootstrap-typeahead/css/Typeahead.css";
 import ReactDOM from "react-dom";
 import "./lib/topicMaps.css";
 import * as TopicMapsExamples from "./lib/_stories/complex/TopicMap.stories";
+import * as MapLibreExamples from "./lib/_stories/vector/MapLibreLayer.stories";
 
 const TestContext = React.createContext();
 
@@ -51,7 +52,7 @@ ReactDOM.render(
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
     {/* <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers /> */}
     {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox /> */}
-    <TopicMapsExamples.TopicMapWithOfflineDataConfiguration />
+    {/* <TopicMapsExamples.TopicMapWithOfflineDataConfiguration /> */}
     {/* <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Wasserstofftankstelle /> */}
     {/* <TopicMapsExamples.TopicMapWithWithStaticFilter /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayer /> */}
@@ -59,6 +60,7 @@ ReactDOM.render(
     {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMapWithFeatureCollectionInAnotherCRS /> */}
     {/* <MapLibreExamples.SimpleTopicMapWithMapLibreLayer /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerWithLocalStyle /> */}
+    <MapLibreExamples.SimpleMapLibreLayerWithCustomProtocol />
     {/* <AnimationExamples.SimpleWuppertal25832 /> */}
     {/* <AnimationExamples.SimpleWuppertal3857 /> */}
     {/* <AnimationExamples.SimpleHaltern /> */}

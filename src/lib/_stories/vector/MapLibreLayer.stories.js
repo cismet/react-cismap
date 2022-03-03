@@ -11,6 +11,8 @@ import TopicMapComponent from "../../topicmaps/TopicMapComponent";
 import MapLibreLayer from "../../vector/MapLibreLayer";
 import { getGazData } from "../complex/StoriesConf";
 import { kassenzeichen } from "../_data/Editing.Storybook.data";
+import { layerStyleObject } from "./offlineConfig";
+import maplibreGl from "maplibre-gl";
 
 const DBVERSION = 1;
 const DBNAME = "carma";
@@ -431,6 +433,50 @@ export const SimpleMapLibreLayerWithAttribution = () => {
         layers="R102:trueortho202010"
         opacity={1}
       /> */}
+    </Map>
+  );
+};
+
+export const SimpleMapLibreLayerWithCustomProtocol = () => {
+  let re = new RegExp(/customOffline:\/\/(.+)\/(\d+)\/(\d+)\/(\d+)/);
+
+  const position = [51.2720151, 7.2000203134];
+  console.log("maplibregl", maplibreGl);
+  useEffect(() => {
+    maplibreGl.addProtocol("customOffline", (params, callback) => {
+      let result = params.url.match(re);
+      let url = result[1];
+
+      // if (!pmtiles_instances.has(pmtiles_url)) {
+      //     pmtiles_instances.set(pmtiles_url,new pmtiles.PMTiles(pmtiles_url))
+      // }
+      // let instance = pmtiles_instances.get(pmtiles_url)
+      // let z = result[2]
+      // let x = result[3]
+      // let y = result[4]
+      // instance.getZxy(+z,+x,+y).then(val => {
+      //     if (val) {
+      //         let headers = {'Range':'bytes=' + val[0] + '-' + (val[0]+val[1]-1)}
+      //         fetch(pmtiles_url,{headers:headers}).then(resp => {
+      //             return resp.arrayBuffer()
+      //         }).then(arr => {
+      //             callback(null,arr,null,null)
+      //         })
+      //     } else {
+      //         callback(null,new Uint8Array(),null,null)
+      //     }
+      // })
+      return {
+        cancel: () => {
+          console.log("Cancel not implemented");
+        },
+      };
+    });
+  }, []);
+
+  return (
+    <Map style={mapStyle} center={position} zoom={18} maxZoom={25}>
+      <MapLibreLayer style={layerStyleObject} />
     </Map>
   );
 };

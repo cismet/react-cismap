@@ -82,11 +82,11 @@ export const extendSW4OfflineMaps = (sw) => {
         }
       }
       if (CONSOLEDEBUG)
-        console.log(
-          "cismap offline vector map SW:: non interception for " + req.url,
-          offlineConfig
-        );
-      return await fetch(req);
+        // console.log(
+        //   "cismap offline vector map SW:: non interception for " + req.url,
+        //   offlineConfig
+        // );
+        return await fetch(req);
     } catch (e) {
       if (CONSOLEDEBUG) console.log("cismap offline vector map SW:: Error in cachedFetch", e);
     }
