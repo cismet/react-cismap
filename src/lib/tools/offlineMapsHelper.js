@@ -67,69 +67,6 @@ export const customOfflineFetch = async (url, options, callback) => {
   return buffer;
 };
 
-export const customOfflineFetchWithCallback = async (url, options, callback) => {
-  const CONSOLEDEBUG = options?.consoleDebug;
-
-  try {
-    for (const rule of options.rules) {
-      if (url.startsWith(rule.origin)) {
-        if (CONSOLEDEBUG) console.log("cismap offline vector map helper:: intercept " + url);
-        if (url.indexOf("sprite") > -1) {
-          console.log("XXXX sprite");
-        }
-
-        const path = decodeURIComponent(rule.cachePath + url.replace(rule.origin, ""));
-
-        const hit = await db[OBJECTSTORE].get(path);
-        if (hit) {
-          if (CONSOLEDEBUG)
-            console.log("cismap offline vector map helper:: found a cache entry for " + path + ".");
-
-          // if (url.endsWith("14/8519/5466.pbf")) {
-          //   console.log("XXXX pbf");
-          //   downloadBlob(
-          //     hit.value,
-          //     rule.cachePath + ".14-8519-5466.pbf",
-          //     "application/octet-stream"
-          //   );
-          // }
-
-          callback(null, hit.value.buffer, null, null);
-          return;
-        } else {
-          if (CONSOLEDEBUG)
-            console.log(
-              "cismap offline vector map helper:: missed a cache entry for " +
-                path +
-                " (" +
-                url +
-                ")."
-            );
-          if (rule.realServerFallback === true) {
-            console.log("cismap offline vector map helper:: try to fix miss online");
-            try {
-              fetch(url)
-                .then((res) => res.arrayBuffer())
-                .then((buf) => {
-                  callback(null, buf, null, null);
-                });
-            } catch (e) {
-              console.log(
-                "cismap offline vector map helper:: empty Response because of the exception in retry",
-                e
-              );
-            }
-          } else {
-            console.log("cismap offline vector map helper:: empty Response because of the miss");
-          }
-        }
-      }
-    }
-    if (CONSOLEDEBUG) console.log("cismap offline vector map helper:: non interception for " + url);
-  } catch (e) {
-    if (CONSOLEDEBUG) console.log("cismap offline vector map helper:: Error in cachedFetch", e);
-  }
-};
 export const getBufferedJSON = async (url) => {
   const prefix = "_bufferedJSON4Url.";
   try {
