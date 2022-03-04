@@ -8,7 +8,6 @@ const fetchy = (url, callback) => {
   fetch(url)
     .then((res) => res.arrayBuffer())
     .then((buf) => {
-      console.log("fetched bufX", buf);
       callback(null, buf, null, null);
     });
 };
@@ -25,10 +24,17 @@ const MapLibreLayer = (_props) => {
       if (props.offlineAvailable) {
         maplibreGl.addProtocol("indexedDB", (params, callback) => {
           let url = params.url.replace("indexedDB://", "");
-          if (url.indexOf("style.json_____") > -1) {
+          if (url.indexOf("______/fonts/") > -1) {
+            console.log("no interception for", url);
             fetchy(url, callback);
           } else {
-            customOfflineFetch(url, offlineCacheConfig, callback);
+            customOfflineFetch(url, offlineCacheConfig).then((buffer) => {
+              if (buffer) {
+                callback(null, buffer, null, null);
+              } else {
+                callback(null, new ArrayBuffer(), null, null);
+              }
+            });
           }
           return {
             cancel: () => {
@@ -54,12 +60,12 @@ const MapLibreLayer = (_props) => {
             for (let i = 0; i < dp.tiles.length; i++) {
               dp.tiles[i] = "indexedDB://" + dp.tiles[i];
             }
-
+            delete dp.type; // = "vector";
             style.sources[datapackage] = { ...style.sources[datapackage], ...dp };
             const newProps = { ...props };
             newProps.style = style;
             setProps(newProps);
-            console.log("offlineStyle newProps", newProps);
+            console.log("offlineStyle", newProps.style);
           }
           setReady(true);
         } catch (e) {
