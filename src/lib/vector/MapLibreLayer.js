@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import MapLibreLayerBaseComponent from "./MapLibreLayerBaseComponent";
 import maplibreGl from "maplibre-gl";
-import { customOfflineFetch } from "../tools/offlineMapsHelper";
+import { customOfflineFetch, getBufferedJSON } from "../tools/offlineMapsHelper";
 import { OfflineLayerCacheContext } from "../contexts/OfflineLayerCacheContextProvider";
 
 const fetchy = (url, callback) => {
@@ -25,18 +25,11 @@ const MapLibreLayer = (_props) => {
       if (props.offlineAvailable) {
         maplibreGl.addProtocol("indexedDB", (params, callback) => {
           let url = params.url.replace("indexedDB://", "");
-          //   console.log("indexedDB:: url", url);
-
-          // fetchy(url, callback);
-
-          // customOfflineFetch(url, offlineConfig, callback);
-
           if (url.indexOf("style.json_____") > -1) {
             fetchy(url, callback);
           } else {
             customOfflineFetch(url, offlineCacheConfig, callback);
           }
-
           return {
             cancel: () => {
               console.log("Cancel not implemented");
@@ -48,7 +41,7 @@ const MapLibreLayer = (_props) => {
         let style;
 
         try {
-          style = await (await fetch(props.style)).json();
+          style = await getBufferedJSON(props.style); //(await (await fetch(props.style)).json();
           //add "indexdDB" protocoll to all urls
           style.glyphs = "indexedDB://" + style.glyphs;
           //don't use cache for sprites since the add protocol mechanism doesn't work for sprites
@@ -57,7 +50,7 @@ const MapLibreLayer = (_props) => {
             console.log("offlineStyle datapackage", datapackage);
             const url = style.sources[datapackage].url;
             delete style.sources[datapackage].url;
-            const dp = await (await fetch(url)).json();
+            const dp = await getBufferedJSON(url); //await (await fetch(url)).json();
             for (let i = 0; i < dp.tiles.length; i++) {
               dp.tiles[i] = "indexedDB://" + dp.tiles[i];
             }
@@ -68,7 +61,6 @@ const MapLibreLayer = (_props) => {
             setProps(newProps);
             console.log("offlineStyle newProps", newProps);
           }
-
           setReady(true);
         } catch (e) {
           console.log("offlineStyleException", e);

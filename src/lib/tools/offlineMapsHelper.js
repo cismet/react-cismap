@@ -72,6 +72,24 @@ export const customOfflineFetch = async (url, options, callback) => {
   }
 };
 
+export const getBufferedJSON = async (url) => {
+  const prefix = "_bufferedJSON4Url.";
+  try {
+    const response = await fetch(url);
+    const obj = await response.json();
+    db[OBJECTSTORE].put({ key: prefix + url, value: JSON.stringify(obj) });
+    return obj;
+  } catch (e) {
+    // probably offline
+    const buffered = await db[OBJECTSTORE].get(prefix + url);
+    if (buffered) {
+      return JSON.parse(buffered.value);
+    } else {
+      console.log("Error during getting buffered JSON (" + url + ")", e);
+    }
+  }
+};
+
 export const loadAndCacheOfflineMapData = async (offlineConfig = {}, setCacheInfoForKey) => {
   const addCacheInfo = (key, info) => {
     // setCacheInfo((old) => {
