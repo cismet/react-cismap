@@ -83,6 +83,7 @@ export const getBufferedJSON = async (url) => {
     // probably offline
     const buffered = await db[OBJECTSTORE].get(prefix + url);
     if (buffered) {
+      console.log("probably offline. will server stuff from cache fro url ", url);
       return JSON.parse(buffered.value);
     } else {
       console.log("Error during getting buffered JSON (" + url + ")", e);
