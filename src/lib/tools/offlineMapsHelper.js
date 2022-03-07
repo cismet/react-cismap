@@ -35,6 +35,7 @@ export const customOfflineFetch = async (url, options, callback) => {
             console.log("cismap offline vector map helper:: found a cache entry for " + path + ".");
 
           buffer = hit.value.buffer;
+          break;
         } else {
           if (CONSOLEDEBUG)
             console.log(
@@ -48,6 +49,7 @@ export const customOfflineFetch = async (url, options, callback) => {
             console.log("cismap offline vector map helper:: try to fix miss online");
             try {
               buffer = await (await fetch(url)).arrayBuffer();
+              break;
             } catch (e) {
               console.log(
                 "cismap offline vector map helper:: empty Response because of the exception in retry",
