@@ -34,46 +34,25 @@ export const TopicMapWithOfflineDataConfiguration = () => {
         cachePath: "styles",
         realServerFallback: false,
       },
-      //   {
-      //     origin: "https://omt.map-hosting.de/data/v3.json",
-      //     cachePath: "v3.json",
-      //     realServerFallback: false,
-      //   },
+
       {
         origin: "https://omt.map-hosting.de/data/v3",
         cachePath: "tiles",
         realServerFallback: true,
       },
 
-      // {
-      //   origin: "https://events.mapbox.com/events/v2?access_token=multipass",
-      //   block: true,
-      // },
-      // {
-      //   origin: "https://omt.map-hosting.de/data/gewaesser.json",
-      //   cachePath: "gewaesser.json",
-      //   realServerFallback: false,
-      // },
       {
         origin: "https://omt.map-hosting.de/data/gewaesser",
         cachePath: "tiles.gewaesser",
         realServerFallback: false,
       },
-      // {
-      //   origin: "https://omt.map-hosting.de/data/kanal.json",
-      //   cachePath: "kanal.json",
-      //   realServerFallback: false,
-      // },
+
       {
         origin: "https://omt.map-hosting.de/data/kanal",
         cachePath: "tiles.kanal",
         realServerFallback: false,
       },
-      // {
-      //   origin: "https://omt.map-hosting.de/data/brunnen.json",
-      //   cachePath: "brunnen.json",
-      //   realServerFallback: false,
-      // },
+
       {
         origin: "https://omt.map-hosting.de/data/brunnen",
         cachePath: "tiles.brunnen",
@@ -92,6 +71,13 @@ export const TopicMapWithOfflineDataConfiguration = () => {
         key: "umweltalarm",
         url: "https://offline-data.cismet.de/offline-data/umweltalarm.zip",
       },
+    ],
+    offlineStyles: [
+      "https://omt.map-hosting.de/styles/cismet-light/style.json",
+      "https://omt.map-hosting.de/styles/osm-bright-grey/style.json",
+      "https://omt.map-hosting.de/styles/brunnen/style.json",
+      "https://omt.map-hosting.de/styles/kanal/style.json",
+      "https://omt.map-hosting.de/styles/gewaesser/style.json",
     ],
     consoleDebug: true,
   };
@@ -178,14 +164,7 @@ export const TopicMapWithOfflineDataConfiguration = () => {
       pane: "backgroundvectorLayers",
     };
   }
-  if (!baseLayerConf.namedLayers.gewaesser) {
-    baseLayerConf.namedLayers.gewaesser = {
-      type: "vector",
-      style: "https://omt.map-hosting.de/styles/gewaesser/style.json",
-      offlineAvailable: true,
-      offlineDataStoreKey: "umweltalarm",
-    };
-  }
+
   if (!baseLayerConf.namedLayers.osmBright) {
     baseLayerConf.namedLayers.osmBright = {
       type: "vector",
@@ -242,20 +221,6 @@ export const TopicMapWithOfflineDataConfiguration = () => {
           ),
           offlineDataStoreKey: "umweltalarm",
         },
-        // osm: {
-        //   title: <span>OSM</span>,
-        //   initialActive: false,
-        //   layer: (
-        //     <MapLibreLayer
-        //       key={"osm"}
-        //       pane="backgroundvectorLayers"
-        //       style="https://omt.map-hosting.de/styles/osm-bright-grey/style.json"
-        //       offlineAvailable={true}
-        //       offlineDataStoreKey="wuppBasemap"
-        //     />
-        //   ),
-        //   offlineDataStoreKey: "umweltalarm",
-        // },
       }}
     >
       {/* <ConsoleLog ghostModeAvailable={true} minifyAvailable={true} /> */}

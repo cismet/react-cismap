@@ -99,6 +99,17 @@ export const loadAndCacheOfflineMapData = async (offlineConfig = {}, setCacheInf
   };
   const CONSOLEDEBUG = offlineConfig?.consoleDebug;
   if (CONSOLEDEBUG) console.log("caching cismap offline vector map data:: startup");
+
+  //prefetch styles
+  if (offlineConfig?.offlineStyles && Array.isArray(offlineConfig.offlineStyles)) {
+    for (const styleurl of offlineConfig.offlineStyles) {
+      if (CONSOLEDEBUG)
+        console.log("caching cismap offline vector map data:: prefetching style " + styleurl);
+      await getBufferedJSON(styleurl);
+    }
+  }
+
+  //dataStores
   if (offlineConfig?.dataStores && Array.isArray(offlineConfig.dataStores)) {
     for (const dataStore of offlineConfig.dataStores) {
       addCacheInfo(dataStore.key, "loading");
