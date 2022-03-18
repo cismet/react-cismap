@@ -355,7 +355,7 @@ const SettingsPanel = (props) => {
           />
         </Form.Group>
       )}
-      {skipOfflineLayerSettings === false && (
+      {skipOfflineLayerSettings === false && offlineCacheConfig?.optional && (
         <Form.Group>
           <Form.Check
             type="checkbox"
