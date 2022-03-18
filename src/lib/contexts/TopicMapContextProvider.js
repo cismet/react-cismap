@@ -67,6 +67,7 @@ const TopicMapContextProvider = ({
       "selectedBackground",
       "markerSymbolSize",
     ],
+    offlinelayers: ["vectorLayerOfflineEnabled"],
   },
   titleFactory = ({ featureCollectionContext }) => {
     let themenstadtplanDesc = "?";
@@ -229,6 +230,8 @@ const TopicMapContextProvider = ({
             >
               <OfflineLayerCacheContextProvider
                 enabled={offlineLayerCacheContextEnabled}
+                appKey={appKey}
+                persistenceSettings={persistenceSettings}
                 offlineCacheConfig={offlineCacheConfig}
                 initialLoadingDelay={initialLoadingDelay}
               >

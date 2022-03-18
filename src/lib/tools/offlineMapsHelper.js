@@ -18,7 +18,7 @@ function timeout(ms) {
 
 export const customOfflineFetch = async (url, options, callback) => {
   const CONSOLEDEBUG = options?.consoleDebug;
-  let buffer;
+
   try {
     for (const rule of options.rules) {
       if (url.startsWith(rule.origin)) {
@@ -33,9 +33,7 @@ export const customOfflineFetch = async (url, options, callback) => {
         if (hit) {
           if (CONSOLEDEBUG)
             console.log("cismap offline vector map helper:: found a cache entry for " + path + ".");
-
-          buffer = hit.value.buffer;
-          break;
+          return hit.value.buffer;
         } else {
           if (CONSOLEDEBUG)
             console.log(
@@ -45,11 +43,14 @@ export const customOfflineFetch = async (url, options, callback) => {
                 url +
                 ")."
             );
-          if (rule.realServerFallback === true) {
-            console.log("cismap offline vector map helper:: try to fix miss online");
+          if (
+            (rule.realServerFallback !== undefined && rule.realServerFallback === true) ||
+            (rule.realServerFallback === undefined && options?.realServerFallback === true)
+          ) {
+            if (CONSOLEDEBUG)
+              console.log("cismap offline vector map helper:: try to fix miss online");
             try {
-              buffer = await (await fetch(url)).arrayBuffer();
-              break;
+              return await (await fetch(url)).arrayBuffer();
             } catch (e) {
               console.log(
                 "cismap offline vector map helper:: empty Response because of the exception in retry",
@@ -66,7 +67,6 @@ export const customOfflineFetch = async (url, options, callback) => {
   } catch (e) {
     if (CONSOLEDEBUG) console.log("cismap offline vector map helper:: Error in cachedFetch", e);
   }
-  return buffer;
 };
 
 export const getBufferedJSON = async (url) => {
@@ -85,6 +85,19 @@ export const getBufferedJSON = async (url) => {
     } else {
       console.log("Error during getting buffered JSON (" + url + ")", e);
     }
+  }
+};
+
+export const deleteOfflineMapData = async (offlineConfig = {}, setCacheInfoForKey) => {
+  try {
+    db[OBJECTSTORE].clear();
+    if (offlineConfig?.dataStores && Array.isArray(offlineConfig.dataStores)) {
+      for (const dataStore of offlineConfig.dataStores) {
+        setCacheInfoForKey(dataStore.key, undefined);
+      }
+    }
+  } catch (e) {
+    console.log("Error during deleting offline map data", e);
   }
 };
 
@@ -186,7 +199,7 @@ export const loadAndCacheOfflineMapData = async (offlineConfig = {}, setCacheInf
         if (serverMD5) {
           addCacheInfo(dataStore.key, "cached data");
         } else {
-          //serverMD% was undefined. propably we are offline. hope that the cache is ok.
+          //serverMD5‚ was undefined. propably we are offline. hope that the cache is ok.
           addCacheInfo(dataStore.key, "cache try");
         }
 
