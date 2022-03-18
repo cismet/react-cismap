@@ -90,6 +90,8 @@ const TopicMapComponent = (props) => {
     additionalLayerConfiguration,
     activeAdditionalLayerKeys,
   } = useContext(TopicMapStylingContext);
+  // const { offlineCacheConfig, vectorLayerOfflineEnabled, readyToUse: offlineReadyToUse } =
+  //   useContext(OfflineLayerCacheContext) || {};
 
   const [url, setUrl] = useState(undefined);
   useEffect(() => {
@@ -254,6 +256,7 @@ const TopicMapComponent = (props) => {
             fullScreenControlEnabled={fullScreenControl}
             locateControlEnabled={locatorControl}
             attributionControl={attributionControl}
+            // offlineReadyToUse={offlineReadyToUse}
           >
             {overlayFeature && (
               <ProjSingleGeoJson
@@ -317,17 +320,20 @@ const TopicMapComponent = (props) => {
                 _backgroundLayers +
                 "." +
                 _urlSearchParams.get("mapStyle") +
-                "." +
-                JSON.stringify(activeAdditionalLayerKeys || "")
+                // "." +
+                // JSON.stringify(activeAdditionalLayerKeys || "") +
+                "."
+                //  +
+                // offlineReadyToUse
               }
             >
               {activeAdditionalLayerKeys !== undefined &&
-                activeAdditionalLayerKeys.length > 0 &&
+                activeAdditionalLayerKeys?.length > 0 &&
                 activeAdditionalLayerKeys.map((activekey, index) => {
                   const layerConf = additionalLayerConfiguration[activekey];
-                  if (layerConf.layer) {
+                  if (layerConf?.layer) {
                     return layerConf.layer;
-                  } else if (layerConf.layerkey) {
+                  } else if (layerConf?.layerkey) {
                     const layers = getLayers(layerConf.layerkey);
                     return layers;
                   }

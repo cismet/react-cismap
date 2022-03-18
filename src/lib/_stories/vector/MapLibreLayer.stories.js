@@ -11,6 +11,9 @@ import TopicMapComponent from "../../topicmaps/TopicMapComponent";
 import MapLibreLayer from "../../vector/MapLibreLayer";
 import { getGazData } from "../complex/StoriesConf";
 import { kassenzeichen } from "../_data/Editing.Storybook.data";
+import { layerStyleObject, offlineConfig } from "./offlineConfig";
+import { customOfflineFetch, loadAndCacheOfflineMapData } from "../../tools/offlineMapsHelper";
+import maplibreGl from "maplibre-gl";
 
 const DBVERSION = 1;
 const DBNAME = "carma";
@@ -250,163 +253,6 @@ export const SimpleTopicMapWithMapLibreLayer = () => {
   );
 };
 
-export const SimpleMapLibreLayerWithLocalStyle = () => {
-  const position = [51.2720151, 7.2000203134];
-  const [initialized, setInititialized] = useState(false);
-  const [online, setOnline] = useState(false);
-  const vectorLayerRef = useRef();
-  const offlineConfig = {
-    index: { origin: "https://omt.map-hosting.de/data/v3.json", cachePath: "v3.json" },
-    tiles: { origin: "https://omt.map-hosting.de/data/v3", cachePath: "tiles" },
-    glyphs: { origin: "https://omt.map-hosting.de/fonts", cachePath: "fonts" },
-    styles: { origin: "https://omt.map-hosting.de/styles", cachePath: "styles" },
-    block: {
-      origin: "https://events.mapbox.com/events/v2?access_token=multipass",
-      block: true,
-    },
-  };
-
-  useEffect(() => {
-    // navigator.serviceWorker.controller.postMessage({
-    //   type: "SETCARMAOFFLINECONFIG",
-    //   offline: !online,
-    //   config,
-    // });
-    // (async () => {
-    //   console.log("zzz startup");
-    //   const massiveFileBuf = await fetch("/data/wupp.zip").then((res) => res.arrayBuffer());
-    //   const massiveFile = new Uint8Array(massiveFileBuf);
-    //   const decompressed = fflate.unzipSync(massiveFile);
-    //   for (const entryKey of Object.keys(decompressed)) {
-    //     if (
-    //       !entryKey.startsWith("_") &&
-    //       !entryKey.endsWith(".DS_Store") &&
-    //       decompressed[entryKey].length !== 0
-    //     ) {
-    //       console.log("zzz entry", entryKey, decompressed[entryKey]);
-    //       await await db["omtCache"].put({ key: entryKey, value: decompressed[entryKey] });
-    //     }
-    //   }
-    //   // console.log("zzz zip", decompressed);
-    // })();
-  }, []);
-  console.log("zzz navigator.serviceWorker.controller", navigator.serviceWorker.controller);
-
-  return (
-    <div>
-      <Map style={mapStyle} center={position} zoom={15} maxZoom={25}>
-        {/* <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        opacity={1}
-      /> */}
-
-        {/* <MapLibreLayer style={localKlokantechBasic} /> */}
-        {/* <MapLibreLayer style={localOSMBright} /> */}
-        {/* <Pane name="backgroundLayers" style={{ zIndex: 1100 }}>
-          <StyledWMSTileLayer
-            key={"asd"}
-            url="https://maps.wuppertal.de/deegree/wms"
-            layers="R102:trueortho202010"
-            opacity={1}
-            maxZoom={25}
-          />
-        </Pane> */}
-
-        <MapLibreLayer
-          key={"MapLibreLayer.online:" + online}
-          ref={vectorLayerRef}
-          style="https://omt.map-hosting.de/styles/osm-bright/style.json"
-          pane="vectorLayers2"
-          // opacity={0.01}
-          // iconOpacity={1}
-          // textOpacity={1}
-          offlineConfig={offlineConfig}
-          offline={online === false}
-          cache={db}
-        />
-      </Map>
-      <br></br>
-      <button
-        onClick={() => {
-          (async () => {
-            console.time("zzz fillCache");
-
-            console.log("zzz startup");
-            const massiveFileBuf = await fetch(
-              "/data/vectortiles/wuppertal/Archive.zip"
-            ).then((res) => res.arrayBuffer());
-            const massiveFile = new Uint8Array(massiveFileBuf);
-            const decompressed = fflate.unzipSync(massiveFile);
-            // console.log("___ decompressed", decompressed);
-
-            const items = [];
-            for (const entryKey of Object.keys(decompressed)) {
-              if (
-                !entryKey.startsWith("_") &&
-                !entryKey.endsWith(".DS_Store") &&
-                decompressed[entryKey].length !== 0
-              ) {
-                // console.log("zzz entry", entryKey, decompressed[entryKey]);
-                //await await db["omtCache"].put({ key: entryKey, value: decompressed[entryKey] });
-                // console.log(
-                //   "___ FileType.fromBuffer(buffer)",
-                //   await FileType.fromBuffer(decompressed[entryKey])
-                // );
-
-                items.push({ key: entryKey, value: decompressed[entryKey] });
-              }
-            }
-            await await db["vectorTilesCache"].bulkPut(items);
-
-            console.log("zzz done (" + items.length + ")");
-            console.timeEnd("zzz fillCache");
-          })();
-        }}
-      >
-        cache initialisieren
-      </button>{" "}
-      <button
-        onClick={() => {
-          // (async () => {
-          //   try {
-          //     const x = await db["vectorTilesCache"].get("sprite/sprite@2x.json");
-          //     // var blob = await new Blob(x.value, {
-          //     //   type: "application/json",
-          //     // });
-          //     const r = new Response(x.value);
-          //     console.log("zzz hit", r);
-          //   } catch (e) {
-          //     console.log("error", e);
-          //   }
-          // })();
-          console.log("mapBoxMap", vectorLayerRef?.current?.mapBoxMap);
-          // console.log("test", vectorLayerRef?.current?.mapBoxMap.style);
-          // vectorLayerRef.current.mapBoxMap.style.update();
-        }}
-      >
-        test
-      </button>{" "}
-      <button
-        onClick={() => {
-          const newOnlineStatus = !online;
-          setOnline(newOnlineStatus);
-          // const message = {
-          //   type: "SETCARMAOFFLINECONFIG",
-          //   offline: !newOnlineStatus,
-          //   config,
-          // };
-          // console.log("message", JSON.stringify(message, null, 2));
-
-          // navigator.serviceWorker.controller.postMessage(message);
-        }}
-      >
-        {online ? "Online" : "Offline"}
-      </button>
-      {/* <progress max="100">70 %</progress> */}
-    </div>
-  );
-};
 export const SimpleMapLibreLayerWithAttribution = () => {
   const position = [51.2720151, 7.2000203134];
 
@@ -431,6 +277,59 @@ export const SimpleMapLibreLayerWithAttribution = () => {
         layers="R102:trueortho202010"
         opacity={1}
       /> */}
+    </Map>
+  );
+};
+
+export const SimpleMapLibreLayerWithCustomProtocol = () => {
+  const position = [51.2720151, 7.2000203134];
+  console.log("maplibregl", maplibreGl);
+
+  const layerConf = { ...layerStyleObject };
+  layerConf.glyphs = "indexedDB://" + layerConf.glyphs;
+  layerConf.sources.openmaptiles.tiles[0] =
+    "indexedDB://" + layerConf.sources.openmaptiles.tiles[0];
+
+  // because we are not using OfflineLayerCacheContext we nee to load the stuff manually
+  useEffect(() => {
+    loadAndCacheOfflineMapData(offlineConfig, (key, info) => {
+      console.log("loadAndCacheOfflineMapData", key, info);
+    });
+
+    const fetchy = (url, callback) => {
+      fetch(url)
+        .then((res) => res.arrayBuffer())
+        .then((buf) => {
+          console.log("fetched bufX", buf);
+          callback(null, buf, null, null);
+        });
+    };
+
+    maplibreGl.addProtocol("indexedDB", (params, callback) => {
+      let url = params.url.replace("indexedDB://", "");
+      console.log("indexedDB:: url", url);
+
+      // fetchy(url, callback);
+
+      // customOfflineFetch(url, offlineConfig, callback);
+
+      if (url.indexOf("ausnahmeregel_im_moment_gibts_da_nix") > -1) {
+        fetchy(url, callback);
+      } else {
+        customOfflineFetch(url, offlineConfig, callback);
+      }
+
+      return {
+        cancel: () => {
+          console.log("Cancel not implemented");
+        },
+      };
+    });
+  }, []);
+
+  return (
+    <Map style={mapStyle} center={position} zoom={18} maxZoom={25}>
+      <MapLibreLayer style={layerConf} />
     </Map>
   );
 };

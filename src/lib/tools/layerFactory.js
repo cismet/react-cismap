@@ -259,7 +259,13 @@ export const defaultLayerConf = {
       tiled: "false",
       version: "1.3.0",
     },
-
+    empty: {
+      type: "wms",
+      url: "-",
+      layers: "-",
+      tiled: "false",
+      version: "1.3.0",
+    },
     "wupp-plan-live": {
       type: "wms",
       url: "https://geodaten.metropoleruhr.de/spw2/service",
