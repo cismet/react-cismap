@@ -481,7 +481,9 @@ export class RoutedMap extends React.Component {
               "." +
               md5(this.props.baseLayerConf || "") +
               "." +
-              this.props.layerKeyPostfix
+              // this.props.layerKeyPostfix +
+              "." +
+              this.props.offlineReadyToUse
             }
           >
             {getLayersByNames(
