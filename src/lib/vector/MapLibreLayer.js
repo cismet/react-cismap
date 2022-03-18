@@ -23,6 +23,8 @@ const MapLibreLayer = (_props) => {
     (async () => {
       if (props.offlineAvailable) {
         maplibreGl.addProtocol("indexedDB", (params, callback) => {
+          // console.log("indexeddb protocol interception", maplibreGl, params, new Error().stack);
+
           let url = params.url.replace("indexedDB://", "");
           if (url.indexOf("______/fonts/") > -1) {
             console.log("no interception for", url);
@@ -53,7 +55,6 @@ const MapLibreLayer = (_props) => {
           //don't use cache for sprites since the add protocol mechanism doesn't work for sprites
           //   style.sprite = "indexedDB://" + style.sprite;
           for (const datapackage of Object.keys(style.sources)) {
-            console.log("offlineStyle datapackage", datapackage);
             const url = style.sources[datapackage].url;
             delete style.sources[datapackage].url;
             const dp = await getBufferedJSON(url); //await (await fetch(url)).json();
@@ -65,7 +66,6 @@ const MapLibreLayer = (_props) => {
             const newProps = { ...props };
             newProps.style = style;
             setProps(newProps);
-            console.log("offlineStyle", newProps.style);
           }
           setReady(true);
         } catch (e) {
