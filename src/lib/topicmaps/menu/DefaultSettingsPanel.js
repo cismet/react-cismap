@@ -25,6 +25,10 @@ import {
 import { getSymbolSVGGetter } from "../../tools/uiHelper";
 import { defaultClusteringOptions, getDefaultFeatureStyler } from "../../FeatureCollection";
 import PreviewMap from "./PreviewMap";
+import {
+  OfflineLayerCacheContext,
+  OfflineLayerCacheDispatchContext,
+} from "../../contexts/OfflineLayerCacheContextProvider";
 
 const SettingsPanel = (props) => {
   const {
@@ -48,10 +52,10 @@ const SettingsPanel = (props) => {
     titleCheckBoxlabel,
     skipFilterTitleSettings = false,
     skipClusteringSettings = false,
+    skipOfflineLayerSettings = false,
     skipBackgroundSettings = false,
     skipSymbolsizeSetting = false,
     defaultContextValues = {},
-    offlineLoadingStateKey,
   } = props;
 
   const { setAppMenuActiveMenuSection, setAppMenuVisible } =
@@ -76,7 +80,10 @@ const SettingsPanel = (props) => {
   const { setClusteringEnabled } =
     useContext(FeatureCollectionDispatchContext) || defaultContextValues;
   const { windowSize } = useContext(ResponsiveTopicMapContext) || defaultContextValues;
-
+  const { offlineCacheConfig, vectorLayerOfflineEnabled, readyToUse: offlineReadyToUse } =
+    useContext(OfflineLayerCacheContext) || defaultContextValues;
+  const { setVectorLayerOfflineEnabled } =
+    useContext(OfflineLayerCacheDispatchContext) || defaultContextValues;
   const { backgroundModesFromContexts, selectedBackground, backgroundConfigurations } =
     useContext(TopicMapStylingContext) || defaultContextValues;
 
@@ -88,6 +95,7 @@ const SettingsPanel = (props) => {
   let namedMapStyleFromUrl = new URLSearchParams(window.location.href).get("mapStyle") || "default";
   let _getSymbolSVG = getSymbolSVG || getSymbolSVGFromContext;
   let _symbolColor;
+
   if (allFeatures && allFeatures[0]) {
     if (getColorFromProperties) {
       _symbolColor = getColorFromProperties(allFeatures[0].properties);
@@ -177,15 +185,15 @@ const SettingsPanel = (props) => {
         minZoom={Number(previewMapZoom)}
         maxZoom={Number(previewMapZoom)}
       >
-        <div key={"." + JSON.stringify(activeAdditionalLayerKeys)}>
+        <div key={"." + "JSON.stringify(activeAdditionalLayerKeys)" + "." + "offlineReadyToUse"}>
           {getLayersByName(backgroundsFromMode, _namedMapStyle)}
           {activeAdditionalLayerKeys !== undefined &&
-            activeAdditionalLayerKeys.length > 0 &&
+            activeAdditionalLayerKeys?.length > 0 &&
             activeAdditionalLayerKeys.map((activekey, index) => {
               const layerConf = additionalLayerConfiguration[activekey];
-              if (layerConf.layer) {
+              if (layerConf?.layer) {
                 return layerConf.layer;
-              } else if (layerConf.layerkey) {
+              } else if (layerConf?.layerkey) {
                 const layers = getLayersByName(layerConf.layerkey);
                 return layers;
               }
@@ -213,6 +221,7 @@ const SettingsPanel = (props) => {
     clusteringEnabled,
     _markerSymbolSize,
     activeAdditionalLayerKeys,
+    offlineReadyToUse,
   ]);
 
   let titlePreview = (
@@ -297,6 +306,7 @@ const SettingsPanel = (props) => {
   } else {
     _pushNewRoute = history.push;
   }
+
   const settingsSections = [
     <Form>
       <Form.Label>Einstellungen:</Form.Label>
@@ -345,13 +355,35 @@ const SettingsPanel = (props) => {
           />
         </Form.Group>
       )}
+      {skipOfflineLayerSettings === false && (
+        <Form.Group>
+          <Form.Check
+            type="checkbox"
+            readOnly={true}
+            key={"vectorLayerOfflineEnabled.checkbox-" + vectorLayerOfflineEnabled}
+            id={"vectorLayerOfflineEnabled.checkbox"}
+            checked={vectorLayerOfflineEnabled}
+            onClick={(e) => {
+              // console.log("xxx onClick", e);
+            }}
+            onChange={(e) => {
+              if (e.target.checked === false) {
+                setVectorLayerOfflineEnabled(false);
+              } else {
+                setVectorLayerOfflineEnabled(true);
+              }
+            }}
+            label="Vektorlayer offline verfügbar machen"
+          />
+        </Form.Group>
+      )}
     </Form>,
   ];
   if (skipBackgroundSettings === false) {
     settingsSections.push(
       <NamedMapStyleChooser
-        key={"nmsc"}
-        offlineLoadingStateKey={offlineLoadingStateKey}
+        key={"nmsc" + _namedMapStyle}
+        vectorLayerOfflineEnabled={vectorLayerOfflineEnabled}
         currentNamedMapStyle={_namedMapStyle}
         pathname={_urlPathname}
         search={_urlSearch}

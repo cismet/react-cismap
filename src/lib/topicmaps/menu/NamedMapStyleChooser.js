@@ -59,7 +59,6 @@ const NamedMapStyleChooser = ({
   vertical = false,
   children,
   defaultContextValues = {},
-  offlineLoadingStateKey,
 }) => {
   const { history } = useContext(TopicMapContext) || defaultContextValues;
   const { cacheStatus } = useContext(OfflineLayerCacheContext);
@@ -103,9 +102,7 @@ const NamedMapStyleChooser = ({
       <br />
       {additionalLayerConfiguration !== undefined && (
         <div
-          key={
-            "additionalLayerConfiguration" + offlineLoadingStateKey + JSON.stringify(cacheStatus)
-          }
+          key={"additionalLayerConfiguration" + JSON.stringify(cacheStatus)}
           style={{ marginBottom: 10 }}
         >
           {Object.keys(additionalLayerConfiguration).map((layerConfKey, index) => {
@@ -159,7 +156,7 @@ const NamedMapStyleChooser = ({
             <Form.Check
               type="radio"
               id={"cboMapStyleChooser_" + key}
-              key={"radio" + key + "." + offlineLoadingStateKey}
+              key={"radio" + key + "."}
               readOnly={true}
               onClick={(e) => {
                 if (e.target.checked === true) {

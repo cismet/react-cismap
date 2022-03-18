@@ -17,46 +17,39 @@ export const TopicMapWithOfflineDataConfiguration = () => {
       {
         origin: "https://omt.map-hosting.de/fonts/Metropolis Medium Italic,Noto",
         cachePath: "fonts/Open",
-        realServerFallback: false,
       },
       {
         origin: "https://omt.map-hosting.de/fonts/Klokantech Noto",
         cachePath: "fonts/Open",
-        realServerFallback: false,
       },
       {
         origin: "https://omt.map-hosting.de/fonts",
         cachePath: "fonts",
-        realServerFallback: false,
       },
       {
         origin: "https://omt.map-hosting.de/styles",
         cachePath: "styles",
-        realServerFallback: false,
       },
 
       {
         origin: "https://omt.map-hosting.de/data/v3",
         cachePath: "tiles",
-        realServerFallback: true,
       },
 
       {
         origin: "https://omt.map-hosting.de/data/gewaesser",
         cachePath: "tiles.gewaesser",
-        realServerFallback: false,
       },
 
       {
         origin: "https://omt.map-hosting.de/data/kanal",
         cachePath: "tiles.kanal",
-        realServerFallback: false,
       },
 
       {
         origin: "https://omt.map-hosting.de/data/brunnen",
         cachePath: "tiles.brunnen",
-        realServerFallback: false,
+        // realServerFallback: true, //this can override the globalsetting
       },
     ],
     dataStores: [
@@ -79,7 +72,10 @@ export const TopicMapWithOfflineDataConfiguration = () => {
       "https://omt.map-hosting.de/styles/kanal/style.json",
       "https://omt.map-hosting.de/styles/gewaesser/style.json",
     ],
-    consoleDebug: true,
+    realServerFallback: true, //should be true in production
+    consoleDebug: false,
+    optional: true,
+    initialActive: true,
   };
 
   const backgroundConfigurations = {
@@ -89,22 +85,18 @@ export const TopicMapWithOfflineDataConfiguration = () => {
       title: "Luftbildkarte",
     },
 
-    vector2: {
+    vectorCityMap2: {
       layerkey: "cismetLight",
       src: "/images/rain-hazard-map-bg/citymap.png",
       title: "Stadtplan",
     },
 
-    vectorOffline: {
+    vectorCityMap: {
       layerkey: "osmBrightOffline",
       src: "/images/rain-hazard-map-bg/citymap.png",
       title: "Stadtplan",
     },
-    vectorOnline: {
-      layerkey: "osmBright",
-      src: "/images/rain-hazard-map-bg/citymap.png",
-      title: "Stadtplan",
-    },
+
     abkg: {
       layerkey: "bplan_abkg@70",
       src: "/images/rain-hazard-map-bg/citymap.png",
@@ -129,21 +121,18 @@ export const TopicMapWithOfflineDataConfiguration = () => {
       layerKey: "stadtplan",
     },
     {
-      title: "Stadtplan (Vector - cismet light)",
+      title: "Stadtplan (bunt)",
       mode: "default",
-      layerKey: "vector2",
-    },
-    {
-      title: "Stadtplan Offline",
-      mode: "default",
-      layerKey: "vectorOffline",
+      layerKey: "vectorCityMap",
       offlineDataStoreKey: "wuppBasemap",
     },
     {
-      title: "Stadtplan Online",
+      title: "Stadtplan (light)",
       mode: "default",
-      layerKey: "vectorOnline",
+      layerKey: "vectorCityMap2",
+      offlineDataStoreKey: "wuppBasemap",
     },
+
     { title: "Luftbildkarte", mode: "default", layerKey: "lbk" },
     { title: "-", mode: "default", layerKey: "nix" },
   ];
@@ -153,6 +142,9 @@ export const TopicMapWithOfflineDataConfiguration = () => {
     baseLayerConf.namedLayers.cismetLight = {
       type: "vector",
       style: "https://omt.map-hosting.de/styles/cismet-light/style.json",
+      offlineAvailable: true,
+      offlineDataStoreKey: "wuppBasemap",
+      pane: "backgroundvectorLayers",
     };
   }
   if (!baseLayerConf.namedLayers.osmBrightOffline) {
@@ -162,13 +154,6 @@ export const TopicMapWithOfflineDataConfiguration = () => {
       offlineAvailable: true,
       offlineDataStoreKey: "wuppBasemap",
       pane: "backgroundvectorLayers",
-    };
-  }
-
-  if (!baseLayerConf.namedLayers.osmBright) {
-    baseLayerConf.namedLayers.osmBright = {
-      type: "vector",
-      style: "https://omt.map-hosting.de/styles/osm-bright-grey/style.json",
     };
   }
 

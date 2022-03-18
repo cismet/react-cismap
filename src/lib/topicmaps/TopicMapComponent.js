@@ -78,7 +78,6 @@ const TopicMapComponent = (props) => {
     gazetteerHitTrigger,
     gazetteerSearchControl = true,
     hamburgerMenu = true,
-    offlineLoadingStateKey,
   } = props;
   const { history, referenceSystem, referenceSystemDefinition, maskingPolygon } = useContext(
     TopicMapContext
@@ -91,6 +90,8 @@ const TopicMapComponent = (props) => {
     additionalLayerConfiguration,
     activeAdditionalLayerKeys,
   } = useContext(TopicMapStylingContext);
+  // const { offlineCacheConfig, vectorLayerOfflineEnabled, readyToUse: offlineReadyToUse } =
+  //   useContext(OfflineLayerCacheContext) || {};
 
   const [url, setUrl] = useState(undefined);
   useEffect(() => {
@@ -195,9 +196,7 @@ const TopicMapComponent = (props) => {
     }
   }
 
-  const _modalMenu = modalMenu || (
-    <DefaultAppMenu offlineLoadingStateKey={offlineLoadingStateKey} />
-  );
+  const _modalMenu = modalMenu || <DefaultAppMenu />;
 
   return (
     <div>
@@ -257,6 +256,7 @@ const TopicMapComponent = (props) => {
             fullScreenControlEnabled={fullScreenControl}
             locateControlEnabled={locatorControl}
             attributionControl={attributionControl}
+            // offlineReadyToUse={offlineReadyToUse}
           >
             {overlayFeature && (
               <ProjSingleGeoJson
@@ -320,17 +320,20 @@ const TopicMapComponent = (props) => {
                 _backgroundLayers +
                 "." +
                 _urlSearchParams.get("mapStyle") +
-                "." +
-                JSON.stringify(activeAdditionalLayerKeys || "")
+                // "." +
+                // JSON.stringify(activeAdditionalLayerKeys || "") +
+                "."
+                //  +
+                // offlineReadyToUse
               }
             >
               {activeAdditionalLayerKeys !== undefined &&
-                activeAdditionalLayerKeys.length > 0 &&
+                activeAdditionalLayerKeys?.length > 0 &&
                 activeAdditionalLayerKeys.map((activekey, index) => {
                   const layerConf = additionalLayerConfiguration[activekey];
-                  if (layerConf.layer) {
+                  if (layerConf?.layer) {
                     return layerConf.layer;
-                  } else if (layerConf.layerkey) {
+                  } else if (layerConf?.layerkey) {
                     const layers = getLayers(layerConf.layerkey);
                     return layers;
                   }

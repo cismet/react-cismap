@@ -67,7 +67,7 @@ export const MostSimpleTopicMapWithGazetteerData = () => {
   }, []);
   return (
     <TopicMapContextProvider>
-      <TopicMapComponent maxZoom={22} gazData={gazData} />
+      <TopicMapComponent maxZoom={22} gazData={gazData}></TopicMapComponent>
     </TopicMapContextProvider>
   );
 };
@@ -695,12 +695,16 @@ export const TopicMapWithAdditionalLayers = () => {
       clusteringOptions={{
         iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
       }}
+      referenceSystemDefinition={MappingConstants.proj4crs25832def}
+      mapEPSGCode="25832"
+      referenceSystem={MappingConstants.crs25832}
       clusteringEnabled={true}
       additionalLayerConfiguration={{
         hillshade: {
           title: "Schummerung",
           initialActive: false,
           layerkey: "hillshade@20",
+          pane: "additionalLayers1",
         },
 
         fernwaerme: {
@@ -726,6 +730,7 @@ export const TopicMapWithAdditionalLayers = () => {
               format="image/png"
               tiled="true"
               transparent="true"
+              pane="additionalLayers0"
               maxZoom={19}
               opacity={0.7}
             />

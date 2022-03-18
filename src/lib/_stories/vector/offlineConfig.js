@@ -1766,41 +1766,6 @@ export const offlineConfig = {
       cachePath: "tiles",
       realServerFallback: false,
     },
-
-    // {
-    //   origin: "https://events.mapbox.com/events/v2?access_token=multipass",
-    //   block: true,
-    // },
-    // {
-    //   origin: "https://omt.map-hosting.de/data/gewaesser.json",
-    //   cachePath: "gewaesser.json",
-    //   realServerFallback: false,
-    // },
-    // {
-    //   origin: "https://omt.map-hosting.de/data/gewaesser",
-    //   cachePath: "tiles.gewaesser",
-    //   realServerFallback: false,
-    // },
-    // {
-    //   origin: "https://omt.map-hosting.de/data/kanal.json",
-    //   cachePath: "kanal.json",
-    //   realServerFallback: false,
-    // },
-    // {
-    //   origin: "https://omt.map-hosting.de/data/kanal",
-    //   cachePath: "tiles.kanal",
-    //   realServerFallback: false,
-    // },
-    // {
-    //   origin: "https://omt.map-hosting.de/data/brunnen.json",
-    //   cachePath: "brunnen.json",
-    //   realServerFallback: false,
-    // },
-    // {
-    //   origin: "https://omt.map-hosting.de/data/brunnen",
-    //   cachePath: "tiles.brunnen",
-    //   realServerFallback: false,
-    // },
   ],
   dataStores: [
     {

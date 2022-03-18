@@ -289,6 +289,8 @@ export const SimpleMapLibreLayerWithCustomProtocol = () => {
   layerConf.glyphs = "indexedDB://" + layerConf.glyphs;
   layerConf.sources.openmaptiles.tiles[0] =
     "indexedDB://" + layerConf.sources.openmaptiles.tiles[0];
+
+  // because we are not using OfflineLayerCacheContext we nee to load the stuff manually
   useEffect(() => {
     loadAndCacheOfflineMapData(offlineConfig, (key, info) => {
       console.log("loadAndCacheOfflineMapData", key, info);
