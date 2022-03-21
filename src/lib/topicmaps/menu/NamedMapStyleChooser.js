@@ -126,7 +126,11 @@ const NamedMapStyleChooser = ({
                       );
                     } else {
                       //add key to array
-                      newActiveAdditionalLayerKeys = [...activeAdditionalLayerKeys];
+                      if (activeAdditionalLayerKeys && activeAdditionalLayerKeys.length > 0) {
+                        newActiveAdditionalLayerKeys = [...activeAdditionalLayerKeys];
+                      } else {
+                        newActiveAdditionalLayerKeys = [];
+                      }
                       newActiveAdditionalLayerKeys.push(layerConfKey);
                     }
                     setActiveAdditionalLayerKeys(newActiveAdditionalLayerKeys);
