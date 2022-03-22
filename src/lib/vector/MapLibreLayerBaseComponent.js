@@ -22,6 +22,7 @@ class MaplibreGlLayer extends GridLayer {
 
     map.on("layerremove", (e) => {
       this._removeLayer(e);
+      map.off("layerremove");
     });
 
     // if (props.offlineAvailable) {
