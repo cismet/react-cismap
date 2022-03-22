@@ -57,6 +57,7 @@ ReactDOM.render(
     {/* <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Wasserstofftankstelle /> */}
     {/* <TopicMapsExamples.TopicMapWithWithStaticFilter /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayer /> */}
+    {/* <MapLibreExamples.SimpleMapLibreLayerRedrawingitself /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMap /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMapWithFeatureCollectionInAnotherCRS /> */}
     {/* <MapLibreExamples.SimpleTopicMapWithMapLibreLayer /> */}

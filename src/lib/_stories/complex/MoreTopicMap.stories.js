@@ -169,6 +169,7 @@ export const TopicMapWithOfflineDataConfiguration = () => {
           initialActive: false,
           layer: (
             <MapLibreLayer
+              id="brunnen"
               key={"brunnen"}
               style="https://omt.map-hosting.de/styles/brunnen/style.json"
               pane="additionalLayers0"
@@ -209,7 +210,7 @@ export const TopicMapWithOfflineDataConfiguration = () => {
       }}
     >
       {/* <ConsoleLog ghostModeAvailable={true} minifyAvailable={true} /> */}
-      <TopicMapComponent gazData={gazData}>
+      <TopicMapComponent key={"tmc"} gazData={gazData}>
         <FeatureCollection />
       </TopicMapComponent>
     </TopicMapContextProvider>

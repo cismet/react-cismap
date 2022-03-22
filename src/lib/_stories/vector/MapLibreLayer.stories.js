@@ -45,13 +45,75 @@ export const SimpleMapLibreLayer = () => {
         style="https://omt.map-hosting.de/styles/klokantech-basic/style.json"
         _style="http://localhost:888/styles/osm-bright/style.json"
       />
-      <StyledWMSTileLayer
+      {/* <StyledWMSTileLayer
         key={"asd"}
         url="https://maps.wuppertal.de/deegree/wms"
         layers="R102:trueortho202010"
         opacity={1}
-      />
+      /> */}
     </Map>
+  );
+};
+
+export const SimpleMapLibreLayerRedrawingitself = () => {
+  const position = [51.2720151, 7.2000203134];
+  const [counter, setCounter] = useState(0);
+  const [active, setActive] = useState(false);
+  const activeRef = useRef(active);
+  useEffect(() => {
+    activeRef.current = active;
+  }, [active]);
+  useEffect(() => {
+    setInterval(() => {
+      if (activeRef.current) {
+        setCounter((counter) => {
+          console.log("counter", counter);
+
+          return counter + 1;
+        });
+      }
+    }, 500);
+  }, []);
+
+  return (
+    <div>
+      <div>
+        <input
+          onChange={() => {
+            setActive((a) => !a);
+            console.log("changed");
+          }}
+          type="checkbox"
+          name="d"
+          checked={active}
+        ></input>
+        <label style={{ paddingLeft: 10 }} htmlFor="d">
+          Destroy and recreate
+        </label>
+      </div>
+      <Map style={mapStyle} center={position} zoom={18} maxZoom={25}>
+        {/* <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        opacity={1}
+      /> */}
+        {/* {getLayersByNames("ruhrWMSlight@50")} */}
+        {counter % 2 === 0 && (
+          <MapLibreLayer
+            // opacity={0.5}
+            // accessToken={"dd"}
+            style="https://omt.map-hosting.de/styles/klokantech-basic/style.json"
+            _style="http://localhost:888/styles/osm-bright/style.json"
+          />
+        )}
+        {/* <StyledWMSTileLayer
+        key={"asd"}
+        url="https://maps.wuppertal.de/deegree/wms"
+        layers="R102:trueortho202010"
+        opacity={1}
+      /> */}
+      </Map>
+    </div>
   );
 };
 
