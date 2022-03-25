@@ -144,7 +144,7 @@
 		"linkdist": "cd dist && bash -c 'yarn link'",
 		"unlinkdist": "cd dist && bash -c 'yarn unlink'",
 		"testls": "npm config ls",
-		"bumpSnapshot": "npm version prerelease --preid=SNAPSHOT && yarn run postversion",
+		"bumpSnapshot": "npm version prerelease --preid=SNAPSHOT && yarn run postversion"
 	},
 	"babel": {
 		"presets": [
