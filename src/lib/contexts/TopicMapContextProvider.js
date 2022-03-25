@@ -47,6 +47,7 @@ const TopicMapContextProvider = ({
   clusteringOptions,
   getSymbolSVG,
   featureItemsURL,
+  createFeatureItemsDictionary,
   items,
   convertItemToFeature,
   featureCollectionName,
@@ -55,6 +56,7 @@ const TopicMapContextProvider = ({
   filterState,
   classKeyFunction,
   additionalLayerConfiguration,
+  appMode,
   baseLayerConf,
   appKey = "TopicMapBaseLibrary",
   persistenceSettings = {
@@ -109,6 +111,7 @@ const TopicMapContextProvider = ({
     referenceSystemDefinition,
     maskingPolygon,
     mapEPSGCode,
+    appMode,
   });
   const contextKey = "topicmap";
   const set = (prop, noTest) => {
@@ -128,6 +131,7 @@ const TopicMapContextProvider = ({
     setBoundingBox: set("boundingBox"),
     setLocation: set("location"),
     setRoutedMapRef: set("routedMapRef", true),
+    setAppMode: set("appMode", true),
   };
 
   const fitBBox = (bbox, refDefOfBBox) => {
@@ -210,6 +214,7 @@ const TopicMapContextProvider = ({
             clusteringOptions={clusteringOptions}
             getSymbolSVG={getSymbolSVG}
             itemsURL={featureItemsURL}
+            createItemsDictionary={createFeatureItemsDictionary}
             items={items}
             convertItemToFeature={convertItemToFeature}
             featureCollectionName={featureCollectionName}
@@ -220,6 +225,7 @@ const TopicMapContextProvider = ({
             appKey={appKey}
             persistenceSettings={persistenceSettings}
             featureTooltipFunction={featureTooltipFunction}
+            appMode={appMode}
           >
             <ResponsiveTopicMapContextProvider
               enabled={responsiveContextEnabled}

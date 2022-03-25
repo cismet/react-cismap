@@ -15,6 +15,8 @@ import envelope from "@turf/envelope";
 import { featureCollection } from "@turf/helpers";
 const defaultState = {
   items: undefined,
+  itemsDictionary: undefined,
+  createItemsDictionary: () => {},
   metaInformation: undefined,
   filteredItems: undefined,
   filterState: undefined,
@@ -86,6 +88,7 @@ const FeatureCollectionContextProvider = ({
   persistenceSettings,
   filterState,
   classKeyFunction,
+  createItemsDictionary = () => {},
 }) => {
   const [state, dispatch] = useImmer({
     ...defaultState,
@@ -100,10 +103,11 @@ const FeatureCollectionContextProvider = ({
     filterState,
     classKeyFunction,
     featureTooltipFunction,
+    createItemsDictionary,
   });
   // console.log(" featureCollectionState", state);
 
-  const { boundingBox, mapEPSGCode } = useContext(TopicMapContext);
+  const { boundingBox, mapEPSGCode, appMode } = useContext(TopicMapContext);
   const { fitBBox } = useContext(TopicMapDispatchContext);
   const contextKey = "featureCollection";
   const set = (prop, noTest) => {
@@ -140,7 +144,10 @@ const FeatureCollectionContextProvider = ({
   const selectedIndex = selectedIndexState.selectedIndex;
 
   const setX = {
-    setItems: set("items"),
+    setItems: (items) => {
+      set("itemsDictionary")(createItemsDictionary(items));
+      set("items")(items);
+    },
     setMetaInformation: set("metaInformation"),
     setEPSGCode: set("epsgCode"),
     setFilteredItems: set("filteredItems"),
@@ -211,6 +218,7 @@ const FeatureCollectionContextProvider = ({
   const next = () => {
     const newIndex = (selectedFeature.index + 1) % shownFeatures.length;
     setSelectedFeatureIndex(newIndex);
+    x;
   };
   const prev = () => {
     let newIndex = (selectedFeature.index - 1) % shownFeatures.length;
@@ -244,12 +252,24 @@ const FeatureCollectionContextProvider = ({
 
         for (const item of state.filteredItems || []) {
           const f = await convertItemToFeature(item);
-          f.selected = false;
-          f.id = id++;
-          if (f?.geometry?.type === "Point") {
-            points.push(f);
+          // check if it is an array of features
+          const doFeature = (f) => {
+            f.selected = false;
+            f.id = id++;
+            if (f?.geometry?.type === "Point") {
+              points.push(f);
+            } else {
+              others.push(f);
+            }
+            return f;
+          };
+
+          if (Array.isArray(f)) {
+            for (const subfeature of f) {
+              doFeature(subfeature);
+            }
           } else {
-            others.push(f);
+            doFeature(f);
           }
         }
         // console.log("xxx points", points);
@@ -283,14 +303,19 @@ const FeatureCollectionContextProvider = ({
         filteredItems = state.filterFunction();
       } else if (state.itemFilterFunction !== undefined) {
         filteredItems = state.items.filter(
-          state.itemFilterFunction({ filterState: state.filterState, filterMode: state.filterMode })
+          state.itemFilterFunction({
+            filterState: state.filterState,
+            filterMode: state.filterMode,
+            appMode: appMode,
+            itemsDictionary: state.itemsDictionary,
+          })
         );
       } else {
         filteredItems = state.items;
       }
       setX.setFilteredItems(filteredItems);
     }
-  }, [state.filterState, state.filterMode, state.filterFunction, state.items]);
+  }, [state.filterState, state.filterMode, state.filterFunction, state.items, appMode]);
 
   //effect when boundingBox or selection changed
   useEffect(() => {
