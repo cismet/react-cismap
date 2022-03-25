@@ -113,7 +113,9 @@ const FeatureCollection = (props) => {
 
   const internalFeatureClickHandler = (event) => {
     const feature = event.sourceTarget.feature;
-    if (handleSelectionInternaly === true) {
+    console.log("CLIGGG");
+
+    if (handleSelectionInternaly === true && feature.preventSelection !== true) {
       setSelectedFeatureIndex(feature.index);
     }
     featureClickHandler(event);
