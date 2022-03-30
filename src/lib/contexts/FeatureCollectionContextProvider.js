@@ -218,7 +218,6 @@ const FeatureCollectionContextProvider = ({
   const next = () => {
     const newIndex = (selectedFeature.index + 1) % shownFeatures.length;
     setSelectedFeatureIndex(newIndex);
-    x;
   };
   const prev = () => {
     let newIndex = (selectedFeature.index - 1) % shownFeatures.length;

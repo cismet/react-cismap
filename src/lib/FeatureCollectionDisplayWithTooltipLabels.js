@@ -27,6 +27,7 @@ const FeatureCollectionDisplay = ({
   editable = false,
   inbackground = false,
   defaultContextValues = {},
+  appMode,
 }) => {
   const { boundingBox: boundingBoxFromContext } =
     useContext(TopicMapContext) || defaultContextValues;
@@ -109,6 +110,7 @@ const FeatureCollectionDisplay = ({
       markers.push(selectedMarkers[midx]);
     }
   }
+  console.log("FeatureCollectionDisplayWITHTOOLTIPLABELS appMode", appMode);
 
   return (
     <div>
@@ -123,6 +125,7 @@ const FeatureCollectionDisplay = ({
         mapRef={mapRef}
         selectionSpiderfyMinZoom={selectionSpiderfyMinZoom}
         editable={editable}
+        appMode={appMode}
       />
       {markers}
     </div>

@@ -67,7 +67,8 @@ const FeatureCollection = (props) => {
     handleSelectionInternaly = true,
     defaultContextValues = {},
   } = props;
-  const { routedMapRef, boundingBox } = useContext(TopicMapContext) || defaultContextValues;
+  const { routedMapRef, boundingBox, appMode } =
+    useContext(TopicMapContext) || defaultContextValues;
   const { markerSymbolSize } = useContext(TopicMapStylingContext) || defaultContextValues;
   const {
     shownFeatures,
@@ -85,13 +86,18 @@ const FeatureCollection = (props) => {
 
   let _style;
   if (styler !== undefined) {
-    _style = styler(markerSymbolSize, getColorFromProperties || ((props) => props.color));
+    _style = styler(markerSymbolSize, getColorFromProperties || ((props) => props.color), appMode);
   } else if (getFeatureStyler !== undefined) {
-    _style = getFeatureStyler(markerSymbolSize, getColorFromProperties || ((props) => props.color));
+    _style = getFeatureStyler(
+      markerSymbolSize,
+      getColorFromProperties || ((props) => props.color),
+      appMode
+    );
   } else {
     _style = getDefaultFeatureStyler(
       markerSymbolSize,
-      getColorFromProperties || ((props) => props.color)
+      getColorFromProperties || ((props) => props.color),
+      appMode
     );
   }
 
@@ -122,6 +128,7 @@ const FeatureCollection = (props) => {
   };
 
   let featureCollection = shownFeatures;
+  console.log("FEATURECOLLECTION appMode", appMode);
 
   if (props.featureLabeler) {
     return (
@@ -143,6 +150,7 @@ const FeatureCollection = (props) => {
         hoverer={featureHoverer || featureTooltipFunction}
         featureClickHandler={internalFeatureClickHandler}
         mapRef={(_mapRef || {}).leafletMap}
+        appMode={appMode}
       />
     );
   } else {
@@ -169,6 +177,7 @@ const FeatureCollection = (props) => {
         mapRef={(_mapRef || {}).leafletMap}
         showMarkerCollection={showMarkerCollection}
         markerStyle={markerStyle}
+        appMode={appMode}
       />
     );
   }

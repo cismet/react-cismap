@@ -87,7 +87,7 @@ class ProjGeoJson extends Path {
         }
       }
       if (props.hoverer) {
-        let theStyle = props.style(feature, props.featureStylerScalableImageSize);
+        let theStyle = props.style(feature, props.featureStylerScalableImageSize, props.appMode);
 
         layer.bindTooltip("" + props.hoverer(feature), {
           offset: L.point(theStyle.radius, 0),
@@ -106,7 +106,12 @@ class ProjGeoJson extends Path {
 
     props.pointToLayer = (feature, latlng) => {
       if (props.style) {
-        let theStyle = props.style(feature);
+        console.log("props.pointToLayer  appMode", props.appMode);
+        console.log("props.pointToLayer  props.style", props.style);
+
+        let theStyle = props.style(feature, undefined, props.appMode);
+        console.log("props.pointToLayer  theStyle", theStyle);
+
         let marker = null;
         if (
           theStyle.svg ||
@@ -238,4 +243,5 @@ ProjGeoJson.defaultProps = {
   clusterOptions: {},
   clusteringEnabled: false,
   editModeStatusChanged: (feature) => {},
+  appMode: "default",
 };
