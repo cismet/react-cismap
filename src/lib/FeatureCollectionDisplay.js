@@ -22,8 +22,10 @@ const FeatureCollectionDisplay = ({
   customType,
   editModeStatusChanged,
   featureStylerScalableImageSize,
+  appMode,
 }) => {
   let selectionSpiderfyMinZoom = clusterOptions.selectionSpiderfyMinZoom;
+  console.log("FeatureCollectionDisplay appMode", appMode);
 
   let markers;
   if (showMarkerCollection) {
@@ -39,6 +41,7 @@ const FeatureCollectionDisplay = ({
         selectionSpiderfyMinZoom={selectionSpiderfyMinZoom}
         snappingGuides={false}
         customType={customType}
+        appMode={appMode}
       />
     );
   }
@@ -60,6 +63,7 @@ const FeatureCollectionDisplay = ({
         customType={customType}
         editModeStatusChanged={editModeStatusChanged}
         featureStylerScalableImageSize={featureStylerScalableImageSize}
+        appMode={appMode}
       />
       {markers}
     </div>
