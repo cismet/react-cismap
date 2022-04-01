@@ -3,6 +3,7 @@ import MapLibreLayerBaseComponent from "./MapLibreLayerBaseComponent";
 import maplibreGl from "maplibre-gl";
 import { customOfflineFetch, getBufferedJSON } from "../tools/offlineMapsHelper";
 import { OfflineLayerCacheContext } from "../contexts/OfflineLayerCacheContextProvider";
+import { UIContext } from "../contexts/UIContextProvider";
 
 const fetchy = (url, callback) => {
   fetch(url)
@@ -19,6 +20,7 @@ const MapLibreLayer = (_props) => {
     offlineCacheConfig: undefined,
   };
 
+  const { menuCounter } = useContext(UIContext);
   useEffect(() => {
     (async () => {
       if (props.offlineAvailable) {
@@ -76,7 +78,7 @@ const MapLibreLayer = (_props) => {
   }, []);
 
   if (ready) {
-    return <MapLibreLayerBaseComponent {...props} />;
+    return <MapLibreLayerBaseComponent key={props.key + "." + menuCounter} {...props} />;
   } else {
     return null;
   }

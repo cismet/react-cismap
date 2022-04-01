@@ -129,7 +129,7 @@ const TopicMapComponent = (props) => {
   );
 
   const uiContext = useContext(UIContext);
-  const { appMenuVisible, appMenuActiveMenuSelection } = uiContext;
+  const { appMenuVisible, appMenuActiveMenuSelection, menuCounter } = uiContext;
   const { setAppMenuVisible, setAppMenuActiveMenuSection } = useContext(UIDispatchContext);
 
   useEffect(() => {
@@ -317,14 +317,9 @@ const TopicMapComponent = (props) => {
             )}
             <div
               key={
-                _backgroundLayers +
-                "." +
-                _urlSearchParams.get("mapStyle") +
-                // "." +
+                _backgroundLayers + "." + _urlSearchParams.get("mapStyle")
+                // + "." +
                 // JSON.stringify(activeAdditionalLayerKeys || "") +
-                "."
-                //  +
-                // offlineReadyToUse
               }
             >
               {activeAdditionalLayerKeys !== undefined &&

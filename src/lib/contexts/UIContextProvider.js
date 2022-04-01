@@ -9,6 +9,7 @@ const defaultState = {
   appMenuActiveMenuSection: "settings",
   secondaryInfoVisible: false,
   collapsedInfoBox: false,
+  menuCounter: 0,
 };
 
 const UIContextProvider = ({ children, enabled = true, appKey, persistenceSettings }) => {
@@ -38,7 +39,12 @@ const UIContextProvider = ({ children, enabled = true, appKey, persistenceSettin
   const [state, dispatch] = useImmer({ ...defaultState });
 
   const setX = {
-    setAppMenuVisible: set("appMenuVisible"),
+    setAppMenuVisible: (visible) => {
+      if (visible === false) {
+        set("menuCounter")(state.menuCounter + 1);
+      }
+      set("appMenuVisible")(visible);
+    },
     setAppMenuActiveMenuSection: set("appMenuActiveMenuSection"),
     setSecondaryInfoVisible: set("secondaryInfoVisible"),
     setCollapsedInfoBox: set("collapsedInfoBox"),
