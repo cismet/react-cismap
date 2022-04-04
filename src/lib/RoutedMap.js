@@ -480,9 +480,10 @@ export class RoutedMap extends React.Component {
               this.props.urlSearchParams.get("mapStyle") +
               "." +
               md5(this.props.baseLayerConf || "") +
-              "." +
-              this.props.layerKeyPostfix +
               "."
+              //  +
+              // this.props.layerKeyPostfix +
+              // "."
               // +
               // this.props.offlineReadyToUse
             }
