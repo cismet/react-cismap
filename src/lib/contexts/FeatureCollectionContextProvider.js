@@ -40,6 +40,7 @@ const defaultState = {
   classKeyFunction: undefined,
   getColorFromProperties: undefined,
   epsgCode: undefined,
+  initializingFeatures: false,
 };
 
 const StateContext = React.createContext();
@@ -64,7 +65,6 @@ const getItems = async ({
     // }
     items = await fetchJSON(itemsUrl);
   }
-
   setItems(items);
 };
 
@@ -241,9 +241,10 @@ const FeatureCollectionContextProvider = ({
   // }
   // effect when items are changed
   useEffect(() => {
-    //async start
+    //async star
     (async () => {
       if (state.filteredItems) {
+        set("initializingFeatures")(true);
         let id = 0;
 
         const points = [];
@@ -289,6 +290,7 @@ const FeatureCollectionContextProvider = ({
         // other geometries
         const polyindex = createFlatbushIndex(others);
         setX.setPolyFeatureIndex(polyindex);
+        set("initializingFeatures")(false);
       }
     })();
     //async end
@@ -318,113 +320,117 @@ const FeatureCollectionContextProvider = ({
 
   //effect when boundingBox or selection changed
   useEffect(() => {
-    let pointFeaturesHits = [];
-    let otherFeaturesHits = [];
-    let featureHits;
-    let projectedBoundingBox;
-    if (boundingBox !== undefined && alwaysShowAllFeatures === false) {
-      //reproject bounding box if map CRS is not FeatureCollection CRS
-      if (state.epsgCode && mapEPSGCode && mapEPSGCode !== state.epsgCode) {
-        const projectedNE = proj4(
-          projectionData[mapEPSGCode].def,
-          projectionData[state.epsgCode].def,
-          [boundingBox.left, boundingBox.bottom]
-        );
+    if (state.initializingFeatures === true) {
+      setX.setShownFeatures(undefined);
+    } else {
+      let pointFeaturesHits = [];
+      let otherFeaturesHits = [];
+      let featureHits;
+      let projectedBoundingBox;
+      if (boundingBox !== undefined && alwaysShowAllFeatures === false) {
+        //reproject bounding box if map CRS is not FeatureCollection CRS
+        if (state.epsgCode && mapEPSGCode && mapEPSGCode !== state.epsgCode) {
+          const projectedNE = proj4(
+            projectionData[mapEPSGCode].def,
+            projectionData[state.epsgCode].def,
+            [boundingBox.left, boundingBox.bottom]
+          );
 
-        const projectedSW = proj4(
-          projectionData[mapEPSGCode].def,
-          projectionData[state.epsgCode].def,
-          [boundingBox.right, boundingBox.top]
-        );
-        projectedBoundingBox = {};
-        projectedBoundingBox.left = projectedNE[0];
-        projectedBoundingBox.bottom = projectedNE[1];
-        projectedBoundingBox.right = projectedSW[0];
-        projectedBoundingBox.top = projectedSW[1];
-      } else {
-        projectedBoundingBox = boundingBox;
-      }
-
-      if (pointFeatureIndex !== undefined) {
-        let resultIds = pointFeatureIndex.range(
-          projectedBoundingBox.left,
-          projectedBoundingBox.bottom,
-          projectedBoundingBox.right,
-          projectedBoundingBox.top
-        );
-        for (const id of resultIds) {
-          const f = allFeatures[id];
-          pointFeaturesHits.push(allFeatures[id]);
+          const projectedSW = proj4(
+            projectionData[mapEPSGCode].def,
+            projectionData[state.epsgCode].def,
+            [boundingBox.right, boundingBox.top]
+          );
+          projectedBoundingBox = {};
+          projectedBoundingBox.left = projectedNE[0];
+          projectedBoundingBox.bottom = projectedNE[1];
+          projectedBoundingBox.right = projectedSW[0];
+          projectedBoundingBox.top = projectedSW[1];
+        } else {
+          projectedBoundingBox = boundingBox;
         }
 
-        pointFeaturesHits.sort((a, b) => {
-          if (a.geometry.coordinates[1] === b.geometry.coordinates[1]) {
-            return a.geometry.coordinates[0] - b.geometry.coordinates[0];
-          } else {
-            return b.geometry.coordinates[1] - a.geometry.coordinates[1];
-          }
-        });
-      }
-
-      if (polyFeatureIndex !== undefined) {
-        otherFeaturesHits = findInFlatbush(
-          polyFeatureIndex,
-          bboxPolygon([
+        if (pointFeatureIndex !== undefined) {
+          let resultIds = pointFeatureIndex.range(
             projectedBoundingBox.left,
             projectedBoundingBox.bottom,
             projectedBoundingBox.right,
-            projectedBoundingBox.top,
-          ]),
-          otherFeatures
-        );
+            projectedBoundingBox.top
+          );
+          for (const id of resultIds) {
+            const f = allFeatures[id];
+            pointFeaturesHits.push(allFeatures[id]);
+          }
+
+          pointFeaturesHits.sort((a, b) => {
+            if (a.geometry.coordinates[1] === b.geometry.coordinates[1]) {
+              return a.geometry.coordinates[0] - b.geometry.coordinates[0];
+            } else {
+              return b.geometry.coordinates[1] - a.geometry.coordinates[1];
+            }
+          });
+        }
+
+        if (polyFeatureIndex !== undefined) {
+          otherFeaturesHits = findInFlatbush(
+            polyFeatureIndex,
+            bboxPolygon([
+              projectedBoundingBox.left,
+              projectedBoundingBox.bottom,
+              projectedBoundingBox.right,
+              projectedBoundingBox.top,
+            ]),
+            otherFeatures
+          );
+        }
+
+        featureHits = [...pointFeaturesHits, ...otherFeaturesHits];
+      } else {
+        featureHits = allFeatures;
+      }
+      let _shownFeatures = [];
+      let i = 0;
+
+      for (const f of featureHits || []) {
+        const nf = {
+          selected: false,
+          index: i++,
+          ...f,
+        };
+        _shownFeatures.push(nf);
       }
 
-      featureHits = [...pointFeaturesHits, ...otherFeaturesHits];
-    } else {
-      featureHits = allFeatures;
-    }
-    let _shownFeatures = [];
-    let i = 0;
+      if (selectedIndexState.forced === false) {
+        if (selectedFeature === undefined && selectedIndex !== 0) {
+          setSelectedIndex(0);
+        } else if (selectedFeature !== undefined) {
+          const found = _shownFeatures.find((testfeature) => selectedFeature.id === testfeature.id);
 
-    for (const f of featureHits || []) {
-      const nf = {
-        selected: false,
-        index: i++,
-        ...f,
-      };
-      _shownFeatures.push(nf);
-    }
-
-    if (selectedIndexState.forced === false) {
-      if (selectedFeature === undefined && selectedIndex !== 0) {
-        setSelectedIndex(0);
-      } else if (selectedFeature !== undefined) {
-        const found = _shownFeatures.find((testfeature) => selectedFeature.id === testfeature.id);
-
-        if (found !== undefined) {
-          if (found.index !== selectedIndex) {
-            setSelectedIndex(found.index);
-            return;
-          }
-        } else {
-          if (0 !== selectedIndex) {
-            setSelectedIndex(0);
-            return;
+          if (found !== undefined) {
+            if (found.index !== selectedIndex) {
+              setSelectedIndex(found.index);
+              return;
+            }
+          } else {
+            if (0 !== selectedIndex) {
+              setSelectedIndex(0);
+              return;
+            }
           }
         }
       }
-    }
 
-    let sf;
-    try {
-      sf = _shownFeatures[selectedIndex];
-      sf.selected = true;
-    } catch (e) {}
-    setX.setSelectedFeature(sf);
-    if (selectedIndexState.forced === true) {
-      setSelectedIndex(selectedIndex); //set forced=false
+      let sf;
+      try {
+        sf = _shownFeatures[selectedIndex];
+        sf.selected = true;
+      } catch (e) {}
+      setX.setSelectedFeature(sf);
+      if (selectedIndexState.forced === true) {
+        setSelectedIndex(selectedIndex); //set forced=false
+      }
+      setX.setShownFeatures(_shownFeatures);
     }
-    setX.setShownFeatures(_shownFeatures);
   }, [
     state.epsgCode,
     boundingBox,
@@ -432,6 +438,7 @@ const FeatureCollectionContextProvider = ({
     polyFeatureIndex,
     allFeatures,
     selectedIndexState,
+    state.initializingFeatures,
   ]);
 
   const load = (url) => {
