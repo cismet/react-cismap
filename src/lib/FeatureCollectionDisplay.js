@@ -25,7 +25,6 @@ const FeatureCollectionDisplay = ({
   appMode,
 }) => {
   let selectionSpiderfyMinZoom = clusterOptions.selectionSpiderfyMinZoom;
-  console.log("FeatureCollectionDisplay appMode", appMode);
 
   let markers;
   if (showMarkerCollection) {
