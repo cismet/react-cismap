@@ -128,7 +128,6 @@ const FeatureCollection = (props) => {
   };
 
   let featureCollection = shownFeatures;
-  console.log("FEATURECOLLECTION appMode", appMode);
 
   if (props.featureLabeler) {
     return (
