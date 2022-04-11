@@ -28,6 +28,7 @@ const defaultState = {
   otherFeatures: undefined,
   shownFeatures: undefined,
   selectedFeature: undefined,
+  secondarySelection: undefined,
   pointFeatureIndex: undefined,
   polyFeatureIndex: undefined,
   featureTooltipFunction: undefined,
@@ -89,6 +90,9 @@ const FeatureCollectionContextProvider = ({
   filterState,
   classKeyFunction,
   createItemsDictionary = () => {},
+  nextFeature,
+  prevFeature,
+  deriveSecondarySelection,
 }) => {
   const [state, dispatch] = useImmer({
     ...defaultState,
@@ -159,7 +163,7 @@ const FeatureCollectionContextProvider = ({
     setPointFeatures: set("pointFeatures"),
     setOtherFeatures: set("otherFeatures"),
     setShownFeatures: set("shownFeatures"),
-    setSelectedFeature: set("selectedFeature"), //don't call from outside
+    // setSelectedFeature: set("selectedFeature"), //don't set this directly, use setSelectedIndex
     setPointFeatureIndex: set("pointFeatureIndex"),
     setPolyFeatureIndex: set("polyFeatureIndex"),
     setSelectedIndexState: set("selectedIndexState"),
@@ -175,7 +179,7 @@ const FeatureCollectionContextProvider = ({
     setX.setSelectedIndexState({ selectedIndex, forced: false });
   };
 
-  const setSelectedFeatureByPredicate = (predicate) => {
+  const setSelectedFeatureByPredicate = (predicate, feedbacker = () => {}) => {
     dispatch((state) => {
       let index = 0;
       for (const feature of state.shownFeatures) {
@@ -184,11 +188,12 @@ const FeatureCollectionContextProvider = ({
           // console.log("predicate hit. will select ", feature);
 
           setSelectedFeatureIndex(index);
-
+          feedbacker(true);
           return;
         }
         index++;
       }
+      feedbacker(false);
     });
   };
 
@@ -215,16 +220,36 @@ const FeatureCollectionContextProvider = ({
     });
   };
 
-  const next = () => {
-    const newIndex = (selectedFeature.index + 1) % shownFeatures.length;
-    setSelectedFeatureIndex(newIndex);
+  const getSelectableCount = () => {
+    return shownFeatures.length - shownFeatures.filter((f) => f.properties.preventSelection).length;
   };
-  const prev = () => {
-    let newIndex = (selectedFeature.index - 1) % shownFeatures.length;
+
+  const nextIndex = (currentIndex) => {
+    const newIndex = currentIndex + (1 % shownFeatures.length);
+    if (shownFeatures[newIndex]?.preventSelection === true) {
+      return nextIndex(newIndex);
+    } else {
+      return newIndex;
+    }
+  };
+
+  const prevIndex = (currentIndex) => {
+    let newIndex = currentIndex - (1 % shownFeatures.length);
     if (newIndex === -1) {
       newIndex = shownFeatures.length - 1;
     }
-    setSelectedFeatureIndex(newIndex);
+    if (shownFeatures[newIndex]?.preventSelection === true) {
+      return prevIndex(newIndex);
+    } else {
+      return newIndex;
+    }
+  };
+  const next = () => {
+    setSelectedFeatureIndex(nextIndex(selectedFeature.index));
+  };
+
+  const prev = () => {
+    setSelectedFeatureIndex(prevIndex(selectedFeature.index));
   };
 
   useEffect(() => {
@@ -391,6 +416,8 @@ const FeatureCollectionContextProvider = ({
       let _shownFeatures = [];
       let i = 0;
 
+      //sort features here to get a user controlled order in the map
+
       for (const f of featureHits || []) {
         const nf = {
           selected: false,
@@ -425,7 +452,19 @@ const FeatureCollectionContextProvider = ({
         sf = _shownFeatures[selectedIndex];
         sf.selected = true;
       } catch (e) {}
-      setX.setSelectedFeature(sf);
+      set("selectedFeature")(sf);
+      // setX.setSelectedFeature(sf);
+      if (deriveSecondarySelection && sf) {
+        set("secondarySelection")(
+          deriveSecondarySelection({
+            selectedFeature: sf,
+            appMode: appMode,
+            itemsDictionary: state.itemsDictionary,
+            featureCollection: state.shownFeatures,
+            secondarySelection: state.secondarySelection,
+          })
+        );
+      }
       if (selectedIndexState.forced === true) {
         setSelectedIndex(selectedIndex); //set forced=false
       }
@@ -462,8 +501,21 @@ const FeatureCollectionContextProvider = ({
             load,
             setSelectedFeatureIndex,
             setSelectedFeatureByPredicate,
-            next,
-            prev,
+
+            next: () => {
+              if (nextFeature) {
+                nextFeature();
+              } else {
+                next();
+              }
+            },
+            prev: () => {
+              if (prevFeature) {
+                prevFeature();
+              } else {
+                prev();
+              }
+            },
             fitBoundsForCollection,
           }}
         >
