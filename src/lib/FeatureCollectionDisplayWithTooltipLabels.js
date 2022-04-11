@@ -28,6 +28,7 @@ const FeatureCollectionDisplay = ({
   inbackground = false,
   defaultContextValues = {},
   appMode,
+  secondarySelection,
 }) => {
   const { boundingBox: boundingBoxFromContext } =
     useContext(TopicMapContext) || defaultContextValues;
@@ -125,7 +126,6 @@ const FeatureCollectionDisplay = ({
         mapRef={mapRef}
         selectionSpiderfyMinZoom={selectionSpiderfyMinZoom}
         editable={editable}
-        appMode={appMode}
       />
       {markers}
     </div>
