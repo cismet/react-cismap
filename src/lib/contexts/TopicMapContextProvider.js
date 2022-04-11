@@ -101,6 +101,9 @@ const TopicMapContextProvider = ({
   searchBoxPixelWidth,
   offlineCacheConfig,
   initialLoadingDelay,
+  nextFeature,
+  prevFeature,
+  deriveSecondarySelection,
 }) => {
   const [state, dispatch] = useImmer({
     ...defaultState,
@@ -226,6 +229,8 @@ const TopicMapContextProvider = ({
             persistenceSettings={persistenceSettings}
             featureTooltipFunction={featureTooltipFunction}
             appMode={appMode}
+            nextFeature={nextFeature}
+            prevFeature={prevFeature}
           >
             <ResponsiveTopicMapContextProvider
               enabled={responsiveContextEnabled}

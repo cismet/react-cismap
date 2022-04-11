@@ -93,38 +93,44 @@ const getFeatureStyler = (svgSize = 24, colorizer = getColorFromProperties) => {
         color = selectionColor;
         const style = {
           radius,
-          fillColor: color,
-          color: color.darken(0.01),
-          opacity: 1,
-          fillOpacity: 0.8,
+          fillColor: feature.properties.styleinfo?.fillColor || color,
+          color:
+            feature.properties.styleinfo?.color ||
+            color.darken(feature.properties.styleinfo?.darkenFactor || 0.5),
+          opacity: feature.properties.styleinfo?.opacity || 1,
+          fillOpacity: feature.properties.styleinfo?.fillOpacity || 0.8,
           svg,
           svgSize: canvasSize,
-          weight: 3,
+          weight: feature.properties.styleinfo?.weight || 3,
         };
         return style;
       } else {
         const style = {
           radius,
-          fillColor: color,
-          color: color.darken(0.5),
-          opacity: 1,
-          fillOpacity: 0.8,
+          fillColor: feature.properties.styleinfo?.fillColor || color,
+          color:
+            feature.properties.styleinfo?.color ||
+            color.darken(feature.properties.styleinfo?.darkenFactor || 0.5),
+          opacity: feature.properties.styleinfo?.opacity || 1,
+          fillOpacity: feature.properties.styleinfo?.fillOpacity || 0.8,
           svg,
           svgSize: canvasSize,
-          weight: 2,
+          weight: feature.properties.styleinfo?.weight || 2,
         };
         return style;
       }
     } else {
       const style = {
         radius,
-        fillColor: color,
-        color: color.darken(0.5),
-        opacity: 1,
-        fillOpacity: 0.8,
+        fillColor: feature.properties.styleinfo?.fillColor || color,
+        color:
+          feature.properties.styleinfo?.color ||
+          color.darken(feature.properties.styleinfo?.darkenFactor || 0.5),
+        opacity: feature.properties.styleinfo?.opacity || 1,
+        fillOpacity: feature.properties.styleinfo?.fillOpacity || 0.8,
         svg,
         svgSize: canvasSize,
-        weight: 2,
+        weight: feature.properties.styleinfo?.weight || 2,
       };
       return style;
     }

@@ -28,6 +28,8 @@ const defaultConfig = {
   noCurrentFeatureTitle: "Keine Objekte gefunden",
   noCurrentFeatureContent: "",
   displaySecondaryInfoAction: false,
+  getTotalNumberOfItems: (items) => items.length,
+  getNumberOfShownFeatures: (featureCollection) => featureCollection.length,
 };
 
 const Component = (props) => {
@@ -88,7 +90,7 @@ const Component = (props) => {
 
   const minified = undefined;
   const minify = undefined;
-
+  const { getNumberOfShownFeatures, getTotalNumberOfItems } = config;
   return (
     <InfoBox
       isCollapsible={currentFeature !== undefined}
@@ -101,16 +103,27 @@ const Component = (props) => {
       // headerColor={headerColor}
       links={links}
       title={title}
+      next={config.next}
+      previous={config.previous}
       subtitle={subtitle}
       additionalInfo={additionalInfo}
-      zoomToAllLabel={`${filteredItems.length} ${
-        filteredItems.length === 1 ? config.navigator.noun.singular : config.navigator.noun.plural
-      } in ${config.city}`}
-      currentlyShownCountLabel={`${featureCollection.length} ${
-        featureCollection.length === 1
-          ? config.navigator.noun.singular
-          : config.navigator.noun.plural
-      } angezeigt`}
+      zoomToAllLabel={
+        config.zoomToAllLabel ||
+        `${getTotalNumberOfItems(filteredItems)} ${
+          getTotalNumberOfItems(filteredItems) === 1
+            ? config.navigator.noun.singular
+            : config.navigator.noun.plural
+        } in ${config.city}`
+      }
+      fitAll={config.fitAll}
+      currentlyShownCountLabel={
+        config.currentlyShownCountLabel ||
+        `${getNumberOfShownFeatures(featureCollection)} ${
+          getNumberOfShownFeatures(featureCollection) === 1
+            ? config.navigator.noun.singular
+            : config.navigator.noun.plural
+        } angezeigt`
+      }
       collapsedInfoBox={minified}
       setCollapsedInfoBox={minify}
       noCurrentFeatureTitle={<h5>{config.noFeatureTitle}</h5>}
@@ -134,8 +147,8 @@ const Component = (props) => {
                 fitBoundsForCollection();
               }}
             >
-              {filteredItems.length}{" "}
-              {filteredItems.length === 1
+              {getTotalNumberOfItems(filteredItems)}{" "}
+              {getTotalNumberOfItems(filteredItems) === 1
                 ? config.navigator.noun.singular
                 : config.navigator.noun.plural}{" "}
               in {config.city}
