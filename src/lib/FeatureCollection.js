@@ -77,6 +77,7 @@ const FeatureCollection = (props) => {
     getFeatureStyler,
     getColorFromProperties,
     featureTooltipFunction,
+    secondarySelection,
   } = useContext(FeatureCollectionContext) || defaultContextValues;
 
   const { setSelectedFeatureIndex } =
@@ -91,13 +92,15 @@ const FeatureCollection = (props) => {
     _style = getFeatureStyler(
       markerSymbolSize,
       getColorFromProperties || ((props) => props.color),
-      appMode
+      appMode,
+      secondarySelection
     );
   } else {
     _style = getDefaultFeatureStyler(
       markerSymbolSize,
       getColorFromProperties || ((props) => props.color),
-      appMode
+      appMode,
+      secondarySelection
     );
   }
 
@@ -119,7 +122,6 @@ const FeatureCollection = (props) => {
 
   const internalFeatureClickHandler = (event) => {
     const feature = event.sourceTarget.feature;
-    console.log("CLIGGG");
 
     if (handleSelectionInternaly === true && feature.preventSelection !== true) {
       setSelectedFeatureIndex(feature.index);
@@ -150,6 +152,7 @@ const FeatureCollection = (props) => {
         featureClickHandler={internalFeatureClickHandler}
         mapRef={(_mapRef || {}).leafletMap}
         appMode={appMode}
+        secondarySelection={secondarySelection}
       />
     );
   } else {
@@ -177,6 +180,7 @@ const FeatureCollection = (props) => {
         showMarkerCollection={showMarkerCollection}
         markerStyle={markerStyle}
         appMode={appMode}
+        secondarySelection={secondarySelection}
       />
     );
   }
