@@ -109,7 +109,7 @@ const FeatureCollectionContextProvider = ({
     featureTooltipFunction,
     createItemsDictionary,
   });
-  // console.log(" featureCollectionState", state);
+  //console.log(" featureCollectionState", state);
 
   const { boundingBox, mapEPSGCode, appMode } = useContext(TopicMapContext);
   const { fitBBox } = useContext(TopicMapDispatchContext);

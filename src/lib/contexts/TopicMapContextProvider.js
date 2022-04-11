@@ -231,6 +231,7 @@ const TopicMapContextProvider = ({
             appMode={appMode}
             nextFeature={nextFeature}
             prevFeature={prevFeature}
+            deriveSecondarySelection={deriveSecondarySelection}
           >
             <ResponsiveTopicMapContextProvider
               enabled={responsiveContextEnabled}
