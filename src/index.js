@@ -42,6 +42,7 @@ ReactDOM.render(
   <div>
     {/* <TopicMapsExamples.MostSimpleTopicMap /> */}
     {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
+    {/* <TopicMapsExamples.MostSimpleTopicMapWithNonTiledLayer /> */}
 
     {/* <TopicMapsExamples.MostSimpleTopicMapWithGazetteerData /> */}
     {/* <TopicMapsExamples.SimpleTopicMap /> */}
