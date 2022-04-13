@@ -71,6 +71,17 @@ const Component = (props) => {
   }, [pixelwidth]);
 
   let header, title, subtitle, additionalInfo;
+
+  const funcOrContent = (property, feature = currentFeature) => {
+    if (property !== undefined) {
+      if (typeof property === "function") {
+        return property(feature);
+      } else {
+        return property;
+      }
+    }
+  };
+
   if (currentFeature !== undefined) {
     links = getActionLinksForFeature(currentFeature, {
       entityClassName: config.navigator.noun.singular,
@@ -81,10 +92,12 @@ const Component = (props) => {
         config.displaySecondaryInfoAction === undefined,
       setVisibleStateOfSecondaryInfo: (vis) => _setSecondaryInfoVisible(vis),
     });
-    header = <span>{currentFeature?.properties?.info?.header || config.header}</span>;
-    title = currentFeature?.properties?.info?.title;
-    subtitle = currentFeature?.properties?.info?.subtitle;
-    additionalInfo = currentFeature?.properties?.info?.additionalInfo;
+    header = (
+      <span>{funcOrContent(currentFeature?.properties?.info?.header) || config.header}</span>
+    );
+    title = funcOrContent(currentFeature?.properties?.info?.title);
+    subtitle = funcOrContent(currentFeature?.properties?.info?.subtitle);
+    additionalInfo = funcOrContent(currentFeature?.properties?.info?.additionalInfo);
   }
   const headerColor = getColorForProperties((currentFeature || {}).properties);
 
