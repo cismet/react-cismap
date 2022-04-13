@@ -323,6 +323,7 @@ const TopicMapComponent = (props) => {
               }
             >
               {activeAdditionalLayerKeys !== undefined &&
+                additionalLayerConfiguration !== undefined &&
                 activeAdditionalLayerKeys?.length > 0 &&
                 activeAdditionalLayerKeys.map((activekey, index) => {
                   const layerConf = additionalLayerConfiguration[activekey];
