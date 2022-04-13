@@ -41,6 +41,8 @@ const TestComponent = ({ display }) => {
 ReactDOM.render(
   <div>
     {/* <TopicMapsExamples.MostSimpleTopicMap /> */}
+    {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
+
     {/* <TopicMapsExamples.MostSimpleTopicMapWithGazetteerData /> */}
     {/* <TopicMapsExamples.SimpleTopicMap /> */}
     {/* <TopicMapsExamples.SimpleTopicMapWithDefaultInfoBox /> */}
@@ -49,11 +51,13 @@ ReactDOM.render(
     {/* <TopicMapsExamples.SimpleTopicMapWithFullClusteringOptionsAndStyling /> */}
     {/* <TopicMapsExamples.TopicMapWithWithSecondaryInfoSheet /> */}
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
-    {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
+
+    <TopicMapsExamples.TopicMapWithAdditionalLayers />
+
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
     {/* <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers /> */}
     {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox /> */}
-    <MoreTopicMapsExamples.TopicMapWithOfflineDataConfiguration />
+    {/* <MoreTopicMapsExamples.TopicMapWithOfflineDataConfiguration /> */}
     {/* <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Wasserstofftankstelle /> */}
     {/* <TopicMapsExamples.TopicMapWithWithStaticFilter /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayer /> */}

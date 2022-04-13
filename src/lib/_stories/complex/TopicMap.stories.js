@@ -55,7 +55,26 @@ export default {
 export const MostSimpleTopicMap = () => {
   return (
     <TopicMapContextProvider>
-      <TopicMapComponent gazData={[]} />
+      <TopicMapComponent gazData={[]}></TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
+
+export const MostSimpleTopicMapWithCustomLayer = () => {
+  return (
+    <TopicMapContextProvider>
+      <TopicMapComponent gazData={[]} backgroundlayers="empty">
+        <StyledWMSTileLayer
+          {...{
+            type: "wmts",
+            url: "https://geodaten.metropoleruhr.de/spw2/service",
+            layers: "spw2_light_grundriss",
+            version: "1.3.0",
+            tileSize: 256,
+            transparent: true,
+          }}
+        ></StyledWMSTileLayer>
+      </TopicMapComponent>
     </TopicMapContextProvider>
   );
 };
