@@ -3,6 +3,7 @@ import { namedStyles } from "../constants/layers";
 import objectAssign from "object-assign";
 import { TileLayer } from "react-leaflet";
 import StyledWMSTileLayer from "../StyledWMSTileLayer";
+import NonTiledWMSLayer from "../NonTiledWMSLayer";
 import MapLibreLayer from "../vector/MapLibreLayer";
 export default function getLayers(
   layerString,
@@ -98,6 +99,21 @@ const createLayerFactoryFunction = (key, _conf = defaultLayerConf) => {
             {...params}
             opacity={options.opacity}
             cssFilter={options["css-filter"]}
+          />
+        );
+      };
+      break;
+    case "wms-nt":
+    case "wmts-nt":
+      return (options) => {
+        let params = { ...conf.defaults.wms, ...conf.namedLayers[key] };
+        // console.log('params for ' + key, params);
+        return (
+          <NonTiledWMSLayer
+            key={key + JSON.stringify(options)}
+            {...params}
+            type={params.type.replace("-nt", "")}
+            opacity={options.opacity}
           />
         );
       };
@@ -229,6 +245,14 @@ export const defaultLayerConf = {
       url: "https://sg.geodatenzentrum.de/wms_webatlasde__60d825c3-a2c2-2133-79c0-48721caab5c3?",
       layers: "webatlasde",
       tiled: "false",
+    },
+    rvrSchriftNT: {
+      type: "wmts-nt",
+      url: "https://geodaten.metropoleruhr.de/dop/dop_overlay?language=ger",
+      layers: "dop_overlay",
+      version: "1.3.0",
+      tiled: false,
+      transparent: true,
     },
     rvrSchrift: {
       type: "wmts",
