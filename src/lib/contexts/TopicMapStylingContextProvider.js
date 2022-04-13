@@ -41,7 +41,7 @@ const defaultBackgroundConfigurations = {
   },
   lbk: {
     // layerkey: "rvrGrundriss@100|trueOrtho2020@75|rvrSchrift@100",
-    layerkey: "rvrGrundriss@100|trueOrtho2020@75|rvrSchrift@100",
+    layerkey: "rvrGrundriss@100|trueOrtho2020@75|rvrSchriftNT@100",
     src: "/images/rain-hazard-map-bg/ortho.png",
     title: "Luftbildkarte",
   },
