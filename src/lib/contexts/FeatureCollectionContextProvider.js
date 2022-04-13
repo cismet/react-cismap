@@ -260,6 +260,16 @@ const FeatureCollectionContextProvider = ({
     }
   }, [state.allFeatures]);
 
+  const getFirstSelectableFeatureIndex = () => {
+    let index = 0;
+    for (const feature of state?.shownFeatures || []) {
+      if (feature.properties.preventSelection !== true) {
+        return index;
+      }
+      index++;
+    }
+    return -1;
+  };
   // if (state?.items) {
   //   console.log("FeatureCollectionContextProvider items", state?.items);
   //   console.log("xxx FeatureCollectionContextProvider items", state?.shownFeatures);
@@ -429,7 +439,10 @@ const FeatureCollectionContextProvider = ({
 
       if (selectedIndexState.forced === false) {
         if (selectedFeature === undefined && selectedIndex !== 0) {
-          setSelectedIndex(0);
+          const selIndex = getFirstSelectableFeatureIndex();
+          if (selIndex !== -1) {
+            setSelectedIndex(selIndex);
+          }
         } else if (selectedFeature !== undefined) {
           const found = _shownFeatures.find((testfeature) => selectedFeature.id === testfeature.id);
 
@@ -439,9 +452,13 @@ const FeatureCollectionContextProvider = ({
               return;
             }
           } else {
-            if (0 !== selectedIndex) {
-              setSelectedIndex(0);
-              return;
+            const selIndex = getFirstSelectableFeatureIndex();
+
+            if (selIndex !== -1) {
+              if (selIndex !== selectedIndex) {
+                setSelectedIndex(selIndex);
+                return;
+              }
             }
           }
         }
@@ -450,7 +467,11 @@ const FeatureCollectionContextProvider = ({
       let sf;
       try {
         sf = _shownFeatures[selectedIndex];
-        sf.selected = true;
+        if (sf.preventSelection !== true) {
+          sf.selected = true;
+        } else {
+          console.log("prevent selection in sf (this should not happen)", sf);
+        }
       } catch (e) {}
       set("selectedFeature")(sf);
       // setX.setSelectedFeature(sf);
