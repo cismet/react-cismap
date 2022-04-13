@@ -52,7 +52,7 @@ ReactDOM.render(
     {/* <TopicMapsExamples.TopicMapWithWithSecondaryInfoSheet /> */}
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
 
-    <TopicMapsExamples.TopicMapWithAdditionalL yers />
+    <TopicMapsExamples.TopicMapWithAdditionalLayers />
 
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
     {/* <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers /> */}
