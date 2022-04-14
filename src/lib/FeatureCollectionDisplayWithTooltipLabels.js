@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import ProjGeoJson from "./ProjGeoJson";
-import { Marker, Tooltip, Pane } from "react-leaflet";
+import { Marker, Tooltip2 } from "react-leaflet";
 import L from "leaflet";
 import * as turfHelpers from "@turf/helpers";
 import bboxPolygon from "@turf/bbox-polygon";
