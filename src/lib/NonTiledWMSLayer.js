@@ -5,9 +5,6 @@ import { isEqual, reduce } from "lodash";
 import { EVENTS_RE } from "react-leaflet/lib/MapComponent";
 
 class NonTiledWMSLayer extends GridLayer {
-  constructor(props) {
-    super(props);
-  }
   createLeafletElement(props) {
     const { url, ...params } = props;
     const layer = new L.NonTiledLayer.WMS(url, this.getOptions(params));

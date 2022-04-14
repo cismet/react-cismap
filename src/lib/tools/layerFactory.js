@@ -102,7 +102,6 @@ const createLayerFactoryFunction = (key, _conf = defaultLayerConf) => {
           />
         );
       };
-      break;
     case "wms-nt":
     case "wmts-nt":
       return (options) => {
@@ -117,7 +116,6 @@ const createLayerFactoryFunction = (key, _conf = defaultLayerConf) => {
           />
         );
       };
-      break;
     case "tiles":
       return (options) => {
         let params = { ...conf.defaults.wms, ...conf.namedLayers[key] };

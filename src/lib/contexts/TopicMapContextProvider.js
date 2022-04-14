@@ -7,8 +7,8 @@ import LightBoxContextProvider from "./LightBoxContextProvider";
 
 import UIContextProvider from "./UIContextProvider";
 import proj4 from "proj4";
-import { proj4crs25832def, projectionData } from "../constants/gis";
-import { createBrowserHistory, createHashHistory } from "history";
+import { projectionData } from "../constants/gis";
+import { createHashHistory } from "history";
 import localforage from "localforage";
 import { getType } from "@turf/invariant";
 import envelope from "@turf/envelope";

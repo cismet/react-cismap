@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Map, ZoomControl, Pane } from "react-leaflet";
+import { Map, ZoomControl } from "react-leaflet";
 import "proj4leaflet";
 import proj4 from "proj4";
 import "url-search-params-polyfill";
@@ -22,7 +22,6 @@ import "leaflet-snap";
 import "leaflet-geometryutil";
 import { overrideClosestFromGeometryUtils } from "./tools/leaflet-geometryutil-workaround"; //see https://github.com/makinacorpus/Leaflet.GeometryUtil/issues/59
 import { reproject } from "reproject";
-import { md5FetchJSON } from "./tools/fetching";
 import md5 from "md5";
 export class RoutedMap extends React.Component {
   constructor(props) {
@@ -40,7 +39,6 @@ export class RoutedMap extends React.Component {
 
     const map = leafletMap.leafletElement;
 
-    const panes = [];
     // <Pane name="backgroundvectorLayers" style={{ zIndex: 90 }}></Pane>
     // <Pane name="backgroundLayers" style={{ zIndex: 100 }} />
     // <Pane name="additionalLayers" style={{ zIndex: 150 }} />

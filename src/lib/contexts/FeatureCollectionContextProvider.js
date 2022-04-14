@@ -1,11 +1,9 @@
 import { useImmer } from "use-immer";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { fetchJSON, md5FetchJSON } from "../tools/fetching";
 import KDBush from "kdbush";
 import { TopicMapContext, TopicMapDispatchContext } from "./TopicMapContextProvider";
-import { getSymbolSVGGetter } from "../tools/uiHelper";
 import bboxPolygon from "@turf/bbox-polygon";
-import booleanIntersects from "@turf/boolean-intersects";
 import localforage from "localforage";
 import { setFromLocalforage } from "./_helper";
 import proj4 from "proj4";
