@@ -1,7 +1,6 @@
 import L from "leaflet";
 import "leaflet.nontiledlayer";
 import { GridLayer } from "react-leaflet";
-import { TileLayer } from "leaflet";
 import { isEqual, reduce } from "lodash";
 import { EVENTS_RE } from "react-leaflet/lib/MapComponent";
 
