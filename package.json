@@ -1,7 +1,7 @@
 {
 	"name": "react-cismap",
 	"description": "our (cismet) mapping (pattern) library for better reusability in different projects",
-	"version": "1.7.7",
+	"version": "1.8.0-SNAPSHOT.10",
 	"main": "index.js",
 	"module": "index.js",
 	"files": [
@@ -65,6 +65,7 @@
 		"leaflet-snap": "^0.0.4",
 		"leaflet.locatecontrol": "^0.63.0",
 		"leaflet.markercluster": "^1.4.0",
+		"leaflet.nontiledlayer": "^1.0.9",
 		"leaflet.path.drag": "^0.0.6",
 		"localforage": "^1.9.0",
 		"lodash": "^4.17.20",
@@ -143,7 +144,8 @@
 		"dist-pack": "cd dist && bash -c 'npm pack'",
 		"linkdist": "cd dist && bash -c 'yarn link'",
 		"unlinkdist": "cd dist && bash -c 'yarn unlink'",
-		"testls": "npm config ls"
+		"testls": "npm config ls",
+		"bumpSnapshot": "npm version prerelease --preid=SNAPSHOT"
 	},
 	"babel": {
 		"presets": [

@@ -3,7 +3,6 @@ import L from "leaflet";
 // import {} from "./mapbox-gl-leaflet";
 import {} from "./leaflet-maplibre-gl";
 import { GridLayer } from "react-leaflet";
-import { defaultProps } from "react-svg-inline";
 
 class MaplibreGlLayer extends GridLayer {
   constructor(props) {

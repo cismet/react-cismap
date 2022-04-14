@@ -61,13 +61,11 @@ const OfflineLayerCacheContextProvider = ({
   useEffect(() => {
     if (state.vectorLayerOfflineEnabled !== undefined) {
       if (state.vectorLayerOfflineEnabled) {
-        console.log("xxx load");
         loadAndCacheOfflineMapData(offlineCacheConfig, setCacheInfoForKey).then(() => {
           setX.setReadyToUse(true);
         });
       } else {
         //delete the stuff
-        console.log("xxx will delete");
         setX.setReadyToUse(false);
         deleteOfflineMapData(offlineCacheConfig, setCacheInfoForKey);
       }

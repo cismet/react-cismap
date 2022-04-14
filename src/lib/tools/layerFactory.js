@@ -3,6 +3,7 @@ import { namedStyles } from "../constants/layers";
 import objectAssign from "object-assign";
 import { TileLayer } from "react-leaflet";
 import StyledWMSTileLayer from "../StyledWMSTileLayer";
+import NonTiledWMSLayer from "../NonTiledWMSLayer";
 import MapLibreLayer from "../vector/MapLibreLayer";
 export default function getLayers(
   layerString,
@@ -88,6 +89,7 @@ const createLayerFactoryFunction = (key, _conf = defaultLayerConf) => {
 
   switch ((conf.namedLayers[key] || {}).type) {
     case "wms":
+    case "wmts":
       return (options) => {
         let params = { ...conf.defaults.wms, ...conf.namedLayers[key] };
         // console.log('params for ' + key, params);
@@ -100,7 +102,20 @@ const createLayerFactoryFunction = (key, _conf = defaultLayerConf) => {
           />
         );
       };
-      break;
+    case "wms-nt":
+    case "wmts-nt":
+      return (options) => {
+        let params = { ...conf.defaults.wms, ...conf.namedLayers[key] };
+        // console.log('params for ' + key, params);
+        return (
+          <NonTiledWMSLayer
+            key={key + JSON.stringify(options)}
+            {...params}
+            type={params.type.replace("-nt", "")}
+            opacity={options.opacity}
+          />
+        );
+      };
     case "tiles":
       return (options) => {
         let params = { ...conf.defaults.wms, ...conf.namedLayers[key] };
@@ -229,25 +244,41 @@ export const defaultLayerConf = {
       layers: "webatlasde",
       tiled: "false",
     },
-
-    rvrSchrift: {
-      type: "wms",
-      url: "https://geodaten.metropoleruhr.de/spw2/service",
-      layers: "spw2_schrift_overlay",
+    rvrSchriftNT: {
+      type: "wmts-nt",
+      url: "https://geodaten.metropoleruhr.de/dop/dop_overlay?language=ger",
+      layers: "dop_overlay",
       version: "1.3.0",
       tiled: false,
       transparent: true,
     },
-    ruhrWMS: {
-      type: "wms",
-      url: "https://geodaten.metrotadtpoleruhr.de/spw2/service",
-      layers: "spw2_light",
-      tiled: "false",
+    rvrSchrift: {
+      type: "wmts",
+      url: "https://geodaten.metropoleruhr.de/dop/dop_overlay?language=ger",
+      layers: "dop_overlay",
       version: "1.3.0",
+      tiled: false,
+      transparent: true,
+    },
+    rvrSchrift2: {
+      type: "wms",
+      url: "https://geodaten.metropoleruhr.de/spw2/service",
+      layers: "spw2_schrift",
+      version: "1.3.0",
+      tiled: false,
+      transparent: true,
+    },
+    rvrGrundriss: {
+      type: "wmts",
+      url: "https://geodaten.metropoleruhr.de/spw2/service",
+      layers: "spw2_light_grundriss",
+      version: "1.3.0",
+      transparent: true,
+      tiled: false,
     },
     ruhrWMS: {
       type: "wms",
-      url: "https://geodaten.metropoleruhr.de/spw2/service",
+      url: "https://geodaten.metrotadtpoleruhr.de/spw2/service",
       layers: "spw2_light",
       tiled: "false",
       version: "1.3.0",

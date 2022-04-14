@@ -17,7 +17,7 @@ const MapLibreLayer = (_props) => {
   const [ready, setReady] = React.useState(!_props.offlineAvailable);
   const [props, setProps] = React.useState(_props);
   const { offlineCacheConfig } = useContext(OfflineLayerCacheContext) || {
-    offlineCacheConfig: undefined,
+    offlinCeacheConfig: undefined,
   };
 
   const { menuCounter } = useContext(UIContext);

@@ -1,14 +1,9 @@
 import React, { useContext, useState } from "react";
-import PropTypes from "prop-types";
-import Color from "color";
 import CollapsibleWell from "../commons/CollapsibleWell";
 import CollapsibleABWell from "../commons/CollapsibleABWell";
 import { ResponsiveTopicMapContext } from "../contexts/ResponsiveTopicMapContextProvider";
 import Control from "react-leaflet-control";
-import {
-  FeatureCollectionContext,
-  FeatureCollectionDispatchContext,
-} from "../contexts/FeatureCollectionContextProvider";
+import { FeatureCollectionContext } from "../contexts/FeatureCollectionContextProvider";
 import { UIContext, UIDispatchContext } from "../contexts/UIContextProvider";
 
 /* eslint-disable jsx-a11y/anchor-is-valid */

@@ -67,7 +67,8 @@ const FeatureCollection = (props) => {
     handleSelectionInternaly = true,
     defaultContextValues = {},
   } = props;
-  const { routedMapRef, boundingBox } = useContext(TopicMapContext) || defaultContextValues;
+  const { routedMapRef, boundingBox, appMode } =
+    useContext(TopicMapContext) || defaultContextValues;
   const { markerSymbolSize } = useContext(TopicMapStylingContext) || defaultContextValues;
   const {
     shownFeatures,
@@ -76,6 +77,7 @@ const FeatureCollection = (props) => {
     getFeatureStyler,
     getColorFromProperties,
     featureTooltipFunction,
+    secondarySelection,
   } = useContext(FeatureCollectionContext) || defaultContextValues;
 
   const { setSelectedFeatureIndex } =
@@ -85,13 +87,20 @@ const FeatureCollection = (props) => {
 
   let _style;
   if (styler !== undefined) {
-    _style = styler(markerSymbolSize, getColorFromProperties || ((props) => props.color));
+    _style = styler(markerSymbolSize, getColorFromProperties || ((props) => props.color), appMode);
   } else if (getFeatureStyler !== undefined) {
-    _style = getFeatureStyler(markerSymbolSize, getColorFromProperties || ((props) => props.color));
+    _style = getFeatureStyler(
+      markerSymbolSize,
+      getColorFromProperties || ((props) => props.color),
+      appMode,
+      secondarySelection
+    );
   } else {
     _style = getDefaultFeatureStyler(
       markerSymbolSize,
-      getColorFromProperties || ((props) => props.color)
+      getColorFromProperties || ((props) => props.color),
+      appMode,
+      secondarySelection
     );
   }
 
@@ -113,7 +122,8 @@ const FeatureCollection = (props) => {
 
   const internalFeatureClickHandler = (event) => {
     const feature = event.sourceTarget.feature;
-    if (handleSelectionInternaly === true) {
+
+    if (handleSelectionInternaly === true && feature.preventSelection !== true) {
       setSelectedFeatureIndex(feature.index);
     }
     featureClickHandler(event);
@@ -141,6 +151,8 @@ const FeatureCollection = (props) => {
         hoverer={featureHoverer || featureTooltipFunction}
         featureClickHandler={internalFeatureClickHandler}
         mapRef={(_mapRef || {}).leafletMap}
+        appMode={appMode}
+        secondarySelection={secondarySelection}
       />
     );
   } else {
@@ -167,6 +179,8 @@ const FeatureCollection = (props) => {
         mapRef={(_mapRef || {}).leafletMap}
         showMarkerCollection={showMarkerCollection}
         markerStyle={markerStyle}
+        appMode={appMode}
+        secondarySelection={secondarySelection}
       />
     );
   }

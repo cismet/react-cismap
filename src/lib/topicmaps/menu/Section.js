@@ -1,8 +1,6 @@
 import React, { useContext } from "react";
 import Accordion from "react-bootstrap/Accordion";
-import Button from "react-bootstrap/Button";
 import Panel from "../../commons/Panel";
-import Card from "react-bootstrap/Card";
 import { UIContext, UIDispatchContext } from "../../contexts/UIContextProvider";
 
 const GenericModalMenuSection = ({

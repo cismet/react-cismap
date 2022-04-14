@@ -7,8 +7,8 @@ import LightBoxContextProvider from "./LightBoxContextProvider";
 
 import UIContextProvider from "./UIContextProvider";
 import proj4 from "proj4";
-import { proj4crs25832def, projectionData } from "../constants/gis";
-import { createBrowserHistory, createHashHistory } from "history";
+import { projectionData } from "../constants/gis";
+import { createHashHistory } from "history";
 import localforage from "localforage";
 import { getType } from "@turf/invariant";
 import envelope from "@turf/envelope";
@@ -47,6 +47,7 @@ const TopicMapContextProvider = ({
   clusteringOptions,
   getSymbolSVG,
   featureItemsURL,
+  createFeatureItemsDictionary,
   items,
   convertItemToFeature,
   featureCollectionName,
@@ -55,6 +56,7 @@ const TopicMapContextProvider = ({
   filterState,
   classKeyFunction,
   additionalLayerConfiguration,
+  appMode,
   baseLayerConf,
   appKey = "TopicMapBaseLibrary",
   persistenceSettings = {
@@ -99,6 +101,9 @@ const TopicMapContextProvider = ({
   searchBoxPixelWidth,
   offlineCacheConfig,
   initialLoadingDelay,
+  nextFeature,
+  prevFeature,
+  deriveSecondarySelection,
 }) => {
   const [state, dispatch] = useImmer({
     ...defaultState,
@@ -109,6 +114,7 @@ const TopicMapContextProvider = ({
     referenceSystemDefinition,
     maskingPolygon,
     mapEPSGCode,
+    appMode,
   });
   const contextKey = "topicmap";
   const set = (prop, noTest) => {
@@ -128,6 +134,7 @@ const TopicMapContextProvider = ({
     setBoundingBox: set("boundingBox"),
     setLocation: set("location"),
     setRoutedMapRef: set("routedMapRef", true),
+    setAppMode: set("appMode", true),
   };
 
   const fitBBox = (bbox, refDefOfBBox) => {
@@ -210,6 +217,7 @@ const TopicMapContextProvider = ({
             clusteringOptions={clusteringOptions}
             getSymbolSVG={getSymbolSVG}
             itemsURL={featureItemsURL}
+            createItemsDictionary={createFeatureItemsDictionary}
             items={items}
             convertItemToFeature={convertItemToFeature}
             featureCollectionName={featureCollectionName}
@@ -220,6 +228,10 @@ const TopicMapContextProvider = ({
             appKey={appKey}
             persistenceSettings={persistenceSettings}
             featureTooltipFunction={featureTooltipFunction}
+            appMode={appMode}
+            nextFeature={nextFeature}
+            prevFeature={prevFeature}
+            deriveSecondarySelection={deriveSecondarySelection}
           >
             <ResponsiveTopicMapContextProvider
               enabled={responsiveContextEnabled}

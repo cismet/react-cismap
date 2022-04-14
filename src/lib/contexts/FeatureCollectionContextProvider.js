@@ -1,11 +1,9 @@
 import { useImmer } from "use-immer";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { fetchJSON, md5FetchJSON } from "../tools/fetching";
 import KDBush from "kdbush";
 import { TopicMapContext, TopicMapDispatchContext } from "./TopicMapContextProvider";
-import { getSymbolSVGGetter } from "../tools/uiHelper";
 import bboxPolygon from "@turf/bbox-polygon";
-import booleanIntersects from "@turf/boolean-intersects";
 import localforage from "localforage";
 import { setFromLocalforage } from "./_helper";
 import proj4 from "proj4";
@@ -15,6 +13,8 @@ import envelope from "@turf/envelope";
 import { featureCollection } from "@turf/helpers";
 const defaultState = {
   items: undefined,
+  itemsDictionary: undefined,
+  createItemsDictionary: () => {},
   metaInformation: undefined,
   filteredItems: undefined,
   filterState: undefined,
@@ -26,6 +26,7 @@ const defaultState = {
   otherFeatures: undefined,
   shownFeatures: undefined,
   selectedFeature: undefined,
+  secondarySelection: undefined,
   pointFeatureIndex: undefined,
   polyFeatureIndex: undefined,
   featureTooltipFunction: undefined,
@@ -38,6 +39,7 @@ const defaultState = {
   classKeyFunction: undefined,
   getColorFromProperties: undefined,
   epsgCode: undefined,
+  initializingFeatures: false,
 };
 
 const StateContext = React.createContext();
@@ -62,7 +64,6 @@ const getItems = async ({
     // }
     items = await fetchJSON(itemsUrl);
   }
-
   setItems(items);
 };
 
@@ -86,6 +87,10 @@ const FeatureCollectionContextProvider = ({
   persistenceSettings,
   filterState,
   classKeyFunction,
+  createItemsDictionary = () => {},
+  nextFeature,
+  prevFeature,
+  deriveSecondarySelection,
 }) => {
   const [state, dispatch] = useImmer({
     ...defaultState,
@@ -100,10 +105,11 @@ const FeatureCollectionContextProvider = ({
     filterState,
     classKeyFunction,
     featureTooltipFunction,
+    createItemsDictionary,
   });
-  // console.log(" featureCollectionState", state);
+  //console.log(" featureCollectionState", state);
 
-  const { boundingBox, mapEPSGCode } = useContext(TopicMapContext);
+  const { boundingBox, mapEPSGCode, appMode } = useContext(TopicMapContext);
   const { fitBBox } = useContext(TopicMapDispatchContext);
   const contextKey = "featureCollection";
   const set = (prop, noTest) => {
@@ -140,7 +146,10 @@ const FeatureCollectionContextProvider = ({
   const selectedIndex = selectedIndexState.selectedIndex;
 
   const setX = {
-    setItems: set("items"),
+    setItems: (items) => {
+      set("itemsDictionary")(createItemsDictionary(items));
+      set("items")(items);
+    },
     setMetaInformation: set("metaInformation"),
     setEPSGCode: set("epsgCode"),
     setFilteredItems: set("filteredItems"),
@@ -152,7 +161,7 @@ const FeatureCollectionContextProvider = ({
     setPointFeatures: set("pointFeatures"),
     setOtherFeatures: set("otherFeatures"),
     setShownFeatures: set("shownFeatures"),
-    setSelectedFeature: set("selectedFeature"), //don't call from outside
+    // setSelectedFeature: set("selectedFeature"), //don't set this directly, use setSelectedIndex
     setPointFeatureIndex: set("pointFeatureIndex"),
     setPolyFeatureIndex: set("polyFeatureIndex"),
     setSelectedIndexState: set("selectedIndexState"),
@@ -168,7 +177,7 @@ const FeatureCollectionContextProvider = ({
     setX.setSelectedIndexState({ selectedIndex, forced: false });
   };
 
-  const setSelectedFeatureByPredicate = (predicate) => {
+  const setSelectedFeatureByPredicate = (predicate, feedbacker = () => {}) => {
     dispatch((state) => {
       let index = 0;
       for (const feature of state.shownFeatures) {
@@ -177,11 +186,12 @@ const FeatureCollectionContextProvider = ({
           // console.log("predicate hit. will select ", feature);
 
           setSelectedFeatureIndex(index);
-
+          feedbacker(true);
           return;
         }
         index++;
       }
+      feedbacker(false);
     });
   };
 
@@ -208,16 +218,36 @@ const FeatureCollectionContextProvider = ({
     });
   };
 
-  const next = () => {
-    const newIndex = (selectedFeature.index + 1) % shownFeatures.length;
-    setSelectedFeatureIndex(newIndex);
+  const getSelectableCount = () => {
+    return shownFeatures.length - shownFeatures.filter((f) => f.properties.preventSelection).length;
   };
-  const prev = () => {
-    let newIndex = (selectedFeature.index - 1) % shownFeatures.length;
+
+  const nextIndex = (currentIndex) => {
+    const newIndex = currentIndex + (1 % shownFeatures.length);
+    if (shownFeatures[newIndex]?.preventSelection === true) {
+      return nextIndex(newIndex);
+    } else {
+      return newIndex;
+    }
+  };
+
+  const prevIndex = (currentIndex) => {
+    let newIndex = currentIndex - (1 % shownFeatures.length);
     if (newIndex === -1) {
       newIndex = shownFeatures.length - 1;
     }
-    setSelectedFeatureIndex(newIndex);
+    if (shownFeatures[newIndex]?.preventSelection === true) {
+      return prevIndex(newIndex);
+    } else {
+      return newIndex;
+    }
+  };
+  const next = () => {
+    setSelectedFeatureIndex(nextIndex(selectedFeature.index));
+  };
+
+  const prev = () => {
+    setSelectedFeatureIndex(prevIndex(selectedFeature.index));
   };
 
   useEffect(() => {
@@ -228,15 +258,26 @@ const FeatureCollectionContextProvider = ({
     }
   }, [state.allFeatures]);
 
+  const getFirstSelectableFeatureIndex = () => {
+    let index = 0;
+    for (const feature of state?.shownFeatures || []) {
+      if (feature.properties.preventSelection !== true) {
+        return index;
+      }
+      index++;
+    }
+    return -1;
+  };
   // if (state?.items) {
   //   console.log("FeatureCollectionContextProvider items", state?.items);
   //   console.log("xxx FeatureCollectionContextProvider items", state?.shownFeatures);
   // }
   // effect when items are changed
   useEffect(() => {
-    //async start
+    //async star
     (async () => {
       if (state.filteredItems) {
+        set("initializingFeatures")(true);
         let id = 0;
 
         const points = [];
@@ -244,12 +285,24 @@ const FeatureCollectionContextProvider = ({
 
         for (const item of state.filteredItems || []) {
           const f = await convertItemToFeature(item);
-          f.selected = false;
-          f.id = id++;
-          if (f?.geometry?.type === "Point") {
-            points.push(f);
+          // check if it is an array of features
+          const doFeature = (f) => {
+            f.selected = false;
+            f.id = id++;
+            if (f?.geometry?.type === "Point") {
+              points.push(f);
+            } else {
+              others.push(f);
+            }
+            return f;
+          };
+
+          if (Array.isArray(f)) {
+            for (const subfeature of f) {
+              doFeature(subfeature);
+            }
           } else {
-            others.push(f);
+            doFeature(f);
           }
         }
         // console.log("xxx points", points);
@@ -270,6 +323,7 @@ const FeatureCollectionContextProvider = ({
         // other geometries
         const polyindex = createFlatbushIndex(others);
         setX.setPolyFeatureIndex(polyindex);
+        set("initializingFeatures")(false);
       }
     })();
     //async end
@@ -283,124 +337,158 @@ const FeatureCollectionContextProvider = ({
         filteredItems = state.filterFunction();
       } else if (state.itemFilterFunction !== undefined) {
         filteredItems = state.items.filter(
-          state.itemFilterFunction({ filterState: state.filterState, filterMode: state.filterMode })
+          state.itemFilterFunction({
+            filterState: state.filterState,
+            filterMode: state.filterMode,
+            appMode: appMode,
+            itemsDictionary: state.itemsDictionary,
+          })
         );
       } else {
         filteredItems = state.items;
       }
       setX.setFilteredItems(filteredItems);
     }
-  }, [state.filterState, state.filterMode, state.filterFunction, state.items]);
+  }, [state.filterState, state.filterMode, state.filterFunction, state.items, appMode]);
 
   //effect when boundingBox or selection changed
   useEffect(() => {
-    let pointFeaturesHits = [];
-    let otherFeaturesHits = [];
-    let featureHits;
-    let projectedBoundingBox;
-    if (boundingBox !== undefined && alwaysShowAllFeatures === false) {
-      //reproject bounding box if map CRS is not FeatureCollection CRS
-      if (state.epsgCode && mapEPSGCode && mapEPSGCode !== state.epsgCode) {
-        const projectedNE = proj4(
-          projectionData[mapEPSGCode].def,
-          projectionData[state.epsgCode].def,
-          [boundingBox.left, boundingBox.bottom]
-        );
+    if (state.initializingFeatures === true) {
+      setX.setShownFeatures(undefined);
+    } else {
+      let pointFeaturesHits = [];
+      let otherFeaturesHits = [];
+      let featureHits;
+      let projectedBoundingBox;
+      if (boundingBox !== undefined && alwaysShowAllFeatures === false) {
+        //reproject bounding box if map CRS is not FeatureCollection CRS
+        if (state.epsgCode && mapEPSGCode && mapEPSGCode !== state.epsgCode) {
+          const projectedNE = proj4(
+            projectionData[mapEPSGCode].def,
+            projectionData[state.epsgCode].def,
+            [boundingBox.left, boundingBox.bottom]
+          );
 
-        const projectedSW = proj4(
-          projectionData[mapEPSGCode].def,
-          projectionData[state.epsgCode].def,
-          [boundingBox.right, boundingBox.top]
-        );
-        projectedBoundingBox = {};
-        projectedBoundingBox.left = projectedNE[0];
-        projectedBoundingBox.bottom = projectedNE[1];
-        projectedBoundingBox.right = projectedSW[0];
-        projectedBoundingBox.top = projectedSW[1];
-      } else {
-        projectedBoundingBox = boundingBox;
-      }
-
-      if (pointFeatureIndex !== undefined) {
-        let resultIds = pointFeatureIndex.range(
-          projectedBoundingBox.left,
-          projectedBoundingBox.bottom,
-          projectedBoundingBox.right,
-          projectedBoundingBox.top
-        );
-        for (const id of resultIds) {
-          const f = allFeatures[id];
-          pointFeaturesHits.push(allFeatures[id]);
+          const projectedSW = proj4(
+            projectionData[mapEPSGCode].def,
+            projectionData[state.epsgCode].def,
+            [boundingBox.right, boundingBox.top]
+          );
+          projectedBoundingBox = {};
+          projectedBoundingBox.left = projectedNE[0];
+          projectedBoundingBox.bottom = projectedNE[1];
+          projectedBoundingBox.right = projectedSW[0];
+          projectedBoundingBox.top = projectedSW[1];
+        } else {
+          projectedBoundingBox = boundingBox;
         }
 
-        pointFeaturesHits.sort((a, b) => {
-          if (a.geometry.coordinates[1] === b.geometry.coordinates[1]) {
-            return a.geometry.coordinates[0] - b.geometry.coordinates[0];
-          } else {
-            return b.geometry.coordinates[1] - a.geometry.coordinates[1];
-          }
-        });
-      }
-
-      if (polyFeatureIndex !== undefined) {
-        otherFeaturesHits = findInFlatbush(
-          polyFeatureIndex,
-          bboxPolygon([
+        if (pointFeatureIndex !== undefined) {
+          let resultIds = pointFeatureIndex.range(
             projectedBoundingBox.left,
             projectedBoundingBox.bottom,
             projectedBoundingBox.right,
-            projectedBoundingBox.top,
-          ]),
-          otherFeatures
-        );
+            projectedBoundingBox.top
+          );
+          for (const id of resultIds) {
+            const f = allFeatures[id];
+            pointFeaturesHits.push(allFeatures[id]);
+          }
+
+          pointFeaturesHits.sort((a, b) => {
+            if (a.geometry.coordinates[1] === b.geometry.coordinates[1]) {
+              return a.geometry.coordinates[0] - b.geometry.coordinates[0];
+            } else {
+              return b.geometry.coordinates[1] - a.geometry.coordinates[1];
+            }
+          });
+        }
+
+        if (polyFeatureIndex !== undefined) {
+          otherFeaturesHits = findInFlatbush(
+            polyFeatureIndex,
+            bboxPolygon([
+              projectedBoundingBox.left,
+              projectedBoundingBox.bottom,
+              projectedBoundingBox.right,
+              projectedBoundingBox.top,
+            ]),
+            otherFeatures
+          );
+        }
+
+        featureHits = [...pointFeaturesHits, ...otherFeaturesHits];
+      } else {
+        featureHits = allFeatures;
+      }
+      let _shownFeatures = [];
+      let i = 0;
+
+      //sort features here to get a user controlled order in the map
+
+      for (const f of featureHits || []) {
+        const nf = {
+          selected: false,
+          index: i++,
+          ...f,
+        };
+        _shownFeatures.push(nf);
       }
 
-      featureHits = [...pointFeaturesHits, ...otherFeaturesHits];
-    } else {
-      featureHits = allFeatures;
-    }
-    let _shownFeatures = [];
-    let i = 0;
-
-    for (const f of featureHits || []) {
-      const nf = {
-        selected: false,
-        index: i++,
-        ...f,
-      };
-      _shownFeatures.push(nf);
-    }
-
-    if (selectedIndexState.forced === false) {
-      if (selectedFeature === undefined && selectedIndex !== 0) {
-        setSelectedIndex(0);
-      } else if (selectedFeature !== undefined) {
-        const found = _shownFeatures.find((testfeature) => selectedFeature.id === testfeature.id);
-
-        if (found !== undefined) {
-          if (found.index !== selectedIndex) {
-            setSelectedIndex(found.index);
-            return;
+      if (selectedIndexState.forced === false) {
+        if (selectedFeature === undefined && selectedIndex !== 0) {
+          const selIndex = getFirstSelectableFeatureIndex();
+          if (selIndex !== -1) {
+            setSelectedIndex(selIndex);
           }
-        } else {
-          if (0 !== selectedIndex) {
-            setSelectedIndex(0);
-            return;
+        } else if (selectedFeature !== undefined) {
+          const found = _shownFeatures.find((testfeature) => selectedFeature.id === testfeature.id);
+
+          if (found !== undefined) {
+            if (found.index !== selectedIndex) {
+              setSelectedIndex(found.index);
+              return;
+            }
+          } else {
+            const selIndex = getFirstSelectableFeatureIndex();
+
+            if (selIndex !== -1) {
+              if (selIndex !== selectedIndex) {
+                setSelectedIndex(selIndex);
+                return;
+              }
+            }
           }
         }
       }
-    }
 
-    let sf;
-    try {
-      sf = _shownFeatures[selectedIndex];
-      sf.selected = true;
-    } catch (e) {}
-    setX.setSelectedFeature(sf);
-    if (selectedIndexState.forced === true) {
-      setSelectedIndex(selectedIndex); //set forced=false
+      let sf;
+      try {
+        sf = _shownFeatures[selectedIndex];
+        if (sf.preventSelection !== true) {
+          sf.selected = true;
+        } else {
+          console.log("prevent selection in sf (this should not happen)", sf);
+        }
+      } catch (e) {}
+      set("selectedFeature")(sf);
+      // setX.setSelectedFeature(sf);
+      if (deriveSecondarySelection && sf) {
+        set("secondarySelection")(
+          deriveSecondarySelection({
+            selectedFeature: sf,
+            appMode: appMode,
+            itemsDictionary: state.itemsDictionary,
+            featureCollection: state.shownFeatures,
+            secondarySelection: state.secondarySelection,
+          })
+        );
+      }
+      if (selectedIndexState.forced === true) {
+        setSelectedIndex(selectedIndex); //set forced=false
+      }
+      setX.setShownFeatures(_shownFeatures);
     }
-    setX.setShownFeatures(_shownFeatures);
   }, [
     state.epsgCode,
     boundingBox,
@@ -408,6 +496,7 @@ const FeatureCollectionContextProvider = ({
     polyFeatureIndex,
     allFeatures,
     selectedIndexState,
+    state.initializingFeatures,
   ]);
 
   const load = (url) => {
@@ -431,8 +520,21 @@ const FeatureCollectionContextProvider = ({
             load,
             setSelectedFeatureIndex,
             setSelectedFeatureByPredicate,
-            next,
-            prev,
+
+            next: () => {
+              if (nextFeature) {
+                nextFeature();
+              } else {
+                next();
+              }
+            },
+            prev: () => {
+              if (prevFeature) {
+                prevFeature();
+              } else {
+                prev();
+              }
+            },
             fitBoundsForCollection,
           }}
         >

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import ProjGeoJson from "./ProjGeoJson";
-import { Marker, Tooltip, Pane } from "react-leaflet";
+import { Marker, Tooltip } from "react-leaflet";
 import L from "leaflet";
 import * as turfHelpers from "@turf/helpers";
 import bboxPolygon from "@turf/bbox-polygon";
@@ -27,6 +27,8 @@ const FeatureCollectionDisplay = ({
   editable = false,
   inbackground = false,
   defaultContextValues = {},
+  appMode,
+  secondarySelection,
 }) => {
   const { boundingBox: boundingBoxFromContext } =
     useContext(TopicMapContext) || defaultContextValues;
@@ -109,6 +111,7 @@ const FeatureCollectionDisplay = ({
       markers.push(selectedMarkers[midx]);
     }
   }
+  console.log("FeatureCollectionDisplayWITHTOOLTIPLABELS appMode", appMode);
 
   return (
     <div>

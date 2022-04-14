@@ -1,7 +1,6 @@
 import Icon from "./Icon";
 import React from "react";
 import Well from "./Well";
-import Button from "react-bootstrap/Button";
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 const COMP = ({

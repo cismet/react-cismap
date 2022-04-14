@@ -1,6 +1,5 @@
 import Dexie from "dexie";
 import * as fflate from "fflate";
-import { useEffect, useState } from "react";
 
 const DBVERSION = 1;
 const DBNAME = "cismap-offline-data";
@@ -11,10 +10,6 @@ const storeDef = {};
 storeDef[OBJECTSTORE] = "key";
 
 db.version(DBVERSION).stores(storeDef);
-
-function timeout(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 export const customOfflineFetch = async (url, options, callback) => {
   const CONSOLEDEBUG = options?.consoleDebug;

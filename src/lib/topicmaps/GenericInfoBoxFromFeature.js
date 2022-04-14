@@ -28,6 +28,8 @@ const defaultConfig = {
   noCurrentFeatureTitle: "Keine Objekte gefunden",
   noCurrentFeatureContent: "",
   displaySecondaryInfoAction: false,
+  getTotalNumberOfItems: (items) => items.length,
+  getNumberOfShownFeatures: (featureCollection) => featureCollection.length,
 };
 
 const Component = (props) => {
@@ -69,6 +71,17 @@ const Component = (props) => {
   }, [pixelwidth]);
 
   let header, title, subtitle, additionalInfo;
+
+  const funcOrContent = (property, feature = currentFeature) => {
+    if (property !== undefined) {
+      if (typeof property === "function") {
+        return property(feature);
+      } else {
+        return property;
+      }
+    }
+  };
+
   if (currentFeature !== undefined) {
     links = getActionLinksForFeature(currentFeature, {
       entityClassName: config.navigator.noun.singular,
@@ -79,16 +92,18 @@ const Component = (props) => {
         config.displaySecondaryInfoAction === undefined,
       setVisibleStateOfSecondaryInfo: (vis) => _setSecondaryInfoVisible(vis),
     });
-    header = <span>{currentFeature?.properties?.info?.header || config.header}</span>;
-    title = currentFeature?.properties?.info?.title;
-    subtitle = currentFeature?.properties?.info?.subtitle;
-    additionalInfo = currentFeature?.properties?.info?.additionalInfo;
+    header = (
+      <span>{funcOrContent(currentFeature?.properties?.info?.header) || config.header}</span>
+    );
+    title = funcOrContent(currentFeature?.properties?.info?.title);
+    subtitle = funcOrContent(currentFeature?.properties?.info?.subtitle);
+    additionalInfo = funcOrContent(currentFeature?.properties?.info?.additionalInfo);
   }
   const headerColor = getColorForProperties((currentFeature || {}).properties);
 
   const minified = undefined;
   const minify = undefined;
-
+  const { getNumberOfShownFeatures, getTotalNumberOfItems } = config;
   return (
     <InfoBox
       isCollapsible={currentFeature !== undefined}
@@ -101,16 +116,27 @@ const Component = (props) => {
       // headerColor={headerColor}
       links={links}
       title={title}
+      next={config.next}
+      previous={config.previous}
       subtitle={subtitle}
       additionalInfo={additionalInfo}
-      zoomToAllLabel={`${filteredItems.length} ${
-        filteredItems.length === 1 ? config.navigator.noun.singular : config.navigator.noun.plural
-      } in ${config.city}`}
-      currentlyShownCountLabel={`${featureCollection.length} ${
-        featureCollection.length === 1
-          ? config.navigator.noun.singular
-          : config.navigator.noun.plural
-      } angezeigt`}
+      zoomToAllLabel={
+        config.zoomToAllLabel ||
+        `${getTotalNumberOfItems(filteredItems)} ${
+          getTotalNumberOfItems(filteredItems) === 1
+            ? config.navigator.noun.singular
+            : config.navigator.noun.plural
+        } in ${config.city}`
+      }
+      fitAll={config.fitAll}
+      currentlyShownCountLabel={
+        config.currentlyShownCountLabel ||
+        `${getNumberOfShownFeatures(featureCollection)} ${
+          getNumberOfShownFeatures(featureCollection) === 1
+            ? config.navigator.noun.singular
+            : config.navigator.noun.plural
+        } angezeigt`
+      }
       collapsedInfoBox={minified}
       setCollapsedInfoBox={minify}
       noCurrentFeatureTitle={<h5>{config.noFeatureTitle}</h5>}
@@ -134,8 +160,8 @@ const Component = (props) => {
                 fitBoundsForCollection();
               }}
             >
-              {filteredItems.length}{" "}
-              {filteredItems.length === 1
+              {getTotalNumberOfItems(filteredItems)}{" "}
+              {getTotalNumberOfItems(filteredItems) === 1
                 ? config.navigator.noun.singular
                 : config.navigator.noun.plural}{" "}
               in {config.city}

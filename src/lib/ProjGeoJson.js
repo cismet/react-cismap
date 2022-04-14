@@ -106,7 +106,7 @@ class ProjGeoJson extends Path {
 
     props.pointToLayer = (feature, latlng) => {
       if (props.style) {
-        let theStyle = props.style(feature);
+        let theStyle = props.style(feature, undefined);
         let marker = null;
         if (
           theStyle.svg ||
