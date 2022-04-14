@@ -1,6 +1,4 @@
 import L from "leaflet";
-// import {} from "maplibre-gl";
-// import {} from "./mapbox-gl-leaflet";
 import "leaflet.nontiledlayer";
 import { GridLayer } from "react-leaflet";
 import { TileLayer } from "leaflet";
