@@ -12,12 +12,8 @@ class NonTiledWMSLayer extends GridLayer {
     super(props);
   }
   createLeafletElement(props) {
-    console.log("xxx will create NonTiledWMSLayer", props);
-
     const { url, ...params } = props;
     const layer = new L.NonTiledLayer.WMS(url, this.getOptions(params));
-    console.log("xxx created NonTiledWMSLayer", layer);
-
     return layer;
   }
 
