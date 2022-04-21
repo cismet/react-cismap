@@ -4,10 +4,12 @@ import React, { useContext, useState } from "react";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import ReactDOM from "react-dom";
 import "./lib/topicMaps.css";
+import "./index.css";
+
 import * as TopicMapsExamples from "./lib/_stories/complex/TopicMap.stories";
 import * as MoreTopicMapsExamples from "./lib/_stories/complex/MoreTopicMap.stories";
 import * as MapLibreExamples from "./lib/_stories/vector/MapLibreLayer.stories";
-
+import * as LeafletExamples from "./lib/_stories/mainComponents/Map.stories";
 const TestContext = React.createContext();
 
 const ContextDisplay = () => {
@@ -53,7 +55,7 @@ ReactDOM.render(
     {/* <TopicMapsExamples.TopicMapWithWithSecondaryInfoSheet /> */}
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
 
-    <TopicMapsExamples.TopicMapWithAdditionalLayers />
+    {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
 
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
     {/* <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers /> */}
@@ -82,6 +84,22 @@ ReactDOM.render(
     {/* <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptionsAndExternalLinks /> */}
 
     {/* <GazetteerSearchBoxExamples.SimpleMapWithRemoteControlledGazetteerSearchBox /> */}
+
+    {/* <LeafletExamples.Simple /> */}
+    {/* <LeafletExamples.SimpleWMS /> */}
+    {/* <LeafletExamples.SimpleTrueOrtho /> */}
+    {/* <LeafletExamples.SimpleNonTiledTrueOrtho /> */}
+
+    {/* <LeafletExamples.SimpleTrueOrthoWithText /> */}
+    <LeafletExamples.SimpleTrueOrthoWithTextIn25832 />
+    {/* <LeafletExamples. />*/}
+    {/* <LeafletExamples. />*/}
+    {/* <LeafletExamples. />*/}
+    {/* <LeafletExamples. />*/}
+    {/* <LeafletExamples. />*/}
+    {/* <LeafletExamples. />*/}
+    {/* <LeafletExamples. />*/}
+    {/* <LeafletExamples. />*/}
   </div>,
   document.getElementById("root")
 );
