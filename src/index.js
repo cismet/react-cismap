@@ -32,7 +32,7 @@ ReactDOM.render(
       ondblclick={(e) => console.log("doubleclick", e)}
       autoFitProcessedHandler={() => this.props.mappingActions.setAutoFit(false)}
       //   backgroundlayers={"ruhrWMSlight@40|trueOrtho2018@10|rvrSchrift@100"}
-      backgroundlayers={"wupp-plan-live"}
+      backgroundlayers={"rvrGrundriss@100|trueOrtho2020@75|rvrSchriftNT@100"}
       urlSearchParams={urlSearchParams}
       fullScreenControlEnabled={false}
       locateControlEnabled={false}
