@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"module": "index.js",
 	"files": [
-		"dist",
+		"*",
 		"README.md"
 	],
 	"browserslist": [
