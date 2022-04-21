@@ -8703,6 +8703,13 @@ leaflet.markercluster@^1.4.0:
   resolved "https://registry.yarnpkg.com/leaflet.markercluster/-/leaflet.markercluster-1.4.1.tgz#b53f2c4f2ca7306ddab1dbb6f1861d5e8aa6c5e5"
   integrity sha512-ZSEpE/EFApR0bJ1w/dUGwTSUvWlpalKqIzkaYdYB7jaftQA/Y2Jav+eT4CMtEYFj+ZK4mswP13Q2acnPBnhGOw==
 
+leaflet.nontiledlayer@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/leaflet.nontiledlayer/-/leaflet.nontiledlayer-1.0.9.tgz#ed50e894579285f088a9939b131f9806b03ee419"
+  integrity sha512-w4yeTLNFhTToAmGQ7P9cAiGFVwVLJzuO3A/tFNMWRVYl1BLvrvlqY7hKE33pmmeoQ6m5ZsWd0qbdYq/d+zBuUQ==
+  dependencies:
+    leaflet "^1.6.0"
+
 leaflet.path.drag@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/leaflet.path.drag/-/leaflet.path.drag-0.0.6.tgz#6d9c3af0b9d7b032544ae16bfde688f0160514a0"
