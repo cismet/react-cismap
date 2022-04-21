@@ -1,5 +1,6 @@
 import React from "react";
 import { TileLayer } from "react-leaflet";
+import NonTiledWMSLayer from "../components/NonTiledWMSLayer";
 import StyledWMSTileLayer from "../components/StyledWMSTileLayer";
 
 const Layers = new Map();
@@ -263,12 +264,63 @@ Layers.set("rvrWMS", (options = DEFAULT_LAYER_OPTIONS) => {
   );
 });
 
+// rvrSchriftNT: {
+//   type: "wmts-nt",
+//   url: "https://geodaten.metropoleruhr.de/dop/dop_overlay?language=ger",
+//   layers: "dop_overlay",
+//   version: "1.3.0",
+//   tiled: false,
+//   transparent: true,
+//   buffer: 50,
+// },
 Layers.set("rvrSchrift", (options = DEFAULT_LAYER_OPTIONS) => {
   return (
     <StyledWMSTileLayer
       key={"stadtplan_rvr_schrift" + JSON.stringify(options)}
-      url="https://geodaten.metropoleruhr.de/spw2"
-      layers="spw2_schrift_overlay"
+      url="https://geodaten.metropoleruhr.de/dop/dop_overlay?language=ger"
+      layers="dop_overlay"
+      format="image/png"
+      tiled="false"
+      transparent="true"
+      version="1.3.0"
+      maxZoom={19}
+      opacity={options.opacity}
+      cssFilter={options["css-filter"]}
+    />
+  );
+});
+Layers.set("rvrSchriftNT", (options = DEFAULT_LAYER_OPTIONS) => {
+  return (
+    <NonTiledWMSLayer
+      key={"stadtplan_rvr_schrift" + JSON.stringify(options)}
+      url="https://geodaten.metropoleruhr.de/dop/dop_overlay?language=ger"
+      layers="dop_overlay"
+      format="image/png"
+      tiled="false"
+      transparent="true"
+      version="1.3.0"
+      maxZoom={19}
+      opacity={options.opacity}
+      cssFilter={options["css-filter"]}
+      buffer={50}
+    />
+  );
+});
+
+// rvrGrundriss: {
+//   type: "wmts",
+//   url: "https://geodaten.metropoleruhr.de/spw2/service",
+//   layers: "spw2_light_grundriss",
+//   version: "1.3.0",
+//   transparent: true,
+//   tiled: false,
+// },
+Layers.set("rvrGrundriss", (options = DEFAULT_LAYER_OPTIONS) => {
+  return (
+    <StyledWMSTileLayer
+      key={"stadtplan_rvr_grundriss" + JSON.stringify(options)}
+      url="https://geodaten.metropoleruhr.de/spw2/service"
+      layers="spw2_light_grundriss"
       format="image/png"
       tiled="false"
       transparent="true"
