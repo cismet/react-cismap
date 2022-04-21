@@ -55,7 +55,7 @@ ReactDOM.render(
     {/* <TopicMapsExamples.TopicMapWithWithSecondaryInfoSheet /> */}
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
 
-    {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
+    <TopicMapsExamples.TopicMapWithAdditionalLayers />
 
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
     {/* <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers /> */}
@@ -91,7 +91,7 @@ ReactDOM.render(
     {/* <LeafletExamples.SimpleNonTiledTrueOrtho /> */}
 
     {/* <LeafletExamples.SimpleTrueOrthoWithText /> */}
-    <LeafletExamples.SimpleTrueOrthoWithTextIn25832 />
+    {/* <LeafletExamples.SimpleTrueOrthoWithTextIn25832 /> */}
     {/* <LeafletExamples. />*/}
     {/* <LeafletExamples. />*/}
     {/* <LeafletExamples. />*/}

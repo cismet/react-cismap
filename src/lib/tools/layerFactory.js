@@ -251,6 +251,7 @@ export const defaultLayerConf = {
       version: "1.3.0",
       tiled: false,
       transparent: true,
+      buffer: 50,
     },
     rvrSchrift: {
       type: "wmts",

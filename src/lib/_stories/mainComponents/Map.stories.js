@@ -3,7 +3,6 @@ import L from "leaflet";
 import { Map, TileLayer } from "react-leaflet";
 import { MappingConstants } from "../..";
 import NonTiledWMSLayer from "../../NonTiledWMSLayer";
-import BufferedNonTiledWMSLayer from "../../NonTiledBufferedWMSLayer";
 import StyledWMSTileLayer from "../../StyledWMSTileLayer";
 const conf = {
   lat: 51.25,
@@ -149,7 +148,7 @@ export const SimpleTrueOrthoWithTextIn25832 = () => {
             opacity: opacity0,
           }}
         ></StyledWMSTileLayer>
-        <BufferedNonTiledWMSLayer
+        <NonTiledWMSLayer
           {...{
             type: "wms",
             url: "https://geodaten.metropoleruhr.de/dop/dop_overlay?language=ger",
@@ -160,7 +159,7 @@ export const SimpleTrueOrthoWithTextIn25832 = () => {
             opacity: opacity1,
             buffer: 50,
           }}
-        ></BufferedNonTiledWMSLayer>
+        ></NonTiledWMSLayer>
         {/* <StyledWMSTileLayer
           {...{
             type: "wms",
