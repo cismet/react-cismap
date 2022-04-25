@@ -309,17 +309,20 @@ export const defaultLayerConf = {
     orthoIntra: {
       type: "wms",
       url: "http://s10221:7098/orthofotos/services",
-      layers: "WO2018"
+      layers: "WO2018",
+      transparent: true
     },
     trueOrthoIntra: {
       type: "wms",
       url: "http://s10221:7098/orthofotos/services",
-      layers: "WTO2018"
+      layers: "WTO2018",
+      transparent: true
     },
     trueOrtho2018: {
       type: "wms",
       url: "https://maps.wuppertal.de/deegree/wms",
-      layers: "R102:trueortho201810"
+      layers: "R102:trueortho201810",
+      transparent: true
     },
     trueOrtho2020: {
       type: "wms",
