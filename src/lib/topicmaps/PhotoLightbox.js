@@ -2,10 +2,12 @@ import React, { useContext } from "react";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css"; // This only needs to be imported once in your app
 import { LightBoxContext, LightBoxDispatchContext } from "../contexts/LightBoxContextProvider";
-const Comp = ({ defaultContextValues = {} }) => {
+const Comp = ({ reactModalStyleOverride, defaultContextValues = {} }) => {
   const { title, photourls, caption, captions, index, visible, reactModalStyle } =
     useContext(LightBoxContext) || defaultContextValues;
   const { setVisible, setIndex } = useContext(LightBoxDispatchContext) || defaultContextValues;
+  console.log("PhotoLightbox visible", visible);
+
   if (visible) {
     let nextSrc = photourls[(index + 1) % photourls.length];
     let prevSrc = photourls[(index + photourls.length - 1) % photourls.length];
@@ -29,7 +31,7 @@ const Comp = ({ defaultContextValues = {} }) => {
 
     return (
       <Lightbox
-        reactModalStyle={reactModalStyle}
+        reactModalStyle={reactModalStyleOverride || reactModalStyle}
         mainSrc={photourls[index]}
         nextSrc={nextSrc}
         prevSrc={prevSrc}
