@@ -12,14 +12,14 @@ const defaultState = {
   captions: [],
 
   index: 0,
-  visible: false,
+  visible: false
 };
 const UIContextProvider = ({ children, enabled = true, appKey, persistenceSettings }) => {
   const [state, dispatch] = useImmer({ ...defaultState });
   const contextKey = "lightbox";
   const set = (prop, noTest) => {
-    return (x) => {
-      dispatch((state) => {
+    return x => {
+      dispatch(state => {
         if (noTest === true || JSON.stringify(state[prop]) !== JSON.stringify(x)) {
           if (persistenceSettings[contextKey]?.includes(prop)) {
             localforage.setItem("@" + appKey + "." + contextKey + "." + prop, x);
@@ -45,15 +45,15 @@ const UIContextProvider = ({ children, enabled = true, appKey, persistenceSettin
     setCaptions: set("captions"),
     setIndex: set("index"),
     setVisible: set("visible"),
-    setAll: (all) => {
-      dispatch((state) => {
+    setAll: all => {
+      dispatch(state => {
         state.title = all.title;
         state.photourls = all.photourls;
         state.caption = all.caption;
         state.index = all.index;
-        state.visible = true;
+        state.visible = all.visible === undefined ? true : all.visible;
       });
-    },
+    }
   };
 
   if (enabled === true) {
@@ -62,7 +62,7 @@ const UIContextProvider = ({ children, enabled = true, appKey, persistenceSettin
         <DispatchContext.Provider
           value={{
             dispatch,
-            ...setX,
+            ...setX
           }}
         >
           {children}
@@ -74,7 +74,7 @@ const UIContextProvider = ({ children, enabled = true, appKey, persistenceSettin
       <StateContext.Provider value={undefined}>
         <DispatchContext.Provider
           value={{
-            undefined,
+            undefined
           }}
         >
           {children}
@@ -88,5 +88,5 @@ export default UIContextProvider;
 export {
   UIContextProvider,
   StateContext as LightBoxContext,
-  DispatchContext as LightBoxDispatchContext,
+  DispatchContext as LightBoxDispatchContext
 };
