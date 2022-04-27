@@ -6,7 +6,6 @@ const Comp = ({ reactModalStyleOverride, defaultContextValues = {} }) => {
   const { title, photourls, caption, captions, index, visible, reactModalStyle } =
     useContext(LightBoxContext) || defaultContextValues;
   const { setVisible, setIndex } = useContext(LightBoxDispatchContext) || defaultContextValues;
-  console.log("PhotoLightbox visible", visible);
 
   if (visible) {
     let nextSrc = photourls[(index + 1) % photourls.length];
