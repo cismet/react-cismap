@@ -223,8 +223,8 @@ const TopicMapComponent = (props) => {
             }
             ref={leafletRoutedMapRef}
             baseLayerConf={baseLayerConf}
-            minZoom={_minZoom}
-            maxZoom={_maxZoom}
+            minZoom={minZoom || _minZoom}
+            maxZoom={maxZoom || _maxZoom}
             layers=""
             style={_mapStyle}
             fallbackPosition={{
