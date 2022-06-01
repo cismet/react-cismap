@@ -84,7 +84,7 @@ import L from "leaflet";
 
   // L.EasyButton is the actual buttons
   // can be called without being grouped into a bar
-  L.Control.EasyButton = L.Control.extend({
+  L.Control.CustomEasyButton = L.Control.extend({
     options: {
       position: "topleft", // part of leaflet's defaults
 
@@ -295,9 +295,9 @@ import L from "leaflet";
     },
   });
 
-  L.easyButton = function (/* args will pass automatically */) {
-    var args = Array.prototype.concat.apply([L.Control.EasyButton], arguments);
-    return new (Function.prototype.bind.apply(L.Control.EasyButton, args))();
+  L.customEasyButton = function (/* args will pass automatically */) {
+    var args = Array.prototype.concat.apply([L.Control.CustomEasyButton], arguments);
+    return new (Function.prototype.bind.apply(L.Control.CustomEasyButton, args))();
   };
 
   /*************************

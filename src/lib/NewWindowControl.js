@@ -9,7 +9,7 @@ import L from "leaflet";
 class NewWindowControl extends MapControl {
   componentWillMount() {
     let that = this;
-    this.leafletElement = L.easyButton(
+    this.leafletElement = L.customEasyButton(
       "fa-external-link-square-alt",
       function (btn, map) {
         window.open(window.location.href);
