@@ -41,7 +41,7 @@ class MaplibreGlLayer extends GridLayer {
     setTimeout(() => {
       const map = layer.getMaplibreMap();
       this.mapBoxMap = map;
-      if (props.opacity || props.textOpacity || props.iconOpacity) {
+      if ((props.opacity || props.textOpacity || props.iconOpacity) && map) {
         map.getStyle().layers.map((layer) => {
           if (layer.type === "symbol") {
             map.setPaintProperty(layer.id, `icon-opacity`, props.iconOpacity || props.opacity || 1);
