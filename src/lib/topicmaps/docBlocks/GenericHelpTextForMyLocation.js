@@ -3,7 +3,7 @@ import Icon from "../../commons/Icon";
 import meinStandpunktMarkerDoppel from "./MeinStandpunktMarkerDoppel.jpg";
 import meinStandpunktMarker from "./MeinStandpunktMarker.jpg";
 import { CustomizationContext } from "../../contexts/CustomizationContextProvider";
-const GenericHelpTextForMyLocation = (defaultContextValues = {}) => {
+const GenericHelpTextForMyLocation = ({ defaultContextValues = {} }) => {
   const customizations = useContext(CustomizationContext) || defaultContextValues;
   let addendum = customizations?.genericHelpTextForMyLocation?.addendum || null;
 
@@ -19,8 +19,7 @@ const GenericHelpTextForMyLocation = (defaultContextValues = {}) => {
       und Tablet-PCs sind i. d. R. mit einer GPS-Antenne ausgestattet, sodass Sie bei diesen Geräten
       eine Positionsgenauigkeit in der Größenordnung von 10 Metern erwarten können. Die Markierung
       Ihrer Position wird laufend automatisch aktualisiert. Ein weiterer Klick auf "Mein Standort"
-      schaltet die Anzeige Ihrer Position wieder ab.
-      {addendum}
+      schaltet die Anzeige Ihrer Position wieder ab. {addendum}
     </p>
   );
 };
