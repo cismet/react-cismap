@@ -5,6 +5,7 @@ import GenericModalMenuSection from "../menu/Section";
 import { storiesCategory } from "./StoriesConf";
 import { Link } from "react-scroll";
 import Button from "react-bootstrap/Button";
+import GenericHelpTextForMyLocation from "../docBlocks/GenericHelpTextForMyLocation";
 
 export default {
   title: storiesCategory + "ModalMenu",
@@ -162,6 +163,20 @@ export const SimpleMenu = () => {
                 Section Content Section Content Section Content Section Content Section Content
                 Section Content Section Content
               </div>
+            }
+          />,
+          <GenericModalMenuSection
+            activeSectionKey={activeSectionKey}
+            setActiveSectionKey={setActiveActionKey}
+            sectionKey="G"
+            sectionTitle="Section Content F (GenericHelpTextForMyLocation)"
+            sectionBsStyle="default"
+            sectionContent={
+              <GenericHelpTextForMyLocation
+                defaultContextValues={{
+                  genericHelpTextForMyLocation: { addendum: <span>ssdf</span> },
+                }}
+              />
             }
           />,
         ]}

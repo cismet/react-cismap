@@ -49,6 +49,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSync } from "@fortawesome/free-solid-svg-icons";
 import { TopicMapStylingDispatchContext } from "../../contexts/TopicMapStylingContextProvider";
 import ConsoleLog from "../../tools/LogConsole";
+import { SimpleMenu } from "../../topicmaps/_stories/ModalMenu.stories";
 export default {
   title: storiesCategory + "TopicMapComponent",
 };
@@ -126,6 +127,20 @@ export const SimpleTopicMap = () => {
   );
 };
 
+export const SimpleTopicMapWithCustomMenu = () => {
+  const [gazData, setGazData] = useState([]);
+  useEffect(() => {
+    getGazData(setGazData);
+  }, []);
+
+  return (
+    <TopicMapContextProvider featureItemsURL="/data/parkscheinautomatenfeatures.json">
+      <TopicMapComponent modalMenu={<SimpleMenu></SimpleMenu>} gazData={gazData}>
+        <FeatureCollection />
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
 export const SimpleTopicMapWithDefaultInfoBox = () => {
   const [gazData, setGazData] = useState([]);
   useEffect(() => {

@@ -48,6 +48,7 @@ ReactDOM.render(
 
     {/* <TopicMapsExamples.MostSimpleTopicMapWithGazetteerData /> */}
     {/* <TopicMapsExamples.SimpleTopicMap /> */}
+    <TopicMapsExamples.SimpleTopicMapWithCustomMenu />
     {/* <TopicMapsExamples.SimpleTopicMapWithDefaultInfoBox /> */}
     {/* <TopicMapsExamples.SimpleTopicMapWithInfoBox /> */}
     {/* <TopicMapsExamples.SimpleTopicMapWithCustomStyling /> */}
@@ -55,7 +56,7 @@ ReactDOM.render(
     {/* <TopicMapsExamples.TopicMapWithWithSecondaryInfoSheet /> */}
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
 
-    <TopicMapsExamples.TopicMapWithAdditionalLayers />
+    {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
 
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
     {/* <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers /> */}
