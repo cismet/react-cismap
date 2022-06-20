@@ -4,6 +4,8 @@ import { CustomizationContext } from "../../contexts/CustomizationContextProvide
 
 export default ({ defaultContextValues = {} }) => {
   const customizations = useContext(CustomizationContext) || defaultContextValues;
+  let grosseZoomstufe = customizations?.inKartePositionieren?.grosseZoomstufe || 14;
+  let addendum = customizations?.inKartePositionieren?.addendum || null;
   let listWithSymbols = customizations?.inKartePositionieren?.listWithSymbols || (
     <p>
       Durch das in der Auswahlliste vorangestellte Symbol erkennen Sie, ob es sich bei einem Treffer
@@ -58,15 +60,16 @@ export default ({ defaultContextValues = {} }) => {
       <p>
         Nach der Auswahl eines Treffers aus der Liste wird die Karte auf die zugehörige Position
         zentriert. Bei Suchbegriffen mit Punktgeometrie (Adresse, Straße, POI) wird außerdem ein
-        großer Maßstab (Zoomstufe 14) eingestellt und ein Marker auf der Zielposition platziert. Bei
-        Suchbegriffen mit Flächengeometrie (Stadtbezirk, Quartier) wird der Maßstab so eingestellt,
-        dass die Fläche vollständig dargestellt werden kann. Zusätzlich wird der Bereich außerhalb
-        dieser Fläche abgedunkelt (Spotlight-Effekt).
+        großer Maßstab (Zoomstufe {grosseZoomstufe}) eingestellt und ein Marker auf der Zielposition
+        platziert. Bei Suchbegriffen mit Flächengeometrie (Stadtbezirk, Quartier) wird der Maßstab
+        so eingestellt, dass die Fläche vollständig dargestellt werden kann. Zusätzlich wird der
+        Bereich außerhalb dieser Fläche abgedunkelt (Spotlight-Effekt).
       </p>
       <p>
         Durch Anklicken des Werkzeugs <Icon name="times" /> links neben dem Eingabefeld können Sie
         die Suche zurücksetzen (Entfernung von Marker bzw. Abdunklung, Löschen des Textes im
         Eingabefeld).
+        {addendum}
       </p>
     </div>
   );
