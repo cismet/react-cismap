@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import Icon from "../../commons/Icon";
 import meinStandpunktMarkerDoppel from "./MeinStandpunktMarkerDoppel.jpg";
 import meinStandpunktMarker from "./MeinStandpunktMarker.jpg";
-const GenericHelpTextForMyLocation = () => {
+import { CustomizationContext } from "../../contexts/CustomizationContextProvider";
+const GenericHelpTextForMyLocation = (defaultContextValues = {}) => {
+  const customizations = useContext(CustomizationContext) || defaultContextValues;
+  let addendum = customizations?.genericHelpTextForMyLocation?.addendum || null;
+
   return (
     <p>
       Mit der Funktion Mein Standort <Icon name="map-marker" /> können Sie Ihren aktuellen Standort
@@ -16,6 +20,7 @@ const GenericHelpTextForMyLocation = () => {
       eine Positionsgenauigkeit in der Größenordnung von 10 Metern erwarten können. Die Markierung
       Ihrer Position wird laufend automatisch aktualisiert. Ein weiterer Klick auf "Mein Standort"
       schaltet die Anzeige Ihrer Position wieder ab.
+      {addendum}
     </p>
   );
 };
