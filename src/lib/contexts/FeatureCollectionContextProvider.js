@@ -11,6 +11,7 @@ import { projectionData } from "../constants/gis";
 import { findInFlatbush, createFlatbushIndex } from "../tools/gisHelper";
 import envelope from "@turf/envelope";
 import { featureCollection } from "@turf/helpers";
+import center from "@turf/center";
 const defaultState = {
   items: undefined,
   itemsDictionary: undefined,
@@ -403,9 +404,9 @@ const FeatureCollectionContextProvider = ({
             }
           });
         }
-
+        let unsortedOtherFeaturesHits = [];
         if (polyFeatureIndex !== undefined) {
-          otherFeaturesHits = findInFlatbush(
+          unsortedOtherFeaturesHits = findInFlatbush(
             polyFeatureIndex,
             bboxPolygon([
               projectedBoundingBox.left,
@@ -415,6 +416,29 @@ const FeatureCollectionContextProvider = ({
             ]),
             otherFeatures
           );
+
+          const ofhCenterObjects = unsortedOtherFeaturesHits.map((f) => {
+            return {
+              feature: f,
+              center: center(f.geometry),
+            };
+          });
+
+          ofhCenterObjects.sort((a, b) => {
+            const ax = a.center.geometry.coordinates[0];
+            const ay = a.center.geometry.coordinates[1];
+            const bx = b.center.geometry.coordinates[0];
+            const by = b.center.geometry.coordinates[1];
+            if (ay === by) {
+              return ax - bx;
+            } else {
+              return by - ay; //reverse order means from north to south
+            }
+          });
+
+          otherFeaturesHits = ofhCenterObjects.map((ofh) => {
+            return ofh.feature;
+          });
         }
 
         featureHits = [...pointFeaturesHits, ...otherFeaturesHits];
