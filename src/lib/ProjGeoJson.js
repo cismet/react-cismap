@@ -90,7 +90,7 @@ class ProjGeoJson extends Path {
         let theStyle = props.style(feature, props.featureStylerScalableImageSize);
 
         layer.bindTooltip("" + props.hoverer(feature), {
-          offset: L.point(theStyle.radius, 0),
+          offset: L.point(theStyle.radius || 1, 0),
           direction: "right",
         });
         layer.on("mouseover", function (e) {
