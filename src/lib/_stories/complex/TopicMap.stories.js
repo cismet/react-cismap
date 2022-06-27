@@ -50,6 +50,7 @@ import { faSync } from "@fortawesome/free-solid-svg-icons";
 import { TopicMapStylingDispatchContext } from "../../contexts/TopicMapStylingContextProvider";
 import ConsoleLog from "../../tools/LogConsole";
 import { SimpleMenu } from "../../topicmaps/_stories/ModalMenu.stories";
+import { kassenzeichen } from "../_data/Editing.Storybook.data";
 export default {
   title: storiesCategory + "TopicMapComponent",
 };
@@ -1406,6 +1407,24 @@ export const TopicMapWithLineFeatureCollection = () => {
     <TopicMapContextProvider
       items={[nordbahntrasse]}
       featureTooltipFunction={(feature) => feature?.text}
+    >
+      <TopicMapComponent gazData={gazData}>
+        <FeatureCollection />
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
+
+export const TopicMapWithPolygonFeatureCollection = () => {
+  const [gazData, setGazData] = useState([]);
+  useEffect(() => {
+    getGazData(setGazData);
+  }, []);
+
+  return (
+    <TopicMapContextProvider
+      items={kassenzeichen}
+      featureTooltipFunction={(feature) => feature?.properties?.bez}
     >
       <TopicMapComponent gazData={gazData}>
         <FeatureCollection />
