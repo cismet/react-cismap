@@ -5,6 +5,7 @@ import { CustomizationContext } from "../../contexts/CustomizationContextProvide
 export default ({ defaultContextValues = {} }) => {
   const customizations = useContext(CustomizationContext) || defaultContextValues;
   let grosseZoomstufe = customizations?.inKartePositionieren?.grosseZoomstufe || 14;
+  let listAddendum = customizations?.inKartePositionieren?.listAddendum || null;
   let addendum = customizations?.inKartePositionieren?.addendum || null;
   let listWithSymbols = customizations?.inKartePositionieren?.listWithSymbols || (
     <p>
@@ -57,6 +58,9 @@ export default ({ defaultContextValues = {} }) => {
         kurz als POI bezeichnet).
       </p>
       {listWithSymbols}
+
+      {listAddendum && <p>{listAddendum}</p>}
+
       <p>
         Nach der Auswahl eines Treffers aus der Liste wird die Karte auf die zugehörige Position
         zentriert. Bei Suchbegriffen mit Punktgeometrie (Adresse, Straße, POI) wird außerdem ein
