@@ -19,8 +19,9 @@ const MapLibreLayer = (_props) => {
   const { offlineCacheConfig } = useContext(OfflineLayerCacheContext) || {
     offlinCeacheConfig: undefined,
   };
+  const uiContext = useContext(UIContext);
 
-  const { menuCounter } = useContext(UIContext);
+  const { menuCounter } = uiContext | {};
   useEffect(() => {
     (async () => {
       if (props.offlineAvailable) {
