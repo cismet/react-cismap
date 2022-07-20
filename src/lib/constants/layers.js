@@ -441,6 +441,21 @@ Layers.set("trueOrtho2020", (options = DEFAULT_LAYER_OPTIONS) => {
     />
   );
 });
+Layers.set("trueOrtho2022", (options = DEFAULT_LAYER_OPTIONS) => {
+  return (
+    <StyledWMSTileLayer
+      key={"trueOrtho2022" + JSON.stringify(options)}
+      url="https://maps.wuppertal.de/deegree/wms"
+      layers="R102:trueortho202210"
+      format="image/png"
+      tiled="true"
+      maxZoom={19}
+      transparent="true"
+      opacity={options.opacity}
+      cssFilter={options["css-filter"]}
+    />
+  );
+});
 
 Layers.set("hillshade", (options = DEFAULT_LAYER_OPTIONS) => {
   return (
