@@ -9,7 +9,7 @@ export default function getLayers(
   layerString,
   namedMapStyle = "default",
   config = {
-    layerSeparator: "|"
+    layerSeparator: "|",
   },
   layerConfig
 ) {
@@ -47,13 +47,13 @@ export default function getLayers(
 
   return (
     <div key={"layer." + layerString}>
-      {layerArr.map(layerWithOptions => {
+      {layerArr.map((layerWithOptions) => {
         const layOp = layerWithOptions.split("@");
         if (!isNaN(parseInt(layOp[1], 10))) {
           const layerWithNamedStyleExtension = layOp[0] + namedMapStyleExtension;
 
           const layerOptions = {
-            opacity: parseInt(layOp[1] || "100", 10) / 100.0
+            opacity: parseInt(layOp[1] || "100", 10) / 100.0,
           };
           return getLayer(layerWithNamedStyleExtension, layerOptions);
         }
@@ -84,13 +84,13 @@ const createLayerFactoryFunction = (key, _conf = defaultLayerConf) => {
   let conf = {
     namedStyles: defaultLayerConf.namedStyles,
     defaults: defaultLayerConf.defaults,
-    ..._conf
+    ..._conf,
   };
 
   switch ((conf.namedLayers[key] || {}).type) {
     case "wms":
     case "wmts":
-      return options => {
+      return (options) => {
         let params = { ...conf.defaults.wms, ...conf.namedLayers[key] };
         // console.log('params for ' + key, params);
         return (
@@ -104,7 +104,7 @@ const createLayerFactoryFunction = (key, _conf = defaultLayerConf) => {
       };
     case "wms-nt":
     case "wmts-nt":
-      return options => {
+      return (options) => {
         let params = { ...conf.defaults.wms, ...conf.namedLayers[key] };
         // console.log('params for ' + key, params);
         return (
@@ -117,7 +117,7 @@ const createLayerFactoryFunction = (key, _conf = defaultLayerConf) => {
         );
       };
     case "tiles":
-      return options => {
+      return (options) => {
         let params = { ...conf.defaults.wms, ...conf.namedLayers[key] };
         console.log("params for " + key, params);
 
@@ -131,7 +131,7 @@ const createLayerFactoryFunction = (key, _conf = defaultLayerConf) => {
         );
       };
     case "vector":
-      return options => {
+      return (options) => {
         let params = { ...conf.defaults.vector, ...conf.namedLayers[key] };
         // console.log("params for " + key, params);
 
@@ -152,12 +152,12 @@ export const defaultLayerConf = {
     default: { opacity: 0.6 },
     night: {
       opacity: 0.9,
-      "css-filter": "filter:grayscale(0.9)brightness(0.9)invert(1)"
+      "css-filter": "filter:grayscale(0.9)brightness(0.9)invert(1)",
     },
     blue: {
       opacity: 1.0,
-      "css-filter": "filter:sepia(0.5) hue-rotate(155deg) contrast(0.9) opacity(0.9) invert(0)"
-    }
+      "css-filter": "filter:sepia(0.5) hue-rotate(155deg) contrast(0.9) opacity(0.9) invert(0)",
+    },
   },
   defaults: {
     wms: {
@@ -166,83 +166,83 @@ export const defaultLayerConf = {
       maxZoom: 22,
       opacity: 0.6,
       version: "1.1.1",
-      pane: "backgroundLayers"
-    }
+      pane: "backgroundLayers",
+    },
   },
   namedLayers: {
     osm: {
       type: "wms",
       url: "https://ows.mundialis.de/services/service?",
       layers: "OSM-WMS",
-      tiled: false
+      tiled: false,
     },
     osm2: {
       type: "wms",
       url: "https://ows.terrestris.de/osm/service?",
       layers: "OSM-WMS",
-      tiled: false
+      tiled: false,
     },
     abkf: {
       type: "wms",
       url: "https://wunda-geoportal-cache.cismet.de/geoportal",
-      layers: "abkf"
+      layers: "abkf",
     },
     nrs: {
       type: "wms",
       url: "https://wunda-geoportal-cache.cismet.de/geoportal",
       layers: "R102%3Astadtgrundkarte_hausnr",
-      transparent: "true"
+      transparent: "true",
     },
     abkg: {
       type: "wms",
       url: "https://wunda-geoportal-cache.cismet.de/geoportal",
-      layers: "abkg"
+      layers: "abkg",
     },
     bplan_abkg: {
       type: "wms",
       url: "https://maps.wuppertal.de/deegree/wms",
-      layers: "bplanreihe"
+      layers: "bplanreihe",
     },
     bplan_abkg_cached: {
       type: "wms",
       url: "https://wunda-geoportal-cache.cismet.de/geoportal",
-      layers: "bplanreihe"
+      layers: "bplanreihe",
     },
     bplan_abkg_uncached: {
       type: "wms",
       url: "https://maps.wuppertal.de/deegree/wms",
-      layers: "bplanreihe"
+      layers: "bplanreihe",
     },
     bplan_ovl: {
       type: "wms",
       url: "https://maps.wuppertal.de/deegree/wms",
-      layers: "bplanhintergrund"
+      layers: "bplanhintergrund",
     },
     bplan_ovl_cached: {
       type: "wms",
       url: "https://wunda-geoportal-cache.cismet.de/geoportal",
-      layers: "bplanhintergrund"
+      layers: "bplanhintergrund",
     },
     abkIntra: {
       type: "wms",
       url: "http://s10221:7098/alkis/services",
-      layers: "alkomf"
+      layers: "alkomf",
     },
     uwBPlan: {
       type: "wms",
       url: "https://maps.wuppertal.de/deegree/wms",
-      layers: "bplanreihe,bplanhintergrund"
+      layers: "bplanreihe,bplanhintergrund",
     },
     uwBPlanCached: {
       type: "wms",
       url: "https://wunda-geoportal-cache.cismet.de/geoportal",
-      layers: "bplanreihe,bplanhintergrund"
+      layers: "bplanreihe,bplanhintergrund",
     },
     webatlas: {
       type: "wms",
       url: "https://sg.geodatenzentrum.de/wms_webatlasde__60d825c3-a2c2-2133-79c0-48721caab5c3?",
       layers: "webatlasde",
-      tiled: "false"
+      tiled: "false",
     },
     rvrSchriftNT: {
       type: "wmts-nt",
@@ -251,7 +251,7 @@ export const defaultLayerConf = {
       version: "1.3.0",
       tiled: false,
       transparent: true,
-      buffer: 50
+      buffer: 50,
     },
     rvrSchrift: {
       type: "wmts",
@@ -259,7 +259,7 @@ export const defaultLayerConf = {
       layers: "dop_overlay",
       version: "1.3.0",
       tiled: false,
-      transparent: true
+      transparent: true,
     },
     rvrSchrift2: {
       type: "wms",
@@ -267,7 +267,7 @@ export const defaultLayerConf = {
       layers: "spw2_schrift",
       version: "1.3.0",
       tiled: false,
-      transparent: true
+      transparent: true,
     },
     rvrGrundriss: {
       type: "wmts",
@@ -275,87 +275,93 @@ export const defaultLayerConf = {
       layers: "spw2_light_grundriss",
       version: "1.3.0",
       transparent: true,
-      tiled: false
+      tiled: false,
     },
     ruhrWMS: {
       type: "wms",
       url: "https://geodaten.metrotadtpoleruhr.de/spw2/service",
       layers: "spw2_light",
       tiled: "false",
-      version: "1.3.0"
+      version: "1.3.0",
     },
     rvrGrau: {
       type: "wms",
       url: "https://geodaten.metropoleruhr.de/spw2/service",
       layers: "spw2_graublau",
       tiled: "false",
-      version: "1.3.0"
+      version: "1.3.0",
     },
     empty: {
       type: "wms",
       url: "-",
       layers: "-",
       tiled: "false",
-      version: "1.3.0"
+      version: "1.3.0",
     },
     "wupp-plan-live": {
       type: "wms",
       url: "https://geodaten.metropoleruhr.de/spw2/service",
       layers: "spw2_light",
       tiled: "false",
-      version: "1.3.0"
+      version: "1.3.0",
     },
 
     orthoIntra: {
       type: "wms",
       url: "http://s10221:7098/orthofotos/services",
       layers: "WO2018",
-      transparent: true
+      transparent: true,
     },
     trueOrthoIntra: {
       type: "wms",
       url: "http://s10221:7098/orthofotos/services",
       layers: "WTO2018",
-      transparent: true
+      transparent: true,
     },
     trueOrtho2018: {
       type: "wms",
       url: "https://maps.wuppertal.de/deegree/wms",
       layers: "R102:trueortho201810",
-      transparent: true
+      transparent: true,
     },
     trueOrtho2020: {
       type: "wms",
       url: "https://maps.wuppertal.de/deegree/wms",
       layers: "R102:trueortho202010",
-      transparent: true
+      transparent: true,
+    },
+    trueOrtho2022: {
+      type: "wms",
+      url: "https://maps.wuppertal.de/deegree/wms",
+      layers: "R102:trueortho202210",
+      transparent: true,
     },
     hillshade: {
       type: "wms",
       url: "https://maps.wuppertal.de/deegree/wms",
-      layers: "hillshade"
+      layers: "hillshade",
     },
     trueOrtho2018Cached: {
       type: "wms",
       url: "https://wunda-geoportal-cache.cismet.de/geoportal",
-      layers: "R102:trueortho201810"
+      layers: "R102:trueortho201810",
     },
     trueOrtho2020Cached: {
       type: "wms",
       url: "https://wunda-geoportal-cache.cismet.de/geoportal",
-      layers: "R102:trueortho202010"
+      layers: "R102:trueortho202010",
     },
     hillshadeCached: {
       type: "wms",
       url: "https://wunda-geoportal-cache.cismet.de/geoportal",
-      layers: "hillshade"
+      layers: "hillshade",
     },
     ESRILayer: {
       type: "tiles",
       url:
         "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       maxZoom: 22,
-      maxNativeZoom: 18
+      maxNativeZoom: 18,
     },
     CartoLayer: {
       type: "tiles",
@@ -363,23 +369,23 @@ export const defaultLayerConf = {
       attribution:
         "&copy; <a href=&quot;http://www.openstreetmap.org/copyright&quot;>OpenStreetMap</a> contributors, &copy; <a href=&quot;https://carto.com/attributions&quot;>CARTO</a>",
       maxNativeZoom: 19,
-      maxZoom: 22
+      maxZoom: 22,
     },
     LocalOMT_Klokantech_basic: {
       type: "vector",
-      style: "http://localhost:888/styles/klokantech-basic/style.json"
+      style: "http://localhost:888/styles/klokantech-basic/style.json",
     },
     LocalOMT_OSM_bright: {
       type: "vector",
-      style: "http://localhost:888/styles/osm-bright/style.json"
+      style: "http://localhost:888/styles/osm-bright/style.json",
     },
     OMT_Klokantech_basic: {
       type: "vector",
-      style: "https://omt.map-hosting.de/styles/klokantech-basic/style.json"
+      style: "https://omt.map-hosting.de/styles/klokantech-basic/style.json",
     },
     OMT_OSM_bright: {
       type: "vector",
-      style: "https://omt.map-hosting.de/styles/osm-bright/style.json"
-    }
-  }
+      style: "https://omt.map-hosting.de/styles/osm-bright/style.json",
+    },
+  },
 };
