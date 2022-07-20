@@ -20,6 +20,7 @@ const AppMenu = (props) => {
     previewMapPosition,
     previewFeatureCollectionCount,
     titleCheckBoxlabel,
+    menuFooter,
   } = props;
 
   let _menuIntroduction;
@@ -74,6 +75,7 @@ const AppMenu = (props) => {
       menuTitle={menuTitle}
       menuIntroduction={_menuIntroduction}
       menuSections={_menuSections}
+      menuFooter={menuFooter}
     />
   );
 };

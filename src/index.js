@@ -10,6 +10,8 @@ import * as TopicMapsExamples from "./lib/_stories/complex/TopicMap.stories";
 import * as MoreTopicMapsExamples from "./lib/_stories/complex/MoreTopicMap.stories";
 import * as MapLibreExamples from "./lib/_stories/vector/MapLibreLayer.stories";
 import * as LeafletExamples from "./lib/_stories/mainComponents/Map.stories";
+import * as GenericTopicMapsExamples from "./lib/_stories/complex/GenericTopicMap.stories";
+
 const TestContext = React.createContext();
 
 const ContextDisplay = () => {
@@ -60,10 +62,10 @@ ReactDOM.render(
 
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
     {/* <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers /> */}
-    <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox />
+    {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox /> */}
     {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole /> */}
     {/* <MoreTopicMapsExamples.TopicMapWithOfflineDataConfiguration /> */}
-    {/* <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Wasserstofftankstelle /> */}
+    <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Wasserstofftankstelle />
     {/* <TopicMapsExamples.TopicMapWithWithStaticFilter /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayer /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerRedrawingitself /> */}

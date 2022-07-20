@@ -8,6 +8,7 @@ import TopicMapComponent from "../../topicmaps/TopicMapComponent";
 import DefaultAppMenu from "../../topicmaps/menu/DefaultAppMenu";
 import Control from "react-leaflet-control";
 import { getGazData, storiesCategory } from "./StoriesConf";
+import CismetFooterAcks from "../../topicmaps/wuppertal/CismetFooterAcknowledgements";
 
 //--------  Config Files
 import * as wasserstoffConfig from "./config/wasserstoff/";
@@ -116,6 +117,13 @@ export const SimpleStaticGenericTopicMap_Wasserstofftankstelle = () => {
               Vorlieben anpassen. Wählen Sie **Kompaktanleitung** 
               für detailliertere Bedienungsinformationen.`}
               menuIcon={config?.tm?.applicationMenuIconname}
+              menuFooter={
+                <div style={{ fontSize: "11px" }}>
+                  <b>Hintergrundkarten</b>: Stadtkarte 2.0 © RVR | True Orthophoto 2022 © Stadt
+                  Wuppertal <br />
+                  <CismetFooterAcks />
+                </div>
+              }
             ></DefaultAppMenu>
           }
         >
