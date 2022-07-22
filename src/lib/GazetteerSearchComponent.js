@@ -35,6 +35,7 @@ const COMP = ({
   gazetteerHitAction = () => {},
   gazeteerHitTrigger,
   gazetteerHitTrigger,
+  tooltipPlacement = "top",
   searchTooltipProvider = function () {
     return (
       <Tooltip
@@ -143,7 +144,11 @@ const COMP = ({
         <InputGroup>
           {/* {firstbutton} */}
           <InputGroup.Prepend onClick={internalClearButtonTrigger}>
-            <OverlayTrigger placement="top" rootClose={true} overlay={gazClearTooltipProvider()}>
+            <OverlayTrigger
+              placement={tooltipPlacement}
+              rootClose={true}
+              overlay={gazClearTooltipProvider()}
+            >
               <Button
                 style={
                   buttonDisabled === false
