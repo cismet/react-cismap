@@ -1,7 +1,7 @@
 {
 	"name": "react-cismap",
 	"description": "our (cismet) mapping (pattern) library for better reusability in different projects",
-	"version": "1.9.6",
+	"version": "1.10.0",
 	"main": "index.js",
 	"module": "index.js",
 	"files": [
@@ -64,7 +64,7 @@
 		"leaflet-extra-markers": "^1.2.1",
 		"leaflet-fullscreen-custom-container-fork": "^1.0.7",
 		"leaflet-snap": "^0.0.4",
-		"leaflet.locatecontrol": "^0.63.0",
+		"leaflet.locatecontrol": "0.76.1",
 		"leaflet.markercluster": "^1.4.0",
 		"leaflet.nontiledlayer": "^1.0.9",
 		"leaflet.path.drag": "^0.0.6",

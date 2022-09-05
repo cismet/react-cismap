@@ -121,7 +121,7 @@ export const SimpleTopicMap = () => {
 
   return (
     <TopicMapContextProvider featureItemsURL="/data/parkscheinautomatenfeatures.json">
-      <TopicMapComponent gazData={gazData}>
+      <TopicMapComponent locatorControl={true} gazData={gazData}>
         <FeatureCollection />
       </TopicMapComponent>
     </TopicMapContextProvider>
@@ -1062,6 +1062,7 @@ export const TopicMapWithCustomLayerSetAndAdditionalOverlayLayers = () => {
       <TopicMapComponent
         homeZoom={13}
         maxZoom={22}
+        locatorControl={true}
         modalMenu={
           <AppMenu
             x={99}
