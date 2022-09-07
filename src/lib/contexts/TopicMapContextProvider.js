@@ -20,7 +20,7 @@ const defaultState = {
   location: undefined,
   boundingBox: undefined,
   routedMapRef: undefined,
-  titleFactory: undefined,
+  titleFactory: undefined
 };
 
 const StateContext = React.createContext();
@@ -40,6 +40,7 @@ const TopicMapContextProvider = ({
   uiContextEnabled = true,
   offlineLayerCacheContextEnabled = true,
   getFeatureStyler,
+  additionalStylingInfo,
   featureTooltipFunction,
   getColorFromProperties,
   alwaysShowAllFeatures = false,
@@ -67,9 +68,9 @@ const TopicMapContextProvider = ({
       "activeAdditionalLayerKeys",
       "namedMapStyle",
       "selectedBackground",
-      "markerSymbolSize",
+      "markerSymbolSize"
     ],
-    offlinelayers: ["vectorLayerOfflineEnabled"],
+    offlinelayers: ["vectorLayerOfflineEnabled"]
   },
   titleFactory = ({ featureCollectionContext }) => {
     let themenstadtplanDesc = "?";
@@ -103,7 +104,7 @@ const TopicMapContextProvider = ({
   initialLoadingDelay,
   nextFeature,
   prevFeature,
-  deriveSecondarySelection,
+  deriveSecondarySelection
 }) => {
   const [state, dispatch] = useImmer({
     ...defaultState,
@@ -114,12 +115,12 @@ const TopicMapContextProvider = ({
     referenceSystemDefinition,
     maskingPolygon,
     mapEPSGCode,
-    appMode,
+    appMode
   });
   const contextKey = "topicmap";
   const set = (prop, noTest) => {
-    return (x) => {
-      dispatch((state) => {
+    return x => {
+      dispatch(state => {
         if (noTest === true || JSON.stringify(state[prop]) !== JSON.stringify(x)) {
           if (persistenceSettings[contextKey]?.includes(prop)) {
             localforage.setItem("@" + appKey + "." + contextKey + "." + prop, x);
@@ -134,11 +135,11 @@ const TopicMapContextProvider = ({
     setBoundingBox: set("boundingBox"),
     setLocation: set("location"),
     setRoutedMapRef: set("routedMapRef", true),
-    setAppMode: set("appMode", true),
+    setAppMode: set("appMode", true)
   };
 
   const fitBBox = (bbox, refDefOfBBox) => {
-    dispatch((state) => {
+    dispatch(state => {
       if (state?.routedMapRef?.leafletMap?.leafletElement?.fitBounds && bbox) {
         state.routedMapRef.leafletMap.leafletElement.fitBounds(
           convertBBox2Bounds(bbox, refDefOfBBox || referenceSystemDefinition)
@@ -153,7 +154,7 @@ const TopicMapContextProvider = ({
         value={{
           dispatch,
           ...convenienceFunctions,
-          zoomToFeature: (feature) => {
+          zoomToFeature: feature => {
             let zoomlevel;
             if (referenceSystem === MappingConstants.crs25832) {
               zoomlevel = 15;
@@ -173,7 +174,7 @@ const TopicMapContextProvider = ({
               if (type === "Point") {
                 const pos = proj4(refDef, proj4.defs("EPSG:4326"), [
                   feature.geometry.coordinates[0],
-                  feature.geometry.coordinates[1],
+                  feature.geometry.coordinates[1]
                 ]);
 
                 state.routedMapRef.leafletMap.leafletElement.setView([pos[1], pos[0]], zoomlevel);
@@ -191,12 +192,12 @@ const TopicMapContextProvider = ({
               state.routedMapRef.leafletMap.leafletElement.setView(
                 [
                   state.routedMapRef.props.fallbackPosition.lat,
-                  state.routedMapRef.props.fallbackPosition.lng,
+                  state.routedMapRef.props.fallbackPosition.lng
                 ],
                 state.routedMapRef.props.fallbackZoom
               );
             }
-          },
+          }
         }}
       >
         <TopicMapStylingContextProvider
@@ -207,6 +208,7 @@ const TopicMapContextProvider = ({
           backgroundModes={backgroundModes}
           appKey={appKey}
           persistenceSettings={persistenceSettings}
+          additionalStylingInfo={additionalStylingInfo}
         >
           <FeatureCollectionContextProvider
             enabled={featureCollectionEnabled}
@@ -274,5 +276,5 @@ export default TopicMapContextProvider;
 export {
   TopicMapContextProvider,
   StateContext as TopicMapContext,
-  DispatchContext as TopicMapDispatchContext,
+  DispatchContext as TopicMapDispatchContext
 };

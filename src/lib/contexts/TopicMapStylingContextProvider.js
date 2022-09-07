@@ -13,23 +13,23 @@ if (getInternetExplorerVersion() === -1) {
     {
       title: "Stadtplan (Tag)",
       mode: "default",
-      layerKey: "stadtplan",
+      layerKey: "stadtplan"
     },
     {
       title: "Stadtplan (Nacht)",
       mode: "night",
-      layerKey: "stadtplan",
+      layerKey: "stadtplan"
     },
-    { title: "Luftbildkarte", mode: "default", layerKey: "lbk" },
+    { title: "Luftbildkarte", mode: "default", layerKey: "lbk" }
   ];
 } else {
   defaultBackgroundModes = [
     {
       title: "Stadtplan",
       mode: "default",
-      layerKey: "stadtplan",
+      layerKey: "stadtplan"
     },
-    { title: "Luftbildkarte", mode: "default", layerKey: "lbk" },
+    { title: "Luftbildkarte", mode: "default", layerKey: "lbk" }
   ];
 }
 
@@ -37,19 +37,19 @@ const defaultBackgroundConfigurations = {
   topo: {
     layerkey: "hillshade|bplan_abkg@30|wupp-plan-live@20",
     src: "/images/rain-hazard-map-bg/topo.png",
-    title: "Top. Karte",
+    title: "Top. Karte"
   },
   lbk: {
     // layerkey: "rvrGrundriss@100|trueOrtho2020@75|rvrSchrift@100",
     layerkey: "rvrGrundriss@100|trueOrtho2022@75|rvrSchriftNT@100",
     src: "/images/rain-hazard-map-bg/ortho.png",
-    title: "Luftbildkarte",
+    title: "Luftbildkarte"
   },
   stadtplan: {
     layerkey: "wupp-plan-live@90",
     src: "/images/rain-hazard-map-bg/citymap.png",
-    title: "Stadtplan",
-  },
+    title: "Stadtplan"
+  }
 };
 const defaultState = {
   additionalLayerConfiguration: {},
@@ -60,6 +60,7 @@ const defaultState = {
   backgroundModes: defaultBackgroundModes,
   markerSymbolSize: 35,
   backgroundConfigurations: defaultBackgroundConfigurations,
+  additionalStylingInfo: {}
 };
 const TopicMapStylingContextProvider = ({
   children,
@@ -72,6 +73,7 @@ const TopicMapStylingContextProvider = ({
   persistenceSettings,
   backgroundConfigurations,
   backgroundModes,
+  additionalStylingInfo
 }) => {
   const activeAdditionalLayerKeys = [];
   if (additionalLayerConfiguration) {
@@ -90,13 +92,13 @@ const TopicMapStylingContextProvider = ({
     namedMapStyle,
     backgroundConfigurations: backgroundConfigurations || defaultBackgroundConfigurations,
     backgroundModes: backgroundModes || defaultBackgroundModes,
-    updater: 0,
+    updater: 0
   });
 
   const contextKey = "styling";
   const set = (prop, noTest) => {
-    return (x) => {
-      dispatch((state) => {
+    return x => {
+      dispatch(state => {
         if (noTest === true || JSON.stringify(state[prop]) !== JSON.stringify(x)) {
           if (persistenceSettings[contextKey]?.includes(prop)) {
             localforage.setItem("@" + appKey + "." + contextKey + "." + prop, x);
@@ -121,6 +123,7 @@ const TopicMapStylingContextProvider = ({
     setMarkerSymbolSize: set("markerSymbolSize"),
     setSelectedBackground: set("selectedBackground"),
     setActiveAdditionalLayerKeys: set("activeAdditionalLayerKeys"),
+    setAdditionalStylingInfo: set("additionalStylingInfo")
   };
 
   if (enabled === true) {
@@ -129,7 +132,7 @@ const TopicMapStylingContextProvider = ({
         <DispatchContext.Provider
           value={{
             dispatch,
-            ...setX,
+            ...setX
           }}
         >
           {children}
@@ -141,7 +144,7 @@ const TopicMapStylingContextProvider = ({
       <StateContext.Provider value={undefined}>
         <DispatchContext.Provider
           value={{
-            undefined,
+            undefined
           }}
         >
           {children}
@@ -155,5 +158,5 @@ export default TopicMapStylingContextProvider;
 export {
   TopicMapStylingContextProvider,
   StateContext as TopicMapStylingContext,
-  DispatchContext as TopicMapStylingDispatchContext,
+  DispatchContext as TopicMapStylingDispatchContext
 };
