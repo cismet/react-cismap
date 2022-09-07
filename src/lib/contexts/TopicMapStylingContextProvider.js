@@ -86,6 +86,7 @@ const TopicMapStylingContextProvider = ({
   }
   const [state, dispatch] = useImmer({
     ...defaultState,
+    additionalStylingInfo,
     activeAdditionalLayerKeys,
     additionalLayerConfiguration,
     baseLayerConf,
