@@ -233,12 +233,22 @@ export const SimpleTopicMapWithCustomStyling = () => {
 
 export const SimpleTopicMapWithAdditiopnalStylingInfo = () => {
   const [gazData, setGazData] = useState([]);
+  const [additionalStylingInfo, setAdditionalStylingInfo] = useState({ first: "this" });
+
   useEffect(() => {
     getGazData(setGazData);
   }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      console.log("xxx re set additionalStylingInfo");
+      setAdditionalStylingInfo({ then: "that" });
+    }, 2000);
+  }, []);
+  console.log("render with local additionalStylingInfo", additionalStylingInfo);
 
   return (
     <TopicMapContextProvider
+      key={JSON.stringify(additionalStylingInfo)}
       getFeatureStyler={(
         markerSymbolSize,
         getColorFromProperties,
@@ -246,7 +256,7 @@ export const SimpleTopicMapWithAdditiopnalStylingInfo = () => {
         secondarySelection,
         additionalStylingInfo
       ) => {
-        console.log("xxx additionalStylingInfo", additionalStylingInfo);
+        console.log("xxx getFeatureStyler with additionalStylingInfo", additionalStylingInfo);
         return getGTMFeatureStyler(
           markerSymbolSize,
           getColorFromProperties,
@@ -261,7 +271,7 @@ export const SimpleTopicMapWithAdditiopnalStylingInfo = () => {
         iconCreateFunction: getClusterIconCreatorFunction(30, getColorFromProperties)
       }}
       featureItemsURL="/data/parkscheinautomatenfeatures.json"
-      additionalStylingInfo={{ here: "I am" }}
+      additionalStylingInfo={additionalStylingInfo}
     >
       <TopicMapComponent
         gazData={gazData}
