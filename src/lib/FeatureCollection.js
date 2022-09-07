@@ -3,14 +3,14 @@ import React, { useContext } from "react";
 import { FeatureCollectionDisplayWithTooltipLabels } from ".";
 import {
   FeatureCollectionContext,
-  FeatureCollectionDispatchContext,
+  FeatureCollectionDispatchContext
 } from "./contexts/FeatureCollectionContextProvider";
 import { TopicMapContext } from "./contexts/TopicMapContextProvider";
 import { TopicMapStylingContext } from "./contexts/TopicMapStylingContextProvider";
 import FeatureCollectionDisplay from "./FeatureCollectionDisplay";
 
 export const getDefaultFeatureStyler = (size = 24, colorizer = () => "#2664D8") => {
-  return (feature) => {
+  return feature => {
     let color;
     if (feature.selected === true) {
       color = new Color("#2664D8");
@@ -22,7 +22,7 @@ export const getDefaultFeatureStyler = (size = 24, colorizer = () => "#2664D8") 
       fillColor: color,
       color: color.darken(0.1),
       opacity: 1,
-      fillOpacity: 0.8,
+      fillOpacity: 0.8
     };
   };
 };
@@ -35,11 +35,11 @@ export const defaultClusteringOptions = {
   animate: false,
   cismapZoomTillSpiderfy: 12,
   selectionSpiderfyMinZoom: 12,
-  colorizer: (props) => props.color,
-  clusterIconSize: 30,
+  colorizer: props => props.color,
+  clusterIconSize: 30
 };
 // Since this component is simple and static, there's no parent container for it.
-const FeatureCollection = (props) => {
+const FeatureCollection = props => {
   const {
     name,
     itemsUrl,
@@ -65,11 +65,12 @@ const FeatureCollection = (props) => {
     featureKeySuffixGenerator = () => {},
     featureCollectionKeyPostfix,
     handleSelectionInternaly = true,
-    defaultContextValues = {},
+    defaultContextValues = {}
   } = props;
   const { routedMapRef, boundingBox, appMode } =
     useContext(TopicMapContext) || defaultContextValues;
-  const { markerSymbolSize } = useContext(TopicMapStylingContext) || defaultContextValues;
+  const { markerSymbolSize, additionalStylingInfo } =
+    useContext(TopicMapStylingContext) || defaultContextValues;
   const {
     shownFeatures,
     clusteringOptions: clusteringOptionsFromContext,
@@ -77,7 +78,7 @@ const FeatureCollection = (props) => {
     getFeatureStyler,
     getColorFromProperties,
     featureTooltipFunction,
-    secondarySelection,
+    secondarySelection
   } = useContext(FeatureCollectionContext) || defaultContextValues;
 
   const { setSelectedFeatureIndex } =
@@ -87,27 +88,29 @@ const FeatureCollection = (props) => {
 
   let _style;
   if (styler !== undefined) {
-    _style = styler(markerSymbolSize, getColorFromProperties || ((props) => props.color), appMode);
+    _style = styler(markerSymbolSize, getColorFromProperties || (props => props.color), appMode);
   } else if (getFeatureStyler !== undefined) {
     _style = getFeatureStyler(
       markerSymbolSize,
-      getColorFromProperties || ((props) => props.color),
+      getColorFromProperties || (props => props.color),
       appMode,
-      secondarySelection
+      secondarySelection,
+      additionalStylingInfo
     );
   } else {
     _style = getDefaultFeatureStyler(
       markerSymbolSize,
-      getColorFromProperties || ((props) => props.color),
+      getColorFromProperties || (props => props.color),
       appMode,
-      secondarySelection
+      secondarySelection,
+      additionalStylingInfo
     );
   }
 
   const _clusterOptions = {
     ...defaultClusteringOptions,
     ...clusteringOptionsFromContext,
-    ...clusteringOptions,
+    ...clusteringOptions
   };
 
   // if (_clusterOptions.iconCreateFunction === undefined) {
@@ -120,7 +123,7 @@ const FeatureCollection = (props) => {
 
   let getFeatureCollectionForData = () => {};
 
-  const internalFeatureClickHandler = (event) => {
+  const internalFeatureClickHandler = event => {
     const feature = event.sourceTarget.feature;
 
     if (handleSelectionInternaly === true && feature.preventSelection !== true) {
