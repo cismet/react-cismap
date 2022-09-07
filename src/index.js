@@ -20,7 +20,7 @@ const ContextDisplay = () => {
     <div
       onClick={() => {
         if (testContextValue !== undefined) {
-          testContextValue.setCounter((old) => old + 1);
+          testContextValue.setCounter(old => old + 1);
         }
       }}
     >
@@ -50,6 +50,7 @@ ReactDOM.render(
 
     {/* <TopicMapsExamples.MostSimpleTopicMapWithGazetteerData /> */}
     {/* <TopicMapsExamples.SimpleTopicMap /> */}
+    <TopicMapsExamples.SimpleTopicMapWithAdditiopnalStylingInfo />
     {/* <TopicMapsExamples.SimpleTopicMapWithCustomMenu /> */}
     {/* <TopicMapsExamples.SimpleTopicMapWithDefaultInfoBox /> */}
     {/* <TopicMapsExamples.SimpleTopicMapWithInfoBox /> */}
@@ -61,7 +62,7 @@ ReactDOM.render(
     {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
 
     {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
-    <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers />
+    {/* <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers /> */}
     {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox /> */}
     {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole /> */}
     {/* <MoreTopicMapsExamples.TopicMapWithOfflineDataConfiguration /> */}
