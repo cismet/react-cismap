@@ -141,7 +141,7 @@
 		"cy": "cypress open",
 		"cy-run": "cypress run",
 		"copypackage": "cp -rf package.json dist",
-		"dist": "cd dist && bash -c 'npm publish'",
+		"dist": "bash -c 'yarn build' && cd dist && bash -c 'npm publish'",
 		"dist-pack": "cd dist && bash -c 'npm pack'",
 		"linkdist": "cd dist && bash -c 'yarn link'",
 		"unlinkdist": "cd dist && bash -c 'yarn unlink'",
