@@ -18,7 +18,7 @@ const Comp = ({ reactModalStyleOverride, defaultContextValues = {} }) => {
 
     let _caption;
 
-    if (captions) {
+    if (captions && captions.length > 0) {
       try {
         _caption = captions[index];
       } catch (e) {
