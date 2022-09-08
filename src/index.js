@@ -50,9 +50,9 @@ ReactDOM.render(
 
     {/* <TopicMapsExamples.MostSimpleTopicMapWithGazetteerData /> */}
     {/* <TopicMapsExamples.SimpleTopicMap /> */}
-    <TopicMapsExamples.SimpleTopicMapWithAdditiopnalStylingInfo />
+    {/* <TopicMapsExamples.SimpleTopicMapWithAdditiopnalStylingInfo /> */}
     {/* <TopicMapsExamples.SimpleTopicMapWithCustomMenu /> */}
-    {/* <TopicMapsExamples.SimpleTopicMapWithDefaultInfoBox /> */}
+    <TopicMapsExamples.SimpleTopicMapWithDefaultInfoBox />
     {/* <TopicMapsExamples.SimpleTopicMapWithInfoBox /> */}
     {/* <TopicMapsExamples.SimpleTopicMapWithCustomStyling /> */}
     {/* <TopicMapsExamples.SimpleTopicMapWithFullClusteringOptionsAndStyling /> */}

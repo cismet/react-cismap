@@ -58,6 +58,7 @@
             },
             "Nummer": 2144,
             "Standort": "Hochstaße 97",
+            "foto": "https://wunda-geoportal-fotos.cismet.de//images/Holsteiner%20Treppe-016-08-11-003.jpg",
             "Bezirk": "W-Elberfeld",
             "Anzahl": 11,
             "Dauer_Ges": "keine Festlegung getroffen",
@@ -77,7 +78,7 @@
                 5680441.54200493
             ]
         },
-        "text": 2144
+        "text": "2144 mit Bild"
     },
     {
         "crs": {
