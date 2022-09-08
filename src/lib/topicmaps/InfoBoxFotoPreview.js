@@ -6,14 +6,14 @@ import { triggerLightBoxForFeature } from "../tools/lightboxHelpers";
 // Since this component is simple and static, there's no parent container for it.
 const Comp = ({
   currentFeature,
-  getPhotoUrl = (feature) => feature?.properties?.foto,
-  getPhotoSeriesUrl = (feature) => feature?.properties?.fotostrecke,
-  getPhotoSeriesArray = (feature) => feature?.properties?.fotos,
-  urlManipulation = (input) => input,
+  getPhotoUrl = feature => feature?.properties?.foto,
+  getPhotoSeriesUrl = feature => feature?.properties?.fotostrecke,
+  getPhotoSeriesArray = feature => feature?.properties?.fotos,
+  urlManipulation = input => input,
   captionFactory,
   width = 150,
   openLightBox,
-  lightBoxDispatchContext,
+  lightBoxDispatchContext
 }) => {
   if (
     currentFeature === undefined ||
@@ -39,7 +39,7 @@ const Comp = ({
                       getPhotoUrl,
                       getPhotoSeriesUrl,
                       getPhotoSeriesArray,
-                      urlManipulation,
+                      urlManipulation
                     });
                   }
                 }}
