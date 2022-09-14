@@ -33,14 +33,14 @@ const defaultState = {
   featureTooltipFunction: undefined,
   selectedIndexState: {
     selectedIndex: 0,
-    forced: false
+    forced: false,
   },
   clusteringEnabled: false,
   clusteringOptions: undefined,
   classKeyFunction: undefined,
   getColorFromProperties: undefined,
   epsgCode: undefined,
-  initializingFeatures: false
+  initializingFeatures: false,
 };
 
 const StateContext = React.createContext();
@@ -52,7 +52,7 @@ const getItems = async ({
   convertItemToFeature,
   name = "cachedFeatureCollection",
   caching = true,
-  withMD5Check = true
+  withMD5Check = true,
 }) => {
   const prefix = name;
   let items;
@@ -81,7 +81,7 @@ const FeatureCollectionContextProvider = ({
   items,
   featureCollectionName,
   featureTooltipFunction,
-  convertItemToFeature = itemIsFeature => JSON.parse(JSON.stringify(itemIsFeature || {})),
+  convertItemToFeature = (itemIsFeature) => JSON.parse(JSON.stringify(itemIsFeature || {})),
   itemFilterFunction,
   filterFunction,
   appKey,
@@ -91,7 +91,7 @@ const FeatureCollectionContextProvider = ({
   createItemsDictionary = () => {},
   nextFeature,
   prevFeature,
-  deriveSecondarySelection
+  deriveSecondarySelection,
 }) => {
   const [state, dispatch] = useImmer({
     ...defaultState,
@@ -106,7 +106,7 @@ const FeatureCollectionContextProvider = ({
     filterState,
     classKeyFunction,
     featureTooltipFunction,
-    createItemsDictionary
+    createItemsDictionary,
   });
   //console.log(" featureCollectionState", state);
 
@@ -114,11 +114,13 @@ const FeatureCollectionContextProvider = ({
   const { fitBBox } = useContext(TopicMapDispatchContext);
   const contextKey = "featureCollection";
   const set = (prop, noTest) => {
-    return x => {
-      dispatch(state => {
+    return (x) => {
+      dispatch((state) => {
         if (noTest === true || JSON.stringify(state[prop]) !== JSON.stringify(x)) {
           if (persistenceSettings[contextKey]?.includes(prop)) {
+            // (async () => {
             localforage.setItem("@" + appKey + "." + contextKey + "." + prop, x);
+            // })();
           }
           state[prop] = x;
         }
@@ -142,12 +144,12 @@ const FeatureCollectionContextProvider = ({
     otherFeatures,
     shownFeatures,
     selectedIndexState,
-    selectedFeature
+    selectedFeature,
   } = state;
   const selectedIndex = selectedIndexState.selectedIndex;
 
   const setX = {
-    setItems: items => {
+    setItems: (items) => {
       set("itemsDictionary")(createItemsDictionary(items));
       set("items")(items);
     },
@@ -168,19 +170,19 @@ const FeatureCollectionContextProvider = ({
     setSelectedIndexState: set("selectedIndexState"),
     setClusteringEnabled: set("clusteringEnabled"),
     setFeatureTooltipFunction: set("featureTooltipFunction"),
-    setClusteringOptions: set("clusteringOptions")
+    setClusteringOptions: set("clusteringOptions"),
   };
 
-  const setSelectedFeatureIndex = selectedIndex => {
+  const setSelectedFeatureIndex = (selectedIndex) => {
     setX.setSelectedIndexState({ selectedIndex, forced: true }); //overrules keep index when boundingbox is changed
   };
 
-  const setSelectedIndex = selectedIndex => {
+  const setSelectedIndex = (selectedIndex) => {
     setX.setSelectedIndexState({ selectedIndex, forced: false });
   };
 
   const setSelectedFeatureByPredicate = (predicate, feedbacker = () => {}) => {
-    dispatch(state => {
+    dispatch((state) => {
       let index = 0;
       for (const feature of state.shownFeatures) {
         // console.log("predicate loop. will check ", feature.properties.id);
@@ -197,8 +199,8 @@ const FeatureCollectionContextProvider = ({
     });
   };
 
-  const fitBoundsForCollection = featuresToZoomTo => {
-    dispatch(state => {
+  const fitBoundsForCollection = (featuresToZoomTo) => {
+    dispatch((state) => {
       let fc = featuresToZoomTo || state.allFeatures;
       if (fc.length > 0) {
         let refDef;
@@ -221,10 +223,10 @@ const FeatureCollectionContextProvider = ({
   };
 
   const getSelectableCount = () => {
-    return shownFeatures.length - shownFeatures.filter(f => f.properties.preventSelection).length;
+    return shownFeatures.length - shownFeatures.filter((f) => f.properties.preventSelection).length;
   };
 
-  const nextIndex = currentIndex => {
+  const nextIndex = (currentIndex) => {
     const newIndex = currentIndex + (1 % shownFeatures.length);
     if (shownFeatures[newIndex]?.preventSelection === true) {
       return nextIndex(newIndex);
@@ -233,7 +235,7 @@ const FeatureCollectionContextProvider = ({
     }
   };
 
-  const prevIndex = currentIndex => {
+  const prevIndex = (currentIndex) => {
     let newIndex = currentIndex - (1 % shownFeatures.length);
     if (newIndex === -1) {
       newIndex = shownFeatures.length - 1;
@@ -288,7 +290,7 @@ const FeatureCollectionContextProvider = ({
         for (const item of state.filteredItems || []) {
           const f = await convertItemToFeature(item);
           // check if it is an array of features
-          const doFeature = f => {
+          const doFeature = (f) => {
             f.selected = false;
             f.id = id++;
             if (f?.geometry?.type === "Point") {
@@ -318,8 +320,8 @@ const FeatureCollectionContextProvider = ({
         setX.setPointFeatureIndex(
           new KDBush(
             points,
-            p => p.geometry.coordinates[0],
-            p => p.geometry.coordinates[1]
+            (p) => p.geometry.coordinates[0],
+            (p) => p.geometry.coordinates[1]
           )
         );
         // other geometries
@@ -343,7 +345,7 @@ const FeatureCollectionContextProvider = ({
             filterState: state.filterState,
             filterMode: state.filterMode,
             appMode: appMode,
-            itemsDictionary: state.itemsDictionary
+            itemsDictionary: state.itemsDictionary,
           })
         );
       } else {
@@ -413,15 +415,15 @@ const FeatureCollectionContextProvider = ({
               projectedBoundingBox.left,
               projectedBoundingBox.bottom,
               projectedBoundingBox.right,
-              projectedBoundingBox.top
+              projectedBoundingBox.top,
             ]),
             otherFeatures
           );
 
-          const ofhCenterObjects = unsortedOtherFeaturesHits.map(f => {
+          const ofhCenterObjects = unsortedOtherFeaturesHits.map((f) => {
             return {
               feature: f,
-              center: center(f.geometry)
+              center: center(f.geometry),
             };
           });
 
@@ -437,7 +439,7 @@ const FeatureCollectionContextProvider = ({
             }
           });
 
-          otherFeaturesHits = ofhCenterObjects.map(ofh => {
+          otherFeaturesHits = ofhCenterObjects.map((ofh) => {
             return ofh.feature;
           });
         }
@@ -455,7 +457,7 @@ const FeatureCollectionContextProvider = ({
         const nf = {
           selected: false,
           index: i++,
-          ...f
+          ...f,
         };
         _shownFeatures.push(nf);
       }
@@ -467,7 +469,7 @@ const FeatureCollectionContextProvider = ({
             setSelectedIndex(selIndex);
           }
         } else if (selectedFeature !== undefined) {
-          const found = _shownFeatures.find(testfeature => selectedFeature.id === testfeature.id);
+          const found = _shownFeatures.find((testfeature) => selectedFeature.id === testfeature.id);
 
           if (found !== undefined) {
             if (found.index !== selectedIndex) {
@@ -505,7 +507,7 @@ const FeatureCollectionContextProvider = ({
             appMode: appMode,
             itemsDictionary: state.itemsDictionary,
             featureCollection: state.shownFeatures,
-            secondarySelection: state.secondarySelection
+            secondarySelection: state.secondarySelection,
           })
         );
       }
@@ -521,10 +523,10 @@ const FeatureCollectionContextProvider = ({
     polyFeatureIndex,
     allFeatures,
     selectedIndexState,
-    state.initializingFeatures
+    state.initializingFeatures,
   ]);
 
-  const load = url => {
+  const load = (url) => {
     getItems({ itemsUrl: url, ...setX, name: featureCollectionName, convertItemToFeature });
   };
 
@@ -560,7 +562,7 @@ const FeatureCollectionContextProvider = ({
                 prev();
               }
             },
-            fitBoundsForCollection
+            fitBoundsForCollection,
           }}
         >
           {children}
@@ -572,7 +574,7 @@ const FeatureCollectionContextProvider = ({
       <StateContext.Provider value={undefined}>
         <DispatchContext.Provider
           value={{
-            undefined
+            undefined,
           }}
         >
           {children}
@@ -587,5 +589,5 @@ export default FeatureCollectionContextProvider;
 export {
   FeatureCollectionContextProvider,
   StateContext as FeatureCollectionContext,
-  DispatchContext as FeatureCollectionDispatchContext
+  DispatchContext as FeatureCollectionDispatchContext,
 };
