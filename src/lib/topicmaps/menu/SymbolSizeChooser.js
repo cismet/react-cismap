@@ -114,7 +114,6 @@ SymbolSizeChooser.propTypes = {
   changeMarkerSymbolSize: PropTypes.func.isRequired,
   currentMarkerSize: PropTypes.number.isRequired,
   getSymbolSVG: PropTypes.func,
-  symbolColor: PropTypes.object,
   config: PropTypes.object,
   sizeMulitplier: PropTypes.number,
 };

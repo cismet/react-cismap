@@ -12,7 +12,7 @@ const GenericHelpTextForMyLocation = ({ defaultContextValues = {} }) => {
   let addendum = customizations?.genericHelpTextForMyLocation?.addendum || null;
 
   return (
-    <p>
+    <>
       <p>
         Das Werkzeug &quot;Mein Standort&quot; <FontAwesomeIcon icon={faLocationArrow} />{" "}
         funktioniert so wie hier beschrieben nur auf mobilen Endgeräten wie Smartphones und
@@ -69,7 +69,7 @@ const GenericHelpTextForMyLocation = ({ defaultContextValues = {} }) => {
         spiegelnde Oberflächen in der Nachbarschaft) sowie der Methode, mit der ihr Endgerät und der
         von Ihnen verwendete Browser die Position bestimmen.
       </p>
-    </p>
+    </>
   );
 };
 
