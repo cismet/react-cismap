@@ -11,6 +11,7 @@ import * as MoreTopicMapsExamples from "./lib/_stories/complex/MoreTopicMap.stor
 import * as MapLibreExamples from "./lib/_stories/vector/MapLibreLayer.stories";
 import * as LeafletExamples from "./lib/_stories/mainComponents/Map.stories";
 import * as GenericTopicMapsExamples from "./lib/_stories/complex/GenericTopicMap.stories";
+// import PlaygroundApp from "./playground/App";
 
 const TestContext = React.createContext();
 
@@ -20,7 +21,7 @@ const ContextDisplay = () => {
     <div
       onClick={() => {
         if (testContextValue !== undefined) {
-          testContextValue.setCounter(old => old + 1);
+          testContextValue.setCounter((old) => old + 1);
         }
       }}
     >
@@ -44,6 +45,7 @@ const TestComponent = ({ display }) => {
 
 ReactDOM.render(
   <div>
+    {/* <PlaygroundApp /> */}
     {/* <TopicMapsExamples.MostSimpleTopicMap /> */}
     {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
     {/* <TopicMapsExamples.MostSimpleTopicMapWithNonTiledLayer /> */}
