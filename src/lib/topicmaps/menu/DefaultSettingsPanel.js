@@ -9,7 +9,7 @@ import { UIContext, UIDispatchContext } from "../../contexts/UIContextProvider";
 import { TopicMapContext } from "../../contexts/TopicMapContextProvider";
 import {
   FeatureCollectionContext,
-  FeatureCollectionDispatchContext
+  FeatureCollectionDispatchContext,
 } from "../../contexts/FeatureCollectionContextProvider";
 import { MappingConstants } from "../..";
 import getLayersByName from "../../tools/layerFactory";
@@ -20,17 +20,17 @@ import FeatureCollectionDisplay from "../../FeatureCollectionDisplay";
 import { ResponsiveTopicMapContext } from "../../contexts/ResponsiveTopicMapContextProvider";
 import {
   TopicMapStylingContext,
-  TopicMapStylingDispatchContext
+  TopicMapStylingDispatchContext,
 } from "../../contexts/TopicMapStylingContextProvider";
 import { getSymbolSVGGetter } from "../../tools/uiHelper";
 import { defaultClusteringOptions, getDefaultFeatureStyler } from "../../FeatureCollection";
 import PreviewMap from "./PreviewMap";
 import {
   OfflineLayerCacheContext,
-  OfflineLayerCacheDispatchContext
+  OfflineLayerCacheDispatchContext,
 } from "../../contexts/OfflineLayerCacheContextProvider";
 
-const SettingsPanel = props => {
+const SettingsPanel = (props) => {
   const {
     namedMapStyle,
     urlPathname,
@@ -55,7 +55,7 @@ const SettingsPanel = props => {
     skipOfflineLayerSettings = false,
     skipBackgroundSettings = false,
     skipSymbolsizeSetting = false,
-    defaultContextValues = {}
+    defaultContextValues = {},
   } = props;
 
   const { setAppMenuActiveMenuSection, setAppMenuVisible } =
@@ -69,7 +69,7 @@ const SettingsPanel = props => {
     markerSymbolSize,
     additionalLayerConfiguration,
     activeAdditionalLayerKeys,
-    additionalStylingInfo
+    additionalStylingInfo,
   } = useContext(TopicMapStylingContext) || defaultContextValues;
   const {
     allFeatures,
@@ -79,7 +79,7 @@ const SettingsPanel = props => {
     clusteringOptions,
     getSymbolSVG: getSymbolSVGFromContext,
     itemFilterFunction,
-    filterFunction
+    filterFunction,
   } = useContext(FeatureCollectionContext) || defaultContextValues;
   const { setClusteringEnabled } =
     useContext(FeatureCollectionDispatchContext) || defaultContextValues;
@@ -186,7 +186,7 @@ const SettingsPanel = props => {
         style={{ height: 300 }}
         center={{
           lat: Number(previewMapLat),
-          lng: Number(previewMapLng)
+          lng: Number(previewMapLng),
         }}
         zoomControl={false}
         doubleClickZoom={false}
@@ -217,7 +217,7 @@ const SettingsPanel = props => {
           clusteringEnabled={previewMapClusteringEnabled || clusteringEnabled}
           clusterOptions={{
             ...defaultClusteringOptions,
-            ...(previewMapClusteringOptions || clusteringOptions)
+            ...(previewMapClusteringOptions || clusteringOptions),
           }}
           style={style}
           featureStylerScalableImageSize={currentMarkerSize}
@@ -233,19 +233,19 @@ const SettingsPanel = props => {
     clusteringEnabled,
     _markerSymbolSize,
     activeAdditionalLayerKeys,
-    offlineReadyToUse
+    offlineReadyToUse,
   ]);
 
   let titlePreview = (
     <div
       style={{
         align: "center",
-        width: "100%"
+        width: "100%",
       }}
     >
       <div
         style={{
-          height: "10px"
+          height: "10px",
         }}
       />
       <table
@@ -253,7 +253,7 @@ const SettingsPanel = props => {
           width: "96%",
           height: "30px",
           margin: "0 auto",
-          zIndex: 999655
+          zIndex: 999655,
         }}
       >
         <tbody>
@@ -265,7 +265,7 @@ const SettingsPanel = props => {
                 background: "#ffffff",
                 color: "black",
                 opacity: "0.9",
-                paddingleft: "10px"
+                paddingleft: "10px",
               }}
             >
               <b>Kartentitel</b>
@@ -292,7 +292,7 @@ const SettingsPanel = props => {
                 position: "relative",
                 top: -300,
                 zIndex: 100000,
-                webkitTransform: "translate3d(0,0,0)"
+                WebkitTransform: "translate3d(0,0,0)",
               }}
             >
               {titlePreview}
@@ -331,7 +331,7 @@ const SettingsPanel = props => {
             id={"title.checkbox"}
             key={"title.checkbox" + titleDisplay}
             checked={titleDisplay}
-            onChange={e => {
+            onChange={(e) => {
               if (e.target.checked === false) {
                 _pushNewRoute(_urlPathname + removeQueryPart(_urlSearch, "title"));
                 setTitleDisplay(false);
@@ -353,10 +353,10 @@ const SettingsPanel = props => {
             key={"clustered.checkbox-" + clusteringEnabled}
             id={"clustered.checkbox"}
             checked={clusteringEnabled}
-            onClick={e => {
+            onClick={(e) => {
               // console.log("xxx onClick", e);
             }}
-            onChange={e => {
+            onChange={(e) => {
               if (e.target.checked === false) {
                 setClusteringEnabled(false);
               } else {
@@ -375,10 +375,10 @@ const SettingsPanel = props => {
             key={"vectorLayerOfflineEnabled.checkbox-" + vectorLayerOfflineEnabled}
             id={"vectorLayerOfflineEnabled.checkbox"}
             checked={vectorLayerOfflineEnabled}
-            onClick={e => {
+            onClick={(e) => {
               // console.log("xxx onClick", e);
             }}
-            onChange={e => {
+            onChange={(e) => {
               if (e.target.checked === false) {
                 setVectorLayerOfflineEnabled(false);
               } else {
@@ -389,7 +389,7 @@ const SettingsPanel = props => {
           />
         </Form.Group>
       )}
-    </Form>
+    </Form>,
   ];
   if (skipBackgroundSettings === false) {
     settingsSections.push(

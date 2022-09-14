@@ -55,7 +55,7 @@ StyledWMSTileLayer.propTypes = {
   url: PropTypes.string,
   layers: PropTypes.string,
   format: PropTypes.string,
-  tiled: PropTypes.string,
+  tiled: PropTypes.bool,
   version: PropTypes.string,
   maxZoom: PropTypes.number,
   opacity: PropTypes.number,
