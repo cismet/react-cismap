@@ -333,7 +333,7 @@ export const defaultLayerConf = {
     trueOrtho2022: {
       type: "wms",
       url: "https://maps.wuppertal.de/deegree/wms",
-      layers: "R102:trueortho202210",
+      layers: "R102:trueortho2022",
       transparent: true,
     },
     hillshade: {
