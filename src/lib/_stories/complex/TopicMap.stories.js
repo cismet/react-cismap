@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   RoutedMap,
   MappingConstants,
-  FeatureCollectionDisplayWithTooltipLabels
+  FeatureCollectionDisplayWithTooltipLabels,
 } from "../../index";
 import GazetteerSearchControl from "../../GazetteerSearchControl";
 import GazetteerHitDisplay from "../../GazetteerHitDisplay";
@@ -18,7 +18,7 @@ import Control from "react-leaflet-control";
 import { TopicMapContextProvider } from "../../contexts/TopicMapContextProvider";
 import {
   FeatureCollectionContext,
-  FeatureCollectionDispatchContext
+  FeatureCollectionDispatchContext,
 } from "../../contexts/FeatureCollectionContextProvider";
 import LogConsole from "../../tools/LogConsole";
 import AppMenu from "../../topicmaps/menu/DefaultAppMenu";
@@ -52,7 +52,7 @@ import ConsoleLog from "../../tools/LogConsole";
 import { SimpleMenu } from "../../topicmaps/_stories/ModalMenu.stories";
 import { kassenzeichen } from "../_data/Editing.Storybook.data";
 export default {
-  title: storiesCategory + "TopicMapComponent"
+  title: storiesCategory + "TopicMapComponent",
 };
 
 export const MostSimpleTopicMap = () => {
@@ -74,7 +74,7 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
             layers: "spw2_light_grundriss",
             version: "1.3.0",
             tileSize: 256,
-            transparent: true
+            transparent: true,
           }}
         ></StyledWMSTileLayer>
       </TopicMapComponent>
@@ -93,7 +93,7 @@ export const MostSimpleTopicMapWithNonTiledLayer = () => {
             layers: "spw2_light_grundriss",
             version: "1.3.0",
             tileSize: 256,
-            transparent: true
+            transparent: true,
           }}
         ></NonTiledWMSLayer>
       </TopicMapComponent>
@@ -175,11 +175,11 @@ export const SimpleTopicMapWithInfoBox = () => {
               navigator: {
                 noun: {
                   singular: "Parkscheinautomat",
-                  plural: "Parkscheinautomaten"
-                }
+                  plural: "Parkscheinautomaten",
+                },
               },
               noCurrentFeatureTitle: "Keine Parkscheinautomaten gefunden",
-              noCurrentFeatureContent: ""
+              noCurrentFeatureContent: "",
             }}
           />
         }
@@ -202,7 +202,7 @@ export const SimpleTopicMapWithCustomStyling = () => {
       getColorFromProperties={getColorFromProperties}
       clusteringEnabled={true}
       clusteringOptions={{
-        iconCreateFunction: getClusterIconCreatorFunction(30, getColorFromProperties)
+        iconCreateFunction: getClusterIconCreatorFunction(30, getColorFromProperties),
       }}
       featureItemsURL="/data/parkscheinautomatenfeatures.json"
     >
@@ -216,11 +216,11 @@ export const SimpleTopicMapWithCustomStyling = () => {
               navigator: {
                 noun: {
                   singular: "Parkscheinautomat",
-                  plural: "Parkscheinautomaten"
-                }
+                  plural: "Parkscheinautomaten",
+                },
               },
               noCurrentFeatureTitle: "Keine Parkscheinautomaten gefunden",
-              noCurrentFeatureContent: ""
+              noCurrentFeatureContent: "",
             }}
           />
         }
@@ -268,7 +268,7 @@ export const SimpleTopicMapWithAdditiopnalStylingInfo = () => {
       getColorFromProperties={getColorFromProperties}
       clusteringEnabled={true}
       clusteringOptions={{
-        iconCreateFunction: getClusterIconCreatorFunction(30, getColorFromProperties)
+        iconCreateFunction: getClusterIconCreatorFunction(30, getColorFromProperties),
       }}
       featureItemsURL="/data/parkscheinautomatenfeatures.json"
       additionalStylingInfo={additionalStylingInfo}
@@ -283,11 +283,11 @@ export const SimpleTopicMapWithAdditiopnalStylingInfo = () => {
               navigator: {
                 noun: {
                   singular: "Parkscheinautomat",
-                  plural: "Parkscheinautomaten"
-                }
+                  plural: "Parkscheinautomaten",
+                },
               },
               noCurrentFeatureTitle: "Keine Parkscheinautomaten gefunden",
-              noCurrentFeatureContent: ""
+              noCurrentFeatureContent: "",
             }}
           />
         }
@@ -320,7 +320,7 @@ export const SimpleTopicMapWithFullClusteringOptionsAndStyling = () => {
         selectionSpiderfyMinZoom: 12,
         colorizer: getColorFromProperties,
         clusterIconSize: 30,
-        iconCreateFunction: getClusterIconCreatorFunction(30, getColorFromProperties)
+        iconCreateFunction: getClusterIconCreatorFunction(30, getColorFromProperties),
       }}
       featureItemsURL="/data/parkscheinautomatenfeatures.json"
     >
@@ -331,8 +331,8 @@ export const SimpleTopicMapWithFullClusteringOptionsAndStyling = () => {
   );
 };
 
-const convertBPKlimaItemsToFeature = async itemIn => {
-  let item = await addSVGToProps(itemIn, i => i.thema.icon);
+const convertBPKlimaItemsToFeature = async (itemIn) => {
+  let item = await addSVGToProps(itemIn, (i) => i.thema.icon);
   const text = item?.standort?.name || "Kein Standort";
   const type = "Feature";
   const selected = false;
@@ -350,7 +350,7 @@ const convertBPKlimaItemsToFeature = async itemIn => {
         <br />
         {item?.standort?.plz} {item?.standort?.stadt}
       </span>
-    )
+    ),
   };
   item.info = info;
   item.url = item?.website;
@@ -366,10 +366,10 @@ const convertBPKlimaItemsToFeature = async itemIn => {
     crs: {
       type: "name",
       properties: {
-        name: "urn:ogc:def:crs:EPSG::25832"
-      }
+        name: "urn:ogc:def:crs:EPSG::25832",
+      },
     },
-    properties: item
+    properties: item,
   };
 };
 
@@ -385,7 +385,7 @@ export const TopicMapWithWithItemConverter = () => {
       getFeatureStyler={getGTMFeatureStyler}
       convertItemToFeature={convertBPKlimaItemsToFeature}
       clusteringOptions={{
-        iconCreateFunction: getClusterIconCreatorFunction(30, props => props.color)
+        iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
       }}
       clusteringEnabled={true}
     >
@@ -399,11 +399,11 @@ export const TopicMapWithWithItemConverter = () => {
               navigator: {
                 noun: {
                   singular: "Standort",
-                  plural: "Standorte"
-                }
+                  plural: "Standorte",
+                },
               },
               noCurrentFeatureTitle: "Keine Standorte gefunden",
-              noCurrentFeatureContent: ""
+              noCurrentFeatureContent: "",
             }}
           />
         }
@@ -426,7 +426,7 @@ const InfoPanel = () => {
     }
 
     const weitereAngebote = (items || []).filter(
-      testItem => testItem?.standort.id === angebot.standort.id && testItem.id !== angebot.id
+      (testItem) => testItem?.standort.id === angebot.standort.id && testItem.id !== angebot.id
     );
     //data structure for "weitere Angebote"
     // gruppenwechsel for thema
@@ -472,7 +472,7 @@ const InfoPanel = () => {
             </div>
           )}
         </div>
-      </SecondaryInfoPanelSection>
+      </SecondaryInfoPanelSection>,
     ];
 
     if (weitereAngebote.length > 0) {
@@ -524,7 +524,7 @@ const InfoPanel = () => {
                   paddingLeft: 10,
                   paddingRight: 10,
                   float: "right",
-                  paddingBottom: "5px"
+                  paddingBottom: "5px",
                 }}
                 src={foto}
                 width="250"
@@ -570,10 +570,10 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
       getFeatureStyler={getGTMFeatureStyler}
       convertItemToFeature={convertBPKlimaItemsToFeature}
       clusteringOptions={{
-        iconCreateFunction: getClusterIconCreatorFunction(30, props => props.color)
+        iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
       }}
       clusteringEnabled={true}
-      itemFilterFunction={item => item?.thema?.id === 2}
+      itemFilterFunction={(item) => item?.thema?.id === 2}
     >
       <TopicMapComponent
         gazData={gazData}
@@ -587,11 +587,11 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
               navigator: {
                 noun: {
                   singular: "Standort",
-                  plural: "Standorte"
-                }
+                  plural: "Standorte",
+                },
               },
               noCurrentFeatureTitle: "Keine Standorte gefunden",
-              noCurrentFeatureContent: ""
+              noCurrentFeatureContent: "",
             }}
           />
         }
@@ -646,7 +646,7 @@ const MyMenu = () => {
         setNone: () => {
           setFilterState({ ...filterState, themen: [] });
         },
-        colorizer: (item, selected) => (selected ? item.color : "#eeeeee")
+        colorizer: (item, selected) => (selected ? item.color : "#eeeeee"),
       },
       {
         title: "Kategorien",
@@ -659,9 +659,9 @@ const MyMenu = () => {
         },
         setNone: () => {
           setFilterState({ ...filterState, kategorien: [] });
-        }
-      }
-    ]
+        },
+      },
+    ],
   };
 
   if ((filterState === undefined) & (items !== undefined)) {
@@ -720,8 +720,9 @@ const MyMenu = () => {
         <Section
           key="filter"
           sectionKey="filter"
-          sectionTitle={`Meine Klimastandorte (${filteredItems?.length ||
-            "0"} Standorte gefunden, davon ${shownFeatures?.length || "0"} in der Karte)`}
+          sectionTitle={`Meine Klimastandorte (${
+            filteredItems?.length || "0"
+          } Standorte gefunden, davon ${shownFeatures?.length || "0"} in der Karte)`}
           sectionBsStyle="primary"
           sectionContent={<FilterPanel filterConfiguration={filterConfiguration} />}
         />,
@@ -734,7 +735,7 @@ const MyMenu = () => {
           sectionContent={
             <ConfigurableDocBlocks configs={getSimpleHelpForTM(topicMapTitle, simpleHelp)} />
           }
-        />
+        />,
       ]}
     />
   );
@@ -752,11 +753,11 @@ export const TopicMapWithWithCustomSettings = () => {
       getFeatureStyler={getGTMFeatureStyler}
       convertItemToFeature={convertBPKlimaItemsToFeature}
       clusteringOptions={{
-        iconCreateFunction: getClusterIconCreatorFunction(30, props => props.color)
+        iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
       }}
       clusteringEnabled={true}
       itemFilterFunction={({ filterState, filterMode }) => {
-        return item => {
+        return (item) => {
           if (filterMode === "themen") {
             return filterState?.themen?.includes(item.thema.id);
           } else if (filterMode === "kategorien") {
@@ -785,11 +786,11 @@ export const TopicMapWithWithCustomSettings = () => {
               navigator: {
                 noun: {
                   singular: "Standort",
-                  plural: "Standorte"
-                }
+                  plural: "Standorte",
+                },
               },
               noCurrentFeatureTitle: "Keine Standorte gefunden",
-              noCurrentFeatureContent: ""
+              noCurrentFeatureContent: "",
             }}
           />
         }
@@ -814,7 +815,7 @@ export const TopicMapWithAdditionalLayers = () => {
       getFeatureStyler={getGTMFeatureStyler}
       convertItemToFeature={convertBPKlimaItemsToFeature}
       clusteringOptions={{
-        iconCreateFunction: getClusterIconCreatorFunction(30, props => props.color)
+        iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
       }}
       referenceSystemDefinition={MappingConstants.proj4crs25832def}
       mapEPSGCode="25832"
@@ -825,7 +826,7 @@ export const TopicMapWithAdditionalLayers = () => {
           title: "Schummerung",
           initialActive: false,
           layerkey: "hillshade@20",
-          pane: "additionalLayers1"
+          pane: "additionalLayers1",
         },
 
         fernwaerme: {
@@ -836,7 +837,7 @@ export const TopicMapWithAdditionalLayers = () => {
                 style={{
                   color: "#EEB48C",
                   width: "30px",
-                  textAlign: "center"
+                  textAlign: "center",
                 }}
                 name={"circle"}
               />
@@ -855,7 +856,7 @@ export const TopicMapWithAdditionalLayers = () => {
               maxZoom={19}
               opacity={0.7}
             />
-          )
+          ),
         },
         uwz: {
           title: "Umweltzone",
@@ -865,20 +866,20 @@ export const TopicMapWithAdditionalLayers = () => {
               key={"ds"}
               featureCollection={uwz}
               // boundingBox={this.props.mapping.boundingBox}
-              style={feature => {
+              style={(feature) => {
                 const style = {
                   color: "#155317",
                   weight: 3,
                   opacity: 0.5,
                   fillColor: "#155317",
-                  fillOpacity: 0.15
+                  fillOpacity: 0.15,
                 };
                 return style;
               }}
               featureClickHandler={() => {}}
             />
-          )
-        }
+          ),
+        },
       }}
     >
       <TopicMapComponent
@@ -893,11 +894,11 @@ export const TopicMapWithAdditionalLayers = () => {
               navigator: {
                 noun: {
                   singular: "Standort",
-                  plural: "Standorte"
-                }
+                  plural: "Standorte",
+                },
               },
               noCurrentFeatureTitle: "Keine Standorte gefunden",
-              noCurrentFeatureContent: ""
+              noCurrentFeatureContent: "",
             }}
           />
         }
@@ -920,11 +921,11 @@ export const TopicMapWithWithCustomSettingsAndOneAdditionlLayer = () => {
       getFeatureStyler={getGTMFeatureStyler}
       convertItemToFeature={convertBPKlimaItemsToFeature}
       clusteringOptions={{
-        iconCreateFunction: getClusterIconCreatorFunction(30, props => props.color)
+        iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
       }}
       clusteringEnabled={true}
       itemFilterFunction={({ filterState, filterMode }) => {
-        return item => {
+        return (item) => {
           if (filterMode === "themen") {
             return filterState?.themen?.includes(item.thema.id);
           } else if (filterMode === "kategorien") {
@@ -948,7 +949,7 @@ export const TopicMapWithWithCustomSettingsAndOneAdditionlLayer = () => {
                 style={{
                   color: "#EEB48C",
                   width: "30px",
-                  textAlign: "center"
+                  textAlign: "center",
                 }}
                 name={"circle"}
               />
@@ -966,8 +967,8 @@ export const TopicMapWithWithCustomSettingsAndOneAdditionlLayer = () => {
               maxZoom={19}
               opacity={0.7}
             />
-          )
-        }
+          ),
+        },
       }}
     >
       <TopicMapComponent
@@ -983,11 +984,11 @@ export const TopicMapWithWithCustomSettingsAndOneAdditionlLayer = () => {
               navigator: {
                 noun: {
                   singular: "Standort",
-                  plural: "Standorte"
-                }
+                  plural: "Standorte",
+                },
               },
               noCurrentFeatureTitle: "Keine Standorte gefunden",
-              noCurrentFeatureContent: ""
+              noCurrentFeatureContent: "",
             }}
           />
         }
@@ -1005,45 +1006,45 @@ export const TopicMapWithCustomLayerSetAndAdditionalOverlayLayers = () => {
     {
       title: "Stadtplan",
       mode: "default",
-      layerKey: "stadtplan"
+      layerKey: "stadtplan",
     },
     {
       title: "Stadtplan (Vektordaten light)",
       mode: "default",
-      layerKey: "vector"
+      layerKey: "vector",
     },
 
-    { title: "Luftbildkarte", mode: "default", layerKey: "lbk" }
+    { title: "Luftbildkarte", mode: "default", layerKey: "lbk" },
   ];
   const backgroundConfigurations = {
     lbk: {
-      layerkey: "cismetText|trueOrtho2020@40",
+      layerkey: "_cismetText|trueOrtho2020@80",
       layerkey_: "wupp-plan-live@100|trueOrtho2020@75|rvrSchrift@100",
       src: "/images/rain-hazard-map-bg/ortho.png",
-      title: "Luftbildkarte"
+      title: "Luftbildkarte",
     },
     stadtplan: {
       layerkey: "wupp-plan-live@60",
       src: "/images/rain-hazard-map-bg/citymap.png",
-      title: "Stadtplan"
+      title: "Stadtplan",
     },
     vector: {
       layerkey: "cismetLight",
       src: "/images/rain-hazard-map-bg/citymap.png",
-      title: "Stadtplan"
-    }
+      title: "Stadtplan",
+    },
   };
   const baseLayerConf = { ...defaultLayerConf };
 
   baseLayerConf.namedLayers.cismetLight = {
     type: "vector",
     style: "https://omt.map-hosting.de/styles/cismet-light/style.json",
-    pane: "backgroundvectorLayers"
+    pane: "backgroundvectorLayers",
   };
   baseLayerConf.namedLayers.cismetText = {
     type: "vector",
     style: "http://localhost:888/styles/cismet-text/style.json",
-    pane: "backgroundlayerTooltips"
+    pane: "backgroundlayerTooltips",
   };
 
   // baseLayerConf.namedLayers.cismetLight = {
@@ -1074,8 +1075,8 @@ export const TopicMapWithCustomLayerSetAndAdditionalOverlayLayers = () => {
           "activeAdditionalLayerKeys",
           "namedMapStyle",
           "selectedBackground",
-          "markerSymbolSize"
-        ]
+          "markerSymbolSize",
+        ],
       }}
       baseLayerConf={baseLayerConf}
       backgroundConfigurations={backgroundConfigurations}
@@ -1095,11 +1096,11 @@ export const TopicMapWithCustomLayerSetAndAdditionalOverlayLayers = () => {
               style="https://omt.map-hosting.de/styles/brunnen/style.json"
               pane="additionalLayers0"
             />
-          )
+          ),
         },
 
         kanal: {
-          title: <span>Kanalnetz</span>,
+          title: <span>Kanalnetzyy</span>,
           initialActive: true,
           layer: (
             <MapLibreLayer
@@ -1108,7 +1109,7 @@ export const TopicMapWithCustomLayerSetAndAdditionalOverlayLayers = () => {
               style_="https://omt.map-hosting.de/styles/kanal/style.json"
               pane="additionalLayers1"
             />
-          )
+          ),
         },
 
         gewaesser: {
@@ -1121,8 +1122,8 @@ export const TopicMapWithCustomLayerSetAndAdditionalOverlayLayers = () => {
               style="https://omt.map-hosting.de/styles/gewaesser/style.json"
               pane="additionalLayers2"
             />
-          )
-        }
+          ),
+        },
       }}
     >
       <TopicMapComponent
@@ -1156,18 +1157,18 @@ export const TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole = (
     topo: {
       layerkey: "hillshade|bplan_abkg@30|wupp-plan-live@20",
       src: "/images/rain-hazard-map-bg/topo.png",
-      title: "Top. Karte"
+      title: "Top. Karte",
     },
     lbk: {
       layerkey: "wupp-plan-live@100|trueOrtho2020@75|rvrSchrift@100",
       src: "/images/rain-hazard-map-bg/ortho.png",
-      title: "Luftbildkarte"
+      title: "Luftbildkarte",
     },
     stadtplan: {
       layerkey: "wupp-plan-live@90",
       src: "/images/rain-hazard-map-bg/citymap.png",
-      title: "Stadtplan"
-    }
+      title: "Stadtplan",
+    },
   };
 
   return (
@@ -1179,11 +1180,11 @@ export const TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole = (
       getFeatureStyler={getGTMFeatureStyler}
       convertItemToFeature={convertBPKlimaItemsToFeature}
       clusteringOptions={{
-        iconCreateFunction: getClusterIconCreatorFunction(30, props => props.color)
+        iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
       }}
       clusteringEnabled={true}
       itemFilterFunction={({ filterState, filterMode }) => {
-        return item => {
+        return (item) => {
           if (filterMode === "themen") {
             return filterState?.themen?.includes(item.thema.id);
           } else if (filterMode === "kategorien") {
@@ -1207,7 +1208,7 @@ export const TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole = (
                 style={{
                   color: "#EEB48C",
                   width: "30px",
-                  textAlign: "center"
+                  textAlign: "center",
                 }}
                 name={"circle"}
               />
@@ -1235,8 +1236,8 @@ export const TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole = (
             >
               <FontAwesomeIcon icon={faSync}></FontAwesomeIcon>
             </a>
-          )
-        }
+          ),
+        },
       }}
       backgroundConfigurations={backgroundConfigurations}
       backgroundModes={[
@@ -1253,18 +1254,18 @@ export const TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole = (
             >
               <FontAwesomeIcon icon={faSync}></FontAwesomeIcon>
             </a>
-          )
+          ),
         },
         {
           title: "Stadtplan (Nacht)",
           mode: "night",
-          layerKey: "stadtplan"
+          layerKey: "stadtplan",
         },
-        { title: "Luftbildkarte", mode: "default", layerKey: "lbk" }
+        { title: "Luftbildkarte", mode: "default", layerKey: "lbk" },
       ]}
       titleFactory={({ featureCollectionContext }) => {
-        const getThemaById = id => {
-          const result = featureCollectionContext?.items?.find(item => item?.thema?.id === id);
+        const getThemaById = (id) => {
+          const result = featureCollectionContext?.items?.find((item) => item?.thema?.id === id);
           return result?.thema?.name;
         };
 
@@ -1336,11 +1337,11 @@ export const TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole = (
               navigator: {
                 noun: {
                   singular: "Standort",
-                  plural: "Standorte"
-                }
+                  plural: "Standorte",
+                },
               },
               noCurrentFeatureTitle: "Keine Standorte gefunden",
-              noCurrentFeatureContent: ""
+              noCurrentFeatureContent: "",
             }}
           />
         }
@@ -1378,18 +1379,18 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
     topo: {
       layerkey: "hillshade|bplan_abkg@30|wupp-plan-live@20",
       src: "/images/rain-hazard-map-bg/topo.png",
-      title: "Top. Karte"
+      title: "Top. Karte",
     },
     lbk: {
       layerkey: "rvrGrundriss@100|trueOrtho2022@75|rvrSchriftNT@100",
       src: "/images/rain-hazard-map-bg/ortho.png",
-      title: "Luftbildkarte"
+      title: "Luftbildkarte",
     },
     stadtplan: {
       layerkey: "wupp-plan-live@90",
       src: "/images/rain-hazard-map-bg/citymap.png",
-      title: "Stadtplan"
-    }
+      title: "Stadtplan",
+    },
   };
 
   return (
@@ -1401,11 +1402,11 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
       getFeatureStyler={getGTMFeatureStyler}
       convertItemToFeature={convertBPKlimaItemsToFeature}
       clusteringOptions={{
-        iconCreateFunction: getClusterIconCreatorFunction(30, props => props.color)
+        iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
       }}
       clusteringEnabled={true}
       itemFilterFunction={({ filterState, filterMode }) => {
-        return item => {
+        return (item) => {
           if (filterMode === "themen") {
             return filterState?.themen?.includes(item.thema.id);
           } else if (filterMode === "kategorien") {
@@ -1429,7 +1430,7 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
                 style={{
                   color: "#EEB48C",
                   width: "30px",
-                  textAlign: "center"
+                  textAlign: "center",
                 }}
                 name={"circle"}
               />
@@ -1457,8 +1458,8 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
             >
               <FontAwesomeIcon icon={faSync}></FontAwesomeIcon>
             </a>
-          )
-        }
+          ),
+        },
       }}
       backgroundConfigurations={backgroundConfigurations}
       backgroundModes={[
@@ -1475,18 +1476,18 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
             >
               <FontAwesomeIcon icon={faSync}></FontAwesomeIcon>
             </a>
-          )
+          ),
         },
         {
           title: "Stadtplan (Nacht)",
           mode: "night",
-          layerKey: "stadtplan"
+          layerKey: "stadtplan",
         },
-        { title: "Luftbildkarte", mode: "default", layerKey: "lbk" }
+        { title: "Luftbildkarte", mode: "default", layerKey: "lbk" },
       ]}
       titleFactory={({ featureCollectionContext }) => {
-        const getThemaById = id => {
-          const result = featureCollectionContext?.items?.find(item => item?.thema?.id === id);
+        const getThemaById = (id) => {
+          const result = featureCollectionContext?.items?.find((item) => item?.thema?.id === id);
           return result?.thema?.name;
         };
 
@@ -1557,11 +1558,11 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
               navigator: {
                 noun: {
                   singular: "Standort",
-                  plural: "Standorte"
-                }
+                  plural: "Standorte",
+                },
               },
               noCurrentFeatureTitle: "Keine Standorte gefunden",
-              noCurrentFeatureContent: ""
+              noCurrentFeatureContent: "",
             }}
           />
         }
@@ -1589,10 +1590,10 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
   );
 };
 
-const convertPOIItemsToFeature = async itemIn => {
+const convertPOIItemsToFeature = async (itemIn) => {
   let item = await addSVGToProps(
     itemIn,
-    i => i.signatur || i?.mainlocationtype?.signatur || "Platz.svg"
+    (i) => i.signatur || i?.mainlocationtype?.signatur || "Platz.svg"
   );
   const text = item?.name || "Kein Name";
   const type = "Feature";
@@ -1603,7 +1604,7 @@ const convertPOIItemsToFeature = async itemIn => {
     header: item?.mainlocationtype?.lebenslagen?.join(","),
     title: text,
     additionalInfo: item?.info,
-    subtitle: <span>{item?.adresse}</span>
+    subtitle: <span>{item?.adresse}</span>,
   };
   item.info = info;
 
@@ -1615,10 +1616,10 @@ const convertPOIItemsToFeature = async itemIn => {
     crs: {
       type: "name",
       properties: {
-        name: "urn:ogc:def:crs:EPSG::25832"
-      }
+        name: "urn:ogc:def:crs:EPSG::25832",
+      },
     },
-    properties: item
+    properties: item,
   };
 };
 const mapTitle = "Corona-Präventionskarte";
@@ -1639,17 +1640,17 @@ export const TopicMapWithWithStaticFilter = () => {
       mapEPSGCode="25832"
       referenceSystemDefinition={MappingConstants.proj4crs25832def}
       getFeatureStyler={getGTMFeatureStyler}
-      featureTooltipFunction={feature => feature?.text}
+      featureTooltipFunction={(feature) => feature?.text}
       convertItemToFeature={convertPOIItemsToFeature}
       clusteringOptions={{
-        iconCreateFunction: getClusterIconCreatorFunction(30, props => props.color)
+        iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
       }}
       clusteringEnabled={true}
       itemFilterFunction={() => {
-        return item => item?.mainlocationtype?.name?.toLowerCase().includes("corona");
+        return (item) => item?.mainlocationtype?.name?.toLowerCase().includes("corona");
         // item?.name?.toLowerCase().includes("test");
       }}
-      getColorFromProperties={props => props.color}
+      getColorFromProperties={(props) => props.color}
       titleFactory={() => {
         return (
           <div>
@@ -1670,11 +1671,11 @@ export const TopicMapWithWithStaticFilter = () => {
               navigator: {
                 noun: {
                   singular: "Zentrum",
-                  plural: "Zentren"
-                }
+                  plural: "Zentren",
+                },
               },
               noCurrentFeatureTitle: "Keine Zentren gefunden",
-              noCurrentFeatureContent: ""
+              noCurrentFeatureContent: "",
             }}
           />
         }
@@ -1694,7 +1695,7 @@ export const TopicMapWithLineFeatureCollection = () => {
   return (
     <TopicMapContextProvider
       items={[nordbahntrasse]}
-      featureTooltipFunction={feature => feature?.text}
+      featureTooltipFunction={(feature) => feature?.text}
     >
       <TopicMapComponent gazData={gazData}>
         <FeatureCollection />
@@ -1712,7 +1713,7 @@ export const TopicMapWithPolygonFeatureCollection = () => {
   return (
     <TopicMapContextProvider
       items={kassenzeichen}
-      featureTooltipFunction={feature => feature?.properties?.bez}
+      featureTooltipFunction={(feature) => feature?.properties?.bez}
     >
       <TopicMapComponent gazData={gazData}>
         <FeatureCollection />
