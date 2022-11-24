@@ -1,9 +1,10 @@
-import React, { useContext, useEffect } from "react";
-import MapLibreLayerBaseComponent from "./MapLibreLayerBaseComponent";
 import maplibreGl from "maplibre-gl";
-import { customOfflineFetch, getBufferedJSON } from "../tools/offlineMapsHelper";
+import React, { useContext, useEffect } from "react";
+
 import { OfflineLayerCacheContext } from "../contexts/OfflineLayerCacheContextProvider";
 import { UIContext } from "../contexts/UIContextProvider";
+import { customOfflineFetch, getBufferedJSON } from "../tools/offlineMapsHelper";
+import MapLibreLayerBaseComponent from "./MapLibreLayerBaseComponent";
 
 const fetchy = (url, callback) => {
   fetch(url)
@@ -79,7 +80,7 @@ const MapLibreLayer = (_props) => {
   }, []);
 
   if (ready) {
-    return <MapLibreLayerBaseComponent key={props.key + "." + menuCounter} {...props} />;
+    return <MapLibreLayerBaseComponent keyIn={props.key + "." + menuCounter} {...props} />;
   } else {
     return null;
   }
