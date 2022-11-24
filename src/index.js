@@ -1,17 +1,18 @@
+import React, { useContext, useState } from "react";
+import ReactDOM from "react-dom";
+
+import * as GenericTopicMapsExamples from "./lib/_stories/complex/GenericTopicMap.stories";
+import * as MoreTopicMapsExamples from "./lib/_stories/complex/MoreTopicMap.stories";
+import * as TopicMapsExamples from "./lib/_stories/complex/TopicMap.stories";
+import * as LeafletExamples from "./lib/_stories/mainComponents/Map.stories";
+import * as MapLibreExamples from "./lib/_stories/vector/MapLibreLayer.stories";
+import PlaygroundApp from "./playground/App";
+
+import "./index.css";
+import "./lib/topicMaps.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "leaflet/dist/leaflet.css";
-import React, { useContext, useState } from "react";
 import "react-bootstrap-typeahead/css/Typeahead.css";
-import ReactDOM from "react-dom";
-import "./lib/topicMaps.css";
-import "./index.css";
-
-import * as TopicMapsExamples from "./lib/_stories/complex/TopicMap.stories";
-import * as MoreTopicMapsExamples from "./lib/_stories/complex/MoreTopicMap.stories";
-import * as MapLibreExamples from "./lib/_stories/vector/MapLibreLayer.stories";
-import * as LeafletExamples from "./lib/_stories/mainComponents/Map.stories";
-import * as GenericTopicMapsExamples from "./lib/_stories/complex/GenericTopicMap.stories";
-// import PlaygroundApp from "./playground/App";
 
 const TestContext = React.createContext();
 
@@ -54,7 +55,7 @@ ReactDOM.render(
     {/* <TopicMapsExamples.SimpleTopicMap /> */}
     {/* <TopicMapsExamples.SimpleTopicMapWithAdditiopnalStylingInfo /> */}
     {/* <TopicMapsExamples.SimpleTopicMapWithCustomMenu /> */}
-    <TopicMapsExamples.SimpleTopicMapWithDefaultInfoBox />
+    {/* <TopicMapsExamples.SimpleTopicMapWithDefaultInfoBox /> */}
     {/* <TopicMapsExamples.SimpleTopicMapWithInfoBox /> */}
     {/* <TopicMapsExamples.SimpleTopicMapWithCustomStyling /> */}
     {/* <TopicMapsExamples.SimpleTopicMapWithFullClusteringOptionsAndStyling /> */}
@@ -74,7 +75,7 @@ ReactDOM.render(
     {/* <MapLibreExamples.SimpleMapLibreLayerRedrawingitself /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMap /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMapWithFeatureCollectionInAnotherCRS /> */}
-    {/* <MapLibreExamples.SimpleTopicMapWithMapLibreLayer /> */}
+    <MapLibreExamples.SimpleTopicMapWithMapLibreLayer />
     {/* <MapLibreExamples.SimpleMapLibreLayerWithLocalStyle /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerWithAttribution /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerWithCustomProtocol /> */}
