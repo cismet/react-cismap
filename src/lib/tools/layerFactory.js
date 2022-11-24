@@ -140,9 +140,10 @@ const createLayerFactoryFunction = (key, _conf = defaultLayerConf) => {
 
         return (
           <MapLibreLayer
-            key={key + JSON.stringify(options)}
+            keyIn={key + JSON.stringify(options)}
             {...params}
-            // opacity={options.opacity}
+            opacity={options.opacity}
+
             // cssFilter={options["css-filter"]}
           />
         );

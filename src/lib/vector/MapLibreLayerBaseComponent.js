@@ -1,8 +1,9 @@
 import L from "leaflet";
+import { GridLayer } from "react-leaflet";
+
 // import {} from "maplibre-gl";
 // import {} from "./mapbox-gl-leaflet";
 import {} from "./leaflet-maplibre-gl";
-import { GridLayer } from "react-leaflet";
 
 class MaplibreGlLayer extends GridLayer {
   constructor(props) {
@@ -16,12 +17,18 @@ class MaplibreGlLayer extends GridLayer {
     const { map } = props.leaflet || this.context;
 
     map.on("layeradd", (e) => {
-      this._addLayer(e);
+      // only call _addLayer if the layer being added is this layer
+      if (e.layer === this.leafletElement) {
+        this._addLayer(e, props);
+      }
     });
 
     map.on("layerremove", (e) => {
-      this._removeLayer(e);
-      map.off("layerremove");
+      // only call _removeLayer if the layer being removed is this layer
+      if (e.layer === this.leafletElement) {
+        this._removeLayer(e);
+        map.off("layerremove");
+      }
     });
 
     // if (props.offlineAvailable) {
@@ -36,35 +43,53 @@ class MaplibreGlLayer extends GridLayer {
     //     });
     // }
 
-    const layer = L.maplibreGL({ id: "xxx", pane: "xxx", ...props });
-
-    setTimeout(() => {
-      const map = layer.getMaplibreMap();
-      this.mapBoxMap = map;
-      if ((props.opacity || props.textOpacity || props.iconOpacity) && map) {
-        map.getStyle().layers.map((layer) => {
-          if (layer.type === "symbol") {
-            map.setPaintProperty(layer.id, `icon-opacity`, props.iconOpacity || props.opacity || 1);
-            map.setPaintProperty(layer.id, `text-opacity`, props.textOpacity || props.opacity || 1);
-          } else {
-            map.setPaintProperty(layer.id, `${layer.type}-opacity`, props.opacity || 1);
-          }
-        });
-      }
-    }, 400);
+    const layer = L.maplibreGL({
+      id: "id_not_set___should_not_happen",
+      pane: "pane_not_set___should_not_happen",
+      ...props,
+    });
 
     return layer;
   }
 
-  _addLayer({ layer }) {
+  _addLayer({ layer }, props) {
+    const mlMap = layer.getMaplibreMap();
     this._layer = layer;
     const { _map } = this._layer;
+    mlMap.on("load", () => {
+      this.mapLibreMap = mlMap;
+      if ((props.opacity || props.textOpacity || props.iconOpacity) && mlMap) {
+        try {
+          const style = mlMap.getStyle();
+          const layers = style.layers;
+          layers.map((layer) => {
+            if (layer.type === "symbol") {
+              mlMap.setPaintProperty(
+                layer.id,
+                `icon-opacity`,
+                props.iconOpacity || props.opacity || 1
+              );
+              mlMap.setPaintProperty(
+                layer.id,
+                `text-opacity`,
+                props.textOpacity || props.opacity || 1
+              );
+            } else {
+              mlMap.setPaintProperty(layer.id, `${layer.type}-opacity`, props.opacity || 1);
+            }
+          });
+          // console.log("vectorLayerOpacitySetter: looks good");
+        } catch (e) {
+          console.log("vectorLayerOpacitySetter: map not ready error", e);
+        }
+      }
 
-    if (_map) {
-      // Force a resize calculation on the map so that
-      // Mapbox GL layer correctly repaints its height after it has been added.
-      setTimeout(_map._onResize, 200);
-    }
+      if (_map) {
+        // Force a resize calculation on the map so that
+        // Mapbox GL layer correctly repaints its height after it has been added.
+        // _map._onResize();
+      }
+    });
   }
 
   _removeLayer() {
