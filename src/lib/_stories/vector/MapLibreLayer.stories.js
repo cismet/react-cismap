@@ -276,26 +276,38 @@ export const SimpleTopicMapWithMapLibreLayer = () => {
       title: "Stadtplan",
     },
     vector1: {
-      layerkey: "trueOrtho2020@60|OMT_Klokantech_basic@100",
+      // layerkey: "trueOrtho2020@60|OMT_Klokantech_basic@100",
+      layerkey: "basemap_grey@10",
       src: "/images/rain-hazard-map-bg/citymap.png",
-      title: "Stadtplan",
+      title: "Basemap.de (Grau)",
     },
     vector2: {
-      layerkey: "OMT_OSM_bright@100",
+      // layerkey: "OMT_OSM_bright@100",
+      layerkey: "basemap_color",
       src: "/images/rain-hazard-map-bg/citymap.png",
-      title: "Stadtplan",
+      title: "Basemap.de (Farbe)",
+    },
+    vector3: {
+      layerkey: "basemap_relief",
+      src: "/images/rain-hazard-map-bg/citymap.png",
+      title: "Basemap.de (Relief)",
     },
   };
   const backgroundModes = [
     {
-      title: "Vektorbasierter Layer (Klokantech Basic)",
+      title: "Basemap.de (Grau)",
       mode: "default",
       layerKey: "vector1",
     },
     {
-      title: "Vektorbasierter Layer (OSM bright)",
+      title: "Basemap.de (Farbe)",
       mode: "default",
       layerKey: "vector2",
+    },
+    {
+      title: "Basemap.de (Relief)",
+      mode: "default",
+      layerKey: "vector3",
     },
     {
       title: "Stadtplan (RVR, zum Vergleich)",
