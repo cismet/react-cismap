@@ -1,19 +1,20 @@
 import Dexie from "dexie";
 import * as fflate from "fflate";
+import maplibreGl from "maplibre-gl";
 import React, { useEffect, useRef, useState } from "react";
 import { Map } from "react-leaflet";
+
+import { kassenzeichen } from "../_data/Editing.Storybook.data";
 import { MappingConstants } from "../..";
 import TopicMapContextProvider from "../../contexts/TopicMapContextProvider";
 import FeatureCollectionDisplay from "../../FeatureCollectionDisplay";
 import RoutedMap from "../../RoutedMap";
 import StyledWMSTileLayer from "../../StyledWMSTileLayer";
+import { customOfflineFetch, loadAndCacheOfflineMapData } from "../../tools/offlineMapsHelper";
 import TopicMapComponent from "../../topicmaps/TopicMapComponent";
 import MapLibreLayer from "../../vector/MapLibreLayer";
 import { getGazData } from "../complex/StoriesConf";
-import { kassenzeichen } from "../_data/Editing.Storybook.data";
 import { layerStyleObject, offlineConfig } from "./offlineConfig";
-import { customOfflineFetch, loadAndCacheOfflineMapData } from "../../tools/offlineMapsHelper";
-import maplibreGl from "maplibre-gl";
 
 const DBVERSION = 1;
 const DBNAME = "carma";
@@ -279,16 +280,17 @@ export const SimpleTopicMapWithMapLibreLayer = () => {
       // layerkey: "trueOrtho2020@60|OMT_Klokantech_basic@100",
       layerkey: "basemap_grey@10",
       src: "/images/rain-hazard-map-bg/citymap.png",
+      opacity: 0.5,
       title: "Basemap.de (Grau)",
     },
     vector2: {
       // layerkey: "OMT_OSM_bright@100",
-      layerkey: "basemap_color",
+      layerkey: "basemap_color@20",
       src: "/images/rain-hazard-map-bg/citymap.png",
       title: "Basemap.de (Farbe)",
     },
     vector3: {
-      layerkey: "basemap_relief",
+      layerkey: "basemap_relief@40",
       src: "/images/rain-hazard-map-bg/citymap.png",
       title: "Basemap.de (Relief)",
     },
@@ -321,8 +323,77 @@ export const SimpleTopicMapWithMapLibreLayer = () => {
       backgroundModes={backgroundModes}
       referenceSystem={MappingConstants.crs3857}
       referenceSystemDefinition={MappingConstants.proj4crs3857def}
+      additionalLayerConfiguration={{
+        depth2018: {
+          title: "Starkregen 2018 (max. Wassertiefe)",
+          initialActive: false,
+          layer: (
+            <StyledWMSTileLayer
+              key={"depth"}
+              url="https://starkregenwms-wuppertal.cismet.de/geoserver/wms?SERVICE=WMS"
+              layers="starkregen:L_Extrem2018_depth3857"
+              styles="starkregen:depth"
+              format="image/png"
+              tiled="true"
+              transparent="true"
+              pane="additionalLayers3"
+              opacity={1}
+              maxZoom={19}
+            />
+          ),
+        },
+      }}
     >
-      <TopicMapComponent maxZoom={22} gazData={gazData}></TopicMapComponent>
+      <TopicMapComponent maxZoom={22} gazData={gazData}>
+        {/* <StyledWMSTileLayer
+          key={"fernwaermewsw"}
+          url="https://maps.wuppertal.de/deegree/wms"
+          layers="fernwaermewsw"
+          format="image/png"
+          tiled="true"
+          transparent="true"
+          pane="additionalLayers3"
+          maxZoom={19}
+          opacity={0.7}
+        /> */}
+
+        {/* <StyledWMSTileLayer
+          key={"ortho22"}
+          url="https://maps.wuppertal.de/deegree/wms"
+          layers="R102:trueortho2022"
+          format="image/png"
+          tiled="true"
+          transparent="true"
+          pane="additionalLayers3"
+          maxZoom={19}
+          opacity={0.7}
+        /> */}
+        {/* <StyledWMSTileLayer
+          key={"ortho22"}
+          url="https://starkregenwms-wuppertal.cismet.de/geoserver/wms?SERVICE=WMS"
+          layers="starkregen:L_Extrem2018_depth3857"
+          styles="starkregen:depth"
+          format="image/png"
+          tiled="true"
+          transparent="true"
+          pane="additionalLayers3"
+          opacity={0.01}
+          maxZoom={19}
+          opacity={0.7}
+        /> */}
+        {/* <StyledWMSTileLayer
+          key={"depth"}
+          url="https://starkregenwms-wuppertal.cismet.de/geoserver/wms?SERVICE=WMS"
+          layers="starkregen:L_Extrem2018_depth3857"
+          styles="starkregen:depth"
+          format="image/png"
+          tiled="true"
+          transparent="true"
+          pane="additionalLayers3"
+          opacity={01}
+          maxZoom={25}
+        /> */}
+      </TopicMapComponent>
     </TopicMapContextProvider>
   );
 };
