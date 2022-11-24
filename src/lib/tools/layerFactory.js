@@ -1,10 +1,12 @@
-import React from "react";
-import { namedStyles } from "../constants/layers";
 import objectAssign from "object-assign";
+import React from "react";
 import { TileLayer } from "react-leaflet";
-import StyledWMSTileLayer from "../StyledWMSTileLayer";
+
+import { namedStyles } from "../constants/layers";
 import NonTiledWMSLayer from "../NonTiledWMSLayer";
+import StyledWMSTileLayer from "../StyledWMSTileLayer";
 import MapLibreLayer from "../vector/MapLibreLayer";
+
 export default function getLayers(
   layerString,
   namedMapStyle = "default",
@@ -132,6 +134,7 @@ const createLayerFactoryFunction = (key, _conf = defaultLayerConf) => {
       };
     case "vector":
       return (options) => {
+        // let params = { ...conf.defaults.vector, ...conf.namedLayers[key], ...options }; // the way it should be to tarnsport e.g. opacity
         let params = { ...conf.defaults.vector, ...conf.namedLayers[key] };
         // console.log("params for " + key, params);
 
@@ -386,6 +389,18 @@ export const defaultLayerConf = {
     OMT_OSM_bright: {
       type: "vector",
       style: "https://omt.map-hosting.de/styles/osm-bright/style.json",
+    },
+    basemap_grey: {
+      type: "vector",
+      style: "https://sgx.geodatenzentrum.de/gdz_basemapde_vektor/styles/bm_web_gry.json",
+    },
+    basemap_color: {
+      type: "vector",
+      style: "https://sgx.geodatenzentrum.de/gdz_basemapde_vektor/styles/bm_web_col.json",
+    },
+    basemap_relief: {
+      type: "vector",
+      style: "https://sgx.geodatenzentrum.de/gdz_basemapde_vektor/styles/bm_web_top.json",
     },
   },
 };
