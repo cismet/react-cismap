@@ -1,56 +1,57 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
-import {
-  RoutedMap,
-  MappingConstants,
-  FeatureCollectionDisplayWithTooltipLabels,
-} from "../../index";
-import GazetteerSearchControl from "../../GazetteerSearchControl";
-import GazetteerHitDisplay from "../../GazetteerHitDisplay";
-import ProjSingleGeoJson from "../../ProjSingleGeoJson";
-import { storiesCategory, getGazData, host, getGazData25387 } from "./StoriesConf";
-import TopicMapComponent from "../../topicmaps/TopicMapComponent";
-import GenericInfoBoxFromFeature from "../../topicmaps/GenericInfoBoxFromFeature";
-import FeatureCollectionDisplay from "../../FeatureCollectionDisplay";
-import getGTMFeatureStyler, { getColorFromProperties } from "../../topicmaps/generic/GTMStyler";
-import FeatureCollection from "../../FeatureCollection";
-import InfoBox from "../../topicmaps/InfoBox";
+import { faSync } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import queryString from "query-string";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Form } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
 import Control from "react-leaflet-control";
-import { TopicMapContextProvider } from "../../contexts/TopicMapContextProvider";
+import { Link } from "react-scroll";
+
+import { nordbahntrasse } from "../_data/Demo";
+import { kassenzeichen } from "../_data/Editing.Storybook.data";
+import uwz from "../_data/UWZ";
+import Icon from "../../commons/Icon";
 import {
   FeatureCollectionContext,
   FeatureCollectionDispatchContext,
 } from "../../contexts/FeatureCollectionContextProvider";
+import { TopicMapContextProvider } from "../../contexts/TopicMapContextProvider";
+import { TopicMapStylingDispatchContext } from "../../contexts/TopicMapStylingContextProvider";
+import { UIContext, UIDispatchContext } from "../../contexts/UIContextProvider";
+import FeatureCollection from "../../FeatureCollection";
+import FeatureCollectionDisplay from "../../FeatureCollectionDisplay";
+import GazetteerHitDisplay from "../../GazetteerHitDisplay";
+import GazetteerSearchControl from "../../GazetteerSearchControl";
+import {
+  FeatureCollectionDisplayWithTooltipLabels,
+  MappingConstants,
+  RoutedMap,
+} from "../../index";
+import NonTiledWMSLayer from "../../NonTiledWMSLayer";
+import ProjSingleGeoJson from "../../ProjSingleGeoJson";
+import StyledWMSTileLayer from "../../StyledWMSTileLayer";
+import { defaultLayerConf } from "../../tools/layerFactory";
 import LogConsole from "../../tools/LogConsole";
-import AppMenu from "../../topicmaps/menu/DefaultAppMenu";
-import { getClusterIconCreatorFunction, getSimpleHelpForTM } from "../../tools/uiHelper";
-import { Form } from "react-bootstrap";
+import ConsoleLog from "../../tools/LogConsole";
 import { addSVGToProps, DEFAULT_SVG } from "../../tools/svgHelper";
+import { getClusterIconCreatorFunction, getSimpleHelpForTM } from "../../tools/uiHelper";
+import { SimpleMenu } from "../../topicmaps/_stories/ModalMenu.stories";
+import ConfigurableDocBlocks from "../../topicmaps/ConfigurableDocBlocks";
+import getGTMFeatureStyler, { getColorFromProperties } from "../../topicmaps/generic/GTMStyler";
+import GenericInfoBoxFromFeature from "../../topicmaps/GenericInfoBoxFromFeature";
+import InfoBox from "../../topicmaps/InfoBox";
+import InfoBoxFotoPreview from "../../topicmaps/InfoBoxFotoPreview";
+import AppMenu from "../../topicmaps/menu/DefaultAppMenu";
+import DefaultSettingsPanel from "../../topicmaps/menu/DefaultSettingsPanel";
+import FilterPanel from "../../topicmaps/menu/FilterPanel";
+import GenericModalApplicationMenu from "../../topicmaps/menu/ModalApplicationMenu";
+import Section from "../../topicmaps/menu/Section";
 import SecondaryInfo from "../../topicmaps/SecondaryInfo";
 import SecondaryInfoPanelSection from "../../topicmaps/SecondaryInfoPanelSection";
-import { UIContext, UIDispatchContext } from "../../contexts/UIContextProvider";
-import InfoBoxFotoPreview from "../../topicmaps/InfoBoxFotoPreview";
-import GenericModalApplicationMenu from "../../topicmaps/menu/ModalApplicationMenu";
-import DefaultSettingsPanel from "../../topicmaps/menu/DefaultSettingsPanel";
-import Section from "../../topicmaps/menu/Section";
-
-import { Link } from "react-scroll";
-import ConfigurableDocBlocks from "../../topicmaps/ConfigurableDocBlocks";
-import FilterPanel from "../../topicmaps/menu/FilterPanel";
-import StyledWMSTileLayer from "../../StyledWMSTileLayer";
-import NonTiledWMSLayer from "../../NonTiledWMSLayer";
-import Icon from "../../commons/Icon";
-import uwz from "../_data/UWZ";
-import queryString from "query-string";
-import { nordbahntrasse } from "../_data/Demo";
-import { defaultLayerConf } from "../../tools/layerFactory";
+import TopicMapComponent from "../../topicmaps/TopicMapComponent";
 import MapLibreLayer from "../../vector/MapLibreLayer";
-import Button from "react-bootstrap/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSync } from "@fortawesome/free-solid-svg-icons";
-import { TopicMapStylingDispatchContext } from "../../contexts/TopicMapStylingContextProvider";
-import ConsoleLog from "../../tools/LogConsole";
-import { SimpleMenu } from "../../topicmaps/_stories/ModalMenu.stories";
-import { kassenzeichen } from "../_data/Editing.Storybook.data";
+import { getGazData, getGazData25387, host, storiesCategory } from "./StoriesConf";
+
 export default {
   title: storiesCategory + "TopicMapComponent",
 };
