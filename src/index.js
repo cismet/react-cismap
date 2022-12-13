@@ -5,6 +5,7 @@ import * as GenericTopicMapsExamples from "./lib/_stories/complex/GenericTopicMa
 import * as MoreTopicMapsExamples from "./lib/_stories/complex/MoreTopicMap.stories";
 import * as TopicMapsExamples from "./lib/_stories/complex/TopicMap.stories";
 import * as LeafletExamples from "./lib/_stories/mainComponents/Map.stories";
+import * as GeojsonExamples from "./lib/_stories/mainComponents/ProjGeoJSON.stories";
 import * as MapLibreExamples from "./lib/_stories/vector/MapLibreLayer.stories";
 import PlaygroundApp from "./playground/App";
 
@@ -51,7 +52,7 @@ ReactDOM.render(
     {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
     {/* <TopicMapsExamples.MostSimpleTopicMapWithNonTiledLayer /> */}
 
-    {/* <TopicMapsExamples.MostSimpleTopicMapWithGazetteerData /> */}
+    <TopicMapsExamples.MostSimpleTopicMapWithGazetteerData />
     {/* <TopicMapsExamples.SimpleTopicMap /> */}
     {/* <TopicMapsExamples.SimpleTopicMapWithAdditiopnalStylingInfo /> */}
     {/* <TopicMapsExamples.SimpleTopicMapWithCustomMenu /> */}
@@ -75,7 +76,7 @@ ReactDOM.render(
     {/* <MapLibreExamples.SimpleMapLibreLayerRedrawingitself /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMap /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMapWithFeatureCollectionInAnotherCRS /> */}
-    <MapLibreExamples.SimpleTopicMapWithMapLibreLayer />
+    {/* <MapLibreExamples.SimpleTopicMapWithMapLibreLayer /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerWithLocalStyle /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerWithAttribution /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerWithCustomProtocol /> */}
@@ -99,6 +100,9 @@ ReactDOM.render(
     {/* <LeafletExamples.SimpleWMS /> */}
     {/* <LeafletExamples.SimpleTrueOrtho /> */}
     {/* <LeafletExamples.SimpleNonTiledTrueOrtho /> */}
+
+    {/* <GeojsonExamples.GeoJSONCollectionInTheMap /> */}
+    {/* <GeojsonExamples.SingleInvertedGeoJSONInTheMap /> */}
 
     {/* <LeafletExamples.SimpleTrueOrthoWithText /> */}
     {/* <LeafletExamples.SimpleTrueOrthoWithTextIn25832 /> */}

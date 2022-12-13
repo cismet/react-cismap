@@ -1,10 +1,11 @@
+import L from "leaflet";
 import PropTypes from "prop-types";
-import React, { useContext, useRef } from "react";
-
+import React, { useContext, useEffect, useRef } from "react";
 import Control from "react-leaflet-control";
+
 import { ResponsiveTopicMapContext } from "./contexts/ResponsiveTopicMapContextProvider";
-import GazetteerSearchComponent from "./GazetteerSearchComponent";
 import { TopicMapContext } from "./contexts/TopicMapContextProvider";
+import GazetteerSearchComponent from "./GazetteerSearchComponent";
 
 const COMP = ({
   mapRef,
@@ -36,6 +37,11 @@ const COMP = ({
   );
   const controlRef = useRef(null);
 
+  useEffect(() => {
+    if (controlRef.current !== null) {
+      L.DomEvent.disableScrollPropagation(controlRef.current.leafletElement._container);
+    }
+  });
   let _searchControlPosition;
   if (searchControlPosition === undefined) {
     _searchControlPosition = responsiveState === "normal" ? "bottomleft" : "bottomright";

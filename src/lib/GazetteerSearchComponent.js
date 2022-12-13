@@ -1,17 +1,17 @@
-import React, { useRef, useEffect } from "react";
-import PropTypes from "prop-types";
 import L from "leaflet";
-import Icon from "./commons/Icon";
-import { builtInGazetteerHitTrigger } from "./tools/gazetteerHelper";
-
+import PropTypes from "prop-types";
+import React, { useEffect, useRef } from "react";
+import { Button, Form, FormGroup, InputGroup, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Typeahead } from "react-bootstrap-typeahead";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //import { faSun } from '@fortawesome/free-solid-svg-icons';
 
 import Control from "react-leaflet-control";
-import { Form, FormGroup, InputGroup, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Typeahead } from "react-bootstrap-typeahead";
-import { TopicMapContext } from "./contexts/TopicMapContextProvider";
+
+import Icon from "./commons/Icon";
 import { FeatureCollectionDispatchContext } from "./contexts/FeatureCollectionContextProvider";
+import { TopicMapContext } from "./contexts/TopicMapContextProvider";
+import { builtInGazetteerHitTrigger } from "./tools/gazetteerHelper";
 
 const COMP = ({
   mapRef,
@@ -97,12 +97,6 @@ const COMP = ({
 
   const typeaheadRef = useRef(null);
   const searchOverlay = useRef(null);
-  const controlRef = useRef(null);
-  useEffect(() => {
-    if (controlRef.current !== null) {
-      L.DomEvent.disableScrollPropagation(controlRef.current.leafletElement._container);
-    }
-  });
 
   const internalSearchButtonTrigger = (event) => {
     if (searchOverlay) {
