@@ -1,7 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Form } from "react-bootstrap";
 import objectAssign from "object-assign";
+import PropTypes from "prop-types";
+import React from "react";
+import { Form } from "react-bootstrap";
+
 import { getSymbolSVGGetter } from "../../tools/uiHelper";
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
