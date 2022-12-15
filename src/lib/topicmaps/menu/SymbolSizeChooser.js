@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Form, Radio, ControlLabel } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import objectAssign from "object-assign";
 import { getSymbolSVGGetter } from "../../tools/uiHelper";
 
