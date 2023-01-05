@@ -1,28 +1,31 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Map, ZoomControl } from "react-leaflet";
-import "proj4leaflet";
-import proj4 from "proj4";
-import "url-search-params-polyfill";
-import "@fortawesome/fontawesome-free/js/all.js";
 import L from "leaflet";
-import "leaflet-editable";
-import "leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css";
-import "leaflet-extra-markers/";
-import "leaflet.path.drag";
+import md5 from "md5";
+import proj4 from "proj4";
+import PropTypes from "prop-types";
+import React from "react";
+import { Map, ZoomControl } from "react-leaflet";
+//see https://github.com/makinacorpus/Leaflet.GeometryUtil/issues/59
+import { reproject } from "reproject";
+
 import * as MappingConstants from "./constants/gis";
 import { projectionData } from "./constants/gis";
-
-import getLayersByNames from "./tools/layerFactory";
 import FullscreenControl from "./FullscreenControl";
-import NewWindowControl from "./NewWindowControl";
 import LocateControl from "./LocateControl";
+import NewWindowControl from "./NewWindowControl";
 import { getInternetExplorerVersion } from "./tools/browserHelper";
-import "leaflet-snap";
+import getLayersByNames from "./tools/layerFactory";
+import { overrideClosestFromGeometryUtils } from "./tools/leaflet-geometryutil-workaround";
+
+import "@fortawesome/fontawesome-free/js/all.js";
+import "leaflet-editable";
+import "leaflet-extra-markers/";
+import "leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css";
 import "leaflet-geometryutil";
-import { overrideClosestFromGeometryUtils } from "./tools/leaflet-geometryutil-workaround"; //see https://github.com/makinacorpus/Leaflet.GeometryUtil/issues/59
-import { reproject } from "reproject";
-import md5 from "md5";
+import "leaflet-snap";
+import "leaflet.path.drag";
+import "proj4leaflet";
+import "url-search-params-polyfill";
+
 export class RoutedMap extends React.Component {
   constructor(props) {
     super(props);
@@ -463,11 +466,13 @@ export class RoutedMap extends React.Component {
           zoomDelta={this.props.zoomDelta}
           attributionControl={this.props.attributionControl}
         >
-          <ZoomControl
-            position="topleft"
-            zoomInTitle="Vergr&ouml;ßern"
-            zoomOutTitle="Verkleinern"
-          />
+          {this.props.zoomControlEnabled && (
+            <ZoomControl
+              position="topleft"
+              zoomInTitle="Vergr&ouml;ßern"
+              zoomOutTitle="Verkleinern"
+            />
+          )}
 
           {fullscreenControl}
           {locateControl}
@@ -538,6 +543,7 @@ RoutedMap.propTypes = {
 
 RoutedMap.defaultProps = {
   layers: "",
+  zoomControlEnabled: true,
   gazeteerHitTrigger: function () {},
   searchButtonTrigger: function () {},
   featureClickHandler: function () {},
