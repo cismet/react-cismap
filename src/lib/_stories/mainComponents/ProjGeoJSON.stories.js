@@ -122,7 +122,7 @@ export const SingleInvertedGeoJSONInTheMap = () => {
         doubleClickZoom={false}
         onclick={(e) => console.log("click", e)}
         ondblclick={(e) => console.log("doubleclick", e)}
-        backgroundlayers={"ruhrWMSlight@35"}
+        //backgroundlayers={"ruhrWMSlight@35"}
         fullScreenControlEnabled={false}
         locateControlEnabled={false}
         minZoom={7}
@@ -134,6 +134,45 @@ export const SingleInvertedGeoJSONInTheMap = () => {
           lng: 7.079167379960522,
         }}
         fallbackZoom={10}
+      >
+        <ProjSingleGeoJson
+          masked={true}
+          style={(feature) => {
+            return { color: "red" };
+          }}
+          geoJson={uwz[0]}
+        />
+      </RoutedMap>
+    </div>
+  );
+};
+
+export const SingleInvertedGeoJSONInTheMapIn3852 = () => {
+  return (
+    <div>
+      <div>Simple Map with inverted single projected GeoJSON </div>
+
+      <br />
+
+      <RoutedMap
+        editable={false}
+        style={mapStyle}
+        key={"leafletRoutedMap"}
+        doubleClickZoom={false}
+        onclick={(e) => console.log("click", e)}
+        ondblclick={(e) => console.log("doubleclick", e)}
+        //backgroundlayers={"ruhrWMSlight@35"}
+        fullScreenControlEnabled={false}
+        locateControlEnabled={false}
+        minZoom={7}
+        maxZoom={18}
+        zoomSnap={0.5}
+        zoomDelta={0.5}
+        fallbackPosition={{
+          lat: 51.232514081338664,
+          lng: 7.079167379960522,
+        }}
+        fallbackZoom={15}
       >
         <ProjSingleGeoJson
           masked={true}

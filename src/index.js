@@ -103,6 +103,9 @@ ReactDOM.render(
 
     {/* <GeojsonExamples.GeoJSONCollectionInTheMap /> */}
     {/* <GeojsonExamples.SingleInvertedGeoJSONInTheMap /> */}
+    {/* <GeojsonExamples.SingleInvertedGeoJSONInTheMapIn3852 /> */}
+
+    {/* <GeojsonExamples.SingleGeoJSONInTheMap /> */}
 
     {/* <LeafletExamples.SimpleTrueOrthoWithText /> */}
     {/* <LeafletExamples.SimpleTrueOrthoWithTextIn25832 /> */}

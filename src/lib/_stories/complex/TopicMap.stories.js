@@ -108,7 +108,7 @@ export const MostSimpleTopicMapWithGazetteerData = () => {
     getGazData(setGazData);
   }, []);
   return (
-    <TopicMapContextProvider>
+    <TopicMapContextProvider _maskingPolygon="POLYGON((668010.063156992 6750719.23021889,928912.612468322 6757273.20343972,930494.610325512 6577553.43685138,675236.835570551 6571367.64964125,668010.063156992 6750719.23021889))">
       <TopicMapComponent maxZoom={22} gazData={gazData}></TopicMapComponent>
     </TopicMapContextProvider>
   );
