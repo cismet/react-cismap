@@ -20,7 +20,7 @@ const defaultState = {
   location: undefined,
   boundingBox: undefined,
   routedMapRef: undefined,
-  titleFactory: undefined
+  titleFactory: undefined,
 };
 
 const StateContext = React.createContext();
@@ -32,6 +32,8 @@ const TopicMapContextProvider = ({
   referenceSystemDefinition = projectionData[3857].def,
   mapEPSGCode = "3857",
   maskingPolygon,
+  maskingPolygon25832 = "POLYGON((292872.70820260537 5734812.567828996,454766.33411074313 5734812.567828996,454766.33411074313 5622450.136249692,292872.70820260537 5622450.136249692,292872.70820260537 5734812.567828996))",
+  maskingPolygon3857 = "POLYGON((668010.063156992 6750719.23021889,928912.612468322 6757273.20343972,930494.610325512 6577553.43685138,675236.835570551 6571367.64964125,668010.063156992 6750719.23021889))",
   children,
   featureCollectionEnabled = true,
   lightBoxEnabled = true,
@@ -68,9 +70,9 @@ const TopicMapContextProvider = ({
       "activeAdditionalLayerKeys",
       "namedMapStyle",
       "selectedBackground",
-      "markerSymbolSize"
+      "markerSymbolSize",
     ],
-    offlinelayers: ["vectorLayerOfflineEnabled"]
+    offlinelayers: ["vectorLayerOfflineEnabled"],
   },
   titleFactory = ({ featureCollectionContext }) => {
     let themenstadtplanDesc = "?";
@@ -104,7 +106,7 @@ const TopicMapContextProvider = ({
   initialLoadingDelay,
   nextFeature,
   prevFeature,
-  deriveSecondarySelection
+  deriveSecondarySelection,
 }) => {
   const [state, dispatch] = useImmer({
     ...defaultState,
@@ -113,14 +115,16 @@ const TopicMapContextProvider = ({
     titleFactory,
     referenceSystem,
     referenceSystemDefinition,
-    maskingPolygon,
+    maskingPolygon:
+      maskingPolygon ||
+      (referenceSystem === MappingConstants.crs25832 ? maskingPolygon25832 : maskingPolygon3857),
     mapEPSGCode,
-    appMode
+    appMode,
   });
   const contextKey = "topicmap";
   const set = (prop, noTest) => {
-    return x => {
-      dispatch(state => {
+    return (x) => {
+      dispatch((state) => {
         if (noTest === true || JSON.stringify(state[prop]) !== JSON.stringify(x)) {
           if (persistenceSettings[contextKey]?.includes(prop)) {
             localforage.setItem("@" + appKey + "." + contextKey + "." + prop, x);
@@ -135,11 +139,11 @@ const TopicMapContextProvider = ({
     setBoundingBox: set("boundingBox"),
     setLocation: set("location"),
     setRoutedMapRef: set("routedMapRef", true),
-    setAppMode: set("appMode", true)
+    setAppMode: set("appMode", true),
   };
 
   const fitBBox = (bbox, refDefOfBBox) => {
-    dispatch(state => {
+    dispatch((state) => {
       if (state?.routedMapRef?.leafletMap?.leafletElement?.fitBounds && bbox) {
         state.routedMapRef.leafletMap.leafletElement.fitBounds(
           convertBBox2Bounds(bbox, refDefOfBBox || referenceSystemDefinition)
@@ -154,7 +158,7 @@ const TopicMapContextProvider = ({
         value={{
           dispatch,
           ...convenienceFunctions,
-          zoomToFeature: feature => {
+          zoomToFeature: (feature) => {
             let zoomlevel;
             if (referenceSystem === MappingConstants.crs25832) {
               zoomlevel = 15;
@@ -174,7 +178,7 @@ const TopicMapContextProvider = ({
               if (type === "Point") {
                 const pos = proj4(refDef, proj4.defs("EPSG:4326"), [
                   feature.geometry.coordinates[0],
-                  feature.geometry.coordinates[1]
+                  feature.geometry.coordinates[1],
                 ]);
 
                 state.routedMapRef.leafletMap.leafletElement.setView([pos[1], pos[0]], zoomlevel);
@@ -192,12 +196,12 @@ const TopicMapContextProvider = ({
               state.routedMapRef.leafletMap.leafletElement.setView(
                 [
                   state.routedMapRef.props.fallbackPosition.lat,
-                  state.routedMapRef.props.fallbackPosition.lng
+                  state.routedMapRef.props.fallbackPosition.lng,
                 ],
                 state.routedMapRef.props.fallbackZoom
               );
             }
-          }
+          },
         }}
       >
         <TopicMapStylingContextProvider
@@ -276,5 +280,5 @@ export default TopicMapContextProvider;
 export {
   TopicMapContextProvider,
   StateContext as TopicMapContext,
-  DispatchContext as TopicMapDispatchContext
+  DispatchContext as TopicMapDispatchContext,
 };
