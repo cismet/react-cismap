@@ -78,6 +78,7 @@ const TopicMapComponent = (props) => {
     gazetteerHitTrigger,
     gazetteerSearchControl = true,
     hamburgerMenu = true,
+    zoomControls = true,
   } = props;
   const { history, referenceSystem, referenceSystemDefinition, maskingPolygon } = useContext(
     TopicMapContext
@@ -225,6 +226,7 @@ const TopicMapComponent = (props) => {
             baseLayerConf={baseLayerConf}
             minZoom={minZoom || _minZoom}
             maxZoom={maxZoom || _maxZoom}
+            zoomControlEnabled={zoomControls}
             layers=""
             style={_mapStyle}
             fallbackPosition={{
