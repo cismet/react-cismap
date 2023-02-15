@@ -48,11 +48,11 @@ const TestComponent = ({ display }) => {
 ReactDOM.render(
   <div>
     {/* <PlaygroundApp /> */}
-    {/* <TopicMapsExamples.MostSimpleTopicMap /> */}
+    <TopicMapsExamples.MostSimpleTopicMap />
     {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
     {/* <TopicMapsExamples.MostSimpleTopicMapWithNonTiledLayer /> */}
 
-    <TopicMapsExamples.MostSimpleTopicMapWithGazetteerData />
+    {/* <TopicMapsExamples.MostSimpleTopicMapWithGazetteerData /> */}
     {/* <TopicMapsExamples.SimpleTopicMap /> */}
     {/* <TopicMapsExamples.SimpleTopicMapWithAdditiopnalStylingInfo /> */}
     {/* <TopicMapsExamples.SimpleTopicMapWithCustomMenu /> */}

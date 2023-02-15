@@ -59,7 +59,13 @@ export default {
 export const MostSimpleTopicMap = () => {
   return (
     <TopicMapContextProvider>
-      <TopicMapComponent gazData={[]}></TopicMapComponent>
+      <TopicMapComponent
+        _fullScreenControl={false}
+        _zoomControls={false}
+        homeZoom={19}
+        gazData={undefined}
+        gazetteerSearchControl={false}
+      ></TopicMapComponent>
     </TopicMapContextProvider>
   );
 };
