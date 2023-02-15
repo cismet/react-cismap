@@ -42,6 +42,17 @@ export class RoutedMap extends React.Component {
 
     const map = leafletMap.leafletElement;
 
+    // when the window is resized very fast (easiest reproducibe via a os function e.g. full size view),
+    // the map does not resize correctly
+    // this is a workaround for this issue
+    const resizeObserver = new ResizeObserver(() => {
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 100);
+    });
+    resizeObserver.observe(document.body);
+    // -end workaround
+
     // <Pane name="backgroundvectorLayers" style={{ zIndex: 90 }}></Pane>
     // <Pane name="backgroundLayers" style={{ zIndex: 100 }} />
     // <Pane name="additionalLayers" style={{ zIndex: 150 }} />
@@ -325,6 +336,23 @@ export class RoutedMap extends React.Component {
         this.props.autoFitProcessedHandler();
       }
     }
+
+    // //this code would be done with a useEffect it would be a functional component
+    // //we need to check whether the width and the height of the map has changed
+    // //if so we need to invalidate the size of the map
+
+    // // if (this.props.width !== this.state.width || this.props.height !== this.state.height) {
+
+    // console.log(
+    //   "this.leafletMap width",
+    //   this.props.style.width,
+    //   this.leafletMap?.leafletElement?._mapPane.scrollWidth
+    // );
+
+    // if (this.leafletMap?.leafletElement) {
+    //   // this.leafletMap.leafletElement.invalidateSize();
+    // }
+    // console.log("this.leafletMap", this.leafletMap?.leafletElement);
   }
 
   getBoundingBox() {
@@ -453,7 +481,7 @@ export class RoutedMap extends React.Component {
           editable={this.props.editable}
           key={"leafletMap"}
           crs={this.props.referenceSystem}
-          style={this.props.style}
+          style={{ ...this.props.style, border: "1px solid red" }}
           center={positionByUrl}
           zoom={zoomByUrl}
           zoomControl={false}
