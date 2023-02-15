@@ -481,7 +481,8 @@ export class RoutedMap extends React.Component {
           editable={this.props.editable}
           key={"leafletMap"}
           crs={this.props.referenceSystem}
-          style={{ ...this.props.style, border: "1px solid red" }}
+          style={this.props.style}
+          // style={{ ...this.props.style, border: "1px solid red" }}
           center={positionByUrl}
           zoom={zoomByUrl}
           zoomControl={false}
