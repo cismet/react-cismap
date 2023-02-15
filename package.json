@@ -57,7 +57,7 @@
 		"geotiff": "0.4.1",
 		"history": "^5.0.0",
 		"html-react-parser": "^1.2.4",
-		"immer": "^8.0.1",
+		"immer": "^9.0.6",
 		"kdbush": "^3.0.0",
 		"leaflet": "^1.6.0",
 		"leaflet-easybutton": "^2.4.0",
