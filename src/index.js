@@ -48,7 +48,7 @@ const TestComponent = ({ display }) => {
 ReactDOM.render(
   <div>
     {/* <PlaygroundApp /> */}
-    <TopicMapsExamples.MostSimpleTopicMap />
+    {/* <TopicMapsExamples.MostSimpleTopicMap /> */}
     {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
     {/* <TopicMapsExamples.MostSimpleTopicMapWithNonTiledLayer /> */}
 
@@ -79,7 +79,7 @@ ReactDOM.render(
     {/* <MapLibreExamples.SimpleTopicMapWithMapLibreLayer /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerWithLocalStyle /> */}
     {/* <MapLibreExamples.SimpleMapLibreLayerWithAttribution /> */}
-    {/* <MapLibreExamples.SimpleMapLibreLayerWithCustomProtocol /> */}
+    <MapLibreExamples.SimpleMapLibreLayerWithCustomProtocol />
     {/* <AnimationExamples.SimpleWuppertal25832 /> */}
     {/* <AnimationExamples.SimpleWuppertal3857 /> */}
     {/* <AnimationExamples.SimpleHaltern /> */}
