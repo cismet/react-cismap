@@ -451,17 +451,24 @@ export const SimpleMapLibreLayerWithCustomProtocol = () => {
     };
 
     maplibreGl.addProtocol("indexedDB", (params, callback) => {
-      let url = params.url.replace("indexedDB://", "");
+      //let url = params.url.replace("indexedDB://", "");
+      let url = params.url;
       console.log("indexedDB:: url", url);
 
       // fetchy(url, callback);
-
+      // return;
       // customOfflineFetch(url, offlineConfig, callback);
 
       if (url.indexOf("ausnahmeregel_im_moment_gibts_da_nix") > -1) {
         fetchy(url, callback);
       } else {
-        customOfflineFetch(url, offlineConfig, callback);
+        customOfflineFetch(url, offlineConfig).then((buffer) => {
+          if (buffer) {
+            callback(null, buffer, null, null);
+          } else {
+            callback(null, new ArrayBuffer(), null, null);
+          }
+        });
       }
 
       return {
