@@ -51,6 +51,10 @@ import SecondaryInfoPanelSection from "../../topicmaps/SecondaryInfoPanelSection
 import TopicMapComponent from "../../topicmaps/TopicMapComponent";
 import MapLibreLayer from "../../vector/MapLibreLayer";
 import { getGazData, getGazData25387, host, storiesCategory } from "./StoriesConf";
+import { BroadcastChannel } from "broadcast-channel";
+import CrossTabCommunicationContextProvider, {
+  CrossTabCommunicationContext,
+} from "../../contexts/CrossTabCommunicationContextProvider";
 
 export default {
   title: storiesCategory + "TopicMapComponent",
@@ -916,6 +920,157 @@ export const TopicMapWithAdditionalLayers = () => {
     </TopicMapContextProvider>
   );
 };
+
+export const TopicMapWithRemoteControls = () => {
+  const [gazData, setGazData] = useState([]);
+  useEffect(() => {
+    getGazData(setGazData);
+  }, []);
+  const currentZoom = 14;
+
+  // console.log("xxx layer", JSON.stringify(remoteConfig));
+
+  return (
+    <CrossTabCommunicationContextProvider>
+      <TopicMapContextProvider
+        featureItemsURL="/data/bpklima.data.json"
+        getFeatureStyler={getGTMFeatureStyler}
+        convertItemToFeature={convertBPKlimaItemsToFeature}
+        clusteringOptions={{
+          iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
+        }}
+        referenceSystemDefinition={MappingConstants.proj4crs25832def}
+        mapEPSGCode="25832"
+        referenceSystem={MappingConstants.crs25832}
+        clusteringEnabled={true}
+      >
+        <TopicMapComponent
+          gazData={gazData}
+          gazetteerSearchPlaceholder="Stadtteil | Adresse | POI | Standorte"
+          infoBox={
+            <GenericInfoBoxFromFeature
+              pixelwidth={400}
+              config={{
+                displaySecondaryInfoAction: true,
+                city: "Wuppertal",
+                navigator: {
+                  noun: {
+                    singular: "Standort",
+                    plural: "Standorte",
+                  },
+                },
+                noCurrentFeatureTitle: "Keine Standorte gefunden",
+                noCurrentFeatureContent: "",
+              }}
+            />
+          }
+          secondaryInfo={<InfoPanel />}
+        >
+          {/* <FeatureCollection /> */}
+          <ProjSingleGeoJson
+            key={"blacky"}
+            geoJson={uwz[0]}
+            style={{
+              zIndex: 999999910000000,
+              color: "black",
+              weight: 1,
+              opacity: 1,
+              fillColor: "black",
+              fillOpacity: 0.3,
+            }}
+            masked={false}
+            // _maskingPolygon={maskingPolygon}
+            // _mapRef={leafletRoutedMapRef}
+          />
+        </TopicMapComponent>
+      </TopicMapContextProvider>
+    </CrossTabCommunicationContextProvider>
+  );
+};
+
+export const RemoteControledTopicMap = () => {
+  const [gazData, setGazData] = useState([]);
+  useEffect(() => {
+    getGazData(setGazData);
+  }, []);
+  const currentZoom = 14;
+  const channel = new BroadcastChannel("leader/QUIRKS");
+  channel.onmessage = (msg) => console.dir(msg);
+  channel.postMessage("I am not alone, but shouldnt be speak to myself");
+
+  let remoteConfig = {
+    topicMap: {
+      hamburgerMenu: false,
+      zoomControls: false,
+      gazetteerSearchControl: false,
+      fullScreenControl: false,
+      locatorControl: false,
+      infoBox: undefined,
+      mapStyle: { transform: "skey(1.1)" },
+      featureCollection: undefined,
+    },
+    topicMapContextProvider: {},
+  };
+
+  // console.log("xxx layer", JSON.stringify(remoteConfig));
+
+  return (
+    <TopicMapContextProvider
+      featureItemsURL="/data/bpklima.data.json"
+      getFeatureStyler={getGTMFeatureStyler}
+      convertItemToFeature={convertBPKlimaItemsToFeature}
+      clusteringOptions={{
+        iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
+      }}
+      referenceSystemDefinition={MappingConstants.proj4crs25832def}
+      mapEPSGCode="25832"
+      referenceSystem={MappingConstants.crs25832}
+      clusteringEnabled={true}
+    >
+      <TopicMapComponent
+        gazData={gazData}
+        gazetteerSearchPlaceholder="Stadtteil | Adresse | POI | Standorte"
+        infoBox={
+          <GenericInfoBoxFromFeature
+            pixelwidth={400}
+            config={{
+              displaySecondaryInfoAction: true,
+              city: "Wuppertal",
+              navigator: {
+                noun: {
+                  singular: "Standort",
+                  plural: "Standorte",
+                },
+              },
+              noCurrentFeatureTitle: "Keine Standorte gefunden",
+              noCurrentFeatureContent: "",
+            }}
+          />
+        }
+        secondaryInfo={<InfoPanel />}
+        {...remoteConfig.topicMap}
+      >
+        {/* <FeatureCollection /> */}
+        <ProjSingleGeoJson
+          key={"blacky"}
+          geoJson={uwz[0]}
+          style={{
+            zIndex: 999999910000000,
+            color: "black",
+            weight: 1,
+            opacity: 1,
+            fillColor: "black",
+            fillOpacity: 0.3,
+          }}
+          masked={false}
+          // _maskingPolygon={maskingPolygon}
+          // _mapRef={leafletRoutedMapRef}
+        />
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
+
 export const TopicMapWithWithCustomSettingsAndOneAdditionlLayer = () => {
   const [gazData, setGazData] = useState([]);
   useEffect(() => {

@@ -45,78 +45,89 @@ const TestComponent = ({ display }) => {
   );
 };
 
-ReactDOM.render(
-  <div>
-    {/* <PlaygroundApp /> */}
-    {/* <TopicMapsExamples.MostSimpleTopicMap /> */}
-    {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
-    {/* <TopicMapsExamples.MostSimpleTopicMapWithNonTiledLayer /> */}
+if (window.location.pathname === "/follower") {
+  ReactDOM.render(
+    <div>
+      <TopicMapsExamples.RemoteControledTopicMap />
+    </div>,
+    document.getElementById("root")
+  );
+} else {
+  ReactDOM.render(
+    <div>
+      {/* <PlaygroundApp /> */}
+      {/* <TopicMapsExamples.MostSimpleTopicMap /> */}
+      {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
+      {/* <TopicMapsExamples.MostSimpleTopicMapWithNonTiledLayer /> */}
 
-    {/* <TopicMapsExamples.MostSimpleTopicMapWithGazetteerData /> */}
-    {/* <TopicMapsExamples.SimpleTopicMap /> */}
-    {/* <TopicMapsExamples.SimpleTopicMapWithAdditiopnalStylingInfo /> */}
-    {/* <TopicMapsExamples.SimpleTopicMapWithCustomMenu /> */}
-    {/* <TopicMapsExamples.SimpleTopicMapWithDefaultInfoBox /> */}
-    {/* <TopicMapsExamples.SimpleTopicMapWithInfoBox /> */}
-    {/* <TopicMapsExamples.SimpleTopicMapWithCustomStyling /> */}
-    {/* <TopicMapsExamples.SimpleTopicMapWithFullClusteringOptionsAndStyling /> */}
-    {/* <TopicMapsExamples.TopicMapWithWithSecondaryInfoSheet /> */}
-    {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
+      {/* <TopicMapsExamples.MostSimpleTopicMapWithGazetteerData /> */}
+      {/* <TopicMapsExamples.SimpleTopicMap /> */}
+      {/* <TopicMapsExamples.SimpleTopicMapWithAdditiopnalStylingInfo /> */}
+      {/* <TopicMapsExamples.SimpleTopicMapWithCustomMenu /> */}
+      {/* <TopicMapsExamples.SimpleTopicMapWithDefaultInfoBox /> */}
+      {/* <TopicMapsExamples.SimpleTopicMapWithInfoBox /> */}
+      {/* <TopicMapsExamples.SimpleTopicMapWithCustomStyling /> */}
+      {/* <TopicMapsExamples.SimpleTopicMapWithFullClusteringOptionsAndStyling /> */}
+      {/* <TopicMapsExamples.TopicMapWithWithSecondaryInfoSheet /> */}
+      {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
 
-    {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
+      {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
+      <TopicMapsExamples.TopicMapWithRemoteControls />
+      {/* <TopicMapsExamples.RemoteControledTopicMap /> */}
 
-    {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
-    {/* <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers /> */}
-    {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox /> */}
-    {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole /> */}
-    {/* <MoreTopicMapsExamples.TopicMapWithOfflineDataConfiguration /> */}
-    {/* <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Wasserstofftankstelle /> */}
-    {/* <TopicMapsExamples.TopicMapWithWithStaticFilter /> */}
-    {/* <MapLibreExamples.SimpleMapLibreLayer /> */}
-    {/* <MapLibreExamples.SimpleMapLibreLayerRedrawingitself /> */}
-    {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMap /> */}
-    {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMapWithFeatureCollectionInAnotherCRS /> */}
-    {/* <MapLibreExamples.SimpleTopicMapWithMapLibreLayer /> */}
-    {/* <MapLibreExamples.SimpleMapLibreLayerWithLocalStyle /> */}
-    {/* <MapLibreExamples.SimpleMapLibreLayerWithAttribution /> */}
-    <MapLibreExamples.SimpleMapLibreLayerWithCustomProtocol />
-    {/* <AnimationExamples.SimpleWuppertal25832 /> */}
-    {/* <AnimationExamples.SimpleWuppertal3857 /> */}
-    {/* <AnimationExamples.SimpleHaltern /> */}
-    {/* <MapLibreExamples.SimpleMapLibreLayerWithAttribution /> */}
-    {/* <TopicMapsExamples.TopicMapWithLineFeatureCollection /> */}
-    {/* <TopicMapsExamples.TopicMapWithLineFeatureCollection /> */}
-    {/* <TopicMapsExamples.TopicMapWithPolygonFeatureCollection /> */}
-    {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBox /> */}
-    {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBoxAndNoTopicMapContextProvider /> */}
-    {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBoxInABootstrapMenu /> */}
-    {/* <PhotoLightBoxExamples.SimplePhotoLightBox /> */}
-    {/* <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptions /> */}
-    {/* <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptionsAndExternalLinks /> */}
+      {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
+      {/* <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers /> */}
+      {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox /> */}
+      {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole /> */}
+      {/* <MoreTopicMapsExamples.TopicMapWithOfflineDataConfiguration /> */}
+      {/* <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Wasserstofftankstelle /> */}
+      {/* <TopicMapsExamples.TopicMapWithWithStaticFilter /> */}
+      {/* <MapLibreExamples.SimpleMapLibreLayer /> */}
+      {/* <MapLibreExamples.SimpleMapLibreLayerRedrawingitself /> */}
+      {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMap /> */}
+      {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMapWithFeatureCollectionInAnotherCRS /> */}
+      {/* <MapLibreExamples.SimpleTopicMapWithMapLibreLayer /> */}
+      {/* <MapLibreExamples.SimpleMapLibreLayerWithLocalStyle /> */}
+      {/* <MapLibreExamples.SimpleMapLibreLayerWithAttribution /> */}
+      {/* <MapLibreExamples.SimpleMapLibreLayerWithCustomProtocol /> */}
+      {/* <AnimationExamples.SimpleWuppertal25832 /> */}
+      {/* <AnimationExamples.SimpleWuppertal3857 /> */}
+      {/* <AnimationExamples.SimpleHaltern /> */}
+      {/* <MapLibreExamples.SimpleMapLibreLayerWithAttribution /> */}
+      {/* <TopicMapsExamples.TopicMapWithLineFeatureCollection /> */}
+      {/* <TopicMapsExamples.TopicMapWithLineFeatureCollection /> */}
+      {/* <TopicMapsExamples.TopicMapWithPolygonFeatureCollection /> */}
+      {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBox /> */}
+      {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBoxAndNoTopicMapContextProvider /> */}
+      {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBoxInABootstrapMenu /> */}
+      {/* <PhotoLightBoxExamples.SimplePhotoLightBox /> */}
+      {/* <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptions /> */}
+      {/* <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptionsAndExternalLinks /> */}
 
-    {/* <GazetteerSearchBoxExamples.SimpleMapWithRemoteControlledGazetteerSearchBox /> */}
+      {/* <GazetteerSearchBoxExamples.SimpleMapWithRemoteControlledGazetteerSearchBox /> */}
 
-    {/* <LeafletExamples.Simple /> */}
-    {/* <LeafletExamples.SimpleWMS /> */}
-    {/* <LeafletExamples.SimpleTrueOrtho /> */}
-    {/* <LeafletExamples.SimpleNonTiledTrueOrtho /> */}
+      {/* <LeafletExamples.Simple /> */}
+      {/* <LeafletExamples.SimpleWMS /> */}
+      {/* <LeafletExamples.SimpleTrueOrtho /> */}
+      {/* <LeafletExamples.SimpleNonTiledTrueOrtho /> */}
 
-    {/* <GeojsonExamples.GeoJSONCollectionInTheMap /> */}
-    {/* <GeojsonExamples.SingleInvertedGeoJSONInTheMap /> */}
-    {/* <GeojsonExamples.SingleInvertedGeoJSONInTheMapIn3852 /> */}
+      {/* <GeojsonExamples.GeoJSONCollectionInTheMap /> */}
+      {/* <GeojsonExamples.SingleInvertedGeoJSONInTheMap /> */}
+      {/* <GeojsonExamples.SingleInvertedGeoJSONInTheMapIn3852 /> */}
 
-    {/* <GeojsonExamples.SingleGeoJSONInTheMap /> */}
+      {/* <GeojsonExamples.SingleGeoJSONInTheMap /> */}
 
-    {/* <LeafletExamples.SimpleTrueOrthoWithText /> */}
-    {/* <LeafletExamples.SimpleTrueOrthoWithTextIn25832 /> */}
-    {/* <LeafletExamples. />*/}
-    {/* <LeafletExamples. />*/}
-    {/* <LeafletExamples. />*/}
-    {/* <LeafletExamples. />*/}
-    {/* <LeafletExamples. />*/}
-    {/* <LeafletExamples. />*/}
-    {/* <LeafletExamples. />*/}
-    {/* <LeafletExamples. />*/}
-  </div>,
-  document.getElementById("root")
-);
+      {/* <LeafletExamples.SimpleTrueOrthoWithText /> */}
+      {/* <LeafletExamples.SimpleTrueOrthoWithTextIn25832 /> */}
+      {/* <LeafletExamples. />*/}
+      {/* <LeafletExamples. />*/}
+      {/* <LeafletExamples. />*/}
+      {/* <LeafletExamples. />*/}
+      {/* <LeafletExamples. />*/}
+      {/* <LeafletExamples. />*/}
+      {/* <LeafletExamples. />*/}
+      {/* <LeafletExamples. />*/}
+    </div>,
+    document.getElementById("root")
+  );
+}
