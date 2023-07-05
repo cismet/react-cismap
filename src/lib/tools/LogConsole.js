@@ -1,6 +1,6 @@
 import React from "react";
 import { useContext, useEffect, useRef, useState } from "react";
-import { Hook, Console, Decode, Unhook } from "console-feed";
+import { Hook, Console, Decode, Unhook } from "@nicksrandall/console-feed";
 import { ResponsiveTopicMapContext } from "../contexts/ResponsiveTopicMapContextProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
