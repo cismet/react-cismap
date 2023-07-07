@@ -79,6 +79,7 @@ const TopicMapComponent = (props) => {
     gazetteerSearchControl = true,
     hamburgerMenu = true,
     zoomControls = true,
+    leafletMapProps = {},
   } = props;
   const { history, referenceSystem, referenceSystemDefinition, maskingPolygon } = useContext(
     TopicMapContext
@@ -259,6 +260,7 @@ const TopicMapComponent = (props) => {
             locateControlEnabled={locatorControl}
             attributionControl={attributionControl}
             // offlineReadyToUse={offlineReadyToUse}
+            leafletMapProps={leafletMapProps}
           >
             {overlayFeature && (
               <ProjSingleGeoJson
