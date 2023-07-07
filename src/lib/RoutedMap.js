@@ -26,6 +26,13 @@ import "leaflet.path.drag";
 import "proj4leaflet";
 import "url-search-params-polyfill";
 
+import {
+  CrossTabCommunicationContext,
+  CrossTabCommunicationDispatchContext,
+  TYPES,
+} from "../lib/contexts/CrossTabCommunicationContextProvider";
+const CROSSTABCOMMUNICATION_SCOPE = "RoutedMap";
+
 export class RoutedMap extends React.Component {
   constructor(props) {
     super(props);
@@ -80,7 +87,55 @@ export class RoutedMap extends React.Component {
 
     map.editable = this.props.editable;
 
-    //Do sstuff after panning is over
+    // leader Follower Stuff
+    // check whether the map is a leader or follwer
+    // this is done by checking whether thhere is a queryparam leader or follower is set
+    // the payload of the param will be the channel name with a "leader" or "follower" prefix
+
+    setTimeout(() => {
+      const leader = this.crossTabCommunicationContext?.type === TYPES.LEADER;
+      const follower = this.crossTabCommunicationContext?.type === TYPES.FOLLOWER;
+      const leaderFollowerChannel = leader || follower;
+      console.log("xxx leaderOrFollower", { leader, follower }, this.crossTabCommunicationContext);
+      console.log("xxx 2nd this.contextSet", this.contextSet);
+      const crossTabCommunicationDispatch = this.crossTabCommunicationDispatchContext;
+      if (leader) {
+        // this is a leader
+        // do stuff for leader
+        // create a channel for the leader
+        crossTabCommunicationDispatch.scopedMessage(CROSSTABCOMMUNICATION_SCOPE, {
+          type: "mapState",
+          mapState: { zoom: map.getZoom(), center: map.getCenter() },
+        });
+        // listen to changes of the map state
+        map.on("move zoom moveend resize", (e) => {
+          crossTabCommunicationDispatch.scopedMessage(CROSSTABCOMMUNICATION_SCOPE, {
+            type: "mapState",
+            mapState: { zoom: map.getZoom(), center: map.getCenter() },
+          });
+        });
+      } else if (follower) {
+        // this is a follower
+        crossTabCommunicationDispatch.follow(CROSSTABCOMMUNICATION_SCOPE, (data) => {
+          map.setView(data.mapState.center, data.mapState.zoom);
+        });
+        setTimeout(() => {
+          crossTabCommunicationDispatch.sendFeedback(CROSSTABCOMMUNICATION_SCOPE, {
+            type: "bounds",
+            bounds: map.getBounds(),
+          });
+        }, 100);
+        //here we will send the bounds of the map back to display ist in the leader map
+        map.on("resize", (e) => {
+          crossTabCommunicationDispatch.sendFeedback(CROSSTABCOMMUNICATION_SCOPE, {
+            type: "bounds",
+            bounds: e.target.getBounds(),
+          });
+        });
+      }
+    }, 10);
+
+    //Do stuff after panning is over
     map.on("moveend", () => {
       if (
         typeof leafletMap !== "undefined" &&
@@ -93,7 +148,13 @@ export class RoutedMap extends React.Component {
           const center = leafletMap.leafletElement.getCenter();
           const latFromUrl = parseFloat(this.props.urlSearchParams.get("lat"));
           const lngFromUrl = parseFloat(this.props.urlSearchParams.get("lng"));
-          const zoomFromUrl = parseInt(this.props.urlSearchParams.get("zoom"), 10);
+          let zoomFromUrl;
+          if (leafletMap.leafletElement.options.zoomSnap === 1) {
+            zoomFromUrl = parseInt(this.props.urlSearchParams.get("zoom"), 10);
+          } else {
+            zoomFromUrl = parseFloat(this.props.urlSearchParams.get("zoom"));
+          }
+
           let lat = center.lat;
           let lng = center.lng;
           if (Math.abs(latFromUrl - center.lat) < 0.000001) {
@@ -402,7 +463,11 @@ export class RoutedMap extends React.Component {
     } else {
       fallbackZoomFallback = 17;
     }
-    if (this.props.zoomSnap === 1) {
+    const zoomSnap =
+      this.crossTabCommunicationContext?.followerConfigOverwrites[CROSSTABCOMMUNICATION_SCOPE]
+        ?.zoomSnap || this.props.zoomSnap;
+
+    if (zoomSnap === 1) {
       zoomByUrl =
         parseInt(this.props.urlSearchParams.get("zoom"), 10) ||
         this.props.fallbackZoom ||
@@ -471,66 +536,93 @@ export class RoutedMap extends React.Component {
         />
       );
     }
+    console.log(
+      "xxx this.leafletMap.leafletElement.zoomSnap",
+      zoomSnap,
+      this.leafletMap?.leafletElement?.options.zoomSnap,
+      this.leafletMap?.leafletElement
+    );
 
     return (
-      <div className={iosClass}>
-        <Map
-          ref={(leafletMap) => {
-            this.leafletMap = leafletMap;
-          }}
-          editable={this.props.editable}
-          key={"leafletMap"}
-          crs={this.props.referenceSystem}
-          style={this.props.style}
-          // style={{ ...this.props.style, border: "1px solid red" }}
-          center={positionByUrl}
-          zoom={zoomByUrl}
-          zoomControl={false}
-          doubleClickZoom={false}
-          ondblclick={this.props.ondblclick}
-          onclick={this.props.onclick}
-          minZoom={this.props.minZoom}
-          maxZoom={this.props.maxZoom}
-          zoomSnap={this.props.zoomSnap}
-          zoomDelta={this.props.zoomDelta}
-          attributionControl={this.props.attributionControl}
-        >
-          {this.props.zoomControlEnabled && (
-            <ZoomControl
-              position="topleft"
-              zoomInTitle="Vergr&ouml;ßern"
-              zoomOutTitle="Verkleinern"
-            />
-          )}
+      <CrossTabCommunicationContext.Consumer>
+        {(crossTabCommunicationContext) => (
+          <CrossTabCommunicationDispatchContext.Consumer>
+            {(crossTabCommunicationDispatchContext) => {
+              // Check if the context values are already set
+              this.crossTabCommunicationContext = crossTabCommunicationContext;
+              this.crossTabCommunicationDispatchContext = crossTabCommunicationDispatchContext;
 
-          {fullscreenControl}
-          {locateControl}
-          <div
-            key={
-              this.props.backgroundlayers +
-              "." +
-              this.props.urlSearchParams.get("mapStyle") +
-              "." +
-              md5(this.props.baseLayerConf || "") +
-              "."
-              //  +
-              // this.props.layerKeyPostfix +
-              // "."
-              // +
-              // this.props.offlineReadyToUse
-            }
-          >
-            {getLayersByNames(
-              this.props.backgroundlayers,
-              this.props.urlSearchParams.get("mapStyle"),
-              undefined,
-              this.props.baseLayerConf
-            )}
-          </div>
+              console.log("xxx crossTabCommunicationContext", crossTabCommunicationContext);
 
-          {this.props.children}
-        </Map>
-      </div>
+              return (
+                <div className={iosClass}>
+                  <Map
+                    ref={(leafletMap) => {
+                      this.leafletMap = leafletMap;
+                    }}
+                    editable={this.props.editable}
+                    key={"leafletMap"}
+                    crs={this.props.referenceSystem}
+                    style={this.props.style}
+                    // style={{ ...this.props.style, border: "1px solid red" }}
+                    center={positionByUrl}
+                    zoom={zoomByUrl}
+                    zoomControl={false}
+                    doubleClickZoom={false}
+                    ondblclick={this.props.ondblclick}
+                    onclick={this.props.onclick}
+                    minZoom={this.props.minZoom}
+                    maxZoom={this.props.maxZoom}
+                    zoomSnap={this.props.zoomSnap}
+                    zoomDelta={this.props.zoomDelta}
+                    attributionControl={this.props.attributionControl}
+                    {...this.props.leafletMapProps}
+                    //this doesnt work like expected bc the map will not take the overwrites
+                    {...this.crossTabCommunicationContext.followerConfigOverwrites[
+                      CROSSTABCOMMUNICATION_SCOPE
+                    ]}
+                  >
+                    {this.props.zoomControlEnabled && (
+                      <ZoomControl
+                        position="topleft"
+                        zoomInTitle="Vergr&ouml;ßern"
+                        zoomOutTitle="Verkleinern"
+                      />
+                    )}
+
+                    {fullscreenControl}
+                    {locateControl}
+                    <div
+                      key={
+                        this.props.backgroundlayers +
+                        "." +
+                        this.props.urlSearchParams.get("mapStyle") +
+                        "." +
+                        md5(this.props.baseLayerConf || "") +
+                        "."
+                        //  +
+                        // this.props.layerKeyPostfix +
+                        // "."
+                        // +
+                        // this.props.offlineReadyToUse
+                      }
+                    >
+                      {getLayersByNames(
+                        this.props.backgroundlayers,
+                        this.props.urlSearchParams.get("mapStyle"),
+                        undefined,
+                        this.props.baseLayerConf
+                      )}
+                    </div>
+
+                    {this.props.children}
+                  </Map>
+                </div>
+              );
+            }}
+          </CrossTabCommunicationDispatchContext.Consumer>
+        )}
+      </CrossTabCommunicationContext.Consumer>
     );
   }
 }
