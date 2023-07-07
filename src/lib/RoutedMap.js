@@ -30,7 +30,7 @@ import {
   CrossTabCommunicationContext,
   CrossTabCommunicationDispatchContext,
   TYPES,
-} from "../lib/contexts/CrossTabCommunicationContextProvider";
+} from "./contexts/CrossTabCommunicationContextProvider";
 const CROSSTABCOMMUNICATION_SCOPE = "RoutedMap";
 
 export class RoutedMap extends React.Component {
