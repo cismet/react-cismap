@@ -921,7 +921,7 @@ export const TopicMapWithAdditionalLayers = () => {
   );
 };
 
-export const TopicMapWithRemoteControls = () => {
+export const TopicMapWithCrossTabCommunicationContextProvider = () => {
   const [gazData, setGazData] = useState([]);
   useEffect(() => {
     getGazData(setGazData);
@@ -929,9 +929,27 @@ export const TopicMapWithRemoteControls = () => {
   const currentZoom = 14;
 
   // console.log("xxx layer", JSON.stringify(remoteConfig));
-
+  const [followerBounds, setFollowerBounds] = useState(undefined);
   return (
-    <CrossTabCommunicationContextProvider>
+    <CrossTabCommunicationContextProvider
+      followerConfigOverwrites={{
+        RoutedMap: {
+          zoomSnap: 0.1, //does not work atm
+        },
+      }}
+      messageManipulation={(scope, message) => {
+        if (scope === "RoutedMap" && message.type === "mapState") {
+          const manipulatedMessage = { ...message };
+          manipulatedMessage.mapState = {
+            ...message.mapState,
+            zoom: message.mapState.zoom + 1,
+          };
+          console.log("xxx manipulatedMessage", manipulatedMessage);
+          return manipulatedMessage;
+        }
+        return message;
+      }}
+    >
       <TopicMapContextProvider
         featureItemsURL="/data/bpklima.data.json"
         getFeatureStyler={getGTMFeatureStyler}
@@ -966,7 +984,7 @@ export const TopicMapWithRemoteControls = () => {
           }
           secondaryInfo={<InfoPanel />}
         >
-          {/* <FeatureCollection /> */}
+          <FeatureCollection />
           <ProjSingleGeoJson
             key={"blacky"}
             geoJson={uwz[0]}
