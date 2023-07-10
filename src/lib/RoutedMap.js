@@ -536,12 +536,6 @@ export class RoutedMap extends React.Component {
         />
       );
     }
-    console.log(
-      "xxx this.leafletMap.leafletElement.zoomSnap",
-      zoomSnap,
-      this.leafletMap?.leafletElement?.options.zoomSnap,
-      this.leafletMap?.leafletElement
-    );
 
     return (
       <CrossTabCommunicationContext.Consumer>
@@ -551,9 +545,6 @@ export class RoutedMap extends React.Component {
               // Check if the context values are already set
               this.crossTabCommunicationContext = crossTabCommunicationContext;
               this.crossTabCommunicationDispatchContext = crossTabCommunicationDispatchContext;
-
-              console.log("xxx crossTabCommunicationContext", crossTabCommunicationContext);
-
               return (
                 <div className={iosClass}>
                   <Map
