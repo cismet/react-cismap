@@ -126,7 +126,7 @@ export class RoutedMap extends React.Component {
           });
         }, 100);
         //here we will send the bounds of the map back to display ist in the leader map
-        map.on("resize", (e) => {
+        map.on("resize move zoom moveend", (e) => {
           crossTabCommunicationDispatch.sendFeedback(CROSSTABCOMMUNICATION_SCOPE, {
             type: "bounds",
             bounds: e.target.getBounds(),
