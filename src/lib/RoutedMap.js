@@ -569,9 +569,9 @@ export class RoutedMap extends React.Component {
                     attributionControl={this.props.attributionControl}
                     {...this.props.leafletMapProps}
                     //this doesnt work like expected bc the map will not take the overwrites
-                    {...this.crossTabCommunicationContext.followerConfigOverwrites[
+                    {...(this.crossTabCommunicationContext?.followerConfigOverwrites[
                       CROSSTABCOMMUNICATION_SCOPE
-                    ]}
+                    ] || [])}
                   >
                     {this.props.zoomControlEnabled && (
                       <ZoomControl
