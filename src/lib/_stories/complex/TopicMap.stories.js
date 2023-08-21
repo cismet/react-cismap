@@ -1327,6 +1327,100 @@ export const TopicMapWithCustomLayerSetAndAdditionalOverlayLayers = () => {
   );
 };
 
+export const TopicMapTholey = () => {
+  const backgroundModes = [
+    {
+      title: "Stadtplan",
+      mode: "default",
+      layerKey: "stadtplan",
+    },
+    {
+      title: "Stadtplan (Vektordaten light)",
+      mode: "default",
+      layerKey: "vector",
+    },
+
+    { title: "Luftbildkarte", mode: "default", layerKey: "lbk" },
+  ];
+  const backgroundConfigurations = {
+    lbk: {
+      layerkey: "slDOPlic@80|cismetBasic",
+      layerkey_: "wupp-plan-live@100|trueOrtho2020@75|rvrSchrift@100",
+      src: "/images/rain-hazard-map-bg/ortho.png",
+      title: "Luftbildkarte",
+    },
+    stadtplan: {
+      layerkey: "cismetBasic",
+      src: "/images/rain-hazard-map-bg/citymap.png",
+      title: "Stadtplan",
+    },
+    vector: {
+      layerkey: "cismetLight",
+      src: "/images/rain-hazard-map-bg/citymap.png",
+      title: "Stadtplan",
+    },
+  };
+  const baseLayerConf = { ...defaultLayerConf };
+
+  baseLayerConf.namedLayers.cismetLight = {
+    type: "vector",
+    style: "https://omt.map-hosting.de/styles/cismet-light/style.json",
+    pane: "backgroundvectorLayers",
+  };
+
+  baseLayerConf.namedLayers.cismetBasic = {
+    type: "vector",
+    opacity: 1,
+    attribution:
+      'Hintergrundkarte basierend auf &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> Vektorkarte',
+    style: "https://omt.map-hosting.de/styles/cismet-basic/style.json",
+    pane: "backgroundvectorLayers",
+  };
+  baseLayerConf.namedLayers.slDOPlic = {
+    type: "wms",
+    url:
+      "https://dop-sl-tholey-usage-only-allowed-with-rainhazardmap-tholey.cismet.de?REQUEST=GetCapabilities&VERSION=1.1.1&SERVICE=WMS&forceBasicAuth=true",
+    layers: "sl_dop20_rgb",
+    tiled: false,
+    version: "1.1.1",
+  };
+
+  return (
+    <TopicMapContextProvider
+      persistenceSettings={{
+        ui: ["XappMenuVisible", "appMenuActiveMenuSection", "collapsedInfoBox"],
+        featureCollection: ["filterState", "filterMode", "clusteringEnabled"],
+        responsive: [],
+        styling: [
+          "activeAdditionalLayerKeys",
+          "namedMapStyle",
+          "selectedBackground",
+          "markerSymbolSize",
+        ],
+      }}
+      baseLayerConf={baseLayerConf}
+      backgroundConfigurations={backgroundConfigurations}
+      backgroundModes={backgroundModes}
+      referenceSystem={MappingConstants.crs3857}
+      mapEPSGCode="3857"
+      referenceSystemDefinition={MappingConstants.proj4crs3857def}
+      homeZoom={13}
+    >
+      <TopicMapComponent
+        homeZoom={16}
+        homeCenter={[49.481343565241936, 7.033912385813893]}
+        maxZoom={22}
+        locatorControl={true}
+        modalMenu={
+          <AppMenu
+            x={99}
+            previewMapPosition="lat=51.25508899597954&lng=7.155737656576095&zoom=17"
+          />
+        }
+      ></TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
 export const TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole = () => {
   const [gazData, setGazData] = useState([]);
   useEffect(() => {
