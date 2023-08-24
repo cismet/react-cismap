@@ -16,15 +16,15 @@ const GenericHelpTextForMyLocation = ({ defaultContextValues = {} }) => {
       <p>
         Das Werkzeug &quot;Mein Standort&quot; <FontAwesomeIcon icon={faLocationArrow} />{" "}
         funktioniert so wie hier beschrieben nur auf mobilen Endgeräten wie Smartphones und
-        Tablet-PC&#39;s, die i. d. R. mit einem GNSS-Empfänger als Positionssensor ausgestattet
-        sind. (GNSS steht für Global Navigation Satellite Systems, z. B.{" "}
+        Tablet-PC&#39;s, die i. d. R. mit einem GNSS-Empfänger als Positionssensor ausgestattet sind
+        (GNSS steht für Global Navigation Satellite Systems, z. B.{" "}
         <a
           target="_info"
           href="https://dvw.de/sites/default/files/landesverein-bayern/VeroeffentlichungenMitteilungen1996_4/DVW_1996_4_Schlie%C3%9Fer_GPS_Systemgrundlagen.pdf"
         >
           GPS
         </a>
-        .) Mit dem ersten Antippen dieses Werkzeugs aktivieren Sie den &quot;Follow me&quot;-Modus,
+        ). Mit dem ersten Antippen dieses Werkzeugs aktivieren Sie den &quot;Follow me&quot;-Modus,
         erkennbar an der orangefarbigen Darstellung des Werkzeug-Symbols. Ggf. werden Sie vom
         Browser bzw. dem Betriebssystem Ihres Endgerätes zur Freigabe der Lokalisierung
         aufgefordert. Die Karte wird auf Ihren aktuellen Standort zentriert, der mit einem blauen
