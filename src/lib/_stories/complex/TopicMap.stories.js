@@ -1344,7 +1344,7 @@ export const TopicMapTholey = () => {
   ];
   const backgroundConfigurations = {
     lbk: {
-      layerkey: "slDOPlic@80|cismetBasic",
+      layerkey: "slDOPlicSingle@80|cismetBasic",
       layerkey_: "wupp-plan-live@100|trueOrtho2020@75|rvrSchrift@100",
       src: "/images/rain-hazard-map-bg/ortho.png",
       title: "Luftbildkarte",
@@ -1378,6 +1378,14 @@ export const TopicMapTholey = () => {
   };
   baseLayerConf.namedLayers.slDOPlic = {
     type: "wms",
+    url:
+      "https://dop-sl-tholey-usage-only-allowed-with-rainhazardmap-tholey.cismet.de?REQUEST=GetCapabilities&VERSION=1.1.1&SERVICE=WMS&forceBasicAuth=true",
+    layers: "sl_dop20_rgb",
+    tiled: false,
+    version: "1.1.1",
+  };
+  baseLayerConf.namedLayers.slDOPlicSingle = {
+    type: "wms-nt",
     url:
       "https://dop-sl-tholey-usage-only-allowed-with-rainhazardmap-tholey.cismet.de?REQUEST=GetCapabilities&VERSION=1.1.1&SERVICE=WMS&forceBasicAuth=true",
     layers: "sl_dop20_rgb",
