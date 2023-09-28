@@ -89,15 +89,26 @@ class ProjGeoJson extends Path {
       if (props.hoverer) {
         let theStyle = props.style(feature, props.featureStylerScalableImageSize);
 
-        layer.bindTooltip("" + props.hoverer(feature), {
-          offset: L.point(theStyle.radius || 1, 0),
-          direction: "right",
-        });
+        if (props.hoverer?.virtual !== true) {
+          layer.bindTooltip("" + props.hoverer(feature), {
+            offset: L.point(theStyle.radius || 1, 0),
+            direction: "right",
+          });
+        }
+        const { mouseoverHov, mouseoutHov } = props.hoverer(feature);
         layer.on("mouseover", function (e) {
-          layer.openTooltip(e.latlng);
+          if (props.hoverer?.virtual !== true) {
+            layer.openTooltip(e.latlng);
+          } else {
+            mouseoverHov(feature, e);
+          }
         });
-        layer.on("mouseout", function () {
-          layer.closeTooltip();
+        layer.on("mouseout", function (e) {
+          if (props.hoverer?.virtual !== true) {
+            layer.closeTooltip();
+          } else {
+            mouseoutHov(feature, e);
+          }
         });
       }
 
