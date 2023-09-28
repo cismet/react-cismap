@@ -6,6 +6,7 @@ import * as MoreTopicMapsExamples from "./lib/_stories/complex/MoreTopicMap.stor
 import * as TopicMapsExamples from "./lib/_stories/complex/TopicMap.stories";
 import * as LeafletExamples from "./lib/_stories/mainComponents/Map.stories";
 import * as GeojsonExamples from "./lib/_stories/mainComponents/ProjGeoJSON.stories";
+import * as FeatureCollectionExamples from "./lib/_stories/mainComponents/FeatureCollection.stories";
 import * as MapLibreExamples from "./lib/_stories/vector/MapLibreLayer.stories";
 import PlaygroundApp from "./playground/App";
 
@@ -77,7 +78,7 @@ if (window.location.pathname === "/follower") {
 
       {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
       {/* <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers /> */}
-      <TopicMapsExamples.TopicMapTholey />
+      {/* <TopicMapsExamples.TopicMapTholey /> */}
       {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox /> */}
       {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole /> */}
       {/* <MoreTopicMapsExamples.TopicMapWithOfflineDataConfiguration /> */}
@@ -128,6 +129,11 @@ if (window.location.pathname === "/follower") {
       {/* <LeafletExamples. />*/}
       {/* <LeafletExamples. />*/}
       {/* <LeafletExamples. />*/}
+      {/* <FeatureCollectionExamples.Points /> */}
+      {/* <FeatureCollectionExamples.ClusteringWithDefaultOptions /> */}
+      {/* <FeatureCollectionExamples.ClusteringWithCircles /> */}
+      {/* <FeatureCollectionExamples.PolygonsNoStyling /> */}
+      <FeatureCollectionExamples.PolygonsWithStyling />
     </div>,
     document.getElementById("root")
   );
