@@ -154,11 +154,7 @@ export const SimpleMapLibreLayerInRoutedMap = () => {
         zoomDelta={0.5}
       >
         {showMapLibre && (
-          <MapLibreLayer
-            accessToken={"dd"}
-            _style="http://localhost:888/styles/klokantech-basic/style.json"
-            style="http://localhost:888/styles/osm-bright/style.json"
-          />
+          <MapLibreLayer style="https://sgx.geodatenzentrum.de/gdz_basemapde_vektor/styles/bm_web_col.jsonn" />
         )}
       </RoutedMap>
     </div>
@@ -202,8 +198,8 @@ export const SimpleMapLibreLayerInRoutedMapWithFeatureCollectionInAnotherCRS = (
       >
         {showMapLibre && (
           <MapLibreLayer
-            _style="http://localhost:888/styles/klokantech-basic/style.json"
-            style="http://localhost:888/styles/osm-bright/style.json"
+            opacity={0.2}
+            style="https://sgx.geodatenzentrum.de/gdz_basemapde_vektor/styles/bm_web_col.json"
           />
         )}
 
