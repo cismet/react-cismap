@@ -17,7 +17,7 @@ const GenericHelpTextForMyLocation = ({ defaultContextValues = {} }) => {
         Das Werkzeug &quot;Mein Standort&quot; <FontAwesomeIcon icon={faLocationArrow} />{" "}
         funktioniert so wie hier beschrieben nur auf mobilen Endgeräten wie Smartphones und
         Tablet-PC&#39;s, die i. d. R. mit einem GNSS-Empfänger als Positionssensor ausgestattet sind
-        (GNSS steht für Global Navigation Satellite Systems, z. B.{" "}
+        (GNSS steht für Global Navigation Satellite Systems, z.B.{" "}
         <a
           target="_info"
           href="https://dvw.de/sites/default/files/landesverein-bayern/VeroeffentlichungenMitteilungen1996_4/DVW_1996_4_Schlie%C3%9Fer_GPS_Systemgrundlagen.pdf"
@@ -65,9 +65,9 @@ const GenericHelpTextForMyLocation = ({ defaultContextValues = {} }) => {
       <p>
         Noch ein Hinweis zur Genauigkeit: Die Richtigkeit der Positionsanzeige ist nicht garantiert.
         Ihre Genauigkeit hängt von verschiedenen Faktoren ab, u. a. von der Qualität des
-        GNSS-Empfängers in Ihrem Endgerät, der Umgebungssituation (z.B. hohe Gebäude oder spiegelnde
-        Oberflächen in der Nachbarschaft) sowie der Methode, mit der Ihr Endgerät und der von Ihnen
-        verwendete Browser die Position bestimmen.
+        GNSS-Empfängers in Ihrem Endgerät, der Umgebungssituation (z. B. hohe Gebäude oder
+        spiegelnde Oberflächen in der Nachbarschaft) sowie der Methode, mit der Ihr Endgerät und der
+        von Ihnen verwendete Browser die Position bestimmen.
       </p>
     </>
   );
