@@ -65,9 +65,9 @@ const GenericHelpTextForMyLocation = ({ defaultContextValues = {} }) => {
       <p>
         Noch ein Hinweis zur Genauigkeit: Die Richtigkeit der Positionsanzeige ist nicht garantiert.
         Ihre Genauigkeit hängt von verschiedenen Faktoren ab, u. a. von der Qualität des
-        GNSS-Empfängers in Ihrem Endgerät, der Umgebungssituation (z. B. hohe Gebäude oder
-        spiegelnde Oberflächen in der Nachbarschaft) sowie der Methode, mit der Ihr Endgerät und der
-        von Ihnen verwendete Browser die Position bestimmen.
+        GNSS-Empfängers in Ihrem Endgerät, der Umgebungssituation (z.B. hohe Gebäude oder spiegelnde
+        Oberflächen in der Nachbarschaft) sowie der Methode, mit der Ihr Endgerät und der von Ihnen
+        verwendete Browser die Position bestimmen.
       </p>
     </>
   );
