@@ -39,6 +39,7 @@ export class RoutedMap extends React.Component {
     this.featureClick = this.featureClick.bind(this);
     this.storeBoundingBox = this.storeBoundingBox.bind(this);
     this.getBoundingBoxForLeafletMap = this.getBoundingBoxForLeafletMap.bind(this);
+    this.blockReactionForCrossTabCommunication = false;
   }
 
   // add a handler for detecting map changes
@@ -93,9 +94,13 @@ export class RoutedMap extends React.Component {
     // the payload of the param will be the channel name with a "leader" or "follower" prefix
 
     setTimeout(() => {
-      const leader = this.crossTabCommunicationContext?.type === TYPES.LEADER;
-      const follower = this.crossTabCommunicationContext?.type === TYPES.FOLLOWER;
-      const leaderFollowerChannel = leader || follower;
+      let leader = this.crossTabCommunicationContext?.type === TYPES.LEADER;
+      let follower = this.crossTabCommunicationContext?.type === TYPES.FOLLOWER;
+      const sync = this.crossTabCommunicationContext?.type === TYPES.SYNC;
+      if (sync) {
+        leader = true;
+        follower = true;
+      }
       console.log("xxx leaderOrFollower", { leader, follower }, this.crossTabCommunicationContext);
       console.log("xxx 2nd this.contextSet", this.contextSet);
       const crossTabCommunicationDispatch = this.crossTabCommunicationDispatchContext;
@@ -109,15 +114,23 @@ export class RoutedMap extends React.Component {
         });
         // listen to changes of the map state
         map.on("move zoom moveend resize", (e) => {
-          crossTabCommunicationDispatch.scopedMessage(CROSSTABCOMMUNICATION_SCOPE, {
-            type: "mapState",
-            mapState: { zoom: map.getZoom(), center: map.getCenter() },
-          });
+          if (!this.blockReactionForCrossTabCommunication) {
+            crossTabCommunicationDispatch.scopedMessage(CROSSTABCOMMUNICATION_SCOPE, {
+              type: "mapState",
+              mapState: { zoom: map.getZoom(), center: map.getCenter() },
+            });
+          }
         });
-      } else if (follower) {
+      }
+      if (follower) {
         // this is a follower
         crossTabCommunicationDispatch.follow(CROSSTABCOMMUNICATION_SCOPE, (data) => {
+          console.log("follower xxxx");
+          this.blockReactionForCrossTabCommunication = true;
           map.setView(data.mapState.center, data.mapState.zoom);
+          setTimeout(() => {
+            this.blockReactionForCrossTabCommunication = false;
+          }, 1000);
         });
         setTimeout(() => {
           crossTabCommunicationDispatch.sendFeedback(CROSSTABCOMMUNICATION_SCOPE, {
@@ -125,7 +138,7 @@ export class RoutedMap extends React.Component {
             bounds: map.getBounds(),
           });
         }, 100);
-        //here we will send the bounds of the map back to display ist in the leader map
+        //here we will send the bounds of the map back to display it in the leader map
         map.on("resize move zoom moveend", (e) => {
           crossTabCommunicationDispatch.sendFeedback(CROSSTABCOMMUNICATION_SCOPE, {
             type: "bounds",

@@ -942,13 +942,15 @@ export const TopicMapWithCrossTabCommunicationContextProvider = () => {
           const manipulatedMessage = { ...message };
           manipulatedMessage.mapState = {
             ...message.mapState,
-            zoom: message.mapState.zoom + 1,
+            zoom: message.mapState.zoom, // +1
           };
           console.log("xxx manipulatedMessage", manipulatedMessage);
           return manipulatedMessage;
         }
         return message;
       }}
+      role="sync"
+      token="myToken"
     >
       <TopicMapContextProvider
         featureItemsURL="/data/bpklima.data.json"

@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import localforage from "localforage";
 import { setFromLocalforage } from "./_helper";
 import { useImmer } from "use-immer";
+import { BroadcastChannel } from "broadcast-channel";
+
 const StateContext = React.createContext();
 const DispatchContext = React.createContext();
 
@@ -15,6 +17,7 @@ const defaultState = {
 const TYPES = {
   LEADER: "LEADER",
   FOLLOWER: "FOLLOWER",
+  SYNC: "SYNC",
 };
 
 const CrossTabCommunicationContextProvider = ({
@@ -120,16 +123,24 @@ const CrossTabCommunicationContextProvider = ({
       leader = token;
     } else if (role === "follower") {
       follower = token;
+    } else if (role === "sync") {
+      leader = token;
+      follower = token;
     }
     const channelToken = leader || follower;
     let type;
     if (leader) {
       console.log("xxx you are a leader");
       type = TYPES.LEADER;
-    } else if (follower) {
+    }
+    if (follower) {
       console.log("xxx you are a follower");
       type = TYPES.FOLLOWER;
       setFollowerConfigOverwrites(followerConfigOverwrites);
+    }
+    if (leader && follower) {
+      console.log("xxx you are a sync");
+      type = TYPES.SYNC;
     }
     const leaderChannel = new BroadcastChannel("leader:" + channelToken);
     const followerChannel = new BroadcastChannel("follower:" + channelToken);
@@ -140,7 +151,9 @@ const CrossTabCommunicationContextProvider = ({
       const state = stateRef.current;
 
       // Block messages with scopes in the blocklist
-      if (isLeaderBlocked(event.data.scope)) {
+      console.log("event", event);
+
+      if (isLeaderBlocked(event.scope)) {
         return;
       }
 
@@ -153,20 +166,20 @@ const CrossTabCommunicationContextProvider = ({
       // a follower is following a leader
       // therefore leaderChannel.onmessage
 
-      if (state.follower && state.follower[event.data.scope]) {
-        for (let callback of state.follower[event.data.scope]) {
-          callback(messageManipulation(event.data.scope, event.data.message));
+      if (state.follower && state.follower[event.scope]) {
+        for (let callback of state.follower[event.scope]) {
+          callback(messageManipulation(event.scope, event.message));
         }
       }
     };
 
     followerChannel.onmessage = (event) => {
       // Block messages with scopes in the blocklist
-      if (isFeedbackBlocked(event.data.scope)) {
+      if (isFeedbackBlocked(event.scope)) {
         return;
       }
 
-      feedbackListener(event.data.scope, event.data.message);
+      feedbackListener(event.scope, event.message);
     };
 
     // Clean up by closing channels when component unmounts
