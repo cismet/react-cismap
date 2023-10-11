@@ -63,6 +63,7 @@ if (window.location.pathname === "/follower") {
 
       {/* <TopicMapsExamples.MostSimpleTopicMapWithGazetteerData /> */}
       {/* <TopicMapsExamples.SimpleTopicMap /> */}
+      <TopicMapsExamples.SimpleTopicMapWithScales />
       {/* <TopicMapsExamples.SimpleTopicMapWithAdditiopnalStylingInfo /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithCustomMenu /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithDefaultInfoBox /> */}

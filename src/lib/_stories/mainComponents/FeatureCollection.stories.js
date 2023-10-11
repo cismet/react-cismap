@@ -449,6 +449,7 @@ export const PolygonsWithStyling = (args) => {
   const myRegularHoverer = (feature) => {
     return "id=" + feature.id;
   };
+  console.log("kassenzeichen", kassenzeichen);
 
   return (
     <div>
@@ -493,13 +494,13 @@ export const PolygonsWithStyling = (args) => {
           key={"FeatureCollectionDisplay" + JSON.stringify(args) + urlSearch}
           style={(feature) => {
             return {
-              color: "#00000040", // stroke
-              fillColor: "#00000010", //fill
+              color: "#000000", // stroke
+              fillColor: "#000000", //fill
               weight: 0.5,
             };
           }}
-          hoverer={myVirtHoverer}
-          //   hoverer={myRegularHoverer}
+          // hoverer={myVirtHoverer}
+          hoverer={myRegularHoverer}
           mapRef={(mapRef.current || {}).leafletMap}
           featureCollection={kassenzeichen}
         />

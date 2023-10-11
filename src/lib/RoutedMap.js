@@ -3,7 +3,7 @@ import md5 from "md5";
 import proj4 from "proj4";
 import PropTypes from "prop-types";
 import React from "react";
-import { Map, ZoomControl } from "react-leaflet";
+import { Map, ScaleControl, ZoomControl } from "react-leaflet";
 //see https://github.com/makinacorpus/Leaflet.GeometryUtil/issues/59
 import { reproject } from "reproject";
 
@@ -495,6 +495,8 @@ export class RoutedMap extends React.Component {
     if (this.props.fullScreenControlEnabled) {
       fullscreenControl = (
         <FullscreenControl
+          orderManipulatable
+          key="fullscreenControl"
           title="Vollbildmodus"
           forceSeparateButton={true}
           titleCancel="Vollbildmodus beenden"
@@ -524,6 +526,8 @@ export class RoutedMap extends React.Component {
     if (this.props.locateControlEnabled) {
       locateControl = (
         <LocateControl
+          key="locateControl"
+          orderManipulatable
           setView="once"
           flyTo={true}
           strings={{
@@ -545,6 +549,111 @@ export class RoutedMap extends React.Component {
               // Check if the context values are already set
               this.crossTabCommunicationContext = crossTabCommunicationContext;
               this.crossTabCommunicationDispatchContext = crossTabCommunicationDispatchContext;
+
+              const children = [];
+              //add ^children here
+              if (this.props.zoomControlEnabled) {
+                children.push(
+                  <ZoomControl
+                    key="zoomControl"
+                    _order="0000000"
+                    orderManipulatable
+                    position="topleft"
+                    zoomInTitle="Vergr&ouml;ßern"
+                    zoomOutTitle="Verkleinern"
+                  />
+                );
+              }
+              children.push(fullscreenControl);
+              children.push(locateControl);
+
+              if (this.props.children && Array.isArray(this.props.children)) {
+                children.push(...this.props.children);
+              }
+
+              // flatten the children array. that means if there is an array as a child
+              // add the children of the array to the children array
+              const flatchildren = [];
+
+              const flatten = (arr) => {
+                for (const el of arr) {
+                  if (Array.isArray(el)) {
+                    flatten(el);
+                  } else {
+                    if (el) {
+                      flatchildren.push(el);
+                    }
+                  }
+                }
+              };
+
+              flatten(children);
+              // go through the flatchildren and remove the ones that have a prop orderManipulatbale
+              // and add them to the orderManipulatedChildren array
+              const _children = [];
+              const orderManipulationCandidates = [];
+              console.log("xxxx flatchildren", flatchildren);
+
+              for (const child of flatchildren || []) {
+                console.log("xxx child", child);
+                console.log("xxx child.props.orderManipulatbale", child?.props?.orderManipulatable);
+
+                if (child?.props?.orderManipulatable) {
+                  orderManipulationCandidates.push(child);
+                } else {
+                  _children.push(child);
+                }
+              }
+
+              console.log("xxx children", _children);
+
+              // Helper function to determine the order of two elements
+              // const determineOrder = (a, b) => {
+              //   const orderA = a.props.order || "";
+              //   const orderB = b.props.order || "";
+
+              //   // If a should be before b
+              //   if (orderA === `before::${b.key}`) return -1;
+
+              //   // If a should be after b
+              //   if (orderA === `after::${b.key}`) return 1;
+
+              //   // If b should be before a
+              //   if (orderB === `before::${a.key}`) return 1;
+
+              //   // If b should be after a
+              //   if (orderB === `after::${a.key}`) return -1;
+
+              //   // If neither have order props, or if the order props don't specify the other element, keep original order
+              //   return 0;
+              // };
+              const determineOrder = (a, b) => {
+                const orderA = a.props.order || "";
+                const orderB = b.props.order || "";
+
+                if (orderA < orderB) return -1;
+                if (orderA > orderB) return 1;
+
+                return 0;
+              };
+              console.log(
+                "xxx orderManipulationCandidates",
+                orderManipulationCandidates.map((c) => c.props.order + "..." + c.key)
+              );
+
+              const orderedChildren = orderManipulationCandidates.sort(determineOrder);
+              const defaults = {
+                maxWidth: 200,
+                metric: true,
+                imperial: false,
+                updateWhenIdle: false,
+                position: "bottomleft",
+              };
+              console.log(
+                "xxx orderedChildren",
+                orderedChildren.map((c) => c.props.order + "..." + c.key)
+              );
+
               return (
                 <div className={iosClass}>
                   <Map
@@ -573,16 +682,6 @@ export class RoutedMap extends React.Component {
                       CROSSTABCOMMUNICATION_SCOPE
                     ] || [])}
                   >
-                    {this.props.zoomControlEnabled && (
-                      <ZoomControl
-                        position="topleft"
-                        zoomInTitle="Vergr&ouml;ßern"
-                        zoomOutTitle="Verkleinern"
-                      />
-                    )}
-
-                    {fullscreenControl}
-                    {locateControl}
                     <div
                       key={
                         this.props.backgroundlayers +
@@ -605,8 +704,8 @@ export class RoutedMap extends React.Component {
                         this.props.baseLayerConf
                       )}
                     </div>
-
-                    {this.props.children}
+                    {orderedChildren}
+                    {_children}
                   </Map>
                 </div>
               );

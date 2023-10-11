@@ -16,6 +16,9 @@ import markerClusterGroup from "leaflet.markercluster";
 
 class ProjGeoJson extends Path {
   componentWillMount() {
+    //with map can the leaflet map be accesed
+    //const { map } = this.context;
+
     super.componentWillMount();
     const { featureCollection, ...props } = this.props;
 
@@ -215,6 +218,8 @@ class ProjGeoJson extends Path {
   createLeafletElement() {}
 
   componentDidUpdate(prevProps) {
+    console.log("componentDidUpdate", prevProps);
+
     if (isFunction(this.props.style)) {
       this.setStyle(this.props.style);
     } else {

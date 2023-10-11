@@ -80,7 +80,16 @@ const TopicMapComponent = (props) => {
     hamburgerMenu = true,
     zoomControls = true,
     leafletMapProps = {},
+    scaleControl = undefined,
   } = props;
+
+  const scaleControlDefaults = {
+    maxWidth: 200,
+    metric: true,
+    imperial: false,
+    updateWhenIdle: false,
+    position: "bottomleft",
+  };
   const { history, referenceSystem, referenceSystemDefinition, maskingPolygon } = useContext(
     TopicMapContext
   );
@@ -278,6 +287,9 @@ const TopicMapComponent = (props) => {
             {featureCollectionDisplay}
             {gazetteerSearchControl && (
               <GazetteerSearchControl
+                orderManipulatable
+                key="gazetteerSearchControl"
+                order="0005000"
                 mapRef={leafletRoutedMapRef}
                 gazetteerHit={gazetteerHit}
                 setGazetteerHit={setGazetteerHit}
@@ -294,7 +306,7 @@ const TopicMapComponent = (props) => {
             {infoBox}
 
             {hamburgerMenu && (
-              <Control position="topright">
+              <Control orderManipulatable key="hamburgerMenu" position="topright">
                 <OverlayTrigger
                   placement="left"
                   overlay={

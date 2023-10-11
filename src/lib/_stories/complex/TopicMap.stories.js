@@ -56,6 +56,8 @@ import CrossTabCommunicationContextProvider, {
   CrossTabCommunicationContext,
 } from "../../contexts/CrossTabCommunicationContextProvider";
 
+import { ScaleControl } from "react-leaflet";
+
 export default {
   title: storiesCategory + "TopicMapComponent",
 };
@@ -132,8 +134,63 @@ export const SimpleTopicMap = () => {
 
   return (
     <TopicMapContextProvider featureItemsURL="/data/parkscheinautomatenfeatures.json">
+      <TopicMapComponent
+        locatorControl={true}
+        gazData={gazData}
+        scaleControl={{ position: "bottomright" }}
+      >
+        <FeatureCollection />
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
+export const SimpleTopicMapWithScales = () => {
+  const defaults = {
+    maxWidth: 200,
+    metric: true,
+    imperial: false,
+    updateWhenIdle: false,
+    position: "bottomleft",
+  };
+  const [gazData, setGazData] = useState([]);
+  useEffect(() => {
+    getGazData(setGazData);
+  }, []);
+
+  return (
+    <TopicMapContextProvider featureItemsURL="/data/parkscheinautomatenfeatures.json">
       <TopicMapComponent locatorControl={true} gazData={gazData}>
         <FeatureCollection />
+        <ScaleControl
+          orderManipulatable
+          order="0005000"
+          type="control"
+          key="ScaleControl-bottomright"
+          {...defaults}
+          position="bottomright"
+        />
+        <ScaleControl
+          orderManipulatable
+          order="0005000"
+          type="control"
+          key="ScaleControl-topright"
+          {...defaults}
+          position="topright"
+        />
+        <ScaleControl
+          orderManipulatable
+          key="ScaleControl-topleft"
+          order="0005000"
+          {...defaults}
+          position="topleft"
+        />{" "}
+        <ScaleControl
+          orderManipulatable
+          key="ScaleControl-bottomleft"
+          order="0005000"
+          {...defaults}
+          position="bottomleft"
+        />
       </TopicMapComponent>
     </TopicMapContextProvider>
   );
