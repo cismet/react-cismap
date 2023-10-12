@@ -959,12 +959,11 @@ export const TopicMapWithCrossTabCommunicationContextProvider = () => {
         clusteringOptions={{
           iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
         }}
-        referenceSystemDefinition={MappingConstants.proj4crs25832def}
-        mapEPSGCode="25832"
-        referenceSystem={MappingConstants.crs25832}
         clusteringEnabled={true}
       >
         <TopicMapComponent
+          homeZoom={17}
+          maxZoom={22}
           gazData={gazData}
           gazetteerSearchPlaceholder="Stadtteil | Adresse | POI | Standorte"
           infoBox={
