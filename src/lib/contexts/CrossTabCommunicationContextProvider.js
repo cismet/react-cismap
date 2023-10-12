@@ -32,7 +32,7 @@ const CrossTabCommunicationContextProvider = ({
   leaderPasslist = [], // will only allow scopes that start with the strings in this list, if empty allow all. for the others still keep the connection so the feedback will come through
   feedbackBlocklist = [], // will block the feedback from every scope that starts with the strings in this list.
   feedbackPasslist = [], // will only allow the feedback from scopes that start with the strings in this list, if empty allow all
-  feedbackListener = (scope, message) => console.log("feedbackListener", scope, message),
+  feedbackListener = (scope, message) => console.debug("feedbackListener", scope, message),
   messageManipulation = (scope, message) => message,
   followerConfigOverwrites = {},
 }) => {
@@ -151,7 +151,7 @@ const CrossTabCommunicationContextProvider = ({
       const state = stateRef.current;
 
       // Block messages with scopes in the blocklist
-      console.log("event", event);
+      console.debug("event", event);
 
       if (isLeaderBlocked(event.scope)) {
         return;
