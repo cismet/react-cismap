@@ -1,0 +1,8 @@
+.hover-control .hover-control--on,
+.hover-control:hover .hover-control--off {
+  display: none;
+}
+
+.hover-control:hover .hover-control--on {
+  display: inline;
+}
