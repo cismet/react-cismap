@@ -13,6 +13,7 @@ const defaultState = {
   type: undefined,
   follower: {},
   followerConfigOverwrites: {},
+  isDynamicLeader: false,
 };
 const TYPES = {
   LEADER: "LEADER",
@@ -41,6 +42,7 @@ const CrossTabCommunicationContextProvider = ({
     ...defaultState,
     appKey,
     persistenceSettings,
+    id: appKey + "." + Math.random(),
   });
   const stateRef = useRef(state);
   useEffect(() => {
@@ -50,7 +52,7 @@ const CrossTabCommunicationContextProvider = ({
     return (x) => {
       dispatch((state) => {
         if (JSON.stringify(state[prop]) !== JSON.stringify(x)) {
-          if (persistenceSettings[contextKey]?.includes(prop)) {
+          if (persistenceSettings && persistenceSettings[contextKey]?.includes(prop)) {
             localforage.setItem("@" + appKey + "." + contextKey + "." + prop, x);
           }
           state[prop] = x;
@@ -130,22 +132,22 @@ const CrossTabCommunicationContextProvider = ({
     const channelToken = leader || follower;
     let type;
     if (leader) {
-      console.log("xxx you are a leader");
+      // console.log("xxx you are a leader");
       type = TYPES.LEADER;
     }
     if (follower) {
-      console.log("xxx you are a follower");
+      // console.log("xxx you are a follower");
       type = TYPES.FOLLOWER;
       setFollowerConfigOverwrites(followerConfigOverwrites);
     }
     if (leader && follower) {
-      console.log("xxx you are a sync");
+      // console.log("xxx you are a sync");
       type = TYPES.SYNC;
     }
     const leaderChannel = new BroadcastChannel("leader:" + channelToken);
     const followerChannel = new BroadcastChannel("follower:" + channelToken);
     setX.setChannels({ leader: leaderChannel, follower: followerChannel }, type);
-    console.log("xxx setChannels");
+    // console.log("xxx setChannels");
 
     leaderChannel.onmessage = (event) => {
       const state = stateRef.current;
@@ -196,6 +198,7 @@ const CrossTabCommunicationContextProvider = ({
 
   const setX = {
     setZoomFactor: set("zoomfactor"),
+    setIsDynamicLeader: set("isDynamicLeader"),
     setChannels: (channels, type) => {
       dispatch((state) => {
         state.channels = channels;
