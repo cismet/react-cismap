@@ -3,7 +3,10 @@ import { faPause, faPlay, faSync } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Control from "react-leaflet-control";
 import "./hoverSupport.css";
-import { CrossTabCommunicationContext } from "./contexts/CrossTabCommunicationContextProvider";
+import {
+  CrossTabCommunicationContext,
+  CrossTabCommunicationDispatchContext,
+} from "./contexts/CrossTabCommunicationContextProvider";
 
 const Hover = ({ onHover, children }) => (
   <div className="hover">
@@ -13,8 +16,10 @@ const Hover = ({ onHover, children }) => (
 );
 
 export default function () {
-  const { isDynamicLeader } = useContext(CrossTabCommunicationContext);
-  const [paused, setPaused] = useState(false);
+  const { isDynamicLeader, isPaused, connectedEntities } = useContext(CrossTabCommunicationContext);
+  const { setPaused } = useContext(CrossTabCommunicationDispatchContext);
+
+  console.log("xxx connectedEntities", connectedEntities);
 
   return (
     <>
@@ -34,8 +39,11 @@ export default function () {
               className="leaflet-bar-part"
               title="Vollbildmodus"
               style={{ outline: "none", background: isDynamicLeader ? "lightgrey" : undefined }}
+              onClick={() => {
+                setPaused(!isPaused);
+              }}
             >
-              <FontAwesomeIcon icon={faPause} size="lg" />
+              <FontAwesomeIcon icon={isPaused ? faPlay : faPause} size="lg" />
             </a>
           </span>
         </>

@@ -14,6 +14,8 @@ const defaultState = {
   follower: {},
   followerConfigOverwrites: {},
   isDynamicLeader: false,
+  isPaused: false,
+  connectedEntities: [],
 };
 const TYPES = {
   LEADER: "LEADER",
@@ -36,6 +38,7 @@ const CrossTabCommunicationContextProvider = ({
   feedbackListener = (scope, message) => console.debug("feedbackListener", scope, message),
   messageManipulation = (scope, message) => message,
   followerConfigOverwrites = {},
+  name = "unnamed",
 }) => {
   const contextKey = "crosstabcommunication";
   const [state, dispatch] = useImmer({
@@ -43,6 +46,7 @@ const CrossTabCommunicationContextProvider = ({
     appKey,
     persistenceSettings,
     id: appKey + "." + Math.random(),
+    name,
   });
   const stateRef = useRef(state);
   useEffect(() => {
@@ -151,11 +155,34 @@ const CrossTabCommunicationContextProvider = ({
 
     leaderChannel.onmessage = (event) => {
       const state = stateRef.current;
+      if (state.isPaused) return; // don't process messages when paused
 
       // Block messages with scopes in the blocklist
       console.debug("event", event);
 
-      if (isLeaderBlocked(event.scope)) {
+      const { scope, message, type } = event;
+
+      if (isLeaderBlocked(scope)) {
+        return;
+      }
+
+      if (type === "presence") {
+        dispatch((state) => {
+          console.log(
+            "xxx state.connectedEntities.push({ name: message.name, id: message.id });",
+            message
+          );
+
+          state.connectedEntities.push({ name: message.name, id: message.id });
+        });
+        return;
+      } else if (type === "departure") {
+        dispatch((draft) => {
+          const index = draft.connectedEntities.indexOf({ name: message.name, id: message.id });
+          if (index > -1) {
+            draft.connectedEntities.splice(index, 1);
+          }
+        });
         return;
       }
 
@@ -168,28 +195,38 @@ const CrossTabCommunicationContextProvider = ({
       // a follower is following a leader
       // therefore leaderChannel.onmessage
 
-      if (state.follower && state.follower[event.scope]) {
-        for (let callback of state.follower[event.scope]) {
-          callback(messageManipulation(event.scope, event.message));
+      if (state.follower && state.follower[scope]) {
+        for (let callback of state.follower[scope]) {
+          callback(messageManipulation(scope, message));
         }
       }
     };
 
-    followerChannel.onmessage = (event) => {
-      // Block messages with scopes in the blocklist
-      if (isFeedbackBlocked(event.scope)) {
-        return;
-      }
-
-      feedbackListener(event.scope, event.message);
-    };
-
     // Clean up by closing channels when component unmounts
     return () => {
+      // Announce departure
+      if (state.channels && state.channels["leader"]) {
+        state.channels["leader"].postMessage({
+          type: "departure",
+          message: { name: state.name, id: state.id },
+        });
+      }
       leaderChannel.close();
       followerChannel.close();
     };
   }, []);
+
+  useEffect(() => {
+    // Announce presence
+    console.log("xxx announce presence", state?.channels);
+    if (state.channels && state.channels["leader"]) {
+      state.channels["leader"].postMessage({
+        type: "presence",
+        message: { name: state.name, id: state.id },
+      });
+    }
+  }, [state.channels]);
+
   const setFollowerConfigOverwrites = (overwrites) => {
     dispatch((state) => {
       state.followerConfigOverwrites = overwrites;
@@ -199,6 +236,7 @@ const CrossTabCommunicationContextProvider = ({
   const setX = {
     setZoomFactor: set("zoomfactor"),
     setIsDynamicLeader: set("isDynamicLeader"),
+    setPaused: set("isPaused"),
     setChannels: (channels, type) => {
       dispatch((state) => {
         state.channels = channels;
@@ -213,6 +251,9 @@ const CrossTabCommunicationContextProvider = ({
       });
     },
     scopedMessage: (scope, message) => {
+      const state = stateRef.current;
+      if (state.isPaused) return; // don't process messages when paused
+
       // This function will send a message to all followers.
       if (state.channels && state.channels["leader"]) {
         state.channels["leader"].postMessage({ scope, message });
@@ -220,6 +261,10 @@ const CrossTabCommunicationContextProvider = ({
     },
 
     sendFeedback: (scope, message) => {
+      const state = stateRef.current;
+
+      if (state.isPaused) return; // don't process messages when paused
+
       // This function will send a message back to the leader.
       if (state.channels && state.channels["follower"]) {
         state.channels["follower"].postMessage({ scope, message });
