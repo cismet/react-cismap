@@ -73,7 +73,7 @@ class NonTiledWMSLayer extends GridLayer {
     return reduce(
       super.getOptions(params),
       (options, value, key) => {
-        if (!EVENTS_RE.test(key)) {
+        if (!EVENTS_RE?.test(key)) {
           options[key] = value;
         }
         return options;
