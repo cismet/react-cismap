@@ -108,7 +108,6 @@ export const ClusteringWithDefaultOptions = () => {
         ref={mapRef}
         editable={false}
         style={mapStyle}
-        key={"leafletRoutedMap"}
         referenceSystem={MappingConstants.crs25832}
         referenceSystemDefinition={MappingConstants.proj4crs25832def}
         doubleClickZoom={false}

@@ -55,6 +55,7 @@ import { BroadcastChannel } from "broadcast-channel";
 import CrossTabCommunicationContextProvider, {
   CrossTabCommunicationContext,
 } from "../../contexts/CrossTabCommunicationContextProvider";
+import CrossTabCommunicationControl from "../../CrossTabCommunicationControl";
 
 export default {
   title: storiesCategory + "TopicMapComponent",
@@ -942,13 +943,15 @@ export const TopicMapWithCrossTabCommunicationContextProvider = () => {
           const manipulatedMessage = { ...message };
           manipulatedMessage.mapState = {
             ...message.mapState,
-            zoom: message.mapState.zoom + 1,
+            zoom: message.mapState.zoom, // +1
           };
-          console.log("xxx manipulatedMessage", manipulatedMessage);
+          // console.log("xxx manipulatedMessage", manipulatedMessage);
           return manipulatedMessage;
         }
         return message;
       }}
+      role="sync"
+      token="myToken"
     >
       <TopicMapContextProvider
         featureItemsURL="/data/bpklima.data.json"
@@ -957,12 +960,11 @@ export const TopicMapWithCrossTabCommunicationContextProvider = () => {
         clusteringOptions={{
           iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
         }}
-        referenceSystemDefinition={MappingConstants.proj4crs25832def}
-        mapEPSGCode="25832"
-        referenceSystem={MappingConstants.crs25832}
         clusteringEnabled={true}
       >
         <TopicMapComponent
+          homeZoom={17}
+          maxZoom={22}
           gazData={gazData}
           gazetteerSearchPlaceholder="Stadtteil | Adresse | POI | Standorte"
           infoBox={
@@ -1000,6 +1002,7 @@ export const TopicMapWithCrossTabCommunicationContextProvider = () => {
             // _maskingPolygon={maskingPolygon}
             // _mapRef={leafletRoutedMapRef}
           />
+          <CrossTabCommunicationControl />
         </TopicMapComponent>
       </TopicMapContextProvider>
     </CrossTabCommunicationContextProvider>
@@ -1405,6 +1408,7 @@ export const TopicMapTholey = () => {
           "selectedBackground",
           "markerSymbolSize",
         ],
+        crosstabcommunication: [],
       }}
       baseLayerConf={baseLayerConf}
       backgroundConfigurations={backgroundConfigurations}

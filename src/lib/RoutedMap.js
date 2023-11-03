@@ -33,6 +33,28 @@ import {
 } from "./contexts/CrossTabCommunicationContextProvider";
 const CROSSTABCOMMUNICATION_SCOPE = "RoutedMap";
 
+// Helper function to throttle events
+function throttle(func, limit) {
+  let lastFunc;
+  let lastRan;
+  return function () {
+    const context = this;
+    const args = arguments;
+    if (!lastRan) {
+      func.apply(context, args);
+      lastRan = Date.now();
+    } else {
+      clearTimeout(lastFunc);
+      lastFunc = setTimeout(function () {
+        if (Date.now() - lastRan >= limit) {
+          func.apply(context, args);
+          lastRan = Date.now();
+        }
+      }, limit - (Date.now() - lastRan));
+    }
+  };
+}
+
 export class RoutedMap extends React.Component {
   constructor(props) {
     super(props);
@@ -93,39 +115,130 @@ export class RoutedMap extends React.Component {
     // the payload of the param will be the channel name with a "leader" or "follower" prefix
 
     setTimeout(() => {
-      const leader = this.crossTabCommunicationContext?.type === TYPES.LEADER;
-      const follower = this.crossTabCommunicationContext?.type === TYPES.FOLLOWER;
-      const leaderFollowerChannel = leader || follower;
-      console.log("xxx leaderOrFollower", { leader, follower }, this.crossTabCommunicationContext);
-      console.log("xxx 2nd this.contextSet", this.contextSet);
+      let leader = this.crossTabCommunicationContext?.type === TYPES.LEADER;
+      let follower = this.crossTabCommunicationContext?.type === TYPES.FOLLOWER;
+      const sync = this.crossTabCommunicationContext?.type === TYPES.SYNC;
+      if (sync) {
+        leader = true;
+        follower = true;
+      }
+      // console.log("xxx leaderOrFollower", { leader, follower }, this.crossTabCommunicationContext);
+      // console.log("xxx 2nd this.contextSet", this.contextSet);
       const crossTabCommunicationDispatch = this.crossTabCommunicationDispatchContext;
       if (leader) {
         // this is a leader
         // do stuff for leader
         // create a channel for the leader
-        crossTabCommunicationDispatch.scopedMessage(CROSSTABCOMMUNICATION_SCOPE, {
-          type: "mapState",
-          mapState: { zoom: map.getZoom(), center: map.getCenter() },
-        });
+        // crossTabCommunicationDispatch.scopedMessage(CROSSTABCOMMUNICATION_SCOPE, {
+        //   type: "mapState",
+        //   mapState: { zoom: map.getZoom(), center: map.getCenter() },
+        // });
         // listen to changes of the map state
-        map.on("move zoom moveend resize", (e) => {
+
+        //make it a real leader with storing the id of the leader and sending it to the followers
+        //on mouseover will even fire when the map is not the active window
+        //this is needed beacause of the mousewheel zoom that can be aplied to the map when the window is inactive
+        map.on("mouseover", (e) => {
+          this.leaderMap = this.crossTabCommunicationContext.id;
+          crossTabCommunicationDispatch.setIsDynamicLeader(true);
+          //send the good news to the world
           crossTabCommunicationDispatch.scopedMessage(CROSSTABCOMMUNICATION_SCOPE, {
-            type: "mapState",
-            mapState: { zoom: map.getZoom(), center: map.getCenter() },
+            type: "leaderMap",
+            id: this.crossTabCommunicationContext.id,
           });
         });
-      } else if (follower) {
-        // this is a follower
-        crossTabCommunicationDispatch.follow(CROSSTABCOMMUNICATION_SCOPE, (data) => {
-          map.setView(data.mapState.center, data.mapState.zoom);
+
+        map.on(
+          "move",
+          // only fire 4 events per second
+          throttle((e) => {
+            // only send the message if the map is the leader
+            if (this.leaderMap === this.crossTabCommunicationContext.id) {
+              crossTabCommunicationDispatch.scopedMessage(CROSSTABCOMMUNICATION_SCOPE, {
+                type: "mapState",
+                source: "move",
+                mapState: { zoom: map.getZoom(), center: map.getCenter() },
+              });
+            }
+          }, 250)
+        );
+        map.on("zoom", (e) => {
+          // only send the message if the map is the leader
+          if (this.leaderMap === this.crossTabCommunicationContext.id) {
+            crossTabCommunicationDispatch.scopedMessage(CROSSTABCOMMUNICATION_SCOPE, {
+              type: "mapState",
+              source: "zoom",
+              mapState: { zoom: map.getZoom(), center: map.getCenter() },
+            });
+          }
         });
+
+        map.on("moveend", (e) => {
+          // only send the message if the map is the leader
+          if (this.leaderMap === this.crossTabCommunicationContext.id) {
+            crossTabCommunicationDispatch.scopedMessage(CROSSTABCOMMUNICATION_SCOPE, {
+              type: "mapState",
+              source: "moveend",
+
+              mapState: { zoom: map.getZoom(), center: map.getCenter() },
+            });
+          }
+        });
+        map.on("resize", (e) => {
+          // only send the message if the map is the leader
+          if (this.leaderMap === this.crossTabCommunicationContext.id) {
+            crossTabCommunicationDispatch.scopedMessage(CROSSTABCOMMUNICATION_SCOPE, {
+              type: "mapState",
+              source: "resize",
+              mapState: { zoom: map.getZoom(), center: map.getCenter() },
+            });
+          }
+        });
+      }
+      if (follower) {
+        // this is a follower
+
+        crossTabCommunicationDispatch.follow(CROSSTABCOMMUNICATION_SCOPE, (data) => {
+          switch (data.type) {
+            case "mapState":
+              switch (data.source) {
+                case "move":
+                case "zoom":
+                  //setting the view without adjusting the url params
+                  map.setView(data.mapState.center, data.mapState.zoom, { duration: 1 });
+                  break;
+                case "moveend":
+                  //setting the view and adjusting the url params
+                  map.setView(data.mapState.center, data.mapState.zoom, { duration: 1 });
+                  generalMoveendHandler(true);
+                  break;
+                case "resize":
+                  break;
+
+                default:
+                  break;
+              }
+              break;
+            case "leaderMap":
+              this.leaderMap = data.id;
+              if (this.leaderMap !== this.crossTabCommunicationContext.id) {
+                crossTabCommunicationDispatch.setIsDynamicLeader(false);
+              }
+
+              break;
+          }
+        });
+
+        // this happens only once when a follower
+
+        //todo: check if i can call this when in sync mode
         setTimeout(() => {
           crossTabCommunicationDispatch.sendFeedback(CROSSTABCOMMUNICATION_SCOPE, {
             type: "bounds",
             bounds: map.getBounds(),
           });
         }, 100);
-        //here we will send the bounds of the map back to display ist in the leader map
+        //here we will send the bounds of the map back to display it in the leader map
         map.on("resize move zoom moveend", (e) => {
           crossTabCommunicationDispatch.sendFeedback(CROSSTABCOMMUNICATION_SCOPE, {
             type: "bounds",
@@ -135,47 +248,53 @@ export class RoutedMap extends React.Component {
       }
     }, 10);
 
-    //Do stuff after panning is over
-    map.on("moveend", () => {
+    const generalMoveendHandler = (forced) => {
       if (
         typeof leafletMap !== "undefined" &&
         leafletMap !== null &&
         leafletMap.leafletElement !== undefined &&
         leafletMap.leafletElement !== null
       ) {
-        try {
-          const zoom = leafletMap.leafletElement.getZoom();
-          const center = leafletMap.leafletElement.getCenter();
-          const latFromUrl = parseFloat(this.props.urlSearchParams.get("lat"));
-          const lngFromUrl = parseFloat(this.props.urlSearchParams.get("lng"));
-          let zoomFromUrl;
-          if (leafletMap.leafletElement.options.zoomSnap === 1) {
-            zoomFromUrl = parseInt(this.props.urlSearchParams.get("zoom"), 10);
-          } else {
-            zoomFromUrl = parseFloat(this.props.urlSearchParams.get("zoom"));
-          }
+        if ((this.leaderMap === this.crossTabCommunicationContex?.id) === true || forced === true) {
+          try {
+            const zoom = leafletMap.leafletElement.getZoom();
+            const center = leafletMap.leafletElement.getCenter();
+            const latFromUrl = parseFloat(this.props.urlSearchParams.get("lat"));
+            const lngFromUrl = parseFloat(this.props.urlSearchParams.get("lng"));
+            let zoomFromUrl;
+            if (leafletMap.leafletElement.options.zoomSnap === 1) {
+              zoomFromUrl = parseInt(this.props.urlSearchParams.get("zoom"), 10);
+            } else {
+              zoomFromUrl = parseFloat(this.props.urlSearchParams.get("zoom"));
+            }
 
-          let lat = center.lat;
-          let lng = center.lng;
-          if (Math.abs(latFromUrl - center.lat) < 0.000001) {
-            lat = latFromUrl;
-          }
-          if (Math.abs(lngFromUrl - center.lng) < 0.000001) {
-            lng = lngFromUrl;
-          }
+            let lat = center.lat;
+            let lng = center.lng;
+            if (Math.abs(latFromUrl - center.lat) < 0.000001) {
+              lat = latFromUrl;
+            }
+            if (Math.abs(lngFromUrl - center.lng) < 0.000001) {
+              lng = lngFromUrl;
+            }
 
-          if (lng !== lngFromUrl || lat !== latFromUrl || zoomFromUrl !== zoom) {
-            this.props.locationChangedHandler({
-              lat: lat,
-              lng: lng,
-              zoom: zoom,
-            });
-          }
-          this.storeBoundingBox(leafletMap);
-        } catch (e) {}
+            if (lng !== lngFromUrl || lat !== latFromUrl || zoomFromUrl !== zoom) {
+              this.props.locationChangedHandler({
+                lat: lat,
+                lng: lng,
+                zoom: zoom,
+              });
+            }
+            this.storeBoundingBox(leafletMap);
+          } catch (e) {}
+        }
       } else {
         console.warn("leafletMap ref is null. this could lead to update problems. ");
       }
+    };
+
+    //Do stuff after panning is over
+    map.on("moveend", () => {
+      generalMoveendHandler();
     });
 
     if (map.editable === true) {
@@ -548,6 +667,7 @@ export class RoutedMap extends React.Component {
               return (
                 <div className={iosClass}>
                   <Map
+                    id="routedMap"
                     ref={(leafletMap) => {
                       this.leafletMap = leafletMap;
                     }}
