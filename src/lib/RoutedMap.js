@@ -255,7 +255,7 @@ export class RoutedMap extends React.Component {
         leafletMap.leafletElement !== undefined &&
         leafletMap.leafletElement !== null
       ) {
-        if ((this.leaderMap === this.crossTabCommunicationContext.id) === true || forced === true) {
+        if ((this.leaderMap === this.crossTabCommunicationContex?.id) === true || forced === true) {
           try {
             const zoom = leafletMap.leafletElement.getZoom();
             const center = leafletMap.leafletElement.getCenter();
