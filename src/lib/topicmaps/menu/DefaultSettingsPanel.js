@@ -202,12 +202,14 @@ const SettingsPanel = (props) => {
           {activeAdditionalLayerKeys !== undefined &&
             activeAdditionalLayerKeys?.length > 0 &&
             activeAdditionalLayerKeys.map((activekey, index) => {
-              const layerConf = additionalLayerConfiguration[activekey];
-              if (layerConf?.layer) {
-                return layerConf.layer;
-              } else if (layerConf?.layerkey) {
-                const layers = getLayersByName(layerConf.layerkey);
-                return layers;
+              if (additionalLayerConfiguration) {
+                const layerConf = additionalLayerConfiguration[activekey];
+                if (layerConf?.layer) {
+                  return layerConf.layer;
+                } else if (layerConf?.layerkey) {
+                  const layers = getLayersByName(layerConf.layerkey);
+                  return layers;
+                }
               }
             })}
         </div>
