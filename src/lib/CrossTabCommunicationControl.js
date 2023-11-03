@@ -19,19 +19,33 @@ export default function () {
   const { isDynamicLeader, isPaused, connectedEntities } = useContext(CrossTabCommunicationContext);
   const { setPaused } = useContext(CrossTabCommunicationDispatchContext);
 
-  console.log("xxx connectedEntities", connectedEntities);
-
   return (
     <>
       <Control className="leaflet-bar leaflet-control hover-control" position="topleft">
         <>
-          <span class="hover-control--off">
+          <span className="hover-control--off">
             <a
               className="leaflet-bar-part"
               title="Vollbildmodus"
               style={{ outline: "none", background: isDynamicLeader ? "lightgrey" : undefined }}
             >
-              <FontAwesomeIcon icon={faSync} size="lg" />
+              <span>
+                <FontAwesomeIcon icon={faSync} size="lg" />
+                {!isPaused && (
+                  <span
+                    className="fa-layers-counter  fa-layers-bottom-right"
+                    style={{
+                      fontSize: 50 + "px",
+                      position: "absolute",
+                      bottom: -10,
+                      right: -10,
+                      backgroundColor: "#555555",
+                    }}
+                  >
+                    {connectedEntities.length + 1}
+                  </span>
+                )}
+              </span>
             </a>
           </span>
           <span class="hover-control--on">
@@ -43,7 +57,23 @@ export default function () {
                 setPaused(!isPaused);
               }}
             >
-              <FontAwesomeIcon icon={isPaused ? faPlay : faPause} size="lg" />
+              <span>
+                <FontAwesomeIcon icon={isPaused ? faPlay : faPause} size="lg" />
+                {!isPaused && (
+                  <span
+                    className="fa-layers-counter  fa-layers-bottom-right"
+                    style={{
+                      fontSize: 50 + "px",
+                      position: "absolute",
+                      bottom: -10,
+                      right: -10,
+                      backgroundColor: "#555555",
+                    }}
+                  >
+                    {connectedEntities.length + 1}
+                  </span>
+                )}
+              </span>
             </a>
           </span>
         </>
