@@ -7,6 +7,8 @@ import { BroadcastChannel } from "broadcast-channel";
 const StateContext = React.createContext();
 const DispatchContext = React.createContext();
 
+const HEARTBEAT_INTERVAL = 500;
+
 const defaultState = {
   zoomfactor: 1,
   channels: undefined,
@@ -162,25 +164,23 @@ const CrossTabCommunicationContextProvider = ({
 
       const { scope, message, type } = event;
 
-      if (isLeaderBlocked(scope)) {
+      if (isLeaderBlocked(scope) && type !== "heartbeat") {
         return;
       }
 
-      if (type === "presence") {
+      if (type === "heartbeat") {
         dispatch((state) => {
-          console.log(
-            "xxx state.connectedEntities.push({ name: message.name, id: message.id });",
-            message
-          );
-
-          state.connectedEntities.push({ name: message.name, id: message.id });
-        });
-        return;
-      } else if (type === "departure") {
-        dispatch((draft) => {
-          const index = draft.connectedEntities.indexOf({ name: message.name, id: message.id });
+          const index = state.connectedEntities.findIndex((entity) => entity.id === message.id);
           if (index > -1) {
-            draft.connectedEntities.splice(index, 1);
+            // Update an existing entity's last heartbeat timestamp
+            state.connectedEntities[index].lastHeartbeat = Date.now();
+          } else {
+            // Add a new entity to the list of connected entities
+            state.connectedEntities.push({
+              name: message.name,
+              id: message.id,
+              lastHeartbeat: Date.now(),
+            });
           }
         });
         return;
@@ -201,31 +201,43 @@ const CrossTabCommunicationContextProvider = ({
         }
       }
     };
+  }, []);
 
-    // Clean up by closing channels when component unmounts
-    return () => {
-      // Announce departure
+  // useEffect(() => {
+  //   // Announce presence
+  //   console.log("xxx announce presence", state?.channels);
+  //   if (state.channels && state.channels["leader"]) {
+  //     state.channels["leader"].postMessage({
+  //       type: "presence",
+  //       message: { name: state.name, id: state.id },
+  //     });
+  //   }
+  // }, [state.channels]);
+  useEffect(() => {
+    const heartbeatInterval = setInterval(() => {
       if (state.channels && state.channels["leader"]) {
         state.channels["leader"].postMessage({
-          type: "departure",
+          type: "heartbeat",
           message: { name: state.name, id: state.id },
         });
       }
-      leaderChannel.close();
-      followerChannel.close();
-    };
-  }, []);
+    }, HEARTBEAT_INTERVAL); // Send a heartbeat every 5 seconds
+
+    return () => clearInterval(heartbeatInterval); // Clear the interval when the component unmounts
+  }, [state.channels]);
 
   useEffect(() => {
-    // Announce presence
-    console.log("xxx announce presence", state?.channels);
-    if (state.channels && state.channels["leader"]) {
-      state.channels["leader"].postMessage({
-        type: "presence",
-        message: { name: state.name, id: state.id },
+    const cleanupInterval = setInterval(() => {
+      dispatch((state) => {
+        const now = Date.now();
+        state.connectedEntities = state.connectedEntities.filter((entity) => {
+          return now - entity.lastHeartbeat < HEARTBEAT_INTERVAL * 2; // Keep entities that have sent a heartbeat in the last 15 seconds
+        });
       });
-    }
-  }, [state.channels]);
+    }, HEARTBEAT_INTERVAL); // Check for stale entities every 5 seconds
+
+    return () => clearInterval(cleanupInterval); // Clear the interval when the component unmounts
+  }, []);
 
   const setFollowerConfigOverwrites = (overwrites) => {
     dispatch((state) => {
