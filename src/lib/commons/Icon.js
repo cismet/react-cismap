@@ -101,7 +101,7 @@ const IconComp = (props) => {
 
   let overlay = props.overlay;
   let lookupName = props.name;
-  let icon = nameMap[lookupName];
+  let icon = props.icon || nameMap[lookupName];
   let marginRight = props.marginRight || "1px";
   let width = props.width || "18px";
 
