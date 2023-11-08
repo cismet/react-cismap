@@ -56,6 +56,7 @@ import CrossTabCommunicationContextProvider, {
   CrossTabCommunicationContext,
 } from "../../contexts/CrossTabCommunicationContextProvider";
 import CrossTabCommunicationControl from "../../CrossTabCommunicationControl";
+import { faComment } from "@fortawesome/free-solid-svg-icons";
 
 export default {
   title: storiesCategory + "TopicMapComponent",
@@ -121,6 +122,30 @@ export const MostSimpleTopicMapWithGazetteerData = () => {
   return (
     <TopicMapContextProvider _maskingPolygon="POLYGON((668010.063156992 6750719.23021889,928912.612468322 6757273.20343972,930494.610325512 6577553.43685138,675236.835570551 6571367.64964125,668010.063156992 6750719.23021889))">
       <TopicMapComponent maxZoom={22} gazData={gazData}></TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
+
+export const MostSimpleTopicMapWithGazetteerDataWithTertiaryAction = () => {
+  const [gazData, setGazData] = useState([]);
+  useEffect(() => {
+    getGazData(setGazData);
+  }, []);
+  return (
+    <TopicMapContextProvider _maskingPolygon="POLYGON((668010.063156992 6750719.23021889,928912.612468322 6757273.20343972,930494.610325512 6577553.43685138,675236.835570551 6571367.64964125,668010.063156992 6750719.23021889))">
+      <TopicMapComponent
+        maxZoom={22}
+        gazData={gazData}
+        gazetteerSearchControlProps={{
+          tertiaryAction: () => {
+            console.log("Tertiary Action");
+            window.alert("Tertiary Action");
+          },
+          tertiaryActionIcon: faComment,
+          tertiaryActionTooltip: "Tertiary Action Tooltip",
+          teriaryActionDisabled: undefined, //defaultValue is false
+        }}
+      ></TopicMapComponent>
     </TopicMapContextProvider>
   );
 };
