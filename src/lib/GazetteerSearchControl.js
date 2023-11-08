@@ -31,6 +31,10 @@ const COMP = ({
   renderMenuItemChildren,
   pixelwidth = 300,
   autoFocus,
+  tertiaryAction = undefined,
+  tertiaryActionIcon = undefined,
+  tertiaryActionTooltip = undefined,
+  teriaryActionDisabled = undefined,
 }) => {
   const { responsiveState, searchBoxPixelWidth, gap, windowSize } = useContext(
     ResponsiveTopicMapContext
@@ -86,6 +90,10 @@ const COMP = ({
           referenceSystem,
           referenceSystemDefinition,
           autoFocus,
+          tertiaryAction,
+          tertiaryActionIcon,
+          tertiaryActionTooltip,
+          teriaryActionDisabled,
         }}
       />
     </Control>

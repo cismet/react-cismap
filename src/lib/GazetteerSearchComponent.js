@@ -12,6 +12,7 @@ import Icon from "./commons/Icon";
 import { FeatureCollectionDispatchContext } from "./contexts/FeatureCollectionContextProvider";
 import { TopicMapContext } from "./contexts/TopicMapContextProvider";
 import { builtInGazetteerHitTrigger } from "./tools/gazetteerHelper";
+import { faDirections } from "@fortawesome/free-solid-svg-icons";
 
 const COMP = ({
   mapRef,
@@ -80,6 +81,10 @@ const COMP = ({
   referenceSystem,
   referenceSystemDefinition,
   autoFocus = true,
+  tertiaryAction = undefined,
+  tertiaryActionIcon = faDirections,
+  tertiaryActionTooltip = undefined,
+  teriaryActionDisabled = false,
 }) => {
   const _gazetteerHitTrigger = gazetteerHitTrigger || gazeteerHitTrigger;
 
@@ -111,22 +116,75 @@ const COMP = ({
       //console.log("search in progress or no searchButtonTrigger defined");
     }
   };
-  const internalClearButtonTrigger = (event) => {
-    if (overlayFeature !== null) {
-      setOverlayFeature(null);
-    }
+  const internalFirstButtonTrigger = (event) => {
+    if (clearButtonDisabled === false) {
+      if (overlayFeature !== null) {
+        setOverlayFeature(null);
+      }
 
-    clear();
-    setGazetteerHit(null);
-    gazetteerHitAction(null);
+      clear();
+      setGazetteerHit(null);
+      gazetteerHitAction(null);
+    } else if (tertiaryAction !== undefined && teriaryActionDisabled === false) {
+      tertiaryAction();
+    }
   };
 
   const clear = () => {
     typeaheadRef.current.clear();
   };
-  let firstbutton;
 
-  const buttonDisabled = overlayFeature === null && gazetteerHit === null;
+  const clearButtonDisabled = overlayFeature === null && gazetteerHit === null;
+
+  let buttonTooltipProvider = gazClearTooltipProvider;
+
+  let firstbutton = (
+    <Button
+      style={
+        clearButtonDisabled === false
+          ? {
+              backgroundImage: "linear-gradient(to bottom,#fff 0,#e0e0e0 100%)",
+            }
+          : { backgroundColor: "#e0e0e0", borderColor: "#ffffff00" }
+      }
+      //style={{ backgroundColor: 'grey', border: 0 }}
+      disabled={clearButtonDisabled}
+    >
+      <Icon style={{ color: "black" }} name="times" />
+    </Button>
+  );
+
+  if (tertiaryAction !== undefined && clearButtonDisabled) {
+    firstbutton = (
+      <Button
+        style={
+          teriaryActionDisabled === false
+            ? {
+                backgroundImage: "linear-gradient(to bottom,#fff 0,#e0e0e0 100%)",
+              }
+            : { backgroundColor: "#e0e0e0", borderColor: "#ffffff00" }
+        }
+        disabled={teriaryActionDisabled}
+      >
+        <Icon style={{ color: "black" }} icon={tertiaryActionIcon} />
+      </Button>
+    );
+    if (tertiaryActionTooltip) {
+      buttonTooltipProvider = () => (
+        <Tooltip
+          style={{
+            zIndex: 20000000,
+          }}
+          id="gazTertiaryActionTooltip"
+        >
+          {tertiaryActionTooltip}
+        </Tooltip>
+      );
+    } else {
+      gazClearTooltipProvider = () => {};
+    }
+  }
+
   return (
     <Form
       style={{
@@ -137,25 +195,13 @@ const COMP = ({
       <FormGroup>
         <InputGroup>
           {/* {firstbutton} */}
-          <InputGroup.Prepend onClick={internalClearButtonTrigger}>
+          <InputGroup.Prepend onClick={internalFirstButtonTrigger}>
             <OverlayTrigger
               placement={tooltipPlacement}
               rootClose={true}
-              overlay={gazClearTooltipProvider()}
+              overlay={buttonTooltipProvider()}
             >
-              <Button
-                style={
-                  buttonDisabled === false
-                    ? {
-                        backgroundImage: "linear-gradient(to bottom,#fff 0,#e0e0e0 100%)",
-                      }
-                    : { backgroundColor: "#e0e0e0", borderColor: "#ffffff00" }
-                }
-                //style={{ backgroundColor: 'grey', border: 0 }}
-                disabled={buttonDisabled}
-              >
-                <Icon style={{ color: "black" }} name="times" />
-              </Button>
+              {firstbutton}
             </OverlayTrigger>
           </InputGroup.Prepend>
           <Typeahead
