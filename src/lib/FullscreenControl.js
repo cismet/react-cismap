@@ -10,14 +10,14 @@ class FullscreenControl extends MapControl {
     this.leafletElement = L.control.fullscreen({
       title: {
         false: this.props.title,
-        true: this.props.titleCancel
+        true: this.props.titleCancel,
       },
       position: this.props.position,
       content: this.props.content,
       forceSeparateButton: this.props.forceSeparateButton,
       pseudoFullscreen: this.props.forcePseudoFullscreen,
       fullscreenElement: this.props.fullscreenElement,
-      container: this.props.container
+      container: this.props.container,
     });
   }
 }
@@ -29,7 +29,7 @@ FullscreenControl.propTypes = {
   content: PropTypes.node,
   forceSeparateButton: PropTypes.bool,
   forcePseudoFullscreen: PropTypes.bool,
-  fullscreenElement: PropTypes.bool
+  fullscreenElement: PropTypes.bool,
 };
 
 export default FullscreenControl;

@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import * as GenericTopicMapsExamples from "./lib/_stories/complex/GenericTopicMap.stories";
 import * as MoreTopicMapsExamples from "./lib/_stories/complex/MoreTopicMap.stories";
 import * as TopicMapsExamples from "./lib/_stories/complex/TopicMap.stories";
+import * as ProjectorExamples from "./lib/_stories/complex/Projector.stories";
 import * as LeafletExamples from "./lib/_stories/mainComponents/Map.stories";
 import * as GeojsonExamples from "./lib/_stories/mainComponents/ProjGeoJSON.stories";
 import * as FeatureCollectionExamples from "./lib/_stories/mainComponents/FeatureCollection.stories";
@@ -50,6 +51,27 @@ if (window.location.pathname === "/follower") {
   ReactDOM.render(
     <div>
       <TopicMapsExamples.RemoteControledTopicMap />
+    </div>,
+    document.getElementById("root")
+  );
+} else if (window.location.pathname === "/projector") {
+  ReactDOM.render(
+    <div style={{ backgroundColor: "black" }}>
+      <ProjectorExamples.ProjectorView3857 />
+    </div>,
+    document.getElementById("root")
+  );
+} else if (window.location.pathname === "/projector3857") {
+  ReactDOM.render(
+    <div style={{ backgroundColor: "black" }}>
+      <ProjectorExamples.ProjectorView3857 />
+    </div>,
+    document.getElementById("root")
+  );
+} else if (window.location.pathname === "/controller") {
+  ReactDOM.render(
+    <div>
+      <ProjectorExamples.ControllerView />
     </div>,
     document.getElementById("root")
   );
