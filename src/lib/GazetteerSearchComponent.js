@@ -126,7 +126,7 @@ const COMP = ({
   };
   let firstbutton;
 
-  const buttonDisabled = overlayFeature === null && gazetteerHit === null;
+  const clearButtonDisabled = overlayFeature === null && gazetteerHit === null;
   return (
     <Form
       style={{
@@ -145,14 +145,14 @@ const COMP = ({
             >
               <Button
                 style={
-                  buttonDisabled === false
+                  clearButtonDisabled === false
                     ? {
                         backgroundImage: "linear-gradient(to bottom,#fff 0,#e0e0e0 100%)",
                       }
                     : { backgroundColor: "#e0e0e0", borderColor: "#ffffff00" }
                 }
                 //style={{ backgroundColor: 'grey', border: 0 }}
-                disabled={buttonDisabled}
+                disabled={clearButtonDisabled}
               >
                 <Icon style={{ color: "black" }} name="times" />
               </Button>
