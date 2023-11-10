@@ -33,6 +33,60 @@ import {
 } from "./contexts/CrossTabCommunicationContextProvider";
 const CROSSTABCOMMUNICATION_SCOPE = "RoutedMap";
 
+L.Map.mergeOptions({
+  touchExtend: true,
+});
+
+L.Map.TouchExtend = L.Handler.extend({
+  initialize: function (map) {
+    this._map = map;
+    this._container = map._container;
+    this._pane = map._panes.overlayPane;
+  },
+
+  addHooks: function () {
+    L.DomEvent.on(this._container, "touchstart", this._onTouchStart, this);
+    L.DomEvent.on(this._container, "touchend", this._onTouchEnd, this);
+  },
+
+  removeHooks: function () {
+    L.DomEvent.off(this._container, "touchstart", this._onTouchStart);
+    L.DomEvent.off(this._container, "touchend", this._onTouchEnd);
+  },
+
+  _onTouchStart: function (e) {
+    if (!this._map._loaded) {
+      return;
+    }
+
+    var type = "touchstart";
+
+    var containerPoint = this._map.mouseEventToContainerPoint(e),
+      layerPoint = this._map.containerPointToLayerPoint(containerPoint),
+      latlng = this._map.layerPointToLatLng(layerPoint);
+
+    this._map.fire(type, {
+      latlng: latlng,
+      layerPoint: layerPoint,
+      containerPoint: containerPoint,
+      originalEvent: e,
+    });
+  },
+
+  _onTouchEnd: function (e) {
+    if (!this._map._loaded) {
+      return;
+    }
+
+    var type = "touchend";
+
+    this._map.fire(type, {
+      originalEvent: e,
+    });
+  },
+});
+L.Map.addInitHook("addHandler", "touchExtend", L.Map.TouchExtend);
+
 // Helper function to throttle events
 function throttle(func, limit) {
   let lastFunc;
@@ -138,7 +192,8 @@ export class RoutedMap extends React.Component {
         //make it a real leader with storing the id of the leader and sending it to the followers
         //on mouseover will even fire when the map is not the active window
         //this is needed beacause of the mousewheel zoom that can be aplied to the map when the window is inactive
-        map.on("mouseover", (e) => {
+
+        function setDynamicLeader() {
           this.leaderMap = this.crossTabCommunicationContext.id;
           crossTabCommunicationDispatch.setIsDynamicLeader(true);
           //send the good news to the world
@@ -146,7 +201,10 @@ export class RoutedMap extends React.Component {
             type: "leaderMap",
             id: this.crossTabCommunicationContext.id,
           });
-        });
+        }
+
+        map.on("mouseover", setDynamicLeader.bind(this));
+        map.on("touchstart", setDynamicLeader.bind(this));
 
         map.on(
           "move",
