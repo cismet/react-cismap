@@ -147,8 +147,6 @@ export function addGlowingEffect(styleJson, glowColorFn, glowWidthMultiplier, gl
     return acc;
   }, []);
 
-  console.log("xxx", { styleJson, updatedStyle: styleClone });
-
   return styleClone;
 }
 
