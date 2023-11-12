@@ -9,6 +9,8 @@ import * as LeafletExamples from "./lib/_stories/mainComponents/Map.stories";
 import * as GeojsonExamples from "./lib/_stories/mainComponents/ProjGeoJSON.stories";
 import * as FeatureCollectionExamples from "./lib/_stories/mainComponents/FeatureCollection.stories";
 import * as MapLibreExamples from "./lib/_stories/vector/MapLibreLayer.stories";
+import * as ProjectionMappingExamples from "./lib/_stories/complex/ProjectionMapping.stories";
+
 import PlaygroundApp from "./playground/App";
 
 import "./index.css";
@@ -96,7 +98,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
 
       {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
-      <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProvider />
+      {/* <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProvider /> */}
       {/* <TopicMapsExamples.RemoteControledTopicMap /> */}
 
       {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
@@ -157,6 +159,7 @@ if (window.location.pathname === "/follower") {
       {/* <FeatureCollectionExamples.ClusteringWithCircles /> */}
       {/* <FeatureCollectionExamples.PolygonsNoStyling /> */}
       {/* <FeatureCollectionExamples.PolygonsWithStyling /> */}
+      {<ProjectionMappingExamples.MostSimpleTopicMapWithProjectionMapping />}
     </div>,
     document.getElementById("root")
   );
