@@ -3,7 +3,7 @@ import { useImmer } from "use-immer";
 import localforage from "localforage";
 import { setFromLocalforage } from "./_helper";
 
-function useWindowSize() {
+export function useWindowSize() {
   const [size, setSize] = useState([0, 0]);
   useLayoutEffect(() => {
     function updateSize() {

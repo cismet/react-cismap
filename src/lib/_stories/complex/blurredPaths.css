@@ -1,0 +1,9 @@
+
+.cismapBlurry {
+    filter: blur(5px); /* Adjust the pixel value to the desired blur amount */
+  }
+
+  .cismapCrossHairFeature {
+    cursor: crosshair!important;
+  }
+  

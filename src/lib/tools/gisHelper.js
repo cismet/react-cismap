@@ -4,7 +4,8 @@ import { proj4crs25832def } from "../constants/gis";
 import turfBBox from "@turf/bbox";
 import booleanIntersects from "@turf/boolean-intersects";
 import Flatbush from "flatbush";
-
+import bbox from "@turf/bbox";
+import L from "leaflet";
 export function getPolygonfromBBox(bbox) {
   return (
     "POLYGON((" +
@@ -79,6 +80,22 @@ export const getBoundsFromArea = (area) => {
   var bounds = [corner1, corner2];
 
   return bounds;
+};
+
+export const getBoundsForFeatureCollection = (featureCollection) => {
+  // Get bbox in EPSG:3857 from Turf.js
+  const boundingBox3857 = bbox(featureCollection);
+  console.log("xxx boundingBox3857", boundingBox3857);
+
+  // Convert the bounding box from EPSG:3857 to EPSG:4326
+  const southWest4326 = proj4("EPSG:3857", "EPSG:4326", [boundingBox3857[0], boundingBox3857[1]]);
+  const northEast4326 = proj4("EPSG:3857", "EPSG:4326", [boundingBox3857[2], boundingBox3857[3]]);
+
+  // Return Leaflet LatLngBounds
+  return L.latLngBounds(
+    L.latLng(southWest4326[1], southWest4326[0]), // southwest corner
+    L.latLng(northEast4326[1], northEast4326[0]) // northeast corner
+  );
 };
 
 export const findInFlatbush = (flatbush, search, all, additionalRestriction = (hit) => true) => {

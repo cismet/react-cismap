@@ -45,7 +45,8 @@ const TopicMapComponent = (props) => {
     home,
     ondblclick = () => {},
     onclick = () => {},
-    locationChangedHandler = undefined,
+    locationChangedHandler = () => {},
+    outerLocationChangedHandlerExclusive = false,
     pushToHistory,
     autoFitBounds = false,
     autoFitMode = MappingConstants.AUTO_FIT_MODE_STRICT,
@@ -238,9 +239,11 @@ const TopicMapComponent = (props) => {
             ondblclick={ondblclick}
             onclick={onclick}
             locationChangedHandler={(location) => {
-              setLocation(location);
-              const q = modifyQueryPart(history.location.search, location);
-              _pushToHistory(q);
+              if (!outerLocationChangedHandlerExclusive) {
+                setLocation(location);
+                const q = modifyQueryPart(history.location.search, location);
+                _pushToHistory(q);
+              }
               locationChangedHandler(location);
             }}
             autoFitConfiguration={{

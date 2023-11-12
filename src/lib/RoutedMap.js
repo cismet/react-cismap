@@ -130,7 +130,9 @@ export class RoutedMap extends React.Component {
     // this is a workaround for this issue
     const resizeObserver = new ResizeObserver(() => {
       setTimeout(() => {
-        map.invalidateSize();
+        try {
+          map.invalidateSize();
+        } catch (e) {}
       }, 100);
     });
     resizeObserver.observe(document.body);
@@ -185,7 +187,7 @@ export class RoutedMap extends React.Component {
         // create a channel for the leader
         // crossTabCommunicationDispatch.scopedMessage(CROSSTABCOMMUNICATION_SCOPE, {
         //   type: "mapState",
-        //   mapState: { zoom: map.getZoom(), center: map.getCenter() },
+        //   mapState: { zoom: Math.round(map.getZoom() * 100) / 100, center: map.getCenter() },
         // });
         // listen to changes of the map state
 
@@ -215,7 +217,7 @@ export class RoutedMap extends React.Component {
               crossTabCommunicationDispatch.scopedMessage(CROSSTABCOMMUNICATION_SCOPE, {
                 type: "mapState",
                 source: "move",
-                mapState: { zoom: map.getZoom(), center: map.getCenter() },
+                mapState: { zoom: Math.round(map.getZoom() * 100) / 100, center: map.getCenter() },
               });
             }
           }, 250)
@@ -226,7 +228,7 @@ export class RoutedMap extends React.Component {
             crossTabCommunicationDispatch.scopedMessage(CROSSTABCOMMUNICATION_SCOPE, {
               type: "mapState",
               source: "zoom",
-              mapState: { zoom: map.getZoom(), center: map.getCenter() },
+              mapState: { zoom: Math.round(map.getZoom() * 100) / 100, center: map.getCenter() },
             });
           }
         });
@@ -238,7 +240,7 @@ export class RoutedMap extends React.Component {
               type: "mapState",
               source: "moveend",
 
-              mapState: { zoom: map.getZoom(), center: map.getCenter() },
+              mapState: { zoom: Math.round(map.getZoom() * 100) / 100, center: map.getCenter() },
             });
           }
         });
@@ -248,7 +250,7 @@ export class RoutedMap extends React.Component {
             crossTabCommunicationDispatch.scopedMessage(CROSSTABCOMMUNICATION_SCOPE, {
               type: "mapState",
               source: "resize",
-              mapState: { zoom: map.getZoom(), center: map.getCenter() },
+              mapState: { zoom: Math.round(map.getZoom() * 100) / 100, center: map.getCenter() },
             });
           }
         });
@@ -315,16 +317,13 @@ export class RoutedMap extends React.Component {
       ) {
         if ((this.leaderMap === this.crossTabCommunicationContex?.id) === true || forced === true) {
           try {
-            const zoom = leafletMap.leafletElement.getZoom();
+            const zoom = Math.round(leafletMap.leafletElement.getZoom() * 100) / 100;
             const center = leafletMap.leafletElement.getCenter();
             const latFromUrl = parseFloat(this.props.urlSearchParams.get("lat"));
             const lngFromUrl = parseFloat(this.props.urlSearchParams.get("lng"));
-            let zoomFromUrl;
-            if (leafletMap.leafletElement.options.zoomSnap === 1) {
-              zoomFromUrl = parseInt(this.props.urlSearchParams.get("zoom"), 10);
-            } else {
-              zoomFromUrl = parseFloat(this.props.urlSearchParams.get("zoom"));
-            }
+
+            const zoomFromUrl =
+              Math.round(parseFloat(this.props.urlSearchParams.get("zoom")) * 100) / 100;
 
             let lat = center.lat;
             let lng = center.lng;
@@ -644,17 +643,10 @@ export class RoutedMap extends React.Component {
       this.crossTabCommunicationContext?.followerConfigOverwrites[CROSSTABCOMMUNICATION_SCOPE]
         ?.zoomSnap || this.props.zoomSnap;
 
-    if (zoomSnap === 1) {
-      zoomByUrl =
-        parseInt(this.props.urlSearchParams.get("zoom"), 10) ||
-        this.props.fallbackZoom ||
-        fallbackZoomFallback;
-    } else {
-      zoomByUrl =
-        parseFloat(this.props.urlSearchParams.get("zoom")) ||
-        this.props.fallbackZoom ||
-        fallbackZoomFallback;
-    }
+    zoomByUrl =
+      Math.round(parseFloat(this.props.urlSearchParams.get("zoom")) * 100) / 100 ||
+      this.props.fallbackZoom ||
+      fallbackZoomFallback;
 
     let fullscreenControl = <div />;
 
