@@ -130,7 +130,9 @@ export class RoutedMap extends React.Component {
     // this is a workaround for this issue
     const resizeObserver = new ResizeObserver(() => {
       setTimeout(() => {
-        map.invalidateSize();
+        try {
+          map.invalidateSize();
+        } catch (e) {}
       }, 100);
     });
     resizeObserver.observe(document.body);
