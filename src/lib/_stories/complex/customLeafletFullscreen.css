@@ -1,4 +1,4 @@
-.leaflet-control-fullscreen a {
-    background-color: aqua!important;
-    opacity: 0.0
+
+.leaflet-control-container{
+    display:none!important;
 }
