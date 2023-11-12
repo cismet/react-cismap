@@ -1,2 +1,12 @@
 /* .leaflet-tile { border: solid green 1px; }
 .leaflet-image-layer { border: solid red 1px; } */
+
+body {
+ background-color: black;
+
+}
+
+.react-projection-mapping__distort {
+    outline-color: black!important;
+    
+}

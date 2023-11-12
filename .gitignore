@@ -36,5 +36,6 @@ yarn-error.log*
  
 /public/data/vectortiles/
 /public/data/wupp.mbtiles
+/public/data/demo
 /public/offlineVectorTilesServiceWorker.js
 /src/playground
