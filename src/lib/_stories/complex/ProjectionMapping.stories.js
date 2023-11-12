@@ -18,7 +18,6 @@ export const MostSimpleTopicMapWithProjectionMapping = () => {
   const upperRight = [width, 0];
   const lowerLeft = [0, height];
   const lowerRight = [width, height];
-  ß;
 
   const data = {
     projectedMap: {
