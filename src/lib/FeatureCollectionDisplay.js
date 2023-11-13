@@ -21,6 +21,7 @@ const FeatureCollectionDisplay = ({
   customType,
   editModeStatusChanged,
   featureStylerScalableImageSize,
+  pane,
 }) => {
   let selectionSpiderfyMinZoom = clusterOptions.selectionSpiderfyMinZoom;
 
@@ -38,6 +39,7 @@ const FeatureCollectionDisplay = ({
         selectionSpiderfyMinZoom={selectionSpiderfyMinZoom}
         snappingGuides={false}
         customType={customType}
+        pane={pane}
       />
     );
   }
@@ -59,6 +61,7 @@ const FeatureCollectionDisplay = ({
         customType={customType}
         editModeStatusChanged={editModeStatusChanged}
         featureStylerScalableImageSize={featureStylerScalableImageSize}
+        pane={pane}
       />
       {markers}
     </div>
