@@ -1044,6 +1044,55 @@ export const TopicMapWithCrossTabCommunicationContextProvider = () => {
   );
 };
 
+export const TopicMapWithCrossTabCommunicationContextProviderProblem = () => {
+  function WuppNight() {
+    //const [loaded, setLoaded] = useState(false);
+
+    //   const x = () => {};
+    console.log("render", new Error());
+
+    return (
+      <StyledWMSTileLayer
+        url="https://maps.wuppertal.de/deegree/wms"
+        layers="R102:trueortho2022"
+        type="wms"
+        format="image/png"
+        xxx={() => {
+          console.log("xxx true ortho loaded");
+          //setLoaded(true);
+        }}
+      />
+    );
+  }
+
+  return (
+    <TopicMapContextProvider>
+      <CrossTabCommunicationContextProvider
+        token="projectorDemo"
+        withoutHeartbeat={true}
+        role="follower"
+        leaderblocklist={["RoutedMap"]}
+        messageManipulation={(scope, message) => {
+          if (scope === "RoutedMap" && message.type === "mapState") {
+            return;
+          } else {
+            return message;
+          }
+        }}
+        followerConfigOverwrites={{
+          RoutedMap: {
+            zoomSnap: 0.1, //does not work atm
+          },
+        }}
+      >
+        <TopicMapComponent>
+          <WuppNight />
+        </TopicMapComponent>
+      </CrossTabCommunicationContextProvider>
+    </TopicMapContextProvider>
+  );
+};
+
 export const RemoteControledTopicMap = () => {
   const [gazData, setGazData] = useState([]);
   useEffect(() => {
