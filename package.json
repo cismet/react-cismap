@@ -99,6 +99,7 @@
 		"react-svg-inline": "^2.1.1",
 		"reproject": "^1.2.5",
 		"slugify": "^1.4.6",
+		"styled-components": "^6.1.1",
 		"svg-create-element": "^1.0.0",
 		"terraformer-wkt-parser": "^1.2.1",
 		"url-search-params-polyfill": "^5.0.0",
