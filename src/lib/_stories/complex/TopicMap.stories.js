@@ -76,6 +76,16 @@ export const MostSimpleTopicMap = () => {
   );
 };
 
+export const MostSimpleTopicMapWithInfoBoxComponent = () => {
+  return (
+    <TopicMapContextProvider>
+      <TopicMapComponent
+        infoBox={<GenericInfoBoxFromFeature pixelwidth={300} />}
+      ></TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
+
 export const MostSimpleTopicMapWithCustomLayer = () => {
   return (
     <TopicMapContextProvider>
