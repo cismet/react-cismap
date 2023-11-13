@@ -230,6 +230,9 @@ const CrossTabCommunicationContextProvider = ({
   }, [state.channels]);
 
   useEffect(() => {
+    if (withoutHeartbeat === true) {
+      return;
+    }
     const cleanupInterval = setInterval(() => {
       dispatch((state) => {
         const now = Date.now();
