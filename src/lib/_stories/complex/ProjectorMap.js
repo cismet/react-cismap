@@ -9,10 +9,6 @@ import { useWindowSize } from "../../contexts/ResponsiveTopicMapContextProvider"
 import StyledWMSTileLayer from "../../StyledWMSTileLayer";
 import MapLibreLayer from "../../vector/MapLibreLayer";
 import { rathaus } from "./ProjectorData";
-
-// import streetMask from "./streetMask.json";
-// import roofMask from "./roofMask.json";
-// import lights from "./lights.json";
 import "./blurredPaths.css";
 import L from "leaflet";
 import { Layer, useProjection } from "react-projection-mapping";
