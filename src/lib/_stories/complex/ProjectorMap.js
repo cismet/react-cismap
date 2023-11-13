@@ -9,7 +9,7 @@ import { useWindowSize } from "../../contexts/ResponsiveTopicMapContextProvider"
 import StyledWMSTileLayer from "../../StyledWMSTileLayer";
 import MapLibreLayer from "../../vector/MapLibreLayer";
 import { rathaus } from "./ProjectorData";
-import "./customLeafletFullscreen.css";
+
 // import streetMask from "./streetMask.json";
 // import roofMask from "./roofMask.json";
 // import lights from "./lights.json";
@@ -624,6 +624,7 @@ const Map = ({ broadcastChannel, configKey, dynamicMapStyle, inCalibration }) =>
             elem.msRequestFullscreen();
           }
         }}
+        fullScreenControl={false}
       >
         {configs[configKey]?.layers}
       </TopicMapComponent>

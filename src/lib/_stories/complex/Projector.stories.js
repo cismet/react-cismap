@@ -8,8 +8,6 @@ import { Button } from "react-bootstrap";
 import { getBoundsForFeatureCollection } from "../../tools/gisHelper";
 import { BroadcastChannel } from "broadcast-channel";
 
-import "./customLeafletFullscreen.css";
-
 import "./blurredPaths.css";
 
 import { Layer, Projection } from "react-projection-mapping";

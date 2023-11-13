@@ -1,6 +1,5 @@
 import React from "react";
 
-import "./customLeafletFullscreen.css";
 import "./blurredPaths.css";
 import { useProjection } from "react-projection-mapping";
 
