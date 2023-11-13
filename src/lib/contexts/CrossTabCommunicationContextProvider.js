@@ -26,7 +26,7 @@ const TYPES = {
 };
 
 const CrossTabCommunicationContextProvider = ({
-  heartbeat = true,
+  withoutHeartbeat,
   children,
   appKey = "GenericCrossTabCommunicationContextProviderKey",
   persistenceSettings,
@@ -215,18 +215,18 @@ const CrossTabCommunicationContextProvider = ({
   //   }
   // }, [state.channels]);
   useEffect(() => {
-    if (heartbeat) {
-      const heartbeatInterval = setInterval(() => {
-        if (state.channels && state.channels["leader"]) {
-          state.channels["leader"].postMessage({
-            type: "heartbeat",
-            message: { name: state.name, id: state.id },
-          });
-        }
-      }, HEARTBEAT_INTERVAL); // Send a heartbeat every 5 seconds
-
-      return () => clearInterval(heartbeatInterval); // Clear the interval when the component unmounts
+    if (withoutHeartbeat === true) {
+      return;
     }
+    const heartbeatInterval = setInterval(() => {
+      if (state.channels && state.channels["leader"]) {
+        state.channels["leader"].postMessage({
+          type: "heartbeat",
+          message: { name: state.name, id: state.id },
+        });
+      }
+    }, HEARTBEAT_INTERVAL); // Send a heartbeat every 5 seconds
+    return () => clearInterval(heartbeatInterval); // Clear the interval when the component unmounts
   }, [state.channels]);
 
   useEffect(() => {
