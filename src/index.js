@@ -82,6 +82,7 @@ if (window.location.pathname === "/follower") {
     <div>
       {/* <PlaygroundApp /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMap /> */}
+      {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithNonTiledLayer /> */}
 
@@ -90,7 +91,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.SimpleTopicMap /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithAdditiopnalStylingInfo /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithCustomMenu /> */}
-      {/* <TopicMapsExamples.SimpleTopicMapWithDefaultInfoBox /> */}
+      <TopicMapsExamples.SimpleTopicMapWithDefaultInfoBox />
       {/* <TopicMapsExamples.SimpleTopicMapWithInfoBox /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithCustomStyling /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithFullClusteringOptionsAndStyling /> */}
@@ -159,7 +160,7 @@ if (window.location.pathname === "/follower") {
       {/* <FeatureCollectionExamples.ClusteringWithCircles /> */}
       {/* <FeatureCollectionExamples.PolygonsNoStyling /> */}
       {/* <FeatureCollectionExamples.PolygonsWithStyling /> */}
-      {<ProjectionMappingExamples.MostSimpleTopicMapWithProjectionMapping />}
+      {/* {<ProjectionMappingExamples.MostSimpleTopicMapWithProjectionMapping />} */}
     </div>,
     document.getElementById("root")
   );
