@@ -93,15 +93,17 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
       <TopicMapComponent gazData={[]} backgroundlayers="empty">
         <CismapLayer
           {...{
-            type: "wmts",
-            url: "http://s10221.wuppertal-intra.de:7098/alkis/services",
-            layers: "alkomgw",
-            styles: "default",
-            version: "1.1.1",
+            type: "wms",
+            url: "https://maps.wuppertal.de/deegree/wms",
+            layers: "R102:trueortho2022",
             tileSize: 256,
-            maxZoom: 26,
-
             transparent: true,
+            opacity: 0.5,
+            opacityFunction: (opacity) => {
+              return opacity * 0.75;
+            },
+            pane: "backgroundLayers",
+            maxZoom: 26,
             format: "image/png",
           }}
         />
@@ -112,7 +114,7 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
             url: "https://geodaten.metropoleruhr.de/spw2/service",
             layers: "spw2_light_grundriss",
             version: "1.3.0",
-            tileSize: 256,
+            tileSize: 512,
             transparent: true,
             opacity: 0.3,
           }}
@@ -176,19 +178,6 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
           }}
         ></StyledWMSTileLayer> */}
 
-        {/* <StyledWMSTileLayer
-          {...{
-            type: "wms",
-            url: "https://maps.wuppertal.de/deegree/wms",
-            layers: "R102:trueortho2022",
-            tileSize: 256,
-            transparent: true,
-            opacity: 1,
-            pane: "backgroundLayers",
-            maxZoom: 26,
-            format: "image/png",
-          }}
-        ></StyledWMSTileLayer> */}
         {/* --------------- */}
         {/* <StyledWMSTileLayer
           {...{
