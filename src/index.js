@@ -10,7 +10,7 @@ import * as GeojsonExamples from "./lib/_stories/mainComponents/ProjGeoJSON.stor
 import * as FeatureCollectionExamples from "./lib/_stories/mainComponents/FeatureCollection.stories";
 import * as MapLibreExamples from "./lib/_stories/vector/MapLibreLayer.stories";
 import * as ProjectionMappingExamples from "./lib/_stories/complex/ProjectionMapping.stories";
-
+import * as RoutedMapExamples from "./lib/_stories/mainComponents/RoutedMap.stories";
 import PlaygroundApp from "./playground/App";
 
 import "./index.css";
@@ -83,7 +83,7 @@ if (window.location.pathname === "/follower") {
       {/* <PlaygroundApp /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMap /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
-      <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer />
+      {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithNonTiledLayer /> */}
 
       {/* <TopicMapsExamples.MostSimpleTopicMapWithGazetteerData /> */}
@@ -99,7 +99,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
 
       {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
-      {/* <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProvider /> */}
+      <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProvider />
       {/* <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProviderProblem /> */}
       {/* <TopicMapsExamples.RemoteControledTopicMap /> */}
 
@@ -162,6 +162,7 @@ if (window.location.pathname === "/follower") {
       {/* <FeatureCollectionExamples.PolygonsNoStyling /> */}
       {/* <FeatureCollectionExamples.PolygonsWithStyling /> */}
       {/* {<ProjectionMappingExamples.MostSimpleTopicMapWithProjectionMapping />} */}
+      {/* <RoutedMapExamples.Simple /> */}
     </div>,
     document.getElementById("root")
   );
