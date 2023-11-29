@@ -315,7 +315,10 @@ export class RoutedMap extends React.Component {
         leafletMap.leafletElement !== undefined &&
         leafletMap.leafletElement !== null
       ) {
-        if ((this.leaderMap === this.crossTabCommunicationContex?.id) === true || forced === true) {
+        if (
+          (this.leaderMap === this.crossTabCommunicationContext?.id) === true ||
+          forced === true
+        ) {
           try {
             const zoom = Math.round(leafletMap.leafletElement.getZoom() * 100) / 100;
             const center = leafletMap.leafletElement.getCenter();
@@ -343,6 +346,8 @@ export class RoutedMap extends React.Component {
             }
             this.storeBoundingBox(leafletMap);
           } catch (e) {}
+        } else {
+          console.log("xxx will not do shit ");
         }
       } else {
         console.warn("leafletMap ref is null. this could lead to update problems. ");
