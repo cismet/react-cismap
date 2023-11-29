@@ -15,7 +15,7 @@ const Hover = ({ onHover, children }) => (
   </div>
 );
 
-export default function () {
+export default function ({ showConnectionCount = false }) {
   const { isDynamicLeader, isPaused, connectedEntities } = useContext(CrossTabCommunicationContext);
   const { setPaused } = useContext(CrossTabCommunicationDispatchContext);
 
@@ -31,7 +31,7 @@ export default function () {
             >
               <span>
                 <FontAwesomeIcon icon={faSync} size="lg" />
-                {!isPaused && (
+                {!isPaused && showConnectionCount && (
                   <span
                     className="fa-layers-counter  fa-layers-bottom-right"
                     style={{
@@ -59,7 +59,7 @@ export default function () {
             >
               <span>
                 <FontAwesomeIcon icon={isPaused ? faPlay : faPause} size="lg" />
-                {!isPaused && (
+                {!isPaused && showConnectionCount && (
                   <span
                     className="fa-layers-counter  fa-layers-bottom-right"
                     style={{
