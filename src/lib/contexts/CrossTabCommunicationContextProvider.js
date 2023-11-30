@@ -161,7 +161,6 @@ const CrossTabCommunicationContextProvider = ({
       if (state.isPaused && type !== "heartbeat") return; // don't process messages when paused
 
       // Block messages with scopes in the blocklist
-      console.debug("event", event);
 
       const { scope, message, type } = event;
 
