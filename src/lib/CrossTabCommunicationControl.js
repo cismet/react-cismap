@@ -15,7 +15,10 @@ const Hover = ({ onHover, children }) => (
   </div>
 );
 
-export default function ({ showConnectionCount = false, hideWhenNoSibblingIsPresent = false }) {
+export default function CrossTabCommunicationControl({
+  showConnectionCount = false,
+  hideWhenNoSibblingIsPresent = false,
+}) {
   const { isDynamicLeader, isPaused, connectedEntities } = useContext(CrossTabCommunicationContext);
   const { setPaused } = useContext(CrossTabCommunicationDispatchContext);
   if (!isPaused && hideWhenNoSibblingIsPresent && connectedEntities.length === 0) {
