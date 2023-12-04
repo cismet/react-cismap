@@ -158,11 +158,11 @@ const CrossTabCommunicationContextProvider = ({
 
     leaderChannel.onmessage = (event) => {
       const state = stateRef.current;
+      const { scope, message, type } = event;
+
       if (state.isPaused && type !== "heartbeat") return; // don't process messages when paused
 
       // Block messages with scopes in the blocklist
-
-      const { scope, message, type } = event;
 
       if (isLeaderBlocked(scope) && type !== "heartbeat") {
         return;
