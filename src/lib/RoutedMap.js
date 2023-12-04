@@ -694,7 +694,7 @@ export class RoutedMap extends React.Component {
         }
       }
     }
-    let locateControl = <div />;
+    let locateControl = null;
     if (this.props.locateControlEnabled) {
       locateControl = (
         <LocateControl
