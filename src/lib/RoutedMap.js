@@ -347,7 +347,7 @@ export class RoutedMap extends React.Component {
             this.storeBoundingBox(leafletMap);
           } catch (e) {}
         } else {
-          console.log("xxx will not do shit ");
+          console.debug("will not do things because i am the leader atm");
         }
       } else {
         console.warn("leafletMap ref is null. this could lead to update problems. ");
