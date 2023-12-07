@@ -18,6 +18,8 @@ const Hover = ({ onHover, children }) => (
 export default function CrossTabCommunicationControl({
   showConnectionCount = false,
   hideWhenNoSibblingIsPresent = false,
+  enabledTooltip = "Synchronisation stoppen",
+  disabledTooltip = "Synchronisation starten",
 }) {
   const { isDynamicLeader, isPaused, connectedEntities } = useContext(CrossTabCommunicationContext);
   const { setPaused } = useContext(CrossTabCommunicationDispatchContext);
@@ -31,18 +33,25 @@ export default function CrossTabCommunicationControl({
             <span className="hover-control--off">
               <a
                 className="leaflet-bar-part"
-                title="Vollbildmodus"
-                style={{ outline: "none", background: isDynamicLeader ? "lightgrey" : undefined }}
+                title={!isPaused ? enabledTooltip : disabledTooltip}
+                style={{
+                  outline: "none",
+                  background: isDynamicLeader && !isPaused ? "lightgrey" : undefined,
+                }}
               >
                 <span>
-                  <FontAwesomeIcon icon={faSync} size="lg" />
+                  <FontAwesomeIcon
+                    style={{ color: isPaused ? "#00000022" : "black" }}
+                    icon={faSync}
+                    size="lg"
+                  />
                   {!isPaused && showConnectionCount && (
                     <span
                       className="fa-layers-counter  fa-layers-bottom-right"
                       style={{
                         fontSize: 50 + "px",
                         position: "absolute",
-                        bottom: -10,
+                        bottom: -8,
                         right: -10,
                         backgroundColor: "#555555",
                       }}
@@ -56,14 +65,21 @@ export default function CrossTabCommunicationControl({
             <span class="hover-control--on">
               <a
                 className="leaflet-bar-part"
-                title="Vollbildmodus"
-                style={{ outline: "none", background: isDynamicLeader ? "lightgrey" : undefined }}
+                title={!isPaused ? enabledTooltip : disabledTooltip}
+                style={{
+                  outline: "none",
+                  background: isDynamicLeader && !isPaused ? "lightgrey" : undefined,
+                }}
                 onClick={() => {
                   setPaused(!isPaused);
                 }}
               >
                 <span>
-                  <FontAwesomeIcon icon={isPaused ? faPlay : faPause} size="lg" />
+                  <FontAwesomeIcon
+                    style={{ color: isPaused ? "#00000022" : "black" }}
+                    icon={isPaused ? faPlay : faPause}
+                    size="lg"
+                  />
                   {!isPaused && showConnectionCount && (
                     <span
                       className="fa-layers-counter  fa-layers-bottom-right"
