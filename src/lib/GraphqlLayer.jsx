@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import FeatureCollectionDisplay from "./FeatureCollectionDisplay";
+import { isEqual } from "lodash";
 
 const GraphqlLayer = ({
   useHover,
@@ -19,6 +20,7 @@ const GraphqlLayer = ({
 }) => {
   const [feature, setFeature] = useState();
   const [hoveredFeature, setHoveredFeature] = useState(undefined);
+  const [bbPoly, setbbPoly] = useState({ bbPoly: null });
 
   const myVirtHoverer = () => {
     const mouseoverHov = (feature) => {
@@ -67,14 +69,16 @@ const GraphqlLayer = ({
       .catch((error) => {
         loadingStateUpdated(false);
         setFeature(undefined);
-        console.log("error", error);
 
         throw new Error("There was a problem with the fetch operation:", error);
       });
   };
 
   useEffect(() => {
-    fetchFeatureCollection();
+    if (variables.bbPoly && !isEqual(variables, bbPoly)) {
+      setbbPoly(variables);
+      fetchFeatureCollection();
+    }
   }, [variables]);
 
   return (
