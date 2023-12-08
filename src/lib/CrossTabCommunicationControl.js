@@ -20,6 +20,9 @@ export default function CrossTabCommunicationControl({
   hideWhenNoSibblingIsPresent = false,
   enabledTooltip = "Synchronisation stoppen",
   disabledTooltip = "Synchronisation starten",
+  leaderVisualization = (isDynamicLeader, isPaused) => {
+    return { background: isDynamicLeader && !isPaused ? "#eeeeee" : undefined };
+  },
 }) {
   const { isDynamicLeader, isPaused, connectedEntities } = useContext(CrossTabCommunicationContext);
   const { setPaused } = useContext(CrossTabCommunicationDispatchContext);
@@ -36,7 +39,7 @@ export default function CrossTabCommunicationControl({
                 title={!isPaused ? enabledTooltip : disabledTooltip}
                 style={{
                   outline: "none",
-                  background: isDynamicLeader && !isPaused ? "lightgrey" : undefined,
+                  ...leaderVisualization(isDynamicLeader, isPaused),
                 }}
               >
                 <span>
@@ -68,7 +71,7 @@ export default function CrossTabCommunicationControl({
                 title={!isPaused ? enabledTooltip : disabledTooltip}
                 style={{
                   outline: "none",
-                  background: isDynamicLeader && !isPaused ? "lightgrey" : undefined,
+                  ...leaderVisualization(isDynamicLeader, isPaused),
                 }}
                 onClick={() => {
                   setPaused(!isPaused);
@@ -76,7 +79,7 @@ export default function CrossTabCommunicationControl({
               >
                 <span>
                   <FontAwesomeIcon
-                    style={{ color: isPaused ? "#00000022" : "black" }}
+                    style={{ color: "black" }}
                     icon={isPaused ? faPlay : faPause}
                     size="lg"
                   />
