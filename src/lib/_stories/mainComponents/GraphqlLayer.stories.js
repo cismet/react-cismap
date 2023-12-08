@@ -131,6 +131,11 @@ export const Lanparcels = (args) => {
     <div>
       <div>Simple Map with Graphql Hover Layer</div>
 
+      <div>
+        {hoveredProperties?.gemarkung}, {hoveredProperties?.flur},{" "}
+        {hoveredProperties?.fstck_zaehler}
+      </div>
+
       <br />
       <RoutedMap
         style={mapStyle}
