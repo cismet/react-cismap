@@ -4,10 +4,12 @@ import GraphqlLayer from "../../GraphqlLayer";
 import { storiesCategory } from "./StoriesConf";
 import RoutedMap from "../../RoutedMap";
 import bboxPolygon from "@turf/bbox-polygon";
-import reproject from "reproject";
+import { reproject } from "reproject";
 import { projectionData } from "../../constants/gis";
 import { concat, flatten } from "lodash";
 import { MappingConstants } from "../..";
+import getArea from "@turf/area";
+import proj4 from "proj4";
 
 export default {
   title: storiesCategory + "GraphqlLayer",
@@ -66,6 +68,23 @@ export const Lanparcels = (args) => {
     return updatedGeom;
   };
 
+  const getWGS84GeoJSON = (geoJSON) => {
+    try {
+      const reprojectedGeoJSON = reproject(geoJSON, projectionData["25832"].def, proj4.WGS84);
+
+      return reprojectedGeoJSON;
+    } catch (e) {
+      return undefined;
+    }
+  };
+
+  const getArea25832 = (geoJSON) => {
+    const wGS84GeoJSON = getWGS84GeoJSON(geoJSON);
+    if (wGS84GeoJSON !== undefined) {
+      return getArea(wGS84GeoJSON);
+    }
+  };
+
   const createFeatureArray = (data) => {
     const result = [];
 
@@ -113,11 +132,10 @@ export const Lanparcels = (args) => {
       <div>Simple Map with Graphql Hover Layer</div>
 
       <br />
-
       <RoutedMap
         style={mapStyle}
-        referenceSystem={MappingConstants.crs25832}
-        referenceSystemDefinition={MappingConstants.proj4crs25832def}
+        referenceSystem={MappingConstants.crs3857}
+        referenceSystemDefinition={MappingConstants.proj4crs3857def}
         doubleClickZoom={false}
         onclick={(e) => console.log("click", e)}
         ondblclick={(e) => console.log("doubleclick", e)}
@@ -125,10 +143,17 @@ export const Lanparcels = (args) => {
         fullScreenControlEnabled={false}
         locateControlEnabled={false}
         minZoom={7}
-        maxZoom={18}
+        maxZoom={25}
         zoomSnap={0.5}
         zoomDelta={0.5}
-        boundingBoxChangeHandler={(boundingBox) => setBBPoly(createQueryGeomFromBB(boundingBox))}
+        boundingBoxChangedHandler={(boundingBox) => {
+          const bbPoly = createQueryGeomFromBB(boundingBox);
+          const area = getArea25832(bbPoly);
+          const maxAreaForSearch = 130000;
+          if (area < maxAreaForSearch && area !== 0) {
+            setBBPoly(bbPoly);
+          }
+        }}
       >
         <GraphqlLayer
           jwt={jwt}
