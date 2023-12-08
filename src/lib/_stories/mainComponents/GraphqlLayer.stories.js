@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import GraphqlLayer from "../../GraphqlLayer";
 import { storiesCategory } from "./StoriesConf";
@@ -6,15 +7,17 @@ import bboxPolygon from "@turf/bbox-polygon";
 import reproject from "reproject";
 import { projectionData } from "../../constants/gis";
 import { concat, flatten } from "lodash";
+import { MappingConstants } from "../..";
 
 export default {
   title: storiesCategory + "GraphqlLayer",
 };
 
-export const TestLayer = (args) => {
+export const Lanparcels = (args) => {
   const [hoveredProperties, setHoveredProperties] = useState({});
   const [bbPoly, setBBPoly] = useState();
-  const jwt = "";
+  const jwt =
+    "eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiIxMyIsInN1YiI6ImNpc21ldCIsImRvbWFpbiI6IkxBR0lTIiwiaHR0cHM6Ly9oYXN1cmEuaW8vand0L2NsYWltcyI6eyJ4LWhhc3VyYS1kZWZhdWx0LXJvbGUiOiJ1c2VyIiwieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJlZGl0b3IiLCJ1c2VyIiwibW9kIl19fQ.WpuNOtRRaH4Z4Cnx3UvavDe2McuAk8sdrl_vpGllTo37dAqDZ7k1CcTcpdKEvAxFnr3-RjXA-9kZlacu2Fo12yOkc8rGIZBvnnXZca_QQbEdDfE6ZgH3gBvuLnqk4W6kNW6TxP0UxPDKvu7Ly4Q8BbdpKVgrstCbzd8uGVVLlhGHaIA8vM76k1zQ5ozsEBllfuHQl3YdvgA6v_Aq3ib2I5li_B4IPj54_rwBYq4ZQRacjQGnoXA4h9vCTyftpqQtqO_pXZFFJri0NrNQkYauBKTSvh801YVwVyHHr1lKs9yRxqQs4yl1nqyn2TvvwFF2_-mTh0Eso2GwqB4auuUYTw";
   const query = `
     query MyQuery($bbPoly: geometry) {
       alkis_landparcel(where: {geom: {geo_field: {_st_intersects: $bbPoly}}}) {
@@ -101,12 +104,30 @@ export const TestLayer = (args) => {
     return result;
   };
 
+  const mapStyle = {
+    height: 600,
+    cursor: "pointer",
+  };
   return (
     <div>
       <div>Simple Map with Graphql Hover Layer</div>
 
       <br />
+
       <RoutedMap
+        style={mapStyle}
+        referenceSystem={MappingConstants.crs25832}
+        referenceSystemDefinition={MappingConstants.proj4crs25832def}
+        doubleClickZoom={false}
+        onclick={(e) => console.log("click", e)}
+        ondblclick={(e) => console.log("doubleclick", e)}
+        backgroundlayers={"ruhrWMSlight@40|trueOrtho2018@10|rvrSchrift@100"}
+        fullScreenControlEnabled={false}
+        locateControlEnabled={false}
+        minZoom={7}
+        maxZoom={18}
+        zoomSnap={0.5}
+        zoomDelta={0.5}
         boundingBoxChangeHandler={(boundingBox) => setBBPoly(createQueryGeomFromBB(boundingBox))}
       >
         <GraphqlLayer

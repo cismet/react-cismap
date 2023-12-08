@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import FeatureCollectionDisplay from "./FeatureCollectionDisplay";
 
 const GraphqlLayer = ({
@@ -67,6 +67,8 @@ const GraphqlLayer = ({
       .catch((error) => {
         loadingStateUpdated(false);
         setFeature(undefined);
+        console.log("error", error);
+
         throw new Error("There was a problem with the fetch operation:", error);
       });
   };
