@@ -11,7 +11,8 @@ import * as FeatureCollectionExamples from "./lib/_stories/mainComponents/Featur
 import * as MapLibreExamples from "./lib/_stories/vector/MapLibreLayer.stories";
 import * as ProjectionMappingExamples from "./lib/_stories/complex/ProjectionMapping.stories";
 import * as RoutedMapExamples from "./lib/_stories/mainComponents/RoutedMap.stories";
-import PlaygroundApp from "./playground/App";
+import * as GraphqlLayerExamples from "./lib/_stories/mainComponents/GraphqlLayer.stories";
+// import PlaygroundApp from "./playground/App";
 
 import "./index.css";
 import "./lib/topicMaps.css";
@@ -99,7 +100,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
 
       {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
-      <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProvider />
+      {/* <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProvider /> */}
       {/* <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProviderProblem /> */}
       {/* <TopicMapsExamples.RemoteControledTopicMap /> */}
 
@@ -163,6 +164,7 @@ if (window.location.pathname === "/follower") {
       {/* <FeatureCollectionExamples.PolygonsWithStyling /> */}
       {/* {<ProjectionMappingExamples.MostSimpleTopicMapWithProjectionMapping />} */}
       {/* <RoutedMapExamples.Simple /> */}
+      <GraphqlLayerExamples.Landparcels />
     </div>,
     document.getElementById("root")
   );
