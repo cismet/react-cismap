@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useState } from "react";
-import GraphqlLayer from "../../GraphqlLayer";
+import GraphqlLayer, { createQueryGeomFromBB } from "../../GraphqlLayer";
 import { storiesCategory } from "./StoriesConf";
 import RoutedMap from "../../RoutedMap";
 import bboxPolygon from "@turf/bbox-polygon";
@@ -15,11 +15,11 @@ export default {
   title: storiesCategory + "GraphqlLayer",
 };
 
-export const Lanparcels = (args) => {
+export const Landparcels = (args) => {
   const [hoveredProperties, setHoveredProperties] = useState({});
   const [bbPoly, setBBPoly] = useState();
   const jwt =
-    "eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiIxMyIsInN1YiI6ImNpc21ldCIsImRvbWFpbiI6IkxBR0lTIiwiaHR0cHM6Ly9oYXN1cmEuaW8vand0L2NsYWltcyI6eyJ4LWhhc3VyYS1kZWZhdWx0LXJvbGUiOiJ1c2VyIiwieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJlZGl0b3IiLCJ1c2VyIiwibW9kIl19fQ.WpuNOtRRaH4Z4Cnx3UvavDe2McuAk8sdrl_vpGllTo37dAqDZ7k1CcTcpdKEvAxFnr3-RjXA-9kZlacu2Fo12yOkc8rGIZBvnnXZca_QQbEdDfE6ZgH3gBvuLnqk4W6kNW6TxP0UxPDKvu7Ly4Q8BbdpKVgrstCbzd8uGVVLlhGHaIA8vM76k1zQ5ozsEBllfuHQl3YdvgA6v_Aq3ib2I5li_B4IPj54_rwBYq4ZQRacjQGnoXA4h9vCTyftpqQtqO_pXZFFJri0NrNQkYauBKTSvh801YVwVyHHr1lKs9yRxqQs4yl1nqyn2TvvwFF2_-mTh0Eso2GwqB4auuUYTw";
+    "eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiIxMSIsInN1YiI6ImNpc21ldCIsImRvbWFpbiI6IkxBR0lTIiwiaHR0cHM6Ly9oYXN1cmEuaW8vand0L2NsYWltcyI6eyJ4LWhhc3VyYS1kZWZhdWx0LXJvbGUiOiJ1c2VyIiwieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJlZGl0b3IiLCJ1c2VyIiwibW9kIl19fQ.ndM5Dsm8QlF8DF65OcyVG8PZn9883haAt8kSv0Zq7ENV_XuEKEGWexGhUy_BdjhuYyvrVXhqhd1o8eena_a6akhwgcCZrMTqT_fqTdwM9ZNV0nfkKaGcfSKVtRLYiNLFAiFtX_9_x8PggKuFS9w4P0zEA75fzozP2Sd8QpUUb05ftW1cgROFuEIZSvX40LN5hi7748f1KtLMZaDqeWNmpQIScj_7gxphkdDxn-M2EE0-I7IklqN03U_P9IR2KK1CYd_AIg0hRwGLKIdzl9iV4L-w4gWIo6q0ZOfDcDThR0lVWmNxPSSoblQ9eB6F0dbWFZCHs0wIWSNzBMLG4_QEZA";
   const query = `
     query MyQuery($bbPoly: geometry) {
       alkis_landparcel(where: {geom: {geo_field: {_st_intersects: $bbPoly}}}) {
@@ -34,39 +34,7 @@ export const Lanparcels = (args) => {
       }
     }`;
   const ENDPOINT = "https://wunda-cloud.cismet.de/wunda/api/graphql/WUNDA_BLAU/execute";
-
-  const createQueryGeomFromBB = (boundingBox) => {
-    const geom = bboxPolygon([
-      boundingBox.left,
-      boundingBox.top,
-      boundingBox.right,
-      boundingBox.bottom,
-    ]).geometry;
-    geom.crs = {
-      type: "name",
-      properties: {
-        name: "urn:ogc:def:crs:EPSG::25832",
-      },
-    };
-    const reprojectedGeoJSON = reproject(
-      {
-        type: "Feature",
-        geometry: geom,
-        properties: {},
-      },
-      projectionData["3857"].def,
-      projectionData["25832"].def
-    );
-    const updatedGeom = reprojectedGeoJSON.geometry;
-    updatedGeom.crs = {
-      type: "name",
-      properties: {
-        name: "urn:ogc:def:crs:EPSG::25832",
-      },
-    };
-
-    return updatedGeom;
-  };
+  const mapRef = useRef(null);
 
   const getWGS84GeoJSON = (geoJSON) => {
     try {
@@ -138,6 +106,7 @@ export const Lanparcels = (args) => {
 
       <br />
       <RoutedMap
+        ref={mapRef}
         style={mapStyle}
         referenceSystem={MappingConstants.crs3857}
         referenceSystemDefinition={MappingConstants.proj4crs3857def}
@@ -151,20 +120,19 @@ export const Lanparcels = (args) => {
         maxZoom={25}
         zoomSnap={0.5}
         zoomDelta={0.5}
-        boundingBoxChangedHandler={(boundingBox) => {
-          const bbPoly = createQueryGeomFromBB(boundingBox);
-          const area = getArea25832(bbPoly);
-          const maxAreaForSearch = 130000;
-          if (area < maxAreaForSearch && area !== 0) {
-            setBBPoly(bbPoly);
-          }
-        }}
+        fallbackZoom={18}
       >
         <GraphqlLayer
           jwt={jwt}
+          referenceSystemDefinition={MappingConstants.proj4crs3857def}
+          mapRef={mapRef}
           query={query}
-          variables={{ bbPoly: bbPoly }}
           endpoint={ENDPOINT}
+          fetchAllowed={(bbPoly) => {
+            const area = getArea25832(bbPoly);
+            const maxAreaForSearch = 130000;
+            return area < maxAreaForSearch && area !== 0;
+          }}
           style={{
             color: "#00000040",
             fillColor: "#00000020",
@@ -177,11 +145,15 @@ export const Lanparcels = (args) => {
           }}
           useHover={true}
           createFeature={createFeatureArray}
+          // ---- Events ----
           onMouseOver={(feature) => {
             setHoveredProperties(feature.properties);
           }}
           onMouseOut={() => {
             setHoveredProperties({});
+          }}
+          onStatus={(status) => {
+            console.log("status", status);
           }}
         />
       </RoutedMap>

@@ -164,7 +164,7 @@ if (window.location.pathname === "/follower") {
       {/* <FeatureCollectionExamples.PolygonsWithStyling /> */}
       {/* {<ProjectionMappingExamples.MostSimpleTopicMapWithProjectionMapping />} */}
       {/* <RoutedMapExamples.Simple /> */}
-      <GraphqlLayerExamples.Lanparcels />
+      <GraphqlLayerExamples.Landparcels />
     </div>,
     document.getElementById("root")
   );
