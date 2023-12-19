@@ -12,7 +12,7 @@ import * as MapLibreExamples from "./lib/_stories/vector/MapLibreLayer.stories";
 import * as ProjectionMappingExamples from "./lib/_stories/complex/ProjectionMapping.stories";
 import * as RoutedMapExamples from "./lib/_stories/mainComponents/RoutedMap.stories";
 import * as GraphqlLayerExamples from "./lib/_stories/mainComponents/GraphqlLayer.stories";
-import PlaygroundApp from "./playground/App";
+// import PlaygroundApp from "./playground/App";
 
 import "./index.css";
 import "./lib/topicMaps.css";
