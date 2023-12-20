@@ -3,29 +3,29 @@ import StyledWMSTileLayer from "./StyledWMSTileLayer";
 import NonTiledWMSLayer from "./NonTiledWMSLayer";
 import { TileLayer } from "leaflet";
 import MapLibreLayer from "./vector/MapLibreLayer";
+import GraphqlLayer from "./GraphqlLayer";
 
 const defaults = {
   wms: {
     format: "image/png",
-    tiled: "true",
+
     maxZoom: 22,
     opacity: 0.6,
     version: "1.1.1",
     pane: "backgroundLayers",
+    tiled: false,
   },
   vector: {},
 };
 
-export default function CismapLayer(_props) {
-  const props = JSON.parse(JSON.stringify(_props));
-  //function gets not copied
+export default function CismapLayer(props) {
   if (props.type === undefined) {
     console.error("CismapLayer: type not set", props);
     return null;
   } else {
     let opacity = props.opacity || 1;
-    if (_props.opacityFunction) {
-      opacity = _props.opacityFunction(opacity);
+    if (props.opacityFunction) {
+      opacity = props.opacityFunction(opacity);
     }
     switch (props.type) {
       case "wms":
@@ -46,6 +46,10 @@ export default function CismapLayer(_props) {
       case "vector": {
         let params = { ...defaults.vector, ...props, opacity };
         return <MapLibreLayer {...params} />;
+      }
+      case "graphql": {
+        let params = { ...defaults.graphql, ...props, opacity };
+        return <GraphqlLayer {...params} />;
       }
     }
   }
