@@ -100,7 +100,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
 
       {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
-      {/* <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProvider /> */}
+      <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProvider />
       {/* <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProviderProblem /> */}
       {/* <TopicMapsExamples.RemoteControledTopicMap /> */}
 
@@ -164,7 +164,7 @@ if (window.location.pathname === "/follower") {
       {/* <FeatureCollectionExamples.PolygonsWithStyling /> */}
       {/* {<ProjectionMappingExamples.MostSimpleTopicMapWithProjectionMapping />} */}
       {/* <RoutedMapExamples.Simple /> */}
-      <GraphqlLayerExamples.Landparcels />
+      {/* <GraphqlLayerExamples.Landparcels /> */}
     </div>,
     document.getElementById("root")
   );

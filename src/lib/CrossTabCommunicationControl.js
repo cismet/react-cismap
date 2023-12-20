@@ -8,101 +8,120 @@ import {
   CrossTabCommunicationDispatchContext,
 } from "./contexts/CrossTabCommunicationContextProvider";
 
-const Hover = ({ onHover, children }) => (
-  <div className="hover">
-    <div className="hover__no-hover">{children}</div>
-    <div className="hover__hover">{onHover}</div>
-  </div>
-);
-
 export default function CrossTabCommunicationControl({
   showConnectionCount = false,
   hideWhenNoSibblingIsPresent = false,
   enabledTooltip = "Synchronisation stoppen",
   disabledTooltip = "Synchronisation starten",
+  forbiddenTooltip = "kein Synchronisatspartner gefunden",
   leaderVisualization = (isDynamicLeader, isPaused) => {
     return { background: isDynamicLeader && !isPaused ? "#eeeeee" : undefined };
   },
 }) {
   const { isDynamicLeader, isPaused, connectedEntities } = useContext(CrossTabCommunicationContext);
   const { setPaused } = useContext(CrossTabCommunicationDispatchContext);
-  if (!isPaused && hideWhenNoSibblingIsPresent && connectedEntities.length === 0) {
-    return null;
-  } else {
-    return (
+  // if (!isPaused && hideWhenNoSibblingIsPresent && connectedEntities.length === 0) {
+  //   console.log("xxx hideWhenNoSibblingIsPresent");
+  //   return null;
+  // } else {
+  return (
+    <Control
+      key="CrossTabCommunicationControl"
+      className="leaflet-bar leaflet-control hover-control"
+      position="topleft"
+      style={{ display: "none!important" }}
+    >
       <>
-        <Control className="leaflet-bar leaflet-control hover-control" position="topleft">
-          <>
-            <span className="hover-control--off">
-              <a
-                className="leaflet-bar-part"
-                title={!isPaused ? enabledTooltip : disabledTooltip}
+        <span className="hover-control--off">
+          <a
+            className="leaflet-bar-part"
+            title={
+              connectedEntities.length === 0
+                ? forbiddenTooltip
+                : !isPaused
+                ? enabledTooltip
+                : disabledTooltip
+            }
+            style={{
+              outline: "none",
+              ...leaderVisualization(isDynamicLeader, isPaused),
+            }}
+          >
+            <span>
+              <FontAwesomeIcon
                 style={{
-                  outline: "none",
-                  ...leaderVisualization(isDynamicLeader, isPaused),
+                  color: isPaused || connectedEntities.length === 0 ? "#00000022" : "black",
+                  pointer: connectedEntities.length === 0 ? "not-allowed!important" : "pointer",
                 }}
-              >
-                <span>
-                  <FontAwesomeIcon
-                    style={{ color: isPaused ? "#00000022" : "black" }}
-                    icon={faSync}
-                    size="lg"
-                  />
-                  {!isPaused && showConnectionCount && (
-                    <span
-                      className="fa-layers-counter  fa-layers-bottom-right"
-                      style={{
-                        fontSize: 50 + "px",
-                        position: "absolute",
-                        bottom: -8,
-                        right: -10,
-                        backgroundColor: "#555555",
-                      }}
-                    >
-                      {connectedEntities.length + 1}
-                    </span>
-                  )}
+                icon={faSync}
+                size="lg"
+              />
+              {!isPaused && showConnectionCount && (
+                <span
+                  className="fa-layers-counter  fa-layers-bottom-right"
+                  style={{
+                    fontSize: 50 + "px",
+                    position: "absolute",
+                    bottom: -8,
+                    right: -10,
+                    backgroundColor: "#555555",
+                  }}
+                >
+                  {connectedEntities.length + 1}
                 </span>
-              </a>
+              )}
             </span>
-            <span class="hover-control--on">
-              <a
-                className="leaflet-bar-part"
-                title={!isPaused ? enabledTooltip : disabledTooltip}
+          </a>
+        </span>
+        <span className="hover-control--on">
+          <a
+            className="leaflet-bar-part"
+            title={
+              connectedEntities.length === 0
+                ? forbiddenTooltip
+                : !isPaused
+                ? enabledTooltip
+                : disabledTooltip
+            }
+            style={{
+              outline: "none",
+              ...leaderVisualization(isDynamicLeader, isPaused),
+            }}
+            onClick={() => {
+              if (connectedEntities.length === 0) {
+                return;
+              }
+              setPaused(!isPaused);
+            }}
+          >
+            <span>
+              <FontAwesomeIcon
                 style={{
-                  outline: "none",
-                  ...leaderVisualization(isDynamicLeader, isPaused),
+                  color: connectedEntities.length === 0 ? "#00000022" : "black",
+                  cursor: connectedEntities.length === 0 ? "not-allowed" : "pointer",
                 }}
-                onClick={() => {
-                  setPaused(!isPaused);
-                }}
-              >
-                <span>
-                  <FontAwesomeIcon
-                    style={{ color: "black" }}
-                    icon={isPaused ? faPlay : faPause}
-                    size="lg"
-                  />
-                  {!isPaused && showConnectionCount && (
-                    <span
-                      className="fa-layers-counter  fa-layers-bottom-right"
-                      style={{
-                        fontSize: 50 + "px",
-                        position: "absolute",
-                        bottom: -10,
-                        right: -10,
-                        backgroundColor: "#555555",
-                      }}
-                    >
-                      {connectedEntities.length + 1}
-                    </span>
-                  )}
+                icon={connectedEntities.length === 0 ? faSync : isPaused ? faPlay : faPause}
+                size="lg"
+              />
+              {!isPaused && showConnectionCount && (
+                <span
+                  className="fa-layers-counter  fa-layers-bottom-right"
+                  style={{
+                    fontSize: 50 + "px",
+                    position: "absolute",
+                    bottom: -10,
+                    right: -10,
+                    backgroundColor: "#555555",
+                  }}
+                >
+                  {connectedEntities.length + 1}
                 </span>
-              </a>
+              )}
             </span>
-          </>
-        </Control>
+          </a>
+        </span>
       </>
-    );
-  }
+    </Control>
+  );
+  // }
 }
