@@ -1251,7 +1251,8 @@ export const TopicMapWithCrossTabCommunicationContextProvider = () => {
             // _maskingPolygon={maskingPolygon}
             // _mapRef={leafletRoutedMapRef}
           />
-          <CrossTabCommunicationControl hideWhenNoSibblingIsPresent={true} />
+
+          <CrossTabCommunicationControl key="crosstabcomcontr" hideWhenNoSibblingIsPresent={true} />
         </TopicMapComponent>
       </TopicMapContextProvider>
     </CrossTabCommunicationContextProvider>
