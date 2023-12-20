@@ -29,7 +29,6 @@ export default function CrossTabCommunicationControl({
       key="CrossTabCommunicationControl"
       className="leaflet-bar leaflet-control hover-control"
       position="topleft"
-      style={{ display: "none!important" }}
     >
       <>
         <span className="hover-control--off">
