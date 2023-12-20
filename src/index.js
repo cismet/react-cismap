@@ -83,8 +83,12 @@ if (window.location.pathname === "/follower") {
     <div>
       {/* <PlaygroundApp /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMap /> */}
+      {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer /> */}
+
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
+      {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer /> */}
+
       {/* <TopicMapsExamples.MostSimpleTopicMapWithNonTiledLayer /> */}
 
       {/* <TopicMapsExamples.MostSimpleTopicMapWithGazetteerData /> */}
@@ -100,7 +104,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
 
       {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
-      <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProvider />
+      {/* <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProvider /> */}
       {/* <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProviderProblem /> */}
       {/* <TopicMapsExamples.RemoteControledTopicMap /> */}
 
@@ -165,6 +169,7 @@ if (window.location.pathname === "/follower") {
       {/* {<ProjectionMappingExamples.MostSimpleTopicMapWithProjectionMapping />} */}
       {/* <RoutedMapExamples.Simple /> */}
       {/* <GraphqlLayerExamples.Landparcels /> */}
+      <GraphqlLayerExamples.LandparcelsFromCismapLayer />
     </div>,
     document.getElementById("root")
   );
