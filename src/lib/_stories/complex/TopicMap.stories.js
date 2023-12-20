@@ -91,24 +91,7 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
   return (
     <TopicMapContextProvider>
       <TopicMapComponent gazData={[]} backgroundlayers="empty">
-        <CismapLayer
-          {...{
-            type: "wms",
-            url: "https://maps.wuppertal.de/deegree/wms",
-            layers: "R102:trueortho2022",
-            tileSize: 256,
-            transparent: true,
-            opacity: 0.5,
-            opacityFunction: (opacity) => {
-              return opacity * 0.75;
-            },
-            pane: "backgroundLayers",
-            maxZoom: 26,
-            format: "image/png",
-          }}
-        />
-
-        {/* <StyledWMSTileLayer
+        <StyledWMSTileLayer
           {...{
             type: "wmts",
             url: "https://geodaten.metropoleruhr.de/spw2/service",
@@ -118,202 +101,223 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
             transparent: true,
             opacity: 0.3,
           }}
-        ></StyledWMSTileLayer> */}
+        ></StyledWMSTileLayer>
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
 
-        {/* <StyledWMSTileLayer
-          {...{
-            type: "wmts",
-            url: "http://s10221.wuppertal-intra.de:8099/abt9_flst/services",
-            layers: "abt9",
-            version: "1.1.1",
-            tileSize: 256,
-            transparent: true,
-            format: "image/png",
-          }}
-        ></StyledWMSTileLayer> */}
-        {/* <StyledWMSTileLayer
-          {...{
-            type: "wmts",
-            url: "http://s10221.wuppertal-intra.de:7098/alkis/services",
-            layers: "alkomgw",
-            styles: "default",
-            version: "1.1.1",
-            tileSize: 256,
-            transparent: true,
-            format: "image/png",
-          }}
-        ></StyledWMSTileLayer> */}
-        {/* <StyledWMSTileLayer
-          {...{
-            type: "wmts",
-            url: "http://s10221.wuppertal-intra.de:7098/alkis/services",
-            layers: "alkomf",
-            styles: "default",
-            version: "1.1.1",
-            tileSize: 256,
-            transparent: true,
-            format: "image/png",
-          }}
-        ></StyledWMSTileLayer> */}
-        {/* <StyledWMSTileLayer
-          {...{
-            type: "wmts",
-            url: "http://s10221.wuppertal-intra.de:7098/stadt-flurstuecke/services",
-            layers: "stadt_flurst",
-            version: "1.1.1",
-            tileSize: 256,
-            transparent: true,
-            format: "image/png",
-          }}
-        ></StyledWMSTileLayer> */}
-        {/* <StyledWMSTileLayer
-          {...{
-            type: "wmts",
-            url: "http://s10221.wuppertal-intra.de:8056/baulasten/services",
-            layers: "baul",
-            version: "1.1.1",
-            tileSize: 256,
-            transparent: true,
-            format: "image/png",
-          }}
-        ></StyledWMSTileLayer> */}
+export const MostSimpleTopicMapWithCismapLayer = () => {
+  const layerConfigs = [
+    {
+      type: "wmts",
+      url: "https://geodaten.metropoleruhr.de/spw2/service",
+      layers: "spw2_light_grundriss",
+      version: "1.3.0",
+      tileSize: 512,
+      transparent: true,
+      opacity: 0.3,
+    },
+    {
+      type: "wmts",
+      url: "http://s10221.wuppertal-intra.de:8099/abt9_flst/services",
+      layers: "abt9",
+      version: "1.1.1",
+      tileSize: 256,
+      transparent: true,
+      format: "image/png",
+    },
+    {
+      type: "wmts",
+      url: "http://s10221.wuppertal-intra.de:7098/alkis/services",
+      layers: "alkomgw",
+      styles: "default",
+      version: "1.1.1",
+      tileSize: 256,
+      transparent: true,
+      format: "image/png",
+    },
+    {
+      type: "wmts",
+      url: "http://s10221.wuppertal-intra.de:7098/alkis/services",
+      layers: "alkomf",
+      styles: "default",
+      version: "1.1.1",
+      tileSize: 256,
+      transparent: true,
+      format: "image/png",
+    },
+    {
+      type: "wmts",
+      url: "http://s10221.wuppertal-intra.de:7098/stadt-flurstuecke/services",
+      layers: "stadt_flurst",
+      version: "1.1.1",
+      tileSize: 256,
+      transparent: true,
+      format: "image/png",
+    },
+    {
+      type: "wmts",
+      url: "http://s10221.wuppertal-intra.de:8056/baulasten/services",
+      layers: "baul",
+      version: "1.1.1",
+      tileSize: 256,
+      transparent: true,
+      format: "image/png",
+    },
+    {
+      type: "wmts",
+      url: "http://s10221.wuppertal-intra.de/bebauungsplanung/services",
+      layers: "bverfahren-r",
+      version: "1.1.1",
+      tileSize: 256,
+      transparent: true,
+      format: "image/png",
+    },
+    {
+      type: "wmts",
+      url: "http://s10221.wuppertal-intra.de:8056/baulasten/services",
+      layers: "baul",
+      version: "1.1.1",
+      tileSize: 256,
+      transparent: true,
+      format: "image/png",
+    },
+    {
+      type: "wmts",
+      url: "http://s10221.wuppertal-intra.de:7098/alkis/services",
+      layers: "hausnr,hausnrne,hausnrplm,hausnrplo",
+      version: "1.1.1",
+      tileSize: 256,
+      transparent: true,
+      format: "image/png",
+    },
+    {
+      type: "wmts",
+      url: "http://s10221.wuppertal-intra.de:7098/stadt-flurstuecke/services",
+      layers: "stadt_flurst",
+      version: "1.1.1",
+      tileSize: 256,
+      transparent: true,
+      format: "image/png",
+    },
+    {
+      type: "wmts",
+      url: "http://s10221.wuppertal-intra.de:8099/esw/services",
+      layers: "esw",
+      version: "1.1.1",
+      tileSize: 256,
+      transparent: true,
+      format: "image/png",
+    },
+    {
+      type: "wmts",
+      url: "http://s10221.wuppertal-intra.de:7098/hoehen/services",
+      layers: "hoehenu",
+      version: "1.1.1",
+      tileSize: 256,
+      transparent: true,
+      format: "image/png",
+    },
+    {
+      type: "wmts",
+      url: "http://s10221.wuppertal-intra.de:7098/alkis/services",
+      layers: "expsw",
+      version: "1.1.1",
+      tileSize: 256,
+      transparent: true,
+      format: "image/png",
+    },
+    {
+      type: "wmts",
+      url: "http://s10221.wuppertal-intra.de:7098/alkis/services",
+      layers: "expg",
+      version: "1.1.1",
+      tileSize: 256,
+      transparent: true,
+      format: "image/png",
+    },
+    {
+      type: "wmts",
+      url:
+        "http://s102w284.stadt.wuppertal-intra.de:6080/arcgis/services/PRODUKTION/AGS_ORTHOPHOTO_WUP/MapServer/WMSServer",
+      layers: "13",
+      version: "1.1.1",
+      tileSize: 256,
+      transparent: true,
+      format: "image/png",
+    },
+    {
+      type: "wmts",
+      url:
+        "http://s102w284.stadt.wuppertal-intra.de:6080/arcgis/services/PRODUKTION/AGS_ORTHOPHOTO_WUP20_D/MapServer/WMSServer",
+      layers: "2",
+      version: "1.1.1",
+      tileSize: 256,
+      transparent: true,
+      format: "image/png",
+    },
+    {
+      type: "wmts",
+      url:
+        "http://s102w284.stadt.wuppertal-intra.de:6080/arcgis/services/PRODUKTION/AGS_ORTHOPHOTO_WUP/MapServer/WMSServer",
+      layers: "9",
+      version: "1.1.1",
+      tileSize: 256,
+      transparent: true,
+      format: "image/png",
+    },
+    {
+      title: "Stadtplan (grau)",
 
-        {/* --------------- */}
-        {/* <StyledWMSTileLayer
-          {...{
-            type: "wmts",
-            url: "http://s10221.wuppertal-intra.de/bebauungsplanung/services",
-            layers: "bverfahren-r",
-            version: "1.1.1",
-            tileSize: 256,
-            transparent: true,
-            format: "image/png",
-          }}
-        ></StyledWMSTileLayer> */}
+      type: "vector",
+      style: "https://omt.map-hosting.de/styles/cismet-light/style.json",
+      //   offlineAvailable: true,
+      //   offlineDataStoreKey: "wuppBasemap",
+      pane: "backgroundvectorLayers",
+    },
+    //layerConfigs[18]
+    {
+      title: "Stadtplan (bunt)",
+      type: "vector",
+      style: "https://omt.map-hosting.de/styles/osm-bright-grey/style.json",
+      //   offlineAvailable: true,
+      //   offlineDataStoreKey: "wuppBasemap",
+      pane: "backgroundvectorLayers",
+    },
+  ];
 
-        {/* <StyledWMSTileLayer
-          {...{
-            type: "wmts",
-            url: "http://s10221.wuppertal-intra.de:8056/baulasten/services",
-            layers: "baul",
-            version: "1.1.1",
-            tileSize: 256,
-            transparent: true,
-            format: "image/png",
-          }}
-        ></StyledWMSTileLayer> */}
+  //create a state for the layer index and click through with the >> button
+  const [layerIndex, setLayerIndex] = useState(0);
 
-        {/* <StyledWMSTileLayer
-          {...{
-            type: "wmts",
-            url: "http://s10221.wuppertal-intra.de:7098/alkis/services",
-            layers: "hausnr,hausnrne,hausnrplm,hausnrplo",
-            version: "1.1.1",
-            tileSize: 256,
-            transparent: true,
-            format: "image/png",
-          }}
-        ></StyledWMSTileLayer> */}
+  return (
+    <TopicMapContextProvider>
+      <TopicMapComponent gazData={[]} backgroundlayers="empty">
+        <CismapLayer key={layerIndex + "CL"} {...layerConfigs[layerIndex]} />
 
-        {/* <StyledWMSTileLayer
-          {...{
-            type: "wmts",
-            url: "http://s10221.wuppertal-intra.de:7098/stadt-flurstuecke/services",
-            layers: "stadt_flurst",
-            version: "1.1.1",
-            tileSize: 256,
-            transparent: true,
-            format: "image/png",
-          }}
-        ></StyledWMSTileLayer> */}
-
-        {/* <StyledWMSTileLayer
-          {...{
-            type: "wmts",
-            url: "http://s10221.wuppertal-intra.de:8099/esw/services",
-            layers: "esw",
-            version: "1.1.1",
-            tileSize: 256,
-            transparent: true,
-            format: "image/png",
-          }}
-        ></StyledWMSTileLayer> */}
-
-        {/* <StyledWMSTileLayer
-          {...{
-            type: "wmts",
-            url: "http://s10221.wuppertal-intra.de:7098/hoehen/services",
-            layers: "hoehenu",
-            version: "1.1.1",
-            tileSize: 256,
-            transparent: true,
-            format: "image/png",
-          }}
-        ></StyledWMSTileLayer> */}
-
-        {/* <StyledWMSTileLayer
-          {...{
-            type: "wmts",
-            url: "http://s10221.wuppertal-intra.de:7098/alkis/services",
-            layers: "expsw",
-            version: "1.1.1",
-            tileSize: 256,
-            transparent: true,
-            format: "image/png",
-          }}
-        ></StyledWMSTileLayer> */}
-        {/* <StyledWMSTileLayer
-          {...{
-            type: "wmts",
-            url: "http://s10221.wuppertal-intra.de:7098/alkis/services",
-            layers: "expg",
-            version: "1.1.1",
-            tileSize: 256,
-            transparent: true,
-            format: "image/png",
-          }}
-        ></StyledWMSTileLayer> */}
-
-        {/* <StyledWMSTileLayer
-          {...{
-            type: "wmts",
-            url:
-              "http://s102w284.stadt.wuppertal-intra.de:6080/arcgis/services/PRODUKTION/AGS_ORTHOPHOTO_WUP/MapServer/WMSServer",
-            layers: "13",
-            version: "1.1.1",
-            tileSize: 256,
-            transparent: true,
-            format: "image/png",
-          }}
-        ></StyledWMSTileLayer> */}
-
-        {/* <StyledWMSTileLayer
-          {...{
-            type: "wmts",
-            url:
-              "http://s102w284.stadt.wuppertal-intra.de:6080/arcgis/services/PRODUKTION/AGS_ORTHOPHOTO_WUP20_D/MapServer/WMSServer",
-            layers: "2",
-            version: "1.1.1",
-            tileSize: 256,
-            transparent: true,
-            format: "image/png",
-          }}
-        ></StyledWMSTileLayer> */}
-
-        {/* <StyledWMSTileLayer
-          {...{
-            type: "wmts",
-            url:
-              "http://s102w284.stadt.wuppertal-intra.de:6080/arcgis/services/PRODUKTION/AGS_ORTHOPHOTO_WUP/MapServer/WMSServer",
-            layers: "9",
-            version: "1.1.1",
-            tileSize: 256,
-            transparent: true,
-            format: "image/png",
-          }}
-        ></StyledWMSTileLayer> */}
-
-        {/* Expresskarte (Strich s/w) */}
+        {layerConfigs.map((layerConfig, index) => {
+          return (
+            <Control
+              style={{ width: 500 }}
+              className="leaflet-bar leaflet-control"
+              position="topleft"
+            >
+              <a
+                onClick={() => {
+                  setLayerIndex(index);
+                }}
+              >
+                <span style={{ whiteSpace: "nowrap" }}>
+                  <span style={{ margin: 10, marginRight: 20 }}>🌍</span>
+                  {layerConfigs[index].title ||
+                    layerConfigs[index].url ||
+                    layerConfigs[index].style ||
+                    layerConfigs[index].endpoint}
+                </span>
+              </a>
+            </Control>
+          );
+        })}
       </TopicMapComponent>
     </TopicMapContextProvider>
   );
