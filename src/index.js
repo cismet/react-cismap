@@ -12,6 +12,7 @@ import * as MapLibreExamples from "./lib/_stories/vector/MapLibreLayer.stories";
 import * as ProjectionMappingExamples from "./lib/_stories/complex/ProjectionMapping.stories";
 import * as RoutedMapExamples from "./lib/_stories/mainComponents/RoutedMap.stories";
 import * as GraphqlLayerExamples from "./lib/_stories/mainComponents/GraphqlLayer.stories";
+import * as PhotoLightBoxExamples from "./lib/topicmaps/_stories/PhotoLightbox.stories";
 // import PlaygroundApp from "./playground/App";
 
 import "./index.css";
@@ -111,7 +112,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
       {/* <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers /> */}
       {/* <TopicMapsExamples.TopicMapTholey /> */}
-      <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox />
+      {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox /> */}
       {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole /> */}
       {/* <MoreTopicMapsExamples.TopicMapWithOfflineDataConfiguration /> */}
       {/* <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Wasserstofftankstelle /> */}
@@ -134,7 +135,7 @@ if (window.location.pathname === "/follower") {
       {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBox /> */}
       {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBoxAndNoTopicMapContextProvider /> */}
       {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBoxInABootstrapMenu /> */}
-      {/* <PhotoLightBoxExamples.SimplePhotoLightBox /> */}
+      <PhotoLightBoxExamples.SimplePhotoLightBox />
       {/* <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptions /> */}
       {/* <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptionsAndExternalLinks /> */}
 

@@ -37,9 +37,10 @@ export const SimplePhotoLightBox = () => {
         defaultContextValues={{
           title: "Title",
           photourls: [
-            "https://i.picsum.photos/id/0/5616/3744.jpg?hmac=3GAAioiQziMGEtLbfrdbcoenXoWAW-zlyEAMkfEdBzQ",
-            "https://i.picsum.photos/id/1/5616/3744.jpg?hmac=kKHwwU8s46oNettHKwJ24qOlIAsWN9d2TtsXDoCWWsQ",
-            "https://i.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68",
+            "https://cismet.de/images/personal/thorsten.jpg",
+            "https://cismet.de/images/personal/sabine.jpg",
+            "https://cismet.de/images/personal/jean.jpg",
+            "https://cismet.de/images/personal/thorstenherter.jpg",
           ],
           caption: "Simple Demo",
           index: lightBoxIndex,
