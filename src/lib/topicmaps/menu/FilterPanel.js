@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Icon from "../../commons/Icon";
 import Color from "color";
-import { Form, Checkbox, Radio, Button, Badge, Tabs, Tab } from "react-bootstrap";
+import { Form, Button, Badge, Tabs, Tab } from "react-bootstrap";
 import { ResponsiveTopicMapContext } from "../../contexts/ResponsiveTopicMapContextProvider";
 import {
   FeatureCollectionContext,
