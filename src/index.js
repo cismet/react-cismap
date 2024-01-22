@@ -111,7 +111,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
       {/* <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers /> */}
       {/* <TopicMapsExamples.TopicMapTholey /> */}
-      {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox /> */}
+      <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox />
       {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole /> */}
       {/* <MoreTopicMapsExamples.TopicMapWithOfflineDataConfiguration /> */}
       {/* <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Wasserstofftankstelle /> */}
@@ -169,7 +169,7 @@ if (window.location.pathname === "/follower") {
       {/* {<ProjectionMappingExamples.MostSimpleTopicMapWithProjectionMapping />} */}
       {/* <RoutedMapExamples.Simple /> */}
       {/* <GraphqlLayerExamples.Landparcels /> */}
-      <GraphqlLayerExamples.LandparcelsFromCismapLayer />
+      {/* <GraphqlLayerExamples.LandparcelsFromCismapLayer /> */}
     </div>,
     document.getElementById("root")
   );
