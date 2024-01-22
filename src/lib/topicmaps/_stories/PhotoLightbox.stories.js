@@ -18,7 +18,7 @@ const mapStyle = {
 
 export const SimplePhotoLightBox = () => {
   const [lightBoxIndex, setLightBoxIndex] = useState(0);
-  const [lightBoxVisible, setLightBoxVisible] = useState(true);
+  const [lightBoxVisible, setLightBoxVisible] = useState(false);
   return (
     <div style={{ position: "relative" }}>
       <p style={{ margin: 100 }}>

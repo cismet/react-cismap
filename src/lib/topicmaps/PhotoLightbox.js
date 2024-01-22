@@ -34,6 +34,9 @@ const Comp = ({ reactModalStyleOverride, defaultContextValues = {} }) => {
         mainSrc={photourls[index]}
         nextSrc={nextSrc}
         prevSrc={prevSrc}
+        onImageLoad={() => {
+          window.dispatchEvent(new Event("resize"));
+        }}
         onCloseRequest={() => setVisible(false)}
         onMovePrevRequest={() => setIndex((index + photourls.length - 1) % photourls.length)}
         onMoveNextRequest={() => setIndex((index + 1) % photourls.length)}
