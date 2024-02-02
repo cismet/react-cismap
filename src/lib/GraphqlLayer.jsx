@@ -27,7 +27,7 @@ const GraphqlLayer = ({
   endpoint,
   jwt,
   createFeature,
-
+  opacity = 1,
   mapRef,
   fetchAllowed,
   onStatus,
@@ -126,9 +126,9 @@ const GraphqlLayer = ({
       hoverer={useHover ? myVirtHoverer : null}
       style={(feature) => {
         if (feature?.id === hoveredFeature?.id) {
-          return hoveredStyle;
+          return { fillOpacity: opacity, ...hoveredStyle };
         } else {
-          return style;
+          return { fillOpacity: opacity, ...style };
         }
       }}
       featureClickHandler={featureClickHandler}
