@@ -135,7 +135,7 @@ if (window.location.pathname === "/follower") {
       {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBox /> */}
       {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBoxAndNoTopicMapContextProvider /> */}
       {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBoxInABootstrapMenu /> */}
-      <PhotoLightBoxExamples.SimplePhotoLightBox />
+      {/* <PhotoLightBoxExamples.SimplePhotoLightBox /> */}
       {/* <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptions /> */}
       {/* <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptionsAndExternalLinks /> */}
 
@@ -170,7 +170,7 @@ if (window.location.pathname === "/follower") {
       {/* {<ProjectionMappingExamples.MostSimpleTopicMapWithProjectionMapping />} */}
       {/* <RoutedMapExamples.Simple /> */}
       {/* <GraphqlLayerExamples.Landparcels /> */}
-      {/* <GraphqlLayerExamples.LandparcelsFromCismapLayer /> */}
+      <GraphqlLayerExamples.LandparcelsFromCismapLayer />
     </div>,
     document.getElementById("root")
   );

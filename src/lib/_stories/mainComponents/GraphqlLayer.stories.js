@@ -75,8 +75,10 @@ const mapStyle = {
   height: 600,
   cursor: "pointer",
 };
+
+//get the token from a verkehrszeichenkataster instance on https://dev-cismet.github.io/verkehrszeichenkataster/#/
 const jwt =
-  "eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiIxMSIsInN1YiI6ImNpc21ldCIsImRvbWFpbiI6IkxBR0lTIiwiaHR0cHM6Ly9oYXN1cmEuaW8vand0L2NsYWltcyI6eyJ4LWhhc3VyYS1kZWZhdWx0LXJvbGUiOiJ1c2VyIiwieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJlZGl0b3IiLCJ1c2VyIiwibW9kIl19fQ.KgMq9vmhZOe7dPlbdDphxxRKkB3dfKxoaNcrkc5ZybFsgb4NqLR3DmLaNeqpSPJIC7VJoudkoILbkryXZqIiWMe6vSQUl-EvHZxlxsuJWsBrQ0FEjUrtpek6PAEiwZfnpxylSSDShZ4CErrHK9nCKed5Um8IBOGnf1SsIhodDk53TJfLTXIBQBdy7S7P_XafPMvgxMchoodyzre9cSDZNJZoUB6Aq1m3-ZPxmZdiAY0_oow5l3TbLBaiAmLyPsainFBRK1jywKzA6Dh84fQxfmwsUAAI4Sk9-M-lXVyF43iWnKfCLIOQWX3dBZT7t-MHrbkd0ZPwFS1-WPoeJD_1DA";
+  "eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiIxMTMzIiwic3ViIjoiY2lzbWV0IiwiZG9tYWluIjoiV1VOREFfQkxBVSIsImh0dHBzOi8vaGFzdXJhLmlvL2p3dC9jbGFpbXMiOnsieC1oYXN1cmEtZGVmYXVsdC1yb2xlIjoidXNlciIsIngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsiZWRpdG9yIiwidXNlciIsIm1vZCJdfX0.Gb9WfBYQ8WdEP_vJ6vFEZCq_HZZJlexz8VcE-WeH6HMytxcxkmfUvnKC93CBWAThE_auQDRF5BPfl06N__1Z-kuTWwP0EO_sBCB0xWVbSbffAa9zYmITBnYJuyXcuTzsZM9iFTyH5aG9g3wXpk5346v66zM05qs6uKWs8XUcak8DJhiCTvYwp39Bt5oVYPB4VIgUUaIp8QAMIbl5B0uSAY1ghDy_Ag2sVQ15_Lj-zy4X4CHNYSVHwi9GkV1IjTRPRFe65HeNuKPUN87ec-ljQrFt7CKcNBqfwnkb4vyf1-OZcM6nvuntFNHEhYc2_EHgnuElDUSdE0MPPL7YeF4lpQ";
 const query = `
     query MyQuery($bbPoly: geometry) {
       alkis_landparcel(where: {geom: {geo_field: {_st_intersects: $bbPoly}}}) {
@@ -208,15 +210,18 @@ export const LandparcelsFromCismapLayer = (args) => {
             const maxAreaForSearch = 130000;
             return area < maxAreaForSearch && area !== 0;
           }}
+          //pane={"additionalLayers1"}
+          opacity={0.1}
           style={{
-            color: "#00000040",
-            fillColor: "#00000020",
-            weight: 2,
+            pane: "additionalLayers1", //you can set a pane here
+            color: "#666666",
+            fillColor: "#282828",
+            weight: 0.5,
           }}
           hoveredStyle={{
-            color: "#00000040",
-            fillColor: "#00000020",
-            weight: 4,
+            color: "#666666",
+            fillColor: "#666666",
+            weight: 1,
           }}
           useHover={true}
           createFeature={createFeatureArray}
