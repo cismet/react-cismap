@@ -84,7 +84,7 @@ export const nameMap = {
   "arrows-v": faArrowsAltV,
   "arrows-h": faArrowsAltH,
   "file-archive-o": faFileArchive,
-  "file-o": faFileReg.icon,
+  "file-o": faFileReg,
   cloudscale: faCloudscale,
   square: faSquare,
 };
