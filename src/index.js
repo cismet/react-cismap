@@ -88,7 +88,7 @@ if (window.location.pathname === "/follower") {
 
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
-      {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer /> */}
+      <TopicMapsExamples.MostSimpleTopicMapWithCismapTiledLayer />
 
       {/* <TopicMapsExamples.MostSimpleTopicMapWithNonTiledLayer /> */}
 
@@ -170,7 +170,7 @@ if (window.location.pathname === "/follower") {
       {/* {<ProjectionMappingExamples.MostSimpleTopicMapWithProjectionMapping />} */}
       {/* <RoutedMapExamples.Simple /> */}
       {/* <GraphqlLayerExamples.Landparcels /> */}
-      <GraphqlLayerExamples.LandparcelsFromCismapLayer />
+      {/* <GraphqlLayerExamples.LandparcelsFromCismapLayer /> */}
     </div>,
     document.getElementById("root")
   );

@@ -1,7 +1,7 @@
 import React from "react";
 import StyledWMSTileLayer from "./StyledWMSTileLayer";
 import NonTiledWMSLayer from "./NonTiledWMSLayer";
-import { TileLayer } from "leaflet";
+import { TileLayer } from "react-leaflet";
 import MapLibreLayer from "./vector/MapLibreLayer";
 import GraphqlLayer from "./GraphqlLayer";
 

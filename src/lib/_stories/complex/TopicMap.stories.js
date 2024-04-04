@@ -285,6 +285,18 @@ export const MostSimpleTopicMapWithCismapLayer = () => {
       //   offlineDataStoreKey: "wuppBasemap",
       pane: "backgroundvectorLayers",
     },
+    {
+      title: "OSM tile",
+      type: "tiles",
+      //   _url: layer.layerUrl,
+      url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+      //   bounds: layer.layerBounds,
+      // minNativeZoom: 1,
+      tms: true,
+      noWrap: true,
+      // maxNativeZoom: 12,
+      key: "tileLayer",
+    },
   ];
 
   //create a state for the layer index and click through with the >> button
@@ -318,6 +330,32 @@ export const MostSimpleTopicMapWithCismapLayer = () => {
             </Control>
           );
         })}
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
+
+export const MostSimpleTopicMapWithCismapTiledLayer = () => {
+  return (
+    <TopicMapContextProvider
+      referenceSystemDefinition={MappingConstants.proj4crs3857def}
+      mapEPSGCode="3857"
+    >
+      <TopicMapComponent
+        homeZoom={9}
+        maxZoom={22}
+        minZoom={1}
+        gazData={[]}
+        backgroundlayers="empty"
+        homeCenter={[49.14, 6.9735074]}
+      >
+        <CismapLayer
+          {...{
+            type: "tiles",
+            url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+            key: "tileLayer",
+          }}
+        />
       </TopicMapComponent>
     </TopicMapContextProvider>
   );
