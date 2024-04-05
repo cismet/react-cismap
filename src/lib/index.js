@@ -10,7 +10,9 @@ import FullscreenControl from "./FullscreenControl";
 import LocateControl from "./LocateControl";
 import NewPolyControl from "./editcontrols/NewPolygonControl";
 import NewMarkerControl from "./editcontrols/NewMarkerControl";
-import * as TransitiveLeaflet from "react-leaflet";
+import * as TransitiveReactLeaflet from "react-leaflet";
+import * as TransitiveLeaflet from "leaflet";
+
 const ID = 3;
 export {
   MappingHelpers,
@@ -24,6 +26,7 @@ export {
   LocateControl,
   NewPolyControl,
   NewMarkerControl,
+  TransitiveReactLeaflet,
   TransitiveLeaflet,
 };
 

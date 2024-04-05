@@ -4,8 +4,8 @@ import { MappingConstants } from "../..";
 import NonTiledWMSLayer from "../../NonTiledWMSLayer";
 import StyledWMSTileLayer from "../../StyledWMSTileLayer";
 // import { Map, TileLayer } from "react-leaflet"; //use the original import
-import { TransitiveLeaflet } from "../../"; // use the import from the index.js file
-const { Map, TileLayer } = TransitiveLeaflet;
+import { TransitiveReactLeaflet } from "../../"; // use the import from the index.js file
+const { Map, TileLayer } = TransitiveReactLeaflet;
 
 const conf = {
   lat: 51.25,
