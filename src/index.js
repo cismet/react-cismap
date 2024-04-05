@@ -85,13 +85,10 @@ if (window.location.pathname === "/follower") {
       {/* <PlaygroundApp /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMap /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer /> */}
-
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
-      <TopicMapsExamples.MostSimpleTopicMapWithCismapTiledLayer />
-
+      {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapTiledLayer /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithNonTiledLayer /> */}
-
       {/* <TopicMapsExamples.MostSimpleTopicMapWithGazetteerData /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithGazetteerDataWithTertiaryAction /> */}
       {/* <TopicMapsExamples.SimpleTopicMap /> */}
@@ -103,12 +100,10 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.SimpleTopicMapWithFullClusteringOptionsAndStyling /> */}
       {/* <TopicMapsExamples.TopicMapWithWithSecondaryInfoSheet /> */}
       {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
-
       {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
       {/* <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProvider /> */}
       {/* <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProviderProblem /> */}
       {/* <TopicMapsExamples.RemoteControledTopicMap /> */}
-
       {/* <TopicMapsExamples.TopicMapWithWithCustomSettingsAndOneAdditionlLayer /> */}
       {/* <TopicMapsExamples.TopicMapWithCustomLayerSetAndAdditionalOverlayLayers /> */}
       {/* <TopicMapsExamples.TopicMapTholey /> */}
@@ -138,20 +133,17 @@ if (window.location.pathname === "/follower") {
       {/* <PhotoLightBoxExamples.SimplePhotoLightBox /> */}
       {/* <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptions /> */}
       {/* <PhotoLightBoxExamples.SimplePhotoLightBoxWithMultipleCaptionsAndExternalLinks /> */}
-
       {/* <GazetteerSearchBoxExamples.SimpleMapWithRemoteControlledGazetteerSearchBox /> */}
-
       {/* <LeafletExamples.Simple /> */}
       {/* <LeafletExamples.SimpleWMS /> */}
       {/* <LeafletExamples.SimpleTrueOrtho /> */}
       {/* <LeafletExamples.SimpleNonTiledTrueOrtho /> */}
-
       {/* <GeojsonExamples.GeoJSONCollectionInTheMap /> */}
       {/* <GeojsonExamples.SingleInvertedGeoJSONInTheMap /> */}
       {/* <GeojsonExamples.SingleInvertedGeoJSONInTheMapIn3852 /> */}
-
       {/* <GeojsonExamples.SingleGeoJSONInTheMap /> */}
-
+      <LeafletExamples.Simple />
+      {/* <LeafletExamples.SimpleWMS /> */}
       {/* <LeafletExamples.SimpleTrueOrthoWithText /> */}
       {/* <LeafletExamples.SimpleTrueOrthoWithTextIn25832 /> */}
       {/* <LeafletExamples. />*/}
