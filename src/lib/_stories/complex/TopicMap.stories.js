@@ -1158,7 +1158,7 @@ export const TopicMapWithAdditionalLayers = () => {
           layer: (
             <StyledWMSTileLayer
               key={"fernwaermewsw"}
-              url="https://maps.wuppertal.de/deegree/wms"
+              url="https://maps.wuppertal.de/infra"
               layers="fernwaermewsw "
               format="image/png"
               tiled="true"
@@ -1491,7 +1491,7 @@ export const TopicMapWithWithCustomSettingsAndOneAdditionlLayer = () => {
           layer: (
             <StyledWMSTileLayer
               key={"fernwaermewsw"}
-              url="https://maps.wuppertal.de/deegree/wms"
+              url="https://maps.wuppertal.de/infra"
               layers="fernwaermewsw "
               format="image/png"
               tiled="true"
@@ -1853,7 +1853,7 @@ export const TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole = (
           layer: (
             <StyledWMSTileLayer
               key={"fernwaermewsw"}
-              url="https://maps.wuppertal.de/deegree/wms"
+              url="https://maps.wuppertal.de/infra"
               layers="fernwaermewsw "
               format="image/png"
               tiled="true"
@@ -2075,7 +2075,7 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
           layer: (
             <StyledWMSTileLayer
               key={"fernwaermewsw"}
-              url="https://maps.wuppertal.de/deegree/wms"
+              url="https://maps.wuppertal.de/infra"
               layers="fernwaermewsw "
               format="image/png"
               tiled="true"

@@ -343,7 +343,7 @@ export const SimpleTopicMapWithMapLibreLayer = () => {
       <TopicMapComponent maxZoom={22} gazData={gazData}>
         {/* <StyledWMSTileLayer
           key={"fernwaermewsw"}
-          url="https://maps.wuppertal.de/deegree/wms"
+          url="https://maps.wuppertal.de/infra"
           layers="fernwaermewsw"
           format="image/png"
           tiled="true"
