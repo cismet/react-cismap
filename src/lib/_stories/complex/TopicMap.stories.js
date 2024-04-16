@@ -110,6 +110,13 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
 export const MostSimpleTopicMapWithCismapLayer = () => {
   const layerConfigs = [
     {
+      type: "wms",
+      url: "https://maps.wuppertal.de/karten",
+      layers: "R102:trueortho2022",
+      transparent: true,
+      opacity: 0.3,
+    },
+    {
       type: "wmts",
       url: "https://geodaten.metropoleruhr.de/spw2/service",
       layers: "spw2_light_grundriss",
@@ -118,6 +125,7 @@ export const MostSimpleTopicMapWithCismapLayer = () => {
       transparent: true,
       opacity: 0.3,
     },
+
     {
       type: "wmts",
       url: "http://s10221.wuppertal-intra.de:8099/abt9_flst/services",
@@ -1310,7 +1318,7 @@ export const TopicMapWithCrossTabCommunicationContextProviderProblem = () => {
 
     return (
       <StyledWMSTileLayer
-        url="https://maps.wuppertal.de/deegree/wms"
+        url="https://maps.wuppertal.de/karten"
         layers="R102:trueortho2022"
         type="wms"
         format="image/png"

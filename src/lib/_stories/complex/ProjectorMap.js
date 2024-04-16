@@ -266,7 +266,7 @@ const Map = ({ broadcastChannel, configKey, dynamicMapStyle, inCalibration }) =>
           {/* <StyledWMSTileLayer
               {...{
                 type: "wms",
-                url: "https://maps.wuppertal.de/deegree/wms",
+                url: "https://maps.wuppertal.de/karten",
                 layers: "R102:trueortho2022",
                 tileSize: 256,
                 transparent: true,
@@ -410,7 +410,7 @@ const Map = ({ broadcastChannel, configKey, dynamicMapStyle, inCalibration }) =>
                   <StyledWMSTileLayer
                     {...{
                       type: "wms",
-                      url: "https://maps.wuppertal.de/deegree/wms",
+                      url: "https://maps.wuppertal.de/karten",
                       layers: "R102:trueortho2022",
                       tileSize: 256,
                       transparent: true,
@@ -433,7 +433,7 @@ const Map = ({ broadcastChannel, configKey, dynamicMapStyle, inCalibration }) =>
           <StyledWMSTileLayer
             {...{
               type: "wms",
-              url: "https://maps.wuppertal.de/deegree/wms",
+              url: "https://maps.wuppertal.de/karten",
               layers: "R102:trueortho2022",
               tileSize: 256,
               transparent: true,
@@ -485,7 +485,7 @@ const Map = ({ broadcastChannel, configKey, dynamicMapStyle, inCalibration }) =>
           <StyledWMSTileLayer
             {...{
               type: "wms",
-              url: "https://maps.wuppertal.de/deegree/wms",
+              url: "https://maps.wuppertal.de/karten",
               layers: "R102:trueortho2022",
               tileSize: 256,
               transparent: true,
@@ -515,7 +515,7 @@ const Map = ({ broadcastChannel, configKey, dynamicMapStyle, inCalibration }) =>
           <StyledWMSTileLayer
             {...{
               type: "wms",
-              url: "https://maps.wuppertal.de/deegree/wms",
+              url: "https://maps.wuppertal.de/karten",
               layers: "R102:trueortho2022",
               tileSize: 256,
               transparent: true,

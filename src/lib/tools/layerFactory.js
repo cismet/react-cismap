@@ -204,7 +204,7 @@ export const defaultLayerConf = {
     },
     bplan_abkg: {
       type: "wms",
-      url: "https://maps.wuppertal.de/deegree/wms",
+      url: "https://maps.wuppertal.de/karten",
       layers: "bplanreihe",
     },
     bplan_abkg_cached: {
@@ -214,12 +214,12 @@ export const defaultLayerConf = {
     },
     bplan_abkg_uncached: {
       type: "wms",
-      url: "https://maps.wuppertal.de/deegree/wms",
+      url: "https://maps.wuppertal.de/karten",
       layers: "bplanreihe",
     },
     bplan_ovl: {
       type: "wms",
-      url: "https://maps.wuppertal.de/deegree/wms",
+      url: "https://maps.wuppertal.de/karten",
       layers: "bplanhintergrund",
     },
     bplan_ovl_cached: {
@@ -234,7 +234,7 @@ export const defaultLayerConf = {
     },
     uwBPlan: {
       type: "wms",
-      url: "https://maps.wuppertal.de/deegree/wms",
+      url: "https://maps.wuppertal.de/karten",
       layers: "bplanreihe,bplanhintergrund",
     },
     uwBPlanCached: {
@@ -324,25 +324,25 @@ export const defaultLayerConf = {
     },
     trueOrtho2018: {
       type: "wms",
-      url: "https://maps.wuppertal.de/deegree/wms",
-      layers: "R102:trueortho201810",
+      url: "https://maps.wuppertal.de/karten",
+      layers: "R102:trueortho2018",
       transparent: true,
     },
     trueOrtho2020: {
       type: "wms",
-      url: "https://maps.wuppertal.de/deegree/wms",
-      layers: "R102:trueortho202010",
+      url: "https://maps.wuppertal.de/karten",
+      layers: "R102:trueortho2020",
       transparent: true,
     },
     trueOrtho2022: {
       type: "wms",
-      url: "https://maps.wuppertal.de/deegree/wms",
+      url: "https://maps.wuppertal.de/karten",
       layers: "R102:trueortho2022",
       transparent: true,
     },
     hillshade: {
       type: "wms",
-      url: "https://maps.wuppertal.de/deegree/wms",
+      url: "https://maps.wuppertal.de/karten",
       layers: "hillshade",
     },
     trueOrtho2018Cached: {

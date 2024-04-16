@@ -57,8 +57,8 @@ export const SimpleTrueOrtho = () => {
         <StyledWMSTileLayer
           {...{
             type: "wms",
-            url: "https://maps.wuppertal.de/deegree/wms",
-            layers: "R102:trueortho202010",
+            url: "https://maps.wuppertal.de/karten",
+            layers: "R102:trueortho2020",
             tileSize: 256,
             transparent: true,
           }}
@@ -77,8 +77,8 @@ export const SimpleNonTiledTrueOrtho = () => {
         <NonTiledWMSLayer
           {...{
             type: "wms",
-            url: "https://maps.wuppertal.de/deegree/wms",
-            layers: "R102:trueortho202010",
+            url: "https://maps.wuppertal.de/karten",
+            layers: "R102:trueortho2020",
             tileSize: 256,
             transparent: true,
           }}
@@ -97,8 +97,8 @@ export const SimpleTrueOrthoWithText = () => {
         <StyledWMSTileLayer
           {...{
             type: "wms",
-            url: "https://maps.wuppertal.de/deegree/wms",
-            layers: "R102:trueortho202010",
+            url: "https://maps.wuppertal.de/karten",
+            layers: "R102:trueortho2020",
             tileSize: 256,
             transparent: true,
           }}
@@ -134,8 +134,8 @@ export const SimpleTrueOrthoWithTextIn25832 = () => {
         {/* <StyledWMSTileLayer
           {...{
             type: "wms",
-            url: "https://maps.wuppertal.de/deegree/wms",
-            layers: "R102:trueortho202010",
+            url: "https://maps.wuppertal.de/karten",
+            layers: "R102:trueortho2020",
             tileSize: 256,
             transparent: true,
             opacity: opacity0,

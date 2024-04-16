@@ -48,7 +48,7 @@ export const SimpleMapLibreLayer = () => {
       />
       {/* <StyledWMSTileLayer
         key={"asd"}
-        url="https://maps.wuppertal.de/deegree/wms"
+        url="https://maps.wuppertal.de/karten"
         layers="R102:trueortho202010"
         opacity={1}
       /> */}
@@ -109,8 +109,8 @@ export const SimpleMapLibreLayerRedrawingitself = () => {
         )}
         {/* <StyledWMSTileLayer
         key={"asd"}
-        url="https://maps.wuppertal.de/deegree/wms"
-        layers="R102:trueortho202010"
+        url="https://maps.wuppertal.de/karten"
+        layers="R102:trueortho2020"
         opacity={1}
       /> */}
       </Map>
@@ -355,7 +355,7 @@ export const SimpleTopicMapWithMapLibreLayer = () => {
 
         {/* <StyledWMSTileLayer
           key={"ortho22"}
-          url="https://maps.wuppertal.de/deegree/wms"
+          url="https://maps.wuppertal.de/karten"
           layers="R102:trueortho2022"
           format="image/png"
           tiled="true"
@@ -414,8 +414,8 @@ export const SimpleMapLibreLayerWithAttribution = () => {
       />
       {/* <StyledWMSTileLayer
         key={"asd"}
-        url="https://maps.wuppertal.de/deegree/wms"
-        layers="R102:trueortho202010"
+        url="https://maps.wuppertal.de/karten"
+        layers="R102:trueortho2020"
         opacity={1}
       /> */}
     </Map>

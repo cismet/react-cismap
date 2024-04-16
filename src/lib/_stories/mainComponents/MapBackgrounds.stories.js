@@ -116,8 +116,8 @@ CustomBackgrounds.args = {
     namedLayers: {
       first: {
         type: "wms",
-        url: "https://maps.wuppertal.de/deegree/wms",
-        layers: "R102:trueortho202010",
+        url: "https://maps.wuppertal.de/karten",
+        layers: "R102:trueortho2020",
       },
     },
   },

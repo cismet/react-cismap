@@ -127,7 +127,7 @@ export const DEFAULTLAYERKEYS = [
 //   return (
 //     <StyledWMSTileLayer
 //       key={"bplan_abkg" + JSON.stringify(options)}
-//       url="https://maps.wuppertal.de/deegree/wms"
+//       url="https://maps.wuppertal.de/karten"
 //       layers="bplanreihe"
 //       format="image/png"
 //       tiled="true"
@@ -157,7 +157,7 @@ export const DEFAULTLAYERKEYS = [
 //   return (
 //     <StyledWMSTileLayer
 //       key={"bplan_abkg_uncached" + JSON.stringify(options)}
-//       url="https://maps.wuppertal.de/deegree/wms"
+//       url="https://maps.wuppertal.de/karten"
 //       layers="bplanreihe"
 //       format="image/png"
 //       tiled="true"
@@ -172,7 +172,7 @@ export const DEFAULTLAYERKEYS = [
 //   return (
 //     <StyledWMSTileLayer
 //       key={"bplan_ovl" + JSON.stringify(options)}
-//       url="https://maps.wuppertal.de/deegree/wms"
+//       url="https://maps.wuppertal.de/karten"
 //       layers="bplanhintergrund"
 //       format="image/png"
 //       tiled="true"
@@ -219,7 +219,7 @@ export const DEFAULTLAYERKEYS = [
 //   return (
 //     <StyledWMSTileLayer
 //       key={"BPlanreihe auf Umwis" + JSON.stringify(options)}
-//       url="https://maps.wuppertal.de/deegree/wms"
+//       url="https://maps.wuppertal.de/karten"
 //       layers="bplanreihe,bplanhintergrund"
 //       format="image/png"
 //       tiled="true"
@@ -361,8 +361,8 @@ export const DEFAULTLAYERKEYS = [
 //   return (
 //     <StyledWMSTileLayer
 //       key={"trueOrtho2018" + JSON.stringify(options)}
-//       url="https://maps.wuppertal.de/deegree/wms"
-//       layers="R102:trueortho201810"
+//       url="https://maps.wuppertal.de/karten"
+//       layers="R102:trueortho2018"
 //       format="image/png"
 //       tiled="true"
 //       maxZoom={19}
@@ -376,8 +376,8 @@ export const DEFAULTLAYERKEYS = [
 //   return (
 //     <StyledWMSTileLayer
 //       key={"trueOrtho2020" + JSON.stringify(options)}
-//       url="https://maps.wuppertal.de/deegree/wms"
-//       layers="R102:trueortho202010"
+//       url="https://maps.wuppertal.de/karten"
+//       layers="R102:trueortho2020"
 //       format="image/png"
 //       tiled="true"
 //       maxZoom={19}
@@ -392,7 +392,7 @@ export const DEFAULTLAYERKEYS = [
 //   return (
 //     <StyledWMSTileLayer
 //       key={"hillshade" + JSON.stringify(options)}
-//       url="https://maps.wuppertal.de/deegree/wms"
+//       url="https://maps.wuppertal.de/karten"
 //       layers="hillshade "
 //       format="image/png"
 //       tiled="true"

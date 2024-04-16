@@ -84,7 +84,7 @@ if (window.location.pathname === "/follower") {
     <div>
       {/* <PlaygroundApp /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMap /> */}
-      {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer /> */}
+      <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer />
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapTiledLayer /> */}
@@ -142,7 +142,7 @@ if (window.location.pathname === "/follower") {
       {/* <GeojsonExamples.SingleInvertedGeoJSONInTheMap /> */}
       {/* <GeojsonExamples.SingleInvertedGeoJSONInTheMapIn3852 /> */}
       {/* <GeojsonExamples.SingleGeoJSONInTheMap /> */}
-      <LeafletExamples.Simple />
+      {/* <LeafletExamples.Simple /> */}
       {/* <LeafletExamples.SimpleWMS /> */}
       {/* <LeafletExamples.SimpleTrueOrthoWithText /> */}
       {/* <LeafletExamples.SimpleTrueOrthoWithTextIn25832 /> */}
