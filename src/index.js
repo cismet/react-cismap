@@ -13,6 +13,7 @@ import * as ProjectionMappingExamples from "./lib/_stories/complex/ProjectionMap
 import * as RoutedMapExamples from "./lib/_stories/mainComponents/RoutedMap.stories";
 import * as GraphqlLayerExamples from "./lib/_stories/mainComponents/GraphqlLayer.stories";
 import * as PhotoLightBoxExamples from "./lib/topicmaps/_stories/PhotoLightbox.stories";
+import * as GazetteerSearchBoxExamples from "./lib/_stories/mainComponents/GazetteerSearchControl.stories";
 // import PlaygroundApp from "./playground/App";
 
 import "./index.css";
@@ -84,7 +85,7 @@ if (window.location.pathname === "/follower") {
     <div>
       {/* <PlaygroundApp /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMap /> */}
-      <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer />
+      {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapTiledLayer /> */}
@@ -127,7 +128,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.TopicMapWithLineFeatureCollection /> */}
       {/* <TopicMapsExamples.TopicMapWithLineFeatureCollection /> */}
       {/* <TopicMapsExamples.TopicMapWithPolygonFeatureCollection /> */}
-      {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBox /> */}
+      <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBox />
       {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBoxAndNoTopicMapContextProvider /> */}
       {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBoxInABootstrapMenu /> */}
       {/* <PhotoLightBoxExamples.SimplePhotoLightBox /> */}
