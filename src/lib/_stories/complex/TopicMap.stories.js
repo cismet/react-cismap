@@ -16,7 +16,11 @@ import {
   FeatureCollectionDispatchContext,
 } from "../../contexts/FeatureCollectionContextProvider";
 import { TopicMapContextProvider } from "../../contexts/TopicMapContextProvider";
-import { TopicMapStylingDispatchContext } from "../../contexts/TopicMapStylingContextProvider";
+
+import {
+  TopicMapStylingContext,
+  TopicMapStylingDispatchContext,
+} from "../../contexts/TopicMapStylingContextProvider";
 import { UIContext, UIDispatchContext } from "../../contexts/UIContextProvider";
 import FeatureCollection from "../../FeatureCollection";
 import FeatureCollectionDisplay from "../../FeatureCollectionDisplay";
@@ -1218,6 +1222,213 @@ export const TopicMapWithAdditionalLayers = () => {
         <FeatureCollection />
       </TopicMapComponent>
     </TopicMapContextProvider>
+  );
+};
+
+const Bu = () => {
+  const x = useContext(TopicMapStylingContext);
+  console.log("xxx x ", x);
+
+  // const { setAdditionalLayers } = useContext(TopicMapStylingDispatchContext);
+  return (
+    <button
+      onClick={() => {
+        console.log("xxx add layer");
+
+        // const newAdditionalLayers = { ...additionalLayers };
+        // newAdditionalLayers.luftleitbahnen = {
+        //   title: "Luftleitbahnen",
+        //   initialActive: true,
+        //   layer: (
+        //     <StyledWMSTileLayer
+        //       key={"fernwaermewsw"}
+        //       url="https://maps.wuppertal.de/umwelt"
+        //       layers="Frischluftschneisen"
+        //       format="image/png"
+        //       tiled="true"
+        //       transparent="true"
+        //       pane="additionalLayers0"
+        //       maxZoom={19}
+        //       opacity={0.7}
+        //     />
+        //   ),
+        // };
+        //setAdditionalLayers(newAdditionalLayers);
+      }}
+      title="Luftleitbahnen hinzufügen"
+    >
+      🗺️
+    </button>
+  );
+};
+
+export const TopicMapWithDynamicAdditionalLayers = () => {
+  const [gazData, setGazData] = useState([]);
+  const additionalLayers = {
+    hillshade: {
+      title: "Schummerung",
+      initialActive: false,
+      layerkey: "hillshade@20",
+      pane: "additionalLayers1",
+    },
+    // luftleitbahnen: {
+    //   title: "Luftleitbahnen",
+    //   initialActive: false,
+    //   layer: (
+    //     <StyledWMSTileLayer
+    //       key={"fernwaermewsw"}
+    //       url="https://maps.wuppertal.de/umwelt"
+    //       layers="Frischluftschneisen"
+    //       format="image/png"
+    //       tiled="true"
+    //       transparent="true"
+    //       pane="additionalLayers0"
+    //       maxZoom={19}
+    //       opacity={0.7}
+    //     />
+    //   ),
+    // },
+    // fernwaerme: {
+    //   title: (
+    //     <span>
+    //       Fernwärme{" "}
+    //       <Icon
+    //         style={{
+    //           color: "#EEB48C",
+    //           width: "30px",
+    //           textAlign: "center",
+    //         }}
+    //         name={"circle"}
+    //       />
+    //     </span>
+    //   ),
+    //   initialActive: true,
+    //   layer: (
+    //     <StyledWMSTileLayer
+    //       key={"fernwaermewsw"}
+    //       url="https://maps.wuppertal.de/infra"
+    //       layers="fernwaermewsw "
+    //       format="image/png"
+    //       tiled="true"
+    //       transparent="true"
+    //       pane="additionalLayers0"
+    //       maxZoom={19}
+    //       opacity={0.7}
+    //     />
+    //   ),
+    // },
+    // uwz: {
+    //   title: "Umweltzone",
+    //   initialActive: true,
+    //   layer: (
+    //     <FeatureCollectionDisplayWithTooltipLabels
+    //       key={"ds"}
+    //       featureCollection={uwz}
+    //       // boundingBox={this.props.mapping.boundingBox}
+    //       style={(feature) => {
+    //         const style = {
+    //           color: "#155317",
+    //           weight: 3,
+    //           opacity: 0.5,
+    //           fillColor: "#155317",
+    //           fillOpacity: 0.15,
+    //         };
+    //         return style;
+    //       }}
+    //       featureClickHandler={() => {}}
+    //     />
+    //   ),
+    // },
+  };
+
+  useEffect(() => {
+    getGazData(setGazData);
+  }, []);
+  const currentZoom = 14;
+
+  const Map = () => {
+    const { additionalLayerConfiguration } = useContext(TopicMapStylingContext);
+    const { setAdditionalLayerConfiguration } = useContext(TopicMapStylingDispatchContext);
+    return (
+      <TopicMapComponent
+        gazData={gazData}
+        gazetteerSearchPlaceholder="Stadtteil | Adresse | POI | Standorte"
+        infoBox={
+          <GenericInfoBoxFromFeature
+            pixelwidth={400}
+            config={{
+              displaySecondaryInfoAction: true,
+              city: "Wuppertal",
+              navigator: {
+                noun: {
+                  singular: "Standort",
+                  plural: "Standorte",
+                },
+              },
+              noCurrentFeatureTitle: "Keine Standorte gefunden",
+              noCurrentFeatureContent: "",
+            }}
+          />
+        }
+        secondaryInfo={<InfoPanel />}
+      >
+        <Control style={{ width: 500 }} className="leaflet-bar leaflet-control" position="topleft">
+          <button
+            onClick={() => {
+              let newAdditionalLayers;
+              if (additionalLayerConfiguration.luftleitbahnen === undefined) {
+                newAdditionalLayers = { ...additionalLayerConfiguration };
+                newAdditionalLayers.luftleitbahnen = {
+                  title: "Luftleitbahnen",
+                  initialActive: true,
+                  layer: (
+                    <StyledWMSTileLayer
+                      key={"fernwaermewsw"}
+                      url="https://maps.wuppertal.de/umwelt"
+                      layers="Frischluftschneisen"
+                      format="image/png"
+                      tiled="true"
+                      transparent="true"
+                      pane="additionalLayers0"
+                      maxZoom={19}
+                      opacity={0.7}
+                    />
+                  ),
+                };
+              } else {
+                newAdditionalLayers = { ...additionalLayerConfiguration };
+                delete newAdditionalLayers.luftleitbahnen;
+              }
+              setAdditionalLayerConfiguration(newAdditionalLayers);
+            }}
+            title="Luftleitbahnen hinzufügen"
+          >
+            🗺️
+          </button>
+        </Control>
+        <FeatureCollection />
+      </TopicMapComponent>
+    );
+    //
+  };
+  return (
+    <>
+      <TopicMapContextProvider
+        featureItemsURL="/data/bpklima.data.json"
+        getFeatureStyler={getGTMFeatureStyler}
+        convertItemToFeature={convertBPKlimaItemsToFeature}
+        clusteringOptions={{
+          iconCreateFunction: getClusterIconCreatorFunction(30, (props) => props.color),
+        }}
+        referenceSystemDefinition={MappingConstants.proj4crs25832def}
+        mapEPSGCode="25832"
+        referenceSystem={MappingConstants.crs25832}
+        clusteringEnabled={true}
+        additionalLayerConfiguration={additionalLayers}
+      >
+        <Map />
+      </TopicMapContextProvider>
+    </>
   );
 };
 
