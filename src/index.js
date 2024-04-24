@@ -85,6 +85,7 @@ if (window.location.pathname === "/follower") {
     <div>
       {/* <PlaygroundApp /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMap /> */}
+      <TopicMapsExamples.SimpleTopicMapWMSBBoxDisplay />
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
@@ -102,7 +103,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.TopicMapWithWithSecondaryInfoSheet /> */}
       {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
       {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
-      <TopicMapsExamples.TopicMapWithDynamicAdditionalLayers />
+      {/* <TopicMapsExamples.TopicMapWithDynamicAdditionalLayers /> */}
       {/* <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProvider /> */}
       {/* <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProviderProblem /> */}
       {/* <TopicMapsExamples.RemoteControledTopicMap /> */}

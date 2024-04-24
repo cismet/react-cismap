@@ -81,6 +81,34 @@ export const MostSimpleTopicMap = () => {
   );
 };
 
+export const SimpleTopicMapWMSBBoxDisplay = () => {
+  function createWMSBbox(bbox) {
+    // Extracting values from the object
+    const { left, top, right, bottom } = bbox;
+
+    // Constructing the bbox string for WMS request
+    return `width=1024&height=682&bbox=${left},${bottom},${right},${top}`;
+  }
+  const [wmsString, setWmsString] = useState("");
+  return (
+    <TopicMapContextProvider>
+      <TopicMapComponent
+        mapStyle={{ height: 682, width: 1024 }}
+        _fullScreenControl={false}
+        _zoomControls={false}
+        homeZoom={19}
+        gazData={undefined}
+        gazetteerSearchControl={false}
+        mappingBoundsChanged={(boundingbox) => {
+          console.log("xxx bbox", createWMSBbox(boundingbox));
+          setWmsString(createWMSBbox(boundingbox));
+        }}
+      ></TopicMapComponent>
+      <div>{wmsString}</div>
+    </TopicMapContextProvider>
+  );
+};
+
 export const MostSimpleTopicMapWithInfoBoxComponent = () => {
   return (
     <TopicMapContextProvider>
