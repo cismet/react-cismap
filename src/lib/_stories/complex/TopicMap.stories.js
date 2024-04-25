@@ -26,6 +26,7 @@ import FeatureCollection from "../../FeatureCollection";
 import FeatureCollectionDisplay from "../../FeatureCollectionDisplay";
 import GazetteerHitDisplay from "../../GazetteerHitDisplay";
 import GazetteerSearchControl from "../../GazetteerSearchControl";
+import GazetteerSearchComponent from "../../GazetteerSearchComponent";
 import {
   FeatureCollectionDisplayWithTooltipLabels,
   MappingConstants,
@@ -428,6 +429,46 @@ export const MostSimpleTopicMapWithGazetteerData = () => {
   return (
     <TopicMapContextProvider _maskingPolygon="POLYGON((668010.063156992 6750719.23021889,928912.612468322 6757273.20343972,930494.610325512 6577553.43685138,675236.835570551 6571367.64964125,668010.063156992 6750719.23021889))">
       <TopicMapComponent maxZoom={22} gazData={gazData}></TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
+
+export const MostSimpleTopicMapWithCustomGazetteerSearchBox = () => {
+  const [gazData, setGazData] = useState([]);
+  useEffect(() => {
+    getGazData(setGazData);
+  }, []);
+  return (
+    <TopicMapContextProvider featureItemsURL="/data/parkscheinautomatenfeatures.json">
+      <TopicMapComponent
+        gazData={gazData}
+        infoBox={
+          <GenericInfoBoxFromFeature
+            config={{
+              city: "Wuppertal",
+              header: "Parkscheinautomat",
+              navigator: {
+                noun: {
+                  singular: "Parkscheinautomat",
+                  plural: "Parkscheinautomaten",
+                },
+              },
+              noCurrentFeatureTitle: "Keine Parkscheinautomaten gefunden",
+              noCurrentFeatureContent: "",
+            }}
+          />
+        }
+        gazetteerSearchComponent={({ pixelwidth }) => {
+          return (
+            <div style={{ width: pixelwidth }}>
+              <input style={{ width: pixelwidth }}></input>
+            </div>
+          );
+        }}
+        _gazetteerSearchComponent={GazetteerSearchComponent}
+      >
+        <FeatureCollection />
+      </TopicMapComponent>
     </TopicMapContextProvider>
   );
 };

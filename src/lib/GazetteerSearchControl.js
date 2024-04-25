@@ -35,6 +35,7 @@ const COMP = ({
   tertiaryActionIcon = undefined,
   tertiaryActionTooltip = undefined,
   teriaryActionDisabled = undefined,
+  gazetteerSearchComponent: CustomGazetteerSearchComponent, // New prop for custom component
 }) => {
   const { responsiveState, searchBoxPixelWidth, gap, windowSize } = useContext(
     ResponsiveTopicMapContext
@@ -56,6 +57,8 @@ const COMP = ({
 
   const _pixelwidth = responsiveState === "normal" ? pixelwidth : windowSize.width - gap;
 
+  const SearchComponent = CustomGazetteerSearchComponent || GazetteerSearchComponent;
+
   return (
     <Control
       ref={controlRef}
@@ -63,7 +66,7 @@ const COMP = ({
       position={_searchControlPosition}
       style={{ outline: 0 }}
     >
-      <GazetteerSearchComponent
+      <SearchComponent
         {...{
           mapRef,
           searchAfterGazetteer,

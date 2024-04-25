@@ -82,6 +82,7 @@ const TopicMapComponent = (props) => {
     zoomControls = true,
     leafletMapProps = {},
     gazetteerSearchControlProps = {},
+    gazetteerSearchComponent,
   } = props;
   const { history, referenceSystem, referenceSystemDefinition, maskingPolygon } = useContext(
     TopicMapContext
@@ -293,6 +294,7 @@ const TopicMapComponent = (props) => {
                 pixelwidth={searchControlWidth}
                 placeholder={gazetteerSearchPlaceholder}
                 {...gazetteerSearchControlProps}
+                gazetteerSearchComponent={gazetteerSearchComponent}
               />
             )}
 
