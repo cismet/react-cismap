@@ -1416,8 +1416,12 @@ export const TopicMapWithDynamicAdditionalLayers = () => {
   const currentZoom = 14;
 
   const Map = () => {
-    const { additionalLayerConfiguration } = useContext(TopicMapStylingContext);
-    const { setAdditionalLayerConfiguration } = useContext(TopicMapStylingDispatchContext);
+    const { additionalLayerConfiguration, activeAdditionalLayerKeys } = useContext(
+      TopicMapStylingContext
+    );
+    const { setAdditionalLayerConfiguration, activateAdditionalLayer } = useContext(
+      TopicMapStylingDispatchContext
+    );
     return (
       <TopicMapComponent
         gazData={gazData}
@@ -1445,6 +1449,9 @@ export const TopicMapWithDynamicAdditionalLayers = () => {
           <button
             onClick={() => {
               let newAdditionalLayers;
+
+              console.log("xxx activeAdditionalLayerKeys", activeAdditionalLayerKeys);
+
               if (additionalLayerConfiguration.luftleitbahnen === undefined) {
                 newAdditionalLayers = { ...additionalLayerConfiguration };
                 newAdditionalLayers.luftleitbahnen = {
@@ -1469,6 +1476,7 @@ export const TopicMapWithDynamicAdditionalLayers = () => {
                 delete newAdditionalLayers.luftleitbahnen;
               }
               setAdditionalLayerConfiguration(newAdditionalLayers);
+              activateAdditionalLayer("luftleitbahnen");
             }}
             title="Luftleitbahnen hinzufügen"
           >

@@ -62,6 +62,7 @@ const defaultState = {
   backgroundConfigurations: defaultBackgroundConfigurations,
   additionalStylingInfo: {},
 };
+
 const TopicMapStylingContextProvider = ({
   children,
   enabled = true,
@@ -76,14 +77,6 @@ const TopicMapStylingContextProvider = ({
   additionalStylingInfo,
 }) => {
   const activeAdditionalLayerKeys = [];
-  if (additionalLayerConfiguration) {
-    for (const adLayerConfKey of Object.keys(additionalLayerConfiguration)) {
-      const adLayerConf = additionalLayerConfiguration[adLayerConfKey];
-      if (adLayerConf.initialActive === true || adLayerConf.initialActive === undefined) {
-        activeAdditionalLayerKeys.push(adLayerConfKey);
-      }
-    }
-  }
   const [state, dispatch] = useImmer({
     ...defaultState,
     additionalStylingInfo,
@@ -95,6 +88,20 @@ const TopicMapStylingContextProvider = ({
     backgroundModes: backgroundModes || defaultBackgroundModes,
     updater: 0,
   });
+
+  const handleAdditionalLayerConfiguration = (additionalLayerConfiguration) => {
+    if (additionalLayerConfiguration) {
+      for (const adLayerConfKey of Object.keys(additionalLayerConfiguration)) {
+        const adLayerConf = additionalLayerConfiguration[adLayerConfKey];
+        console.log("xxx adLayerConf", adLayerConf);
+
+        if (adLayerConf.initialActive === true || adLayerConf.initialActive === undefined) {
+          activeAdditionalLayerKeys.push(adLayerConfKey);
+        }
+      }
+    }
+  };
+  handleAdditionalLayerConfiguration(additionalLayerConfiguration);
 
   const contextKey = "styling";
   const set = (prop, noTest) => {
@@ -125,7 +132,19 @@ const TopicMapStylingContextProvider = ({
     setSelectedBackground: set("selectedBackground"),
     setActiveAdditionalLayerKeys: set("activeAdditionalLayerKeys"),
     setAdditionalStylingInfo: set("additionalStylingInfo"),
-    setAdditionalLayerConfiguration: set("additionalLayerConfiguration"),
+    setAdditionalLayerConfiguration: (adLayerConf) => {
+      set("additionalLayerConfiguration")(adLayerConf);
+      handleAdditionalLayerConfiguration(adLayerConf);
+    },
+    activateAdditionalLayer: (additionalLayerkey) => {
+      dispatch((state) => {
+        console.log("xxx xxx state ", state.activeAdditionalLayerKeys);
+        //check whether additionalLayerkey is in state.activeAdditionalLayerKeys. if not: add it
+        if (!state.activeAdditionalLayerKeys.includes(additionalLayerkey)) {
+          state.activeAdditionalLayerKeys.push(additionalLayerkey);
+        }
+      });
+    },
   };
 
   if (enabled === true) {
