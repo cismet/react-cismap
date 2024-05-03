@@ -21,6 +21,9 @@ import "./lib/topicMaps.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "leaflet/dist/leaflet.css";
 import "react-bootstrap-typeahead/css/Typeahead.css";
+import { createRoot } from "react-dom/client";
+const container = document.getElementById("root");
+const root = createRoot(container); // createRoot(container!) if you use TypeScript
 
 const TestContext = React.createContext();
 
@@ -53,35 +56,31 @@ const TestComponent = ({ display }) => {
 };
 
 if (window.location.pathname === "/follower") {
-  ReactDOM.render(
+  root.render(
     <div>
       <TopicMapsExamples.RemoteControledTopicMap />
-    </div>,
-    document.getElementById("root")
+    </div>
   );
 } else if (window.location.pathname === "/projector") {
-  ReactDOM.render(
+  root.render(
     <div style={{ backgroundColor: "black" }}>
       <ProjectorExamples.ProjectorView3857 />
-    </div>,
-    document.getElementById("root")
+    </div>
   );
 } else if (window.location.pathname === "/projector3857") {
-  ReactDOM.render(
+  root.render(
     <div style={{ backgroundColor: "black" }}>
       <ProjectorExamples.ProjectorView3857 />
-    </div>,
-    document.getElementById("root")
+    </div>
   );
 } else if (window.location.pathname === "/controller") {
-  ReactDOM.render(
+  root.render(
     <div>
       <ProjectorExamples.ControllerView />
-    </div>,
-    document.getElementById("root")
+    </div>
   );
 } else {
-  ReactDOM.render(
+  root.render(
     <div>
       {/* <PlaygroundApp /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMap /> */}
@@ -91,7 +90,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapTiledLayer /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithNonTiledLayer /> */}
-      {/* <TopicMapsExamples.MostSimpleTopicMapWithGazetteerData /> */}
+      <TopicMapsExamples.MostSimpleTopicMapWithGazetteerData />
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomGazetteerSearchBox /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithGazetteerDataWithTertiaryAction /> */}
       {/* <TopicMapsExamples.SimpleTopicMap /> */}
@@ -104,7 +103,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.TopicMapWithWithSecondaryInfoSheet /> */}
       {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
       {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
-      <TopicMapsExamples.TopicMapWithDynamicAdditionalLayers />
+      {/* <TopicMapsExamples.TopicMapWithDynamicAdditionalLayers /> */}
       {/* <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProvider /> */}
       {/* <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProviderProblem /> */}
       {/* <TopicMapsExamples.RemoteControledTopicMap /> */}
@@ -167,7 +166,6 @@ if (window.location.pathname === "/follower") {
       {/* <RoutedMapExamples.Simple /> */}
       {/* <GraphqlLayerExamples.Landparcels /> */}
       {/* <GraphqlLayerExamples.LandparcelsFromCismapLayer /> */}
-    </div>,
-    document.getElementById("root")
+    </div>
   );
 }
