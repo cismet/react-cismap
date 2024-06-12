@@ -14,6 +14,7 @@ import CismetFooterAcks from "../../topicmaps/wuppertal/CismetFooterAcknowledgem
 import * as wasserstoffConfig from "./config/wasserstoff/";
 import * as parkscheinautomatenConfig from "./config/parkscheinautomaten/";
 import { getClusterIconCreatorFunction } from "../../tools/uiHelper";
+import IconComp from "../../commons/Icon";
 
 export default {
   title: storiesCategory + "GenericTopicMapComponent",
@@ -104,7 +105,23 @@ export const SimpleStaticGenericTopicMap_Wasserstofftankstelle = () => {
         <TopicMapComponent
           {...config.tm}
           gazData={gazData}
-          infoBox={<GenericInfoBoxFromFeature config={infoBoxConfig} />}
+          infoBox={
+            <GenericInfoBoxFromFeature
+              config={infoBoxConfig}
+              captionFactory={(linkUrl, feature) => {
+                console.log("xxx feature", feature);
+
+                return (
+                  <a
+                    href={"https://www.wuppertal.de/microsite/WMG/impressum_431218.php"}
+                    target="_fotos"
+                  >
+                    <IconComp name="copyright" /> {feature.properties.urheber_foto}
+                  </a>
+                );
+              }}
+            />
+          }
           modalMenu={
             <DefaultAppMenu
               simpleHelp={simpleHelp}

@@ -34,6 +34,7 @@ const x = [
         "https://www.wuppertal.de/geoportal/emobil/autos/fotos/wasserstoff_05.jpg",
         "https://www.wuppertal.de/geoportal/emobil/autos/fotos/wasserstoff_06.jpg",
       ],
+      urheber_foto: "Stadt Wuppertal (Test)",
       secondaryInfos: {
         title: "Datenblatt: Wasserstofftankstelle Shell Tankstelle",
         iconName: "gas-pump",

@@ -90,7 +90,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapTiledLayer /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithNonTiledLayer /> */}
-      <TopicMapsExamples.MostSimpleTopicMapWithGazetteerData />
+      {/* <TopicMapsExamples.MostSimpleTopicMapWithGazetteerData /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomGazetteerSearchBox /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithGazetteerDataWithTertiaryAction /> */}
       {/* <TopicMapsExamples.SimpleTopicMap /> */}
@@ -99,6 +99,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.SimpleTopicMapWithDefaultInfoBox /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithInfoBox /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithCustomStyling /> */}
+      {/* <TopicMapsExamples.SimpleTopicMapWithCustomInfoBox /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithFullClusteringOptionsAndStyling /> */}
       {/* <TopicMapsExamples.TopicMapWithWithSecondaryInfoSheet /> */}
       {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
@@ -113,7 +114,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBox /> */}
       {/* <TopicMapsExamples.TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole /> */}
       {/* <MoreTopicMapsExamples.TopicMapWithOfflineDataConfiguration /> */}
-      {/* <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Wasserstofftankstelle /> */}
+      <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Wasserstofftankstelle />
       {/* <TopicMapsExamples.TopicMapWithWithStaticFilter /> */}
       {/* <MapLibreExamples.SimpleMapLibreLayer /> */}
       {/* <MapLibreExamples.SimpleMapLibreLayerRedrawingitself /> */}
