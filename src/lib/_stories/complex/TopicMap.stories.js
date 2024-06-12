@@ -41,6 +41,7 @@ import ConsoleLog from "../../tools/LogConsole";
 import { addSVGToProps, DEFAULT_SVG } from "../../tools/svgHelper";
 import { getClusterIconCreatorFunction, getSimpleHelpForTM } from "../../tools/uiHelper";
 import { SimpleMenu } from "../../topicmaps/_stories/ModalMenu.stories";
+import ResponsiveInfoBox, { MODES } from "../../topicmaps/ResponsiveInfoBox";
 import ConfigurableDocBlocks from "../../topicmaps/ConfigurableDocBlocks";
 import getGTMFeatureStyler, { getColorFromProperties } from "../../topicmaps/generic/GTMStyler";
 import GenericInfoBoxFromFeature from "../../topicmaps/GenericInfoBoxFromFeature";
@@ -63,6 +64,7 @@ import CrossTabCommunicationContextProvider, {
 import CrossTabCommunicationControl from "../../CrossTabCommunicationControl";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import CismapLayer from "../../CismapLayer";
+import { TileLayer } from "react-leaflet";
 
 export default {
   title: storiesCategory + "TopicMapComponent",
@@ -124,7 +126,7 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
   return (
     <TopicMapContextProvider>
       <TopicMapComponent gazData={[]} backgroundlayers="empty">
-        <StyledWMSTileLayer
+        {/* <StyledWMSTileLayer
           {...{
             type: "wmts",
             url: "https://geodaten.metropoleruhr.de/spw2/service",
@@ -134,7 +136,10 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
             transparent: true,
             opacity: 0.3,
           }}
-        ></StyledWMSTileLayer>
+        ></StyledWMSTileLayer> */}
+        <TileLayer
+          url={`https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_light&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`}
+        />
       </TopicMapComponent>
     </TopicMapContextProvider>
   );
@@ -338,6 +343,19 @@ export const MostSimpleTopicMapWithCismapLayer = () => {
       // maxNativeZoom: 12,
       key: "tileLayer",
     },
+    // {
+    //   title: "RVR tiles",
+    //   type: "tiles",
+
+    //   url: "https://geodaten.metropoleruhr.de/spw2?&service=WMTS&request=GetCapabilities",
+    //   //   bounds: layer.layerBounds,
+    //   // minNativeZoom: 1,
+    //   tms: true,
+    //   noWrap: true,
+    //   layers: "spw2_light",
+    //   // maxNativeZoom: 12,
+    //   key: "tileLayer",
+    // },
   ];
 
   //create a state for the layer index and click through with the >> button
@@ -606,6 +624,78 @@ export const SimpleTopicMapWithCustomStyling = () => {
               noCurrentFeatureTitle: "Keine Parkscheinautomaten gefunden",
               noCurrentFeatureContent: "",
             }}
+          />
+        }
+      >
+        <FeatureCollection />
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
+
+export const SimpleTopicMapWithCustomInfoBox = () => {
+  const [gazData, setGazData] = useState([]);
+  useEffect(() => {
+    getGazData(setGazData);
+  }, []);
+
+  return (
+    <TopicMapContextProvider
+      getFeatureStyler={getGTMFeatureStyler}
+      getColorFromProperties={getColorFromProperties}
+    >
+      <TopicMapComponent
+        gazData={gazData}
+        infoBox={
+          <ResponsiveInfoBox
+            pixelwidth={300}
+            fixedRow={true}
+            _alwaysVisibleDiv={<div>Always Visible</div>}
+            _collapsibleDiv={
+              <div>
+                sometimes not visible sometimes not visible sometimes not visible sometimes not
+                visiblesometimes not visible sometimes not visibl esometimes not visiblesometimes
+                not visiblesometimes not visible sometimes not visible sometimes not visible
+              </div>
+            }
+            mode={MODES.DEFAULT}
+            //only applicable if mode is AB  =>   mode={MODES.AB}
+            divWhenCollapsed={
+              <div>
+                Collapsed Collapsed Collapsed Collapsed Collapsed Collapsed Collapsed Collapsed{" "}
+              </div>
+            }
+            divWhenLarge={
+              <div>
+                Large Large Large Large Large Large Large Large Large Large Large Large Large Large
+                Large Large Large Large Large Large Large Large Large Large Large Large Large Large
+                Large Large{" "}
+              </div>
+            }
+            isCollapsible={true}
+            secondaryInfoBoxElements={[]} // add stuff like Photo preview here
+            header={
+              <table style={{ width: "100%" }}>
+                <tbody>
+                  <tr>
+                    <td
+                      style={{
+                        textAlign: "left",
+                        verticalAlign: "top",
+                        background: "green",
+                        color: "white",
+                        opacity: "0.9",
+                        paddingLeft: "3px",
+                        paddingTop: "0px",
+                        paddingBottom: "0px",
+                      }}
+                    >
+                      <span>Header</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            }
           />
         }
       >
