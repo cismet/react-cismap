@@ -83,6 +83,8 @@ const TopicMapComponent = (props) => {
     leafletMapProps = {},
     gazetteerSearchControlProps = {},
     gazetteerSearchComponent,
+    zoomSnap = 1,
+    zoomDelta = 1,
   } = props;
   const { history, referenceSystem, referenceSystemDefinition, maskingPolygon } = useContext(
     TopicMapContext
@@ -266,6 +268,8 @@ const TopicMapComponent = (props) => {
             attributionControl={attributionControl}
             // offlineReadyToUse={offlineReadyToUse}
             leafletMapProps={leafletMapProps}
+            zoomSnap={zoomSnap}
+            zoomDelta={zoomDelta}
           >
             {overlayFeature && (
               <ProjSingleGeoJson

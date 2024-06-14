@@ -84,6 +84,22 @@ export const MostSimpleTopicMap = () => {
   );
 };
 
+export const MostSimpleTopicMapWithZoomSnapAndZoomDelta = () => {
+  return (
+    <TopicMapContextProvider>
+      <TopicMapComponent
+        _fullScreenControl={false}
+        _zoomControls={false}
+        homeZoom={19}
+        gazData={undefined}
+        gazetteerSearchControl={false}
+        zoomSnap={0.05}
+        zoomDelta={0.5}
+      ></TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
+
 export const SimpleTopicMapWMSBBoxDisplay = () => {
   function createWMSBbox(bbox) {
     // Extracting values from the object
