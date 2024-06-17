@@ -65,6 +65,7 @@ import CrossTabCommunicationControl from "../../CrossTabCommunicationControl";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import CismapLayer from "../../CismapLayer";
 import { TileLayer } from "react-leaflet";
+import PaleOverlay from "../../PaleOverlay";
 
 export default {
   title: storiesCategory + "TopicMapComponent",
@@ -155,6 +156,41 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
         ></StyledWMSTileLayer> */}
         <TileLayer
           url={`https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_light&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`}
+        />
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
+
+export const MostSimpleTopicMapWithCustomLayerAnPaleOverlay = () => {
+  return (
+    <TopicMapContextProvider>
+      <TopicMapComponent gazData={[]} backgroundlayers="empty">
+        <TileLayer
+          url={`https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_light&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`}
+        />
+        <PaleOverlay />
+        <StyledWMSTileLayer
+          key={"fernwaermewsw"}
+          url="https://maps.wuppertal.de/umwelt"
+          layers="Frischluftschneisen"
+          format="image/png"
+          tiled="true"
+          transparent="true"
+          pane="additionalLayers0"
+          maxZoom={19}
+          opacity={0.7}
+        />
+        <StyledWMSTileLayer
+          key={"baeume"}
+          url="https://maps.wuppertal.de/umwelt"
+          layers="baeume"
+          format="image/png"
+          tiled="true"
+          transparent="true"
+          pane="additionalLayers0"
+          maxZoom={19}
+          opacity={1}
         />
       </TopicMapComponent>
     </TopicMapContextProvider>

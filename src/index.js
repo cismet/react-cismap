@@ -84,12 +84,14 @@ if (window.location.pathname === "/follower") {
     <div>
       {/* <PlaygroundApp /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMap /> */}
-      <TopicMapsExamples.MostSimpleTopicMapWithZoomSnapAndZoomDelta />
+      {/* <TopicMapsExamples.MostSimpleTopicMapWithZoomSnapAndZoomDelta /> */}
 
       {/* <TopicMapsExamples.SimpleTopicMapWMSBBoxDisplay /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
+      <TopicMapsExamples.MostSimpleTopicMapWithCustomLayerAnPaleOverlay />
+
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapTiledLayer /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithNonTiledLayer /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithGazetteerData /> */}
