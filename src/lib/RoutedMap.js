@@ -150,7 +150,7 @@ export class RoutedMap extends React.Component {
     map.createPane("backgroundLayers");
     map.getPane("backgroundLayers").style.zIndex = 100;
 
-    // create 100 addi´ítionalLayers and increment the z-index by 1
+    // create 100 additionalLayers and increment the z-index by 1
     for (let i = 0; i < 100; i++) {
       map.createPane("additionalLayers" + i);
       map.getPane("additionalLayers" + i).style.zIndex = 250 + i;
