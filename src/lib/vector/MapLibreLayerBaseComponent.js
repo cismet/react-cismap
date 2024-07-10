@@ -58,24 +58,33 @@ class MaplibreGlLayer extends GridLayer {
     const { _map } = this._layer;
     mlMap.on("load", () => {
       this.mapLibreMap = mlMap;
+
       if ((props.opacity || props.textOpacity || props.iconOpacity) && mlMap) {
         try {
           const style = mlMap.getStyle();
           const layers = style.layers;
           layers.map((layer) => {
             if (layer.type === "symbol") {
+              const existingIconOpacity = mlMap.getPaintProperty(layer.id, "icon-opacity") || 1;
+              const existingTextOpacity = mlMap.getPaintProperty(layer.id, "text-opacity") || 1;
               mlMap.setPaintProperty(
                 layer.id,
                 `icon-opacity`,
-                props.iconOpacity || props.opacity || 1
+                (props.iconOpacity || props.opacity || 1) * existingIconOpacity
               );
               mlMap.setPaintProperty(
                 layer.id,
                 `text-opacity`,
-                props.textOpacity || props.opacity || 1
+                (props.textOpacity || props.opacity || 1) * existingTextOpacity
               );
             } else {
-              mlMap.setPaintProperty(layer.id, `${layer.type}-opacity`, props.opacity || 1);
+              const existingOpacity =
+                mlMap.getPaintProperty(layer.id, `${layer.type}-opacity`) || 1;
+              mlMap.setPaintProperty(
+                layer.id,
+                `${layer.type}-opacity`,
+                (props.opacity || 1) * existingOpacity
+              );
             }
           });
           // console.log("vectorLayerOpacitySetter: looks good");
