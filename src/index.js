@@ -89,7 +89,8 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.SimpleTopicMapWMSBBoxDisplay /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
-      <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer />
+      {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
+      {/* <TopicMapsExamples.MostSiprojmpleTopicMapWithCustomLayer25832 /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayerAnPaleOverlay /> */}
 
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapTiledLayer /> */}
@@ -98,7 +99,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomGazetteerSearchBox /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithGazetteerDataWithTertiaryAction /> */}
       {/* <TopicMapsExamples.SimpleTopicMap /> */}
-      {/* <TopicMapsExamples.SimpleTopicMapWithAdditiopnalStylingInfo /> */}
+      <TopicMapsExamples.SimpleTopicMapWithAdditiopnalStylingInfo />
       {/* <TopicMapsExamples.SimpleTopicMapWithCustomMenu /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithDefaultInfoBox /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithInfoBox /> */}
