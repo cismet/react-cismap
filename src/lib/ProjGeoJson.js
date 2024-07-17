@@ -8,7 +8,7 @@ import "proj4leaflet";
 
 import { Path } from "react-leaflet";
 
-require("react-leaflet-markercluster/dist/styles.min.css");
+import "react-leaflet-markercluster/dist/styles.min.css";
 
 // need to have this import
 // eslint-disable-next-line

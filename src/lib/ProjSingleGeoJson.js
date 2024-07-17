@@ -7,7 +7,7 @@ import { Path } from "react-leaflet";
 
 import Terraformer from "terraformer-wkt-parser";
 
-require("react-leaflet-markercluster/dist/styles.min.css");
+import "react-leaflet-markercluster/dist/styles.min.css";
 
 export class ProjSingleGeoJson extends Path {
   componentWillMount() {
