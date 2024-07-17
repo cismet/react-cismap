@@ -172,6 +172,51 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
     </TopicMapContextProvider>
   );
 };
+export const MostSimpleTopicMapWithCustomLayer25832 = () => {
+  return (
+    <TopicMapContextProvider
+      referenceSystemDefinition={MappingConstants.proj4crs25832def}
+      mapEPSGCode="25832"
+      referenceSystem={MappingConstants.crs25832}
+    >
+      <TopicMapComponent gazData={[]} backgroundlayers="wupp-plan-live">
+        {/* <StyledWMSTileLayer
+          {...{
+            type: "wmts",
+            url: "https://geodaten.metropoleruhr.de/spw2/service",
+            layers: "spw2_light_grundriss",
+            version: "1.3.0",
+            tileSize: 512,
+            transparent: true,
+            opacity: 0.3,
+          }}
+        ></StyledWMSTileLayer> */}
+
+        {/* <CismapLayer
+          {...{
+            type: "vector",
+            style: "https://tiles.cismet.de/bplanhintergrund/style.json",
+            pane: "additionalLayers1",
+            opacity: 1,
+          }}
+        />
+        <TileLayer
+          maxNativeZoom={20}
+          maxZoom={22}
+          url={`https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_light&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`}
+        /> */}
+        <CismapLayer
+          {...{
+            type: "wms",
+            url: "https://maps.wuppertal.de/poi",
+            layers: "poi",
+            opacity: 1,
+          }}
+        />
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
 
 export const MostSimpleTopicMapWithCustomLayerAnPaleOverlay = () => {
   return (
