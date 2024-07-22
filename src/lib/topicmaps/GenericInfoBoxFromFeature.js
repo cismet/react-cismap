@@ -4,7 +4,7 @@ import { getActionLinksForFeature } from "../tools/uiHelper";
 import Icon from "../commons/Icon";
 import {
   FeatureCollectionContext,
-  FeatureCollectionDispatchContext
+  FeatureCollectionDispatchContext,
 } from "../contexts/FeatureCollectionContextProvider";
 import { TopicMapDispatchContext } from "../contexts/TopicMapContextProvider";
 import { ResponsiveTopicMapDispatchContext } from "../contexts/ResponsiveTopicMapContextProvider";
@@ -22,17 +22,17 @@ const defaultConfig = {
   navigator: {
     noun: {
       singular: "Objekt",
-      plural: "Objekte"
-    }
+      plural: "Objekte",
+    },
   },
   noCurrentFeatureTitle: "Keine Objekte gefunden",
   noCurrentFeatureContent: "",
   displaySecondaryInfoAction: false,
-  getTotalNumberOfItems: items => items.length,
-  getNumberOfShownFeatures: featureCollection => featureCollection.length
+  getTotalNumberOfItems: (items) => items.length,
+  getNumberOfShownFeatures: (featureCollection) => featureCollection.length,
 };
 
-const Component = props => {
+const Component = (props) => {
   let {
     config,
     pixelwidth = 300,
@@ -45,9 +45,13 @@ const Component = props => {
     photoUrlManipulation,
     captionFactory,
     photoPreviewWidth,
-    openLightBox
+    openLightBox,
+    overrideFeatureCollectionContext,
   } = props;
-  const featureCollectionContext = useContext(FeatureCollectionContext) || defaultContextValues;
+  let featureCollectionContext = useContext(FeatureCollectionContext) || defaultContextValues;
+  if (overrideFeatureCollectionContext !== undefined) {
+    featureCollectionContext = overrideFeatureCollectionContext;
+  }
   const { zoomToFeature, gotoHome } = useContext(TopicMapDispatchContext) || defaultContextValues;
   const lightBoxDispatchContext = useContext(LightBoxDispatchContext) || defaultContextValues;
   const { setInfoBoxPixelWidth } =
@@ -56,7 +60,7 @@ const Component = props => {
     shownFeatures = [],
     selectedFeature,
     allFeatures = 0,
-    filteredItems = []
+    filteredItems = [],
   } = featureCollectionContext;
   const { fitBoundsForCollection } =
     useContext(FeatureCollectionDispatchContext) || defaultContextValues;
@@ -97,7 +101,7 @@ const Component = props => {
       displaySecondaryInfoAction:
         config.displaySecondaryInfoAction === true ||
         config.displaySecondaryInfoAction === undefined,
-      setVisibleStateOfSecondaryInfo: vis => _setSecondaryInfoVisible(vis)
+      setVisibleStateOfSecondaryInfo: (vis) => _setSecondaryInfoVisible(vis),
     });
     header = (
       <span>{funcOrContent(currentFeature?.properties?.info?.header) || config.header}</span>
@@ -190,7 +194,7 @@ const Component = props => {
             width={photoPreviewWidth}
             openLightBox={openLightBox}
             currentFeature={currentFeature}
-          />
+          />,
         ]
       }
     />
