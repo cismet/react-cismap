@@ -16,6 +16,7 @@ import parseHtml from "html-react-parser";
 
 // Since this component is simple and static, there's no parent container for it.
 const InfoBox = ({
+  currentFeature,
   featureCollection,
   selectedIndex,
   next,
@@ -76,25 +77,27 @@ const InfoBox = ({
       infoBoxBottomMargin = 0;
     }
   }
-  let _currentFeature;
-  if (featureCollectionContext != undefined) {
-    _currentFeature = selectedFeature;
-    if (next === undefined) {
-      _next = () => {
-        gotoNext();
-      };
+  let _currentFeature = currentFeature;
+  if (!_currentFeature) {
+    if (featureCollectionContext != undefined) {
+      _currentFeature = selectedFeature;
+      if (next === undefined) {
+        _next = () => {
+          gotoNext();
+        };
+      } else {
+        _next = next;
+      }
+      if (previous === undefined) {
+        _previous = () => {
+          gotoPrevious();
+        };
+      } else {
+        _previous = previous;
+      }
     } else {
-      _next = next;
+      _currentFeature = featureCollection[selectedIndex];
     }
-    if (previous === undefined) {
-      _previous = () => {
-        gotoPrevious();
-      };
-    } else {
-      _previous = previous;
-    }
-  } else {
-    _currentFeature = featureCollection[selectedIndex];
   }
   let infoBoxStyle = {
     opacity: "0.9",
