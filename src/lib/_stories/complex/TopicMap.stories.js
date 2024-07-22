@@ -39,7 +39,11 @@ import { defaultLayerConf } from "../../tools/layerFactory";
 import LogConsole from "../../tools/LogConsole";
 import ConsoleLog from "../../tools/LogConsole";
 import { addSVGToProps, DEFAULT_SVG } from "../../tools/svgHelper";
-import { getClusterIconCreatorFunction, getSimpleHelpForTM } from "../../tools/uiHelper";
+import {
+  getActionLinksForFeature,
+  getClusterIconCreatorFunction,
+  getSimpleHelpForTM,
+} from "../../tools/uiHelper";
 import { SimpleMenu } from "../../topicmaps/_stories/ModalMenu.stories";
 import ResponsiveInfoBox, { MODES } from "../../topicmaps/ResponsiveInfoBox";
 import ConfigurableDocBlocks from "../../topicmaps/ConfigurableDocBlocks";
@@ -67,6 +71,7 @@ import CismapLayer from "../../CismapLayer";
 import { TileLayer } from "react-leaflet";
 import PaleOverlay from "../../PaleOverlay";
 import kanalStyle from "./layerstyles/kanal";
+import { select } from "@storybook/addon-knobs";
 export default {
   title: storiesCategory + "TopicMapComponent",
 };
@@ -179,6 +184,87 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
     </TopicMapContextProvider>
   );
 };
+
+export const SimpleTopicMapWithVectoprLayerAndSelectionInfoBox = () => {
+  const [shownFeatures, setShownFeatures] = useState([]);
+  const [selectedFeature, setSelectedFeature] = useState(undefined);
+  const [allFeatures, setAllFeatures] = useState(0);
+  console.log("xxx", selectedFeature);
+  let links = [];
+  if (selectedFeature) {
+    links = getActionLinksForFeature(selectedFeature, {});
+  }
+
+  return (
+    <TopicMapContextProvider>
+      <TopicMapComponent
+        gazData={[]}
+        backgroundlayers="empty"
+        infoBox={
+          selectedFeature && (
+            <InfoBox
+              currentFeature={selectedFeature}
+              hideNavigator={true}
+              header="kjshd"
+              pixelwidth={300}
+              headerColor="#ff0000"
+              {...selectedFeature?.properties?.info}
+              zoomToAllLabel={true}
+              noCurrentFeatureTitle="nix da"
+              noCurrentFeatureContent="nix da"
+              links={links}
+            />
+          )
+        }
+      >
+        <CismapLayer
+          {...{
+            type: "vector",
+            style: "https://tiles.cismet.de/test/style.json",
+            _metadata: "https://tiles.cismet.de/poi/metadata.json",
+            pane: "additionalLayers1",
+            opacity: 1,
+            maxSelectionCount: 1,
+            onSelectionChanged: (e) => {
+              console.log("xxx selectionChanged", e);
+              const selectedFeature = e.hits[0];
+              const p = selectedFeature.properties;
+              console.log("xxx p", p);
+
+              const identifications = JSON.parse(p.identifications);
+              const mainlocationtype = identifications[0].identification;
+              const info = {
+                title: p.geographicidentifier,
+                // additionalInfo: "bbb",
+                subtitle: p.strasse,
+                headerColor: p.schrift,
+                header: mainlocationtype,
+              };
+              selectedFeature.properties.info = info;
+              selectedFeature.properties.url = p.url;
+              selectedFeature.properties.email = "";
+              selectedFeature.properties.tel = p.telefon;
+
+              setSelectedFeature(e.hit);
+            },
+            onViewMetaDataChanged: (metadata) => {
+              console.log("xxx metadata", metadata);
+            },
+            // onLayerClick: (e) => {
+            //   console.log("xxx onLayerClick", e);
+            // },
+          }}
+        />
+        <TileLayer
+          maxNativeZoom={20}
+          maxZoom={22}
+          url={`https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_light&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`}
+        />
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
+
 export const MostSimpleTopicMapWithCustomLayer25832 = () => {
   return (
     <TopicMapContextProvider
