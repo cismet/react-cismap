@@ -14,6 +14,7 @@ class MaplibreGlLayer extends GridLayer {
 
     this._addLayer = this._addLayer.bind(this);
     this._removeLayer = this._removeLayer.bind(this);
+    this._onViewChanged = this._onViewChanged.bind(this);
   }
 
   createLeafletElement(props) {
@@ -33,12 +34,15 @@ class MaplibreGlLayer extends GridLayer {
         map.off("layerremove");
       }
     });
+    // map.on("moveend", (e) => {
+    //   console.log("xxx moveend", new Error().stack);
+    //   this._onViewChanged();
+    // });
 
     // Add maxSelectionCount with a default value of 1
     const maxSelectionCount = props.maxSelectionCount || 1;
     if (props.onSelectionChanged) {
       map.on("click", (e) => {
-        console.log("xxx outer click e", e);
         if (this.mapLibreMap?.project) {
           // Project the clicked point to map coordinates
           const point = this.mapLibreMap.project([e.latlng.lng, e.latlng.lat]);
@@ -58,7 +62,6 @@ class MaplibreGlLayer extends GridLayer {
 
           if (this.mapLibreMap) {
             const hits = this.mapLibreMap.queryRenderedFeatures(rect);
-            console.log("xxx queryRenderedFeatures result:", hits);
 
             // Deselect all features first
             this.mapLibreMap.queryRenderedFeatures().forEach((feature) => {
@@ -112,13 +115,13 @@ class MaplibreGlLayer extends GridLayer {
   }
 
   _addLayer({ layer }, props) {
-    console.log("xxx _addLayer");
-
     const mlMap = layer.getMaplibreMap();
     this._layer = layer;
     const { _map } = this._layer;
     mlMap.on("load", () => {
       this.mapLibreMap = mlMap;
+      console.log("xxx loaded");
+      this._onViewChanged();
 
       if ((props.opacity || props.textOpacity || props.iconOpacity) && mlMap) {
         try {
@@ -161,7 +164,6 @@ class MaplibreGlLayer extends GridLayer {
       }
 
       //check if the onLayerClick function is set and if it is a function
-      console.log("xxx inner load ", mlMap);
 
       // if (props.onLayerClick) {
       //   mlMap.on("click", "kanal", (e) => {
@@ -171,19 +173,30 @@ class MaplibreGlLayer extends GridLayer {
       //     props.onLayerClick(e);
       //   });
       // }
-      if (this.mapLibreMap) {
-        this.mapLibreMap.on("click", "kanal", (e) => {
-          console.log("xxx inner click  e", e);
-          // console.log("xxx inner click  props", props);
-          // // const features = mlMap.queryRenderedFeatures(e.point);
-          // props.onLayerClick(e);
-        });
-      }
+      // if (this.mapLibreMap) {
+      //   this.mapLibreMap.on("click", "kanal", (e) => {
+      //     console.log("xxx inner click  e", e);
+      //     // console.log("xxx inner click  props", props);
+      //     // // const features = mlMap.queryRenderedFeatures(e.point);
+      //     // props.onLayerClick(e);
+      //   });
+      // }
     });
   }
 
   _removeLayer() {
     this._layer = null;
+  }
+  _onViewChanged() {
+    if (this.mapLibreMap) {
+      const visibleFeatures = this.mapLibreMap.queryRenderedFeatures({
+        layers: ["poi-images"],
+      });
+      const visibleFeatureCount = visibleFeatures.length;
+      if (this.props.onViewMetaDataChanged) {
+        this.props.onViewMetaDataChanged(visibleFeatureCount);
+      }
+    }
   }
 }
 
