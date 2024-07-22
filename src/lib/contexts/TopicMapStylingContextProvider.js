@@ -93,8 +93,6 @@ const TopicMapStylingContextProvider = ({
     if (additionalLayerConfiguration) {
       for (const adLayerConfKey of Object.keys(additionalLayerConfiguration)) {
         const adLayerConf = additionalLayerConfiguration[adLayerConfKey];
-        console.log("xxx adLayerConf", adLayerConf);
-
         if (adLayerConf.initialActive === true || adLayerConf.initialActive === undefined) {
           activeAdditionalLayerKeys.push(adLayerConfKey);
         }

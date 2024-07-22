@@ -4,6 +4,9 @@ import { GridLayer } from "react-leaflet";
 // import {} from "maplibre-gl";
 // import {} from "./mapbox-gl-leaflet";
 import {} from "./leaflet-maplibre-gl";
+import { Point } from "maplibre-gl";
+
+// import {} from "@maplibre/maplibre-gl-leaflet";
 
 class MaplibreGlLayer extends GridLayer {
   constructor(props) {
@@ -31,6 +34,62 @@ class MaplibreGlLayer extends GridLayer {
       }
     });
 
+    // Add maxSelectionCount with a default value of 1
+    const maxSelectionCount = props.maxSelectionCount || 1;
+    if (props.onSelectionChanged) {
+      map.on("click", (e) => {
+        console.log("xxx outer click e", e);
+        if (this.mapLibreMap?.project) {
+          // Project the clicked point to map coordinates
+          const point = this.mapLibreMap.project([e.latlng.lng, e.latlng.lat]);
+
+          // Create a small bounding box around the clicked point
+          const size = 0;
+          const rect = [
+            [point.x - size, point.y - size],
+            [point.x + size, point.y + size],
+          ];
+
+          // Convert the bounding box points back to latitude and longitude
+          const queryRect = rect.map((p) => this.mapLibreMap.unproject(p));
+
+          // console.log("xxx adjusted point:", point.x, point.y);
+          // console.log("xxx this.mapLibreMap", this.mapLibreMap);
+
+          if (this.mapLibreMap) {
+            const hits = this.mapLibreMap.queryRenderedFeatures(rect);
+            console.log("xxx queryRenderedFeatures result:", hits);
+
+            // Deselect all features first
+            this.mapLibreMap.queryRenderedFeatures().forEach((feature) => {
+              this.mapLibreMap.setFeatureState(
+                { source: feature.source, sourceLayer: feature.sourceLayer, id: feature.id },
+                { selected: false }
+              );
+            });
+
+            if (hits.length > 0) {
+              // Limit the selection to maxSelectionCount
+              const limitedHits = hits.slice(0, maxSelectionCount);
+              limitedHits.forEach((hit) => {
+                // console.log("xxx -> ", hit.layer.id, hit.properties.id, hit);
+                this.mapLibreMap.setFeatureState(
+                  { source: hit.source, sourceLayer: hit.sourceLayer, id: hit.id },
+                  { selected: true }
+                );
+                // console.log(`State set for feature ID ${hit.id}`);
+              });
+              props.onSelectionChanged({ hits: limitedHits, hit: limitedHits[0] });
+            } else {
+              console.log("No features found at the click location.");
+            }
+          }
+        } else {
+          console.log("xxx no mapLibreMap set");
+        }
+      });
+    }
+
     // if (props.offlineAvailable) {
     //   //fetch an manipulate the style and metadata json
     //   let style;
@@ -53,6 +112,8 @@ class MaplibreGlLayer extends GridLayer {
   }
 
   _addLayer({ layer }, props) {
+    console.log("xxx _addLayer");
+
     const mlMap = layer.getMaplibreMap();
     this._layer = layer;
     const { _map } = this._layer;
@@ -97,6 +158,26 @@ class MaplibreGlLayer extends GridLayer {
         // Force a resize calculation on the map so that
         // Mapbox GL layer correctly repaints its height after it has been added.
         // _map._onResize();
+      }
+
+      //check if the onLayerClick function is set and if it is a function
+      console.log("xxx inner load ", mlMap);
+
+      // if (props.onLayerClick) {
+      //   mlMap.on("click", "kanal", (e) => {
+      //     console.log("xxx inner click  e", e);
+      //     console.log("xxx inner click  props", props);
+      //     // const features = mlMap.queryRenderedFeatures(e.point);
+      //     props.onLayerClick(e);
+      //   });
+      // }
+      if (this.mapLibreMap) {
+        this.mapLibreMap.on("click", "kanal", (e) => {
+          console.log("xxx inner click  e", e);
+          // console.log("xxx inner click  props", props);
+          // // const features = mlMap.queryRenderedFeatures(e.point);
+          // props.onLayerClick(e);
+        });
       }
     });
   }

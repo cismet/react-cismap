@@ -66,7 +66,7 @@ import { faComment } from "@fortawesome/free-solid-svg-icons";
 import CismapLayer from "../../CismapLayer";
 import { TileLayer } from "react-leaflet";
 import PaleOverlay from "../../PaleOverlay";
-
+import kanalStyle from "./layerstyles/kanal";
 export default {
   title: storiesCategory + "TopicMapComponent",
 };
@@ -158,9 +158,16 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
         <CismapLayer
           {...{
             type: "vector",
-            style: "https://tiles.cismet.de/bplanhintergrund/style.json",
+            style: "https://tiles.cismet.de/test/style.json",
             pane: "additionalLayers1",
             opacity: 1,
+            maxSelectionCount: 1,
+            onSelectionChanged: (e) => {
+              console.log("xxx selectionChanged", e);
+            },
+            // onLayerClick: (e) => {
+            //   console.log("xxx onLayerClick", e);
+            // },
           }}
         />
         <TileLayer
@@ -2123,9 +2130,14 @@ export const TopicMapWithCustomLayerSetAndAdditionalOverlayLayers = () => {
           layer: (
             <MapLibreLayer
               key={"kanal"}
-              style="http://localhost:888/styles/kanal/style.json"
-              style_="https://omt.map-hosting.de/styles/kanal/style.json"
+              _style="http://localhost:888/styles/kanal/style.json"
+              _style_="https://omt.map-hosting.de/styles/kanal/style.json"
+              style={kanalStyle}
               pane="additionalLayers1"
+              onLayerClick={(e) => {
+                console.log("xxx layer click", e);
+                console.log("xxx layer feature", e.features);
+              }}
             />
           ),
         },
@@ -2135,10 +2147,15 @@ export const TopicMapWithCustomLayerSetAndAdditionalOverlayLayers = () => {
           initialActive: true,
           layer: (
             <MapLibreLayer
+              id="gewaesser"
               key={"gewaesser"}
               style_="http://localhost:888/styles/gewaesser/style.json"
               style="https://omt.map-hosting.de/styles/gewaesser/style.json"
               pane="additionalLayers2"
+              _onLayerClick={(e) => {
+                console.log("xxx layer click", e);
+                console.log("xxx layer feature", e.features);
+              }}
             />
           ),
         },
@@ -2160,6 +2177,19 @@ export const TopicMapWithCustomLayerSetAndAdditionalOverlayLayers = () => {
           style="http://localhost:888/styles/umweltalarm/style.json"
           pane="additionalLayers"
         /> */}
+        <CismapLayer
+          {...{
+            type: "vector",
+            style: "https://flexo3000.kg6.cismet.de/style.json",
+            pane: "additionalLayers1",
+            maxZoom: 20,
+            opacity: 1,
+            onLayerClick: (e) => {
+              console.log("xxx layer click", e);
+              console.log("xxx layer feature", e.features);
+            },
+          }}
+        />
       </TopicMapComponent>
     </TopicMapContextProvider>
   );
