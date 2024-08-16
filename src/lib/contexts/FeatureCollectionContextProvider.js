@@ -1,5 +1,5 @@
 import { useImmer } from "use-immer";
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useRef } from "react";
 import { fetchJSON, md5FetchJSON } from "../tools/fetching";
 import KDBush from "kdbush";
 import { TopicMapContext, TopicMapDispatchContext } from "./TopicMapContextProvider";
@@ -108,7 +108,6 @@ const FeatureCollectionContextProvider = ({
     featureTooltipFunction,
     createItemsDictionary,
   });
-  //console.log(" featureCollectionState", state);
 
   const { boundingBox, mapEPSGCode, appMode } = useContext(TopicMapContext);
   const { fitBBox } = useContext(TopicMapDispatchContext);
@@ -147,6 +146,8 @@ const FeatureCollectionContextProvider = ({
     selectedIndexState,
     selectedFeature,
   } = state;
+  console.log(" featureCollectionState", shownFeatures);
+
   const selectedIndex = selectedIndexState.selectedIndex;
 
   const setX = {
@@ -182,16 +183,18 @@ const FeatureCollectionContextProvider = ({
     setX.setSelectedIndexState({ selectedIndex, forced: false });
   };
 
-  const setSelectedFeatureByPredicate = (predicate, feedbacker = () => {}) => {
-    const { shownFeatures } = state; // Access the current state directly
+  const _setSelectedFeatureByPredicate = (predicate, feedbacker = () => {}) => {
+    const { shownFeatures } = state.curent; // Access the current state directly
 
     let index = 0;
+    console.log("will check in showFeatures:", shownFeatures);
+
     for (const feature of shownFeatures) {
       // console.log("xxx predicate loop. will check ", feature.properties.id);
       if (predicate(feature) === true) {
-        // console.log("xxx predicate hit. will select ", index);
+        console.log("xxx predicate hit. will select ", index);
         setSelectedFeatureIndex(index); // Call setSelectedFeatureIndex outside the dispatch function
-        // console.log("xxx predicate hit. after setSelectedIndex", index);
+        console.log("xxx predicate hit. after setSelectedIndex", index);
         feedbacker(true);
         return;
       }
@@ -199,6 +202,29 @@ const FeatureCollectionContextProvider = ({
     }
     // console.log("xxx setSelectedFeatureByPredicate",  "nothing found");
     feedbacker(false);
+  };
+
+  const setSelectedFeatureByPredicate = (predicate, feedbacker = () => {}) => {
+    dispatch((draft) => {
+      let index = 0;
+      console.log("will check in showFeatures:", draft.shownFeatures);
+
+      for (const feature of draft.shownFeatures) {
+        if (predicate(feature) === true) {
+          // console.log("xxx predicate hit. will select ", index);
+          draft.selectedIndexState = {
+            ...draft.selectedIndexState,
+            selectedIndex: index,
+            forced: true,
+          };
+          // console.log("xxx predicate hit. after setSelectedIndex", index);
+          feedbacker(true);
+          return;
+        }
+        index++;
+      }
+      feedbacker(false);
+    });
   };
 
   const fitBoundsForCollection = (featuresToZoomTo) => {
