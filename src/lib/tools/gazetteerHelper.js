@@ -80,7 +80,7 @@ export const builtInGazetteerHitTrigger = (
       if (furtherGazeteerHitTrigger !== undefined) {
         furtherGazeteerHitTrigger(hit);
       }
-    }, 200);
+    }, 500);
   } else {
     //console.log(hit);
   }
