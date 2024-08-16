@@ -146,7 +146,6 @@ const FeatureCollectionContextProvider = ({
     selectedIndexState,
     selectedFeature,
   } = state;
-  console.log(" featureCollectionState", shownFeatures);
 
   const selectedIndex = selectedIndexState.selectedIndex;
 
@@ -207,7 +206,7 @@ const FeatureCollectionContextProvider = ({
   const setSelectedFeatureByPredicate = (predicate, feedbacker = () => {}) => {
     dispatch((draft) => {
       let index = 0;
-      console.log("will check in showFeatures:", draft.shownFeatures);
+      // console.log("will check in showFeatures:", draft.shownFeatures);
 
       for (const feature of draft.shownFeatures) {
         if (predicate(feature) === true) {
