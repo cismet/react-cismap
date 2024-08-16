@@ -122,6 +122,7 @@ const FeatureCollectionContextProvider = ({
             localforage.setItem("@" + appKey + "." + contextKey + "." + prop, x);
             // })();
           }
+          // console.log("will set " + prop, x, { stacktrace: new Error().stack.split("\n") });
           state[prop] = x;
         }
       });
@@ -182,21 +183,22 @@ const FeatureCollectionContextProvider = ({
   };
 
   const setSelectedFeatureByPredicate = (predicate, feedbacker = () => {}) => {
-    dispatch((state) => {
-      let index = 0;
-      for (const feature of state.shownFeatures) {
-        // console.log("predicate loop. will check ", feature.properties.id);
-        if (predicate(feature) === true) {
-          // console.log("predicate hit. will select ", feature);
+    const { shownFeatures } = state; // Access the current state directly
 
-          setSelectedFeatureIndex(index);
-          feedbacker(true);
-          return;
-        }
-        index++;
+    let index = 0;
+    for (const feature of shownFeatures) {
+      // console.log("xxx predicate loop. will check ", feature.properties.id);
+      if (predicate(feature) === true) {
+        // console.log("xxx predicate hit. will select ", index);
+        setSelectedFeatureIndex(index); // Call setSelectedFeatureIndex outside the dispatch function
+        // console.log("xxx predicate hit. after setSelectedIndex", index);
+        feedbacker(true);
+        return;
       }
-      feedbacker(false);
-    });
+      index++;
+    }
+    // console.log("xxx setSelectedFeatureByPredicate",  "nothing found");
+    feedbacker(false);
   };
 
   const fitBoundsForCollection = (featuresToZoomTo) => {
@@ -488,17 +490,22 @@ const FeatureCollectionContextProvider = ({
           }
         }
       }
-
       let sf;
       try {
         sf = _shownFeatures[selectedIndex];
-        if (sf.preventSelection !== true) {
-          sf.selected = true;
-        } else {
-          console.log("prevent selection in sf (this should not happen)", sf);
+        if (sf) {
+          if (sf.preventSelection !== true) {
+            sf.selected = true;
+          } else {
+            console.log("prevent selection in sf (this should not happen)", sf);
+          }
         }
-      } catch (e) {}
+      } catch (e) {
+        console.log("Error in sf creation", e);
+      }
+
       set("selectedFeature")(sf);
+
       // setX.setSelectedFeature(sf);
       if (deriveSecondarySelection && sf) {
         set("secondarySelection")(
@@ -524,7 +531,12 @@ const FeatureCollectionContextProvider = ({
     allFeatures,
     selectedIndexState,
     state.initializingFeatures,
+    state,
   ]);
+
+  // useEffect(() => {
+  //   console.log("ℹ️ selectedIndexState", selectedIndexState);
+  // }, [selectedIndexState]);
 
   const load = (url) => {
     getItems({ itemsUrl: url, ...setX, name: featureCollectionName, convertItemToFeature });
