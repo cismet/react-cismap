@@ -27,6 +27,23 @@ const root = createRoot(container); // createRoot(container!) if you use TypeScr
 
 const TestContext = React.createContext();
 
+const originalWarn = console.warn.bind(console);
+const originalError = console.error.bind(console);
+console.warn = (message, ...args) => {
+  try {
+    if (message && !message.includes("ReactDOM.render is no longer supported in React 18")) {
+      originalWarn(message, ...args);
+    }
+  } catch (e) {}
+};
+console.error = (message, ...args) => {
+  try {
+    if (message && !message.includes("ReactDOM.render is no longer supported in React 18")) {
+      originalError(message, ...args);
+    }
+  } catch (e) {}
+};
+
 const ContextDisplay = () => {
   const testContextValue = useContext(TestContext);
   return (
@@ -90,7 +107,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
-      <TopicMapsExamples.SimpleTopicMapWithVectoprLayerAndSelectionInfoBox />
+      {/* <TopicMapsExamples.SimpleTopicMapWithVectoprLayerAndSelectionInfoBox /> */}
 
       {/* <TopicMapsExamples.MostSiprojmpleTopicMapWithCustomLayer25832 /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayerAnPaleOverlay /> */}
@@ -174,6 +191,7 @@ if (window.location.pathname === "/follower") {
       {/* <RoutedMapExamples.Simple /> */}
       {/* <GraphqlLayerExamples.Landparcels /> */}
       {/* <GraphqlLayerExamples.LandparcelsFromCismapLayer /> */}
+      <TopicMapsExamples.TopicMapWithWithSetSelectedFeatureByPredicate />
     </div>
   );
 }

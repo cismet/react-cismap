@@ -72,10 +72,14 @@ import { TileLayer } from "react-leaflet";
 import PaleOverlay from "../../PaleOverlay";
 import kanalStyle from "./layerstyles/kanal";
 import { select } from "@storybook/addon-knobs";
+import { createItemsDictionary } from "./helper/emob/createItemsDictionary";
+import { getFeatureStyler, getPoiClusterIconCreatorFunction } from "./helper/emob/styler";
+import convertItemToFeature from "./helper/emob/convertItemToFeature";
+import { getGazData as getEmobGazData } from "./helper/emob/gazData";
+
 export default {
   title: storiesCategory + "TopicMapComponent",
 };
-
 export const MostSimpleTopicMap = () => {
   return (
     <TopicMapContextProvider>
@@ -2955,6 +2959,100 @@ export const TopicMapWithPolygonFeatureCollection = () => {
       <TopicMapComponent gazData={gazData}>
         <FeatureCollection />
       </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
+
+export const TopicMapWithWithSetSelectedFeatureByPredicate = () => {
+  const [gazData, setGazData] = useState([]);
+  useEffect(() => {
+    getEmobGazData(setGazData);
+  }, []);
+
+  const MyMap = () => {
+    const { setSelectedFeatureByPredicate } = useContext(FeatureCollectionDispatchContext);
+
+    return (
+      <TopicMapComponent
+        gazData={gazData}
+        locatorControl={true}
+        gazetteerSearchPlaceholder="Stadtteil | Adresse | POI | Standorte"
+        infoBox={
+          <GenericInfoBoxFromFeature
+            pixelwidth={350}
+            config={{
+              displaySecondaryInfoAction: true,
+              city: "Wuppertal",
+              navigator: {
+                noun: {
+                  singular: "Ladestation",
+                  plural: "Ladestationen",
+                },
+              },
+              noCurrentFeatureTitle: "Keine Ladestationen gefunden",
+              noCurrentFeatureContent: (
+                <span>
+                  Für mehr Ladestationen Ansicht mit verkleinern oder mit dem untenstehenden Link
+                  auf das komplette Stadtgebiet zoomen.
+                </span>
+              ),
+            }}
+          />
+        }
+        gazetteerHitTrigger={(hits) => {
+          if ((Array.isArray(hits) && hits[0]?.more?.pid) || hits[0]?.more?.id) {
+            const gazId = hits[0]?.more?.pid || hits[0]?.more?.id;
+            setSelectedFeatureByPredicate((feature) => {
+              if (feature.properties.id === gazId) {
+                console.log("xxx found hit", feature.properties.id, feature.text);
+                return true;
+              }
+            });
+          }
+        }}
+      >
+        <FeatureCollection />
+      </TopicMapComponent>
+    );
+  };
+
+  return (
+    <TopicMapContextProvider
+      featureItemsURL={"https://wupp-topicmaps-data.cismet.de/data/emob.data.json"}
+      createFeatureItemsDictionary={createItemsDictionary}
+      getFeatureStyler={getFeatureStyler}
+      convertItemToFeature={convertItemToFeature}
+      clusteringOptions={{
+        iconCreateFunction: getPoiClusterIconCreatorFunction({ svgSize: 35 }),
+      }}
+      referenceSystemDefinition={MappingConstants.proj4crs25832def}
+      mapEPSGCode="25832"
+      referenceSystem={MappingConstants.crs25832}
+      backgroundModes={[
+        {
+          title: "Stadtplan (Tag)",
+          mode: "default",
+          layerKey: "stadtplan",
+          additionalControls: (
+            <a
+              className="renderAsLink"
+              onClick={() => {
+                console.log("yksjdfhdskljfhldfkashj");
+              }}
+            >
+              <FontAwesomeIcon icon={faSync}></FontAwesomeIcon>
+            </a>
+          ),
+        },
+        {
+          title: "Stadtplan (Nacht)",
+          mode: "night",
+          layerKey: "stadtplan",
+        },
+        { title: "Luftbildkarte", mode: "default", layerKey: "lbk" },
+      ]}
+    >
+      <MyMap />
     </TopicMapContextProvider>
   );
 };
