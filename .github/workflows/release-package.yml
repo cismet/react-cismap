@@ -74,5 +74,5 @@ jobs:
           cd dist
           $PUBLISH_COMMAND
       - name: Push changes to repository
-        if: success() && ${{ github.event.inputs.dry-run == 'false' }}
+        if: success() && ${{ github.event.inputs.dry-run == false }}
         run: git push origin dev && git push --tags
