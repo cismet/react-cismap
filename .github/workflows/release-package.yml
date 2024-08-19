@@ -8,7 +8,7 @@ on:
       dry-run:
         description: "Perform a dry run"
         required: false
-        default: "false"
+        type: boolean
 
 jobs:
   release:
@@ -34,18 +34,20 @@ jobs:
           git config --global user.email "902348742+github-actions[bot]@users.noreply.github.com"
           git config --global user.name "GitHub Actions"
 
+      - name: Install Dependencies
+        run: |
+          yarn install
+          yarn global add @babel/cli @babel/core
+
       - name: Change release version
         run: npm version ${{ env.RELEASE_TYPE }}
         env:
           RELEASE_TYPE: ${{ github.event.inputs.release-type }}
 
-      - name: Install Dependencies
-        run: yarn install
-
       - name: Build the package
         run: |
           rm -rf dist/*
-          NODE_ENV=production babel src/lib --out-dir dist --copy-files --source-maps both --ignore *.stories.js,__tests__,spec.js,test.js,__snapshots__
+          NODE_ENV=production yarn babel src/lib --out-dir dist --copy-files --source-maps both --ignore *.stories.js,__tests__,spec.js,test.js,__snapshots__
           githash=$(git rev-parse --short HEAD)
           version=$(npm pkg get version | tr -d '"')
           echo $githash > dist/githash
