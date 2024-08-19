@@ -60,6 +60,7 @@ jobs:
         run: echo "PUBLISH_COMMAND=$( [ '${{ github.event.inputs.dry-run }}' == 'true' ] && echo 'npm publish --dry-run' || echo 'npm publish')" >> $GITHUB_ENV
 
       - name: Publish the package
+        if: ${{ github.event.inputs.dry-run == 'false' }}
         run: |
           cd dist
           $PUBLISH_COMMAND
@@ -67,4 +68,5 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISHING_TOKEN }}
 
       - name: Push changes to repository
+        if: ${{ github.event.inputs.dry-run == 'false' }}
         run: git push origin dev && git push --tags
