@@ -1,4 +1,4 @@
-name: Release package
+name: Release package @ ${{ steps.get-version.outputs.version }}${{ github.event.inputs.dry-run && ' (dry-run)' || '' }}
 on:
   workflow_dispatch:
     inputs:
@@ -43,6 +43,10 @@ jobs:
         run: npm version ${{ env.RELEASE_TYPE }}
         env:
           RELEASE_TYPE: ${{ github.event.inputs.release-type }}
+
+      - name: Get package version
+        id: get-version
+        run: echo "::set-output name=version::$(npm pkg get version | tr -d '\"')"
 
       - name: Build the package
         run: |
