@@ -1,5 +1,7 @@
 name: Release package
 
+run-name: Release package
+
 on:
   workflow_dispatch:
     inputs:
@@ -48,18 +50,6 @@ jobs:
       - name: Get package version
         id: get-version
         run: echo "::set-output name=version::$(npm pkg get version | tr -d '\"')"
-
-      - name: Set dynamic run name
-        run: |
-          RUN_NAME="Release package @ ${{ steps.get-version.outputs.version }}"
-          if [ "${{ github.event.inputs.dry-run }}" == "true" ]; then
-            RUN_NAME="$RUN_NAME (dry-run)"
-          fi
-          echo "::set-output name=run_name::$RUN_NAME"
-        id: set-run-name
-
-      - name: Display run name
-        run: echo "Run name: ${{ steps.set-run-name.outputs.run_name }}"
 
       - name: Build the package
         run: |
