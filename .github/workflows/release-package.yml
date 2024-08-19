@@ -1,6 +1,6 @@
 name: Release package
 
-run-name: Release package
+run-name: Release package  ${{ github.event.inputs.release-type }}${{ github.event.inputs.dry-run == 'true' && ' (dry-run)' || '' }}
 
 on:
   workflow_dispatch:
