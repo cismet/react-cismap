@@ -2,6 +2,7 @@ name: Release package
 
 run-name: Release package  ${{ github.event.inputs.release-type }}${{ github.event.inputs.dry-run == 'true' && ' (dry-run)' || '' }}
 
+
 on:
   workflow_dispatch:
     inputs:
@@ -47,10 +48,6 @@ jobs:
         env:
           RELEASE_TYPE: ${{ github.event.inputs.release-type }}
 
-      - name: Get package version
-        id: get-version
-        run: echo "::set-output name=version::$(npm pkg get version | tr -d '\"')"
-
       - name: Build the package
         run: |
           rm -rf dist/*
@@ -61,12 +58,13 @@ jobs:
           echo $version > dist/version
           echo "const version='$version'; const hash='$githash'; export {version, hash};" > dist/meta.js
           cp -rf package.json dist
-
+ 
       - name: Determine Publish Command
         id: determine-publish
         run: echo "PUBLISH_COMMAND=$( [ '${{ github.event.inputs.dry-run }}' == 'true' ] && echo 'npm publish --dry-run' || echo 'npm publish')" >> $GITHUB_ENV
-
+  
       - name: Publish the package
+        id: publish
         run: |
           cd dist
           $PUBLISH_COMMAND
@@ -74,5 +72,5 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISHING_TOKEN }}
 
       - name: Push changes to repository
-        if: ${{ github.event.inputs.dry-run == 'false' }}
+        if: success() && ${{ github.event.inputs.dry-run == 'false' }}
         run: git push origin dev && git push --tags
