@@ -65,14 +65,13 @@ jobs:
 
       - name: .npmrc
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_PUBLISHING_TOKEN }}" > dist/.npmrc
-      - name: .npmrc
-        run: cat dist/.npmrc
 
       - name: Publish the package
         id: publish
         run: |
           cd dist
           $PUBLISH_COMMAND
+          rm -f .npmrc
       - name: Push changes to repository
         if: success() && ${{ github.event.inputs.dry-run == false }}
         run: git push origin dev && git push --tags
