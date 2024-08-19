@@ -60,7 +60,6 @@ jobs:
         run: echo "PUBLISH_COMMAND=$( [ '${{ github.event.inputs.dry-run }}' == 'true' ] && echo 'npm publish --dry-run' || echo 'npm publish')" >> $GITHUB_ENV
 
       - name: Publish the package
-        if: ${{ github.event.inputs.dry-run == 'false' }}
         run: |
           cd dist
           $PUBLISH_COMMAND
