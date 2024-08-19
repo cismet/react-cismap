@@ -39,3 +39,5 @@ yarn-error.log*
 /public/data/demo
 /public/offlineVectorTilesServiceWorker.js
 /src/playground
+
+.npmrc
