@@ -73,5 +73,5 @@ jobs:
           $PUBLISH_COMMAND
           rm -f .npmrc
       - name: Push changes to repository
-        if: success() && ${{ github.event.inputs.dry-run == 'false' }}
+        if: ${{ github.event.inputs.dry-run == 'false' }}
         run: git push origin dev && git push --tags
