@@ -67,9 +67,9 @@ jobs:
         id: publish
         run: |
           cd dist
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_PUBLISHING_TOKEN }}" > .npmrc
           $PUBLISH_COMMAND
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISHING_TOKEN }}
+          rm .npmrc
 
       - name: Push changes to repository
         if: success() && ${{ github.event.inputs.dry-run == 'false' }}
