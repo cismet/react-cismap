@@ -65,8 +65,8 @@ jobs:
 
       - name: .npmrc
         run: |
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_PUBLISHING_TOKEN }}" > dist/.npmrc
-          echo ".npmrc" > dist/.npmignore
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_PUBLISHING_TOKEN }}" > .npmrc
+          ls -la          
       - name: Publish the package
         id: publish
         run: |
