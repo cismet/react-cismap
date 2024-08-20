@@ -64,8 +64,9 @@ jobs:
         run: echo "PUBLISH_COMMAND=$( [ '${{ github.event.inputs.dry-run }}' == 'true' ] && echo 'npm publish --dry-run' || echo 'npm publish')" >> $GITHUB_ENV
 
       - name: .npmrc
-        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_PUBLISHING_TOKEN }}" > dist/.npmrc
-
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_PUBLISHING_TOKEN }}" > dist/.npmrc
+          echo ".npmrc" > dist/.npmignore
       - name: Publish the package
         id: publish
         run: |
