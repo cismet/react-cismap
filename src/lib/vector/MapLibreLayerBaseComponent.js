@@ -84,7 +84,8 @@ class MaplibreGlLayer extends GridLayer {
               });
               props.onSelectionChanged({ hits: limitedHits, hit: limitedHits[0] });
             } else {
-              console.log("No features found at the click location.");
+              props.onSelectionChanged({ hits: undefined, hit: undefined });
+              // console.log("No features found at the click location.");
             }
           }
         } else {
