@@ -224,32 +224,33 @@ export const SimpleTopicMapWithVectoprLayerAndSelectionInfoBox = () => {
         <CismapLayer
           {...{
             type: "vector",
-            style: "https://tiles.cismet.de/test/style.json",
+            // style: "https://tiles.cismet.de/test/style.json",
+            style: "https://tiles.kg6.cismet.de/kanal_kb_abschnitte/style.json",
             _metadata: "https://tiles.cismet.de/poi/metadata.json",
             pane: "additionalLayers1",
             opacity: 1,
             maxSelectionCount: 1,
             onSelectionChanged: (e) => {
               console.log("xxx selectionChanged", e);
-              const selectedFeature = e.hits[0];
-              const p = selectedFeature.properties;
-              console.log("xxx p", p);
+              // const selectedFeature = e.hits[0];
+              // const p = selectedFeature.properties;
+              // console.log("xxx p", p);
 
-              const identifications = JSON.parse(p.identifications);
-              const mainlocationtype = identifications[0].identification;
-              const info = {
-                title: p.geographicidentifier,
-                // additionalInfo: "bbb",
-                subtitle: p.strasse,
-                headerColor: p.schrift,
-                header: mainlocationtype,
-              };
-              selectedFeature.properties.info = info;
-              selectedFeature.properties.url = p.url;
-              selectedFeature.properties.email = "";
-              selectedFeature.properties.tel = p.telefon;
+              // const identifications = JSON.parse(p.identifications);
+              // const mainlocationtype = identifications[0].identification;
+              // const info = {
+              //   title: p.geographicidentifier,
+              //   // additionalInfo: "bbb",
+              //   subtitle: p.strasse,
+              //   headerColor: p.schrift,
+              //   header: mainlocationtype,
+              // };
+              // selectedFeature.properties.info = info;
+              // selectedFeature.properties.url = p.url;
+              // selectedFeature.properties.email = "";
+              // selectedFeature.properties.tel = p.telefon;
 
-              setSelectedFeature(e.hit);
+              // setSelectedFeature(e.hit);
             },
             onViewMetaDataChanged: (metadata) => {
               console.log("xxx metadata", metadata);

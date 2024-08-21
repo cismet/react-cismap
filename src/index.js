@@ -107,7 +107,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
-      {/* <TopicMapsExamples.SimpleTopicMapWithVectoprLayerAndSelectionInfoBox /> */}
+      <TopicMapsExamples.SimpleTopicMapWithVectoprLayerAndSelectionInfoBox />
 
       {/* <TopicMapsExamples.MostSiprojmpleTopicMapWithCustomLayer25832 /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayerAnPaleOverlay /> */}
@@ -191,7 +191,7 @@ if (window.location.pathname === "/follower") {
       {/* <RoutedMapExamples.Simple /> */}
       {/* <GraphqlLayerExamples.Landparcels /> */}
       {/* <GraphqlLayerExamples.LandparcelsFromCismapLayer /> */}
-      <TopicMapsExamples.TopicMapWithWithSetSelectedFeatureByPredicate />
+      {/* <TopicMapsExamples.TopicMapWithWithSetSelectedFeatureByPredicate /> */}
     </div>
   );
 }
