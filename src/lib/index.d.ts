@@ -143,6 +143,7 @@ declare module "react-cismap" {
   
   declare module "react-cismap/tools/gazetteerHelper" {
     export const getGazDataForTopicIds: (sources: any, topicIds: string[]) => any;
+    export const builtInGazetteerHitTrigger: Function;
   }
   
   declare module "react-cismap/tools/uiHelper" {
