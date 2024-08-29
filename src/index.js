@@ -34,14 +34,14 @@ console.warn = (message, ...args) => {
     if (message && !message.includes("ReactDOM.render is no longer supported in React 18")) {
       originalWarn(message, ...args);
     }
-  } catch (e) {}
+  } catch (e) { }
 };
 console.error = (message, ...args) => {
   try {
     if (message && !message.includes("ReactDOM.render is no longer supported in React 18")) {
       originalError(message, ...args);
     }
-  } catch (e) {}
+  } catch (e) { }
 };
 
 const ContextDisplay = () => {
@@ -106,8 +106,8 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.SimpleTopicMapWMSBBoxDisplay /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
-      {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
-      <TopicMapsExamples.SimpleTopicMapWithVectoprLayerAndSelectionInfoBox />
+      <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer />
+      {/* <TopicMapsExamples.SimpleTopicMapWithVectoprLayerAndSelectionInfoBox /> */}
 
       {/* <TopicMapsExamples.MostSiprojmpleTopicMapWithCustomLayer25832 /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayerAnPaleOverlay /> */}

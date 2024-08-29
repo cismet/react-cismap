@@ -151,7 +151,7 @@ export const MostSimpleTopicMapWithInfoBoxComponent = () => {
 export const MostSimpleTopicMapWithCustomLayer = () => {
   return (
     <TopicMapContextProvider>
-      <TopicMapComponent gazData={[]} backgroundlayers="empty">
+      <TopicMapComponent gazData={[]} backgroundlayers="wupp-plan-live-tiles-3857">
         {/* <StyledWMSTileLayer
           {...{
             type: "wmts",
@@ -167,9 +167,10 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
         <CismapLayer
           {...{
             type: "vector",
-            style: "https://tiles.cismet.de/test/style.json",
+            _style: "https://tiles.cismet.de/test/style.json",
+            style: "https://tiles.cismet.de/hitzeinsel/style.json",
             pane: "additionalLayers1",
-            opacity: 1,
+            opacity: 0.5,
             maxSelectionCount: 1,
             onSelectionChanged: (e) => {
               console.log("xxx selectionChanged", e);
@@ -179,11 +180,11 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
             // },
           }}
         />
-        <TileLayer
+        {/* <TileLayer
           maxNativeZoom={20}
           maxZoom={22}
           url={`https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_light&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`}
-        />
+        /> */}
       </TopicMapComponent>
     </TopicMapContextProvider>
   );
@@ -1276,7 +1277,7 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
-        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
       >
         <FeatureCollection />
       </TopicMapComponent>
@@ -1400,9 +1401,8 @@ const MyMenu = () => {
         <Section
           key="filter"
           sectionKey="filter"
-          sectionTitle={`Meine Klimastandorte (${
-            filteredItems?.length || "0"
-          } Standorte gefunden, davon ${shownFeatures?.length || "0"} in der Karte)`}
+          sectionTitle={`Meine Klimastandorte (${filteredItems?.length || "0"
+            } Standorte gefunden, davon ${shownFeatures?.length || "0"} in der Karte)`}
           sectionBsStyle="primary"
           sectionContent={<FilterPanel filterConfiguration={filterConfiguration} />}
         />,
@@ -1475,7 +1475,7 @@ export const TopicMapWithWithCustomSettings = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
-        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
       >
         <FeatureCollection />
       </TopicMapComponent>
@@ -1556,7 +1556,7 @@ export const TopicMapWithAdditionalLayers = () => {
                 };
                 return style;
               }}
-              featureClickHandler={() => {}}
+              featureClickHandler={() => { }}
             />
           ),
         },
@@ -1882,8 +1882,8 @@ export const TopicMapWithCrossTabCommunicationContextProvider = () => {
               fillOpacity: 0.3,
             }}
             masked={false}
-            // _maskingPolygon={maskingPolygon}
-            // _mapRef={leafletRoutedMapRef}
+          // _maskingPolygon={maskingPolygon}
+          // _mapRef={leafletRoutedMapRef}
           />
 
           <CrossTabCommunicationControl key="crosstabcomcontr" hideWhenNoSibblingIsPresent={true} />
@@ -2017,8 +2017,8 @@ export const RemoteControledTopicMap = () => {
             fillOpacity: 0.3,
           }}
           masked={false}
-          // _maskingPolygon={maskingPolygon}
-          // _mapRef={leafletRoutedMapRef}
+        // _maskingPolygon={maskingPolygon}
+        // _mapRef={leafletRoutedMapRef}
         />
       </TopicMapComponent>
     </TopicMapContextProvider>
@@ -2109,7 +2109,7 @@ export const TopicMapWithWithCustomSettingsAndOneAdditionlLayer = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
-        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
       >
         <FeatureCollection />
       </TopicMapComponent>
@@ -2588,22 +2588,22 @@ export const TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole = (
           />
         }
         secondaryInfo={<InfoPanel />}
-        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
-        // gazetteerHitTrigger={(hits) => {
-        //   if (Array.isArray(hits) && hits[0]?.more?.id) {
-        //     setSelectedFeatureByPredicate((feature) => {
-        //       try {
-        //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
-        //         if (check === true) {
-        //           zoomToFeature(feature);
-        //         }
-        //         return check;
-        //       } catch (e) {
-        //         return false;
-        //       }
-        //     });
-        //   }
-        // }}
+      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+      // gazetteerHitTrigger={(hits) => {
+      //   if (Array.isArray(hits) && hits[0]?.more?.id) {
+      //     setSelectedFeatureByPredicate((feature) => {
+      //       try {
+      //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
+      //         if (check === true) {
+      //           zoomToFeature(feature);
+      //         }
+      //         return check;
+      //       } catch (e) {
+      //         return false;
+      //       }
+      //     });
+      //   }
+      // }}
       >
         <FeatureCollection />
       </TopicMapComponent>
@@ -2809,22 +2809,22 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
-        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
-        // gazetteerHitTrigger={(hits) => {
-        //   if (Array.isArray(hits) && hits[0]?.more?.id) {
-        //     setSelectedFeatureByPredicate((feature) => {
-        //       try {
-        //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
-        //         if (check === true) {
-        //           zoomToFeature(feature);
-        //         }
-        //         return check;
-        //       } catch (e) {
-        //         return false;
-        //       }
-        //     });
-        //   }
-        // }}
+      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+      // gazetteerHitTrigger={(hits) => {
+      //   if (Array.isArray(hits) && hits[0]?.more?.id) {
+      //     setSelectedFeatureByPredicate((feature) => {
+      //       try {
+      //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
+      //         if (check === true) {
+      //           zoomToFeature(feature);
+      //         }
+      //         return check;
+      //       } catch (e) {
+      //         return false;
+      //       }
+      //     });
+      //   }
+      // }}
       >
         <FeatureCollection />
       </TopicMapComponent>
