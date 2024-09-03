@@ -132,7 +132,7 @@ export class RoutedMap extends React.Component {
       setTimeout(() => {
         try {
           map.invalidateSize();
-        } catch (e) {}
+        } catch (e) { }
       }, 100);
     });
     resizeObserver.observe(document.body);
@@ -149,6 +149,10 @@ export class RoutedMap extends React.Component {
 
     map.createPane("backgroundLayers");
     map.getPane("backgroundLayers").style.zIndex = 100;
+
+
+    map.createPane("oneAboveBackgroundLayers");
+    map.getPane("oneAboveBackgroundLayers").style.zIndex = 105;
 
     // create 100 additionalLayers and increment the z-index by 1
     for (let i = 0; i < 100; i++) {
@@ -341,7 +345,7 @@ export class RoutedMap extends React.Component {
               });
             }
             this.storeBoundingBox(leafletMap);
-          } catch (e) {}
+          } catch (e) { }
         } else {
           console.debug("will not do things because i am the leader atm");
         }
@@ -827,18 +831,18 @@ RoutedMap.propTypes = {
 RoutedMap.defaultProps = {
   layers: "",
   zoomControlEnabled: true,
-  gazeteerHitTrigger: function () {},
-  searchButtonTrigger: function () {},
-  featureClickHandler: function () {},
-  onFeatureCreation: function () {},
-  onFeatureChangeAfterEditing: function () {},
-  ondblclick: function () {},
-  onclick: function () {},
-  locationChangedHandler: function () {},
+  gazeteerHitTrigger: function () { },
+  searchButtonTrigger: function () { },
+  featureClickHandler: function () { },
+  onFeatureCreation: function () { },
+  onFeatureChangeAfterEditing: function () { },
+  ondblclick: function () { },
+  onclick: function () { },
+  locationChangedHandler: function () { },
   autoFitConfiguration: {},
   urlSearchParams: new URLSearchParams(""),
-  boundingBoxChangedHandler: () => {},
-  autoFitProcessedHandler: () => {},
+  boundingBoxChangedHandler: () => { },
+  autoFitProcessedHandler: () => { },
   fallbackPosition: {
     lat: 51.272399,
     lng: 7.199712,
@@ -852,7 +856,7 @@ RoutedMap.defaultProps = {
   zoomDelta: 1,
   editable: false,
   attributionControl: false,
-  mapReady: (map) => {},
+  mapReady: (map) => { },
   createFeatureFromEditLayer: (id, layer) => {
     try {
       const wgs84geoJSON = layer.toGeoJSON();
