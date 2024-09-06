@@ -193,7 +193,7 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
 export const SimpleTopicMapWithVectoprLayerAndSelectionInfoBox = () => {
   const [shownFeatures, setShownFeatures] = useState([]);
   const [selectedFeature, setSelectedFeature] = useState(undefined);
-  const [selectionEnabled, setSelectionEnabled] = useState(true);
+  const [selectionEnabled, setSelectionEnabled] = useState(false);
   const [allFeatures, setAllFeatures] = useState(0);
   console.log("xxx", selectionEnabled);
   let links = [];
