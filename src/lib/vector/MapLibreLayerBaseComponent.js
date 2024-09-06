@@ -3,7 +3,7 @@ import { GridLayer } from "react-leaflet";
 
 // import {} from "maplibre-gl";
 // import {} from "./mapbox-gl-leaflet";
-import {} from "./leaflet-maplibre-gl";
+import { } from "./leaflet-maplibre-gl";
 import { Point } from "maplibre-gl";
 
 // import {} from "@maplibre/maplibre-gl-leaflet";
@@ -11,10 +11,26 @@ import { Point } from "maplibre-gl";
 class MaplibreGlLayer extends GridLayer {
   constructor(props) {
     super(props);
-
     this._addLayer = this._addLayer.bind(this);
     this._removeLayer = this._removeLayer.bind(this);
     this._onViewChanged = this._onViewChanged.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    // Check if any props have changed
+    if (prevProps !== this.props) {
+      if (this.props.selectionEnabled === false && this.props.onSelectionChanged !== undefined) {
+        // Deselect all features first
+        this.mapLibreMap.queryRenderedFeatures().forEach((feature) => {
+          this.mapLibreMap.setFeatureState(
+            { source: feature.source, sourceLayer: feature.sourceLayer, id: feature.id },
+            { selected: false }
+          );
+        });
+        this.props.onSelectionChanged({ hits: undefined, hit: undefined });
+      }
+
+    }
   }
 
   createLeafletElement(props) {
@@ -60,7 +76,7 @@ class MaplibreGlLayer extends GridLayer {
           // console.log("xxx adjusted point:", point.x, point.y);
           // console.log("xxx this.mapLibreMap", this.mapLibreMap);
 
-          if (this.mapLibreMap) {
+          if (this.mapLibreMap && this.props.selectionEnabled === true) {
             const hits = this.mapLibreMap.queryRenderedFeatures(rect);
 
             // Deselect all features first
@@ -121,7 +137,6 @@ class MaplibreGlLayer extends GridLayer {
     const { _map } = this._layer;
     mlMap.on("load", () => {
       this.mapLibreMap = mlMap;
-      console.log("xxx loaded");
       this._onViewChanged();
 
       if ((props.opacity || props.textOpacity || props.iconOpacity) && mlMap) {

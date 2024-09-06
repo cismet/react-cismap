@@ -15,6 +15,7 @@ const fetchy = (url, callback) => {
 };
 
 const MapLibreLayer = (_props) => {
+
   const [ready, setReady] = React.useState(!_props.offlineAvailable);
   const [props, setProps] = React.useState(_props);
   const { offlineCacheConfig } = useContext(OfflineLayerCacheContext) || {
@@ -23,6 +24,13 @@ const MapLibreLayer = (_props) => {
   const uiContext = useContext(UIContext);
 
   const { menuCounter } = uiContext | {};
+
+
+  // Update the local props state when _props changes
+  useEffect(() => {
+    setProps(_props);
+  }, [_props]);
+
   useEffect(() => {
     (async () => {
       if (props.offlineAvailable) {
@@ -78,6 +86,7 @@ const MapLibreLayer = (_props) => {
       }
     })();
   }, []);
+
 
   if (ready) {
     return <MapLibreLayerBaseComponent keyIn={props.key + "." + menuCounter} {...props} />;
