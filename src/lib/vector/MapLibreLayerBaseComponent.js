@@ -19,7 +19,7 @@ class MaplibreGlLayer extends GridLayer {
   componentDidUpdate(prevProps) {
     // Check if any props have changed
     if (prevProps !== this.props) {
-      if (this.props.selectionEnabled === false && this.props.onSelectionChanged !== undefined) {
+      if (this.mapLibreMap && this.props.selectionEnabled === false && this.props.onSelectionChanged !== undefined) {
         // Deselect all features first
         this.mapLibreMap.queryRenderedFeatures().forEach((feature) => {
           this.mapLibreMap.setFeatureState(
