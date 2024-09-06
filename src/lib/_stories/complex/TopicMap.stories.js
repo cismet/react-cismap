@@ -193,8 +193,9 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
 export const SimpleTopicMapWithVectoprLayerAndSelectionInfoBox = () => {
   const [shownFeatures, setShownFeatures] = useState([]);
   const [selectedFeature, setSelectedFeature] = useState(undefined);
+  const [selectionEnabled, setSelectionEnabled] = useState(true);
   const [allFeatures, setAllFeatures] = useState(0);
-  console.log("xxx", selectedFeature);
+  console.log("xxx", selectionEnabled);
   let links = [];
   if (selectedFeature) {
     links = getActionLinksForFeature(selectedFeature, {});
@@ -222,15 +223,31 @@ export const SimpleTopicMapWithVectoprLayerAndSelectionInfoBox = () => {
           )
         }
       >
+        <Control position="topright"><div>
+          <input
+            type="checkbox"
+            id="selectionCheckbox"
+            checked={selectionEnabled}
+            onChange={
+              (event) => {
+                setSelectionEnabled(event.target.checked);
+              }
+
+            }
+          />
+          <label htmlFor="selectionCheckbox">Enable Selection</label>
+        </div></Control>
         <CismapLayer
           {...{
             type: "vector",
             // style: "https://tiles.cismet.de/test/style.json",
-            style: "https://tiles.kg6.cismet.de/kanal_kb_abschnitte/style.json",
+            style: "https://tiles.cismet.de/poi/style.json",
+            // style: "https://tiles.kg6.cismet.de/kanal_kb_abschnitte/style.json",
             _metadata: "https://tiles.cismet.de/poi/metadata.json",
             pane: "additionalLayers1",
             opacity: 1,
             maxSelectionCount: 1,
+            selectionEnabled: selectionEnabled,
             onSelectionChanged: (e) => {
               console.log("xxx selectionChanged", e);
               // const selectedFeature = e.hits[0];
