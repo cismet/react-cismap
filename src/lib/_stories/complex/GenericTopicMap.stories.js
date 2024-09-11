@@ -12,7 +12,7 @@ import CismetFooterAcks from "../../topicmaps/wuppertal/CismetFooterAcknowledgem
 
 //--------  Config Files
 import * as wasserstoffConfig from "./config/wasserstoff/";
-import * as parkscheinautomatenConfig from "./config/parkscheinautomaten/";
+import * as parkscheinautomatenConfig from "./config/park";
 import { getClusterIconCreatorFunction } from "../../tools/uiHelper";
 import IconComp from "../../commons/Icon";
 
@@ -40,6 +40,123 @@ const {
 //   simpleHelp,
 // } = parkscheinautomatenConfig;
 
+
+async function getConfig(slugName, configType, server, path) {
+  try {
+    const u = server + path + slugName + "/" + configType + ".json";
+    console.log("try to read rconfig at ", u);
+    const result = await fetch(u);
+    const resultObject = await result.json();
+    console.log("config: loaded " + slugName + "/" + configType);
+    return resultObject;
+  } catch (ex) {
+    console.log("error for rconfig", ex);
+  }
+}
+async function getMarkdown(slugName, configType, server, path) {
+  try {
+    const u = server + path + slugName + "/" + configType + ".md";
+    console.log("try to read markdown at ", u);
+    const result = await fetch(u);
+    const resultObject = await result.text();
+    console.log("config: loaded " + slugName + "/" + configType);
+    return resultObject;
+  } catch (ex) {
+    console.log("error for rconfig", ex);
+  }
+}
+// async function initialize({
+//   slugName,
+//   setConfig,
+//   setFeatureCollection,
+//   setInitialized,
+//   _path = "/dev/",
+//   _server = "https://raw.githubusercontent.com/cismet/wupp-generic-topic-map-config",
+//   path = "/",
+//   server = "",
+// }) {
+//   const config = await getConfig(slugName, "config", server, path);
+
+//   const featureDefaultProperties = await getConfig(
+//     slugName,
+//     "featureDefaultProperties",
+//     server,
+//     path,
+//   );
+//   const featureDefaults = await getConfig(
+//     slugName,
+//     "featureDefaults",
+//     server,
+//     path,
+//   );
+//   const helpTextBlocks = await getConfig(
+//     slugName,
+//     "helpTextBlocks",
+//     server,
+//     path,
+//   );
+//   const simpleHelpMd = await await getMarkdown(
+//     slugName,
+//     "simpleHelp",
+//     server,
+//     path,
+//   );
+//   const simpleHelp = await await getConfig(
+//     slugName,
+//     "simpleHelp",
+//     server,
+//     path,
+//   );
+//   const infoBoxConfig = await getConfig(slugName, "infoBoxConfig", path);
+//   const features = await getConfig(slugName, "features", server, path);
+
+//   if (helpTextBlocks !== undefined) {
+//     config.helpTextblocks = helpTextBlocks;
+//   } else if (simpleHelpMd !== undefined) {
+//     const simpleHelpObject = { type: "MARKDOWN", content: simpleHelpMd };
+//     config.helpTextblocks = getSimpleHelpForGenericTM(
+//       document.title,
+//       simpleHelpObject,
+//     );
+//   } else {
+//     config.helpTextblocks = getSimpleHelpForGenericTM(
+//       document.title,
+//       simpleHelp,
+//     );
+//   }
+//   if (features !== undefined) {
+//     config.features = features;
+//   }
+
+//   if (infoBoxConfig !== undefined) {
+//     config.info = infoBoxConfig;
+//   }
+
+//   const fc = [];
+//   let i = 0;
+//   for (const f of config.features) {
+//     const ef = { ...featureDefaults, ...f };
+//     ef.id = i;
+//     ef.index = i;
+//     i++;
+//     ef.properties = { ...featureDefaultProperties, ...ef.properties };
+//     fc.push(ef);
+//   }
+//   config.features = fc;
+//   console.log("xxx setConfig", JSON.stringify(config));
+//   setConfig(configFromFile);
+//   setInitialized(true);
+
+//   // config.features = fc;
+//   // console.log("xxx setConfig", JSON.stringify(config));
+
+//   // setConfig(config);
+//   // // if (setFeatureCollection !== undefined) {
+//   // //   setFeatureCollection(fc);
+//   // // }
+//   // setInitialized(true);
+// }
+
 export const SimpleStaticGenericTopicMap_Wasserstofftankstelle = () => {
   const {
     configFromFile,
@@ -52,7 +169,7 @@ export const SimpleStaticGenericTopicMap_Wasserstofftankstelle = () => {
 
   const [gazData, setGazData] = useState([]);
   const [initialized, setInitialized] = useState(false);
-  const [config, setConfig] = useState(configFromFile);
+  const [config, setConfig] = useState({});
   useEffect(() => {
     const simpleHelpMd = undefined;
     if (helpTextBlocks !== undefined) {
@@ -128,9 +245,8 @@ export const SimpleStaticGenericTopicMap_Wasserstofftankstelle = () => {
               previewMapPosition={config?.tm?.previewMapPosition}
               previewFeatureCollectionCount={config?.tm?.previewFeatureCollectionCount}
               introductionMarkdown={`Über **Einstellungen** können Sie die Darstellung der
-              Hintergrundkarte und ${
-                config?.tm?.applicationMenuIntroductionTerm || " der Objekte"
-              } an Ihre 
+              Hintergrundkarte und ${config?.tm?.applicationMenuIntroductionTerm || " der Objekte"
+                } an Ihre 
               Vorlieben anpassen. Wählen Sie **Kompaktanleitung** 
               für detailliertere Bedienungsinformationen.`}
               menuIcon={config?.tm?.applicationMenuIconname}
@@ -155,53 +271,132 @@ export const SimpleStaticGenericTopicMap_Wasserstofftankstelle = () => {
 };
 
 export const SimpleStaticGenericTopicMap_Parkscheinautomaten = () => {
-  const {
-    configFromFile,
-    featureDefaultProperties,
-    featureDefaults,
-    features,
-    infoBoxConfig,
-    simpleHelp,
-  } = parkscheinautomatenConfig;
+
+
+
+
 
   const [gazData, setGazData] = useState([]);
   const [initialized, setInitialized] = useState(false);
-  const [config, setConfig] = useState(configFromFile);
+  const [config, setConfig] = useState({});
   useEffect(() => {
-    const simpleHelpMd = undefined;
-    if (helpTextBlocks !== undefined) {
-      config.helpTextblocks = helpTextBlocks;
-    } else if (simpleHelpMd !== undefined) {
-      const simpleHelpObject = { type: "MARKDOWN", content: simpleHelpMd };
-      config.helpTextblocks = getSimpleHelpForGenericTM(document.title, simpleHelpObject);
-    } else {
-      config.helpTextblocks = getSimpleHelpForGenericTM(document.title, simpleHelp);
-    }
-    if (features !== undefined) {
-      config.features = features;
-    }
 
-    if (infoBoxConfig !== undefined) {
-      config.info = infoBoxConfig;
-    }
+    (async () => {
 
-    const fc = [];
-    let i = 0;
-    for (const f of config.features) {
-      const ef = { ...featureDefaults, ...f };
-      ef.id = i;
-      i++;
-      ef.properties = { ...featureDefaultProperties, ...ef.properties };
-      fc.push(ef);
-    }
-    config.features = fc;
 
-    //Backwards conmpatibility
-    config.tm.gazetteerSearchPlaceholder = config.tm.gazetteerSearchBoxPlaceholdertext;
-    config.info.city = config.city;
-    getGazData(setGazData, config.tm.gazetteerTopicsList);
-    setConfig(config);
-    setInitialized(true);
+      // const {
+      //   configFromFile,
+      //   featureDefaultProperties,
+      //   featureDefaults,
+      //   features,
+      //   infoBoxConfig,
+      //   simpleHelp,
+      // } = parkscheinautomatenConfig;
+
+      const path = "/";
+      const server = "";
+      const slugName = "park";
+      const config = await getConfig(slugName, "config", server, path);
+
+
+      const featureDefaultProperties = await getConfig(
+        slugName,
+        "featureDefaultProperties",
+        server,
+        path,
+      );
+      const featureDefaults = await getConfig(
+        slugName,
+        "featureDefaults",
+        server,
+        path,
+      );
+      const helpTextBlocks = await getConfig(
+        slugName,
+        "helpTextBlocks",
+        server,
+        path,
+      );
+      const simpleHelpMd = await await getMarkdown(
+        slugName,
+        "simpleHelp",
+        server,
+        path,
+      );
+      const simpleHelp = await await getConfig(
+        slugName,
+        "simpleHelp",
+        server,
+        path,
+      );
+      const infoBoxConfig = await getConfig(slugName, "infoBoxConfig", path);
+      const features = await getConfig(slugName, "features", server, path);
+      // const config = configFromFile;
+
+
+      // if (helpTextBlocks !== undefined) {
+      //   config.helpTextblocks = helpTextBlocks;
+      // } else if (simpleHelpMd !== undefined) {
+      //   const simpleHelpObject = { type: "MARKDOWN", content: simpleHelpMd };
+      //   config.helpTextblocks = getSimpleHelpForGenericTM(document.title, simpleHelpObject);
+      // } else {
+      //   config.helpTextblocks = getSimpleHelpForGenericTM(document.title, simpleHelp);
+      // }
+      // if (features !== undefined) {
+      //   config.features = features;
+      // }
+
+      // if (infoBoxConfig !== undefined) {
+      //   config.info = infoBoxConfig;
+      // }
+
+
+      if (helpTextBlocks !== undefined) {
+        config.helpTextblocks = helpTextBlocks;
+      } else if (simpleHelpMd !== undefined) {
+        const simpleHelpObject = { type: "MARKDOWN", content: simpleHelpMd };
+        config.helpTextblocks = getSimpleHelpForGenericTM(
+          document.title,
+          simpleHelpObject,
+        );
+      } else {
+        config.helpTextblocks = getSimpleHelpForGenericTM(
+          document.title,
+          simpleHelp,
+        );
+      }
+      if (features !== undefined) {
+        config.features = features;
+      }
+
+      if (infoBoxConfig !== undefined) {
+        config.info = infoBoxConfig;
+      }
+
+
+      const fc = [];
+      let i = 0;
+      for (const f of config.features) {
+        const ef = { ...featureDefaults, ...f };
+        ef.id = i;
+        i++;
+        ef.properties = { ...featureDefaultProperties, ...ef.properties };
+        fc.push(ef);
+      }
+      config.features = fc;
+
+      // //Backwards conmpatibility
+      // config.tm.gazetteerSearchPlaceholder = config.tm.gazetteerSearchBoxPlaceholdertext;
+      // config.info.city = config.city;
+      getGazData(setGazData, config.tm.gazetteerTopicsList);
+      setConfig(config);
+      setInitialized(true);
+
+      // await initialize({ slugName: "park", setConfig, setInitialized });
+      // getGazData(setGazData, config.tm.gazetteerTopicsList);
+
+      // setConfig(config);
+    })();
   }, []);
 
   if (initialized === true) {
@@ -217,6 +412,7 @@ export const SimpleStaticGenericTopicMap_Parkscheinautomaten = () => {
         }}
       >
         <TopicMapComponent
+          key={JSON.stringify(config)}
           {...config.tm}
           gazData={gazData}
           infoBox={<GenericInfoBoxFromFeature config={infoBoxConfig} />}
@@ -226,9 +422,8 @@ export const SimpleStaticGenericTopicMap_Parkscheinautomaten = () => {
               previewMapPosition={config?.tm?.previewMapPosition}
               previewFeatureCollectionCount={config?.tm?.previewFeatureCollectionCount}
               introductionMarkdown={`Über **Einstellungen** können Sie die Darstellung der
-              Hintergrundkarte und ${
-                config?.tm?.applicationMenuIntroductionTerm || " der Objekte"
-              } an Ihre 
+              Hintergrundkarte und ${config?.tm?.applicationMenuIntroductionTerm || " der Objekte"
+                } an Ihre 
               Vorlieben anpassen. Wählen Sie **Kompaktanleitung** 
               für detailliertere Bedienungsinformationen.`}
               menuIcon={config?.tm?.applicationMenuIconname}

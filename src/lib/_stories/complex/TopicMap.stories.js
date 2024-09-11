@@ -76,7 +76,8 @@ import { createItemsDictionary } from "./helper/emob/createItemsDictionary";
 import { getFeatureStyler, getPoiClusterIconCreatorFunction } from "./helper/emob/styler";
 import convertItemToFeature from "./helper/emob/convertItemToFeature";
 import { getGazData as getEmobGazData } from "./helper/emob/gazData";
-
+import { faInfo } from "@fortawesome/free-solid-svg-icons";
+import { faSquare } from "@fortawesome/free-regular-svg-icons";
 export default {
   title: storiesCategory + "TopicMapComponent",
 };
@@ -193,7 +194,7 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
 export const SimpleTopicMapWithVectoprLayerAndSelectionInfoBox = () => {
   const [shownFeatures, setShownFeatures] = useState([]);
   const [selectedFeature, setSelectedFeature] = useState(undefined);
-  const [selectionEnabled, setSelectionEnabled] = useState(false);
+  const [selectionEnabled, setSelectionEnabled] = useState(true);
   const [allFeatures, setAllFeatures] = useState(0);
   console.log("xxx", selectionEnabled);
   let links = [];
@@ -250,25 +251,40 @@ export const SimpleTopicMapWithVectoprLayerAndSelectionInfoBox = () => {
             selectionEnabled: selectionEnabled,
             onSelectionChanged: (e) => {
               console.log("xxx selectionChanged", e);
-              // const selectedFeature = e.hits[0];
-              // const p = selectedFeature.properties;
-              // console.log("xxx p", p);
+              const selectedFeature = e.hits[0];
+              const p = selectedFeature.properties;
+              console.log("xxx p", p);
 
-              // const identifications = JSON.parse(p.identifications);
-              // const mainlocationtype = identifications[0].identification;
-              // const info = {
-              //   title: p.geographicidentifier,
-              //   // additionalInfo: "bbb",
-              //   subtitle: p.strasse,
-              //   headerColor: p.schrift,
-              //   header: mainlocationtype,
-              // };
-              // selectedFeature.properties.info = info;
-              // selectedFeature.properties.url = p.url;
-              // selectedFeature.properties.email = "";
-              // selectedFeature.properties.tel = p.telefon;
+              const identifications = JSON.parse(p.identifications);
+              const mainlocationtype = identifications[0].identification;
+              const info = {
+                title: p.geographicidentifier,
+                // additionalInfo: "bbb",
+                subtitle: p.strasse,
+                headerColor: p.schrift,
+                header: mainlocationtype,
+              };
+              selectedFeature.properties.info = info;
+              selectedFeature.properties.url = p.url;
+              selectedFeature.properties.email = "";
+              selectedFeature.properties.tel = p.telefon;
 
-              // setSelectedFeature(e.hit);
+              const f = e.hit;
+              //add generic Links
+              f.properties.genericLinks = [{ url: "https://cismet.de", tooltip: "cismet", target: "_blank", icon: (<img src="https://cismet.de/images/projects/wunda_l.png" width="40" />) }, {
+                url: "https://cismet.de", tooltip: "cismet", target: "_blank", icon: (<span >
+                  <FontAwesomeIcon icon={faSquare} size='2x'
+                    transform="down-0 right-0" style={{ color: 'grey', width: '26px' }} />
+                  <FontAwesomeIcon icon={faInfo} transform="left-34 up-5" style={{ color: 'grey', width: '26px' }} />
+                </span>),
+
+              }];
+
+              console.log('hit', f);
+
+
+              setSelectedFeature(f);
+
             },
             onViewMetaDataChanged: (metadata) => {
               console.log("xxx metadata", metadata);

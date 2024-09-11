@@ -192,6 +192,7 @@ if (window.location.pathname === "/follower") {
       {/* <GraphqlLayerExamples.Landparcels /> */}
       {/* <GraphqlLayerExamples.LandparcelsFromCismapLayer /> */}
       {/* <TopicMapsExamples.TopicMapWithWithSetSelectedFeatureByPredicate /> */}
+      {/* <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Parkscheinautomaten /> */}
     </div>
   );
 }
