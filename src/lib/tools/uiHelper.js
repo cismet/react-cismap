@@ -92,6 +92,7 @@ export const getActionLinksForFeature = (
             href={genericLink.url}
             target={genericLink.target || "_blank"}
             iconname={genericLink.iconname || "globe"}
+            icon={genericLink.icon || undefined}
           />
         );
       } else if (genericLink.action) {
@@ -101,6 +102,8 @@ export const getActionLinksForFeature = (
             tooltip={genericLink.tooltip}
             onClick={genericLink.action}
             iconname={genericLink.iconname || "globe"}
+            icon={genericLink.icon || undefined}
+
           />
         );
       }
@@ -201,11 +204,9 @@ export const getSymbolSVGGetter = (
                         }
                     /* ]]> */
                     </style>
-                <svg x="${svgSize / bdim.width / 2}" y="${svgSize / bdim.height / 2}"  width="${
-      svgSize - (2 * svgSize) / bdim.width / 2
-    }" height="${svgSize - (2 * svgSize) / bdim.height / 2}" viewBox="0 0 ${bdim.width} ${
-      bdim.height || 24
-    }">       
+                <svg x="${svgSize / bdim.width / 2}" y="${svgSize / bdim.height / 2}"  width="${svgSize - (2 * svgSize) / bdim.width / 2
+      }" height="${svgSize - (2 * svgSize) / bdim.height / 2}" viewBox="0 0 ${bdim.width} ${bdim.height || 24
+      }">       
                     ${svgCode}
                 </svg>
                 </svg>  `;
