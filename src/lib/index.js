@@ -12,8 +12,10 @@ import NewPolyControl from "./editcontrols/NewPolygonControl";
 import NewMarkerControl from "./editcontrols/NewMarkerControl";
 import * as TransitiveReactLeaflet from "react-leaflet";
 import * as TransitiveLeaflet from "leaflet";
+import TransitiveReactLeafletControl from "react-leaflet-control";
 
 const ID = 3;
+
 export {
   MappingHelpers,
   MappingConstants,
@@ -28,6 +30,7 @@ export {
   NewMarkerControl,
   TransitiveReactLeaflet,
   TransitiveLeaflet,
+  TransitiveReactLeafletControl
 };
 
 export { ID };
