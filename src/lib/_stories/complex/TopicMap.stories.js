@@ -90,10 +90,12 @@ export const MostSimpleTopicMap = () => {
         homeZoom={19}
         gazData={undefined}
         gazetteerSearchControl={false}
+
       ></TopicMapComponent>
     </TopicMapContextProvider>
   );
 };
+
 
 export const MostSimpleTopicMapWithZoomSnapAndZoomDelta = () => {
   return (
@@ -190,6 +192,49 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
     </TopicMapContextProvider>
   );
 };
+
+
+export const MostSimpleTopicMapWithCustomLayerAndEmptyTopicMapbackgroundLayer = () => {
+  return (
+    <TopicMapContextProvider>
+      <TopicMapComponent gazData={[]} backgroundlayers="empty">
+        <StyledWMSTileLayer
+          {...{
+            type: "wms",
+            url: "https://geodaten.metropoleruhr.de/spw2/service",
+            layers: "spw2_light",
+            tiled: "false",
+            version: "1.3.0",
+          }}
+        ></StyledWMSTileLayer>
+
+        <CismapLayer
+          {...{
+            type: "vector",
+            _style: "https://tiles.cismet.de/test/style.json",
+            style: "https://tiles.cismet.de/hitzeinsel/style.json",
+            pane: "additionalLayers1",
+            opacity: 0.5,
+            maxSelectionCount: 1,
+            onSelectionChanged: (e) => {
+              console.log("xxx selectionChanged", e);
+            },
+            // onLayerClick: (e) => {
+            //   console.log("xxx onLayerClick", e);
+            // },
+          }}
+        />
+        {/* <TileLayer
+          maxNativeZoom={20}
+          maxZoom={22}
+          url={`https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_light&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`}
+        /> */}
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
+
+
 
 export const SimpleTopicMapWithVectoprLayerAndSelectionInfoBox = () => {
   const [shownFeatures, setShownFeatures] = useState([]);

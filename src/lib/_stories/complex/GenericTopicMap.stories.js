@@ -12,7 +12,6 @@ import CismetFooterAcks from "../../topicmaps/wuppertal/CismetFooterAcknowledgem
 
 //--------  Config Files
 import * as wasserstoffConfig from "./config/wasserstoff/";
-import * as parkscheinautomatenConfig from "./config/park";
 import { getClusterIconCreatorFunction } from "../../tools/uiHelper";
 import IconComp from "../../commons/Icon";
 

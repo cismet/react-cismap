@@ -107,7 +107,8 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
-      <TopicMapsExamples.SimpleTopicMapWithVectoprLayerAndSelectionInfoBox />
+      {/* <TopicMapsExamples.SimpleTopicMapWithVectoprLayerAndSelectionInfoBox /> */}
+      <TopicMapsExamples.MostSimpleTopicMapWithCustomLayerAndEmptyTopicMapbackgroundLayer />
 
       {/* <TopicMapsExamples.MostSiprojmpleTopicMapWithCustomLayer25832 /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayerAnPaleOverlay /> */}

@@ -90,6 +90,10 @@ const createLayerFactoryFunction = (key, _conf = defaultLayerConf) => {
   };
 
   switch ((conf.namedLayers[key] || {}).type) {
+    case "empty":
+      return () => {
+        return null;
+      };
     case "wms":
     case "wmts":
       return (options) => {
@@ -149,6 +153,8 @@ const createLayerFactoryFunction = (key, _conf = defaultLayerConf) => {
         );
       };
   }
+  //just in case
+  return null;
 };
 
 export const defaultLayerConf = {
@@ -296,11 +302,7 @@ export const defaultLayerConf = {
       version: "1.3.0",
     },
     empty: {
-      type: "wms",
-      url: "-",
-      layers: "-",
-      tiled: "false",
-      version: "1.3.0",
+      type: "empty",
     },
     "wupp-plan-live": {
       type: "wms",
