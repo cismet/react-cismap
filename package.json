@@ -1,7 +1,7 @@
 {
 	"name": "react-cismap",
 	"description": "our (cismet) mapping (pattern) library for better reusability in different projects",
-	"version": "2.5.14",
+	"version": "2.5.15",
 	"main": "index.js",
 	"types": "index.d.ts",
 	"homepage": ".",
