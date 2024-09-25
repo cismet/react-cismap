@@ -292,7 +292,8 @@ export const SimpleTopicMapWithVectoprLayerAndSelectionInfoBox = () => {
             _metadata: "https://tiles.cismet.de/poi/metadata.json",
             pane: "additionalLayers1",
             opacity: 1,
-            maxSelectionCount: 1,
+            normalizeFeatureHitsById: true,
+            maxSelectionCount: 10,
             selectionEnabled: selectionEnabled,
             onSelectionChanged: (e) => {
               console.log("xxx selectionChanged", e);

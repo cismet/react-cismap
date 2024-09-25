@@ -57,6 +57,7 @@ class MaplibreGlLayer extends GridLayer {
 
     // Add maxSelectionCount with a default value of 1
     const maxSelectionCount = props.maxSelectionCount || 1;
+    const normalizeFeatureHitsById = props.normalizeFeatureHitsById || false;
     if (props.onSelectionChanged) {
       map.on("click", (e) => {
         if (this.mapLibreMap?.project) {
@@ -90,15 +91,34 @@ class MaplibreGlLayer extends GridLayer {
             if (hits.length > 0) {
               // Limit the selection to maxSelectionCount
               const limitedHits = hits.slice(0, maxSelectionCount);
+
+              const normalizedLimitedHits = [];
               limitedHits.forEach((hit) => {
                 // console.log("xxx -> ", hit.layer.id, hit.properties.id, hit);
                 this.mapLibreMap.setFeatureState(
                   { source: hit.source, sourceLayer: hit.sourceLayer, id: hit.id },
                   { selected: true }
                 );
+
+                //add hit to normalizedLimitedHits if an object with the id isn't already in the array
+                if (
+                  !normalizedLimitedHits.some((e) => e.id === hit.id)
+                ) {
+                  normalizedLimitedHits.push(hit);
+                }
+
                 // console.log(`State set for feature ID ${hit.id}`);
               });
-              props.onSelectionChanged({ hits: limitedHits, hit: limitedHits[0] });
+              // console.log('limitedHits', limitedHits);
+              // console.log('normalizedLimitedHits', normalizedLimitedHits);
+
+              if (normalizeFeatureHitsById) {
+                props.onSelectionChanged({ hits: normalizedLimitedHits, hit: normalizedLimitedHits[0] });
+
+              } else {
+                props.onSelectionChanged({ hits: limitedHits, hit: limitedHits[0] });
+
+              }
             } else {
               props.onSelectionChanged({ hits: undefined, hit: undefined });
               // console.log("No features found at the click location.");
