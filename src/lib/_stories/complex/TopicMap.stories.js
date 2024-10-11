@@ -1364,7 +1364,7 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
   );
 };
 
-const MyMenu = () => {
+const MyMenu = ({ sparseSettingsSectionsExtensions = [] }) => {
   const { setAppMenuActiveMenuSection } = useContext(UIDispatchContext);
   const { filterState, filterMode, filteredItems, shownFeatures } = useContext(
     FeatureCollectionContext
@@ -1485,7 +1485,7 @@ const MyMenu = () => {
           sectionBsStyle="primary"
           sectionContent={<FilterPanel filterConfiguration={filterConfiguration} />}
         />,
-        <DefaultSettingsPanel key="settings" />,
+        <DefaultSettingsPanel key="settings" sparseSettingsSectionsExtensions={sparseSettingsSectionsExtensions} />,
         <Section
           key="help"
           sectionKey="help"
@@ -1533,7 +1533,7 @@ export const TopicMapWithWithCustomSettings = () => {
       }}
     >
       <TopicMapComponent
-        modalMenu={<MyMenu />}
+        modalMenu={<MyMenu sparseSettingsSectionsExtensions={[, , <div>xxx</div>]} />}
         gazData={gazData}
         gazetteerSearchPlaceholder="Stadtteil | Adresse | POI | Standorte"
         infoBox={

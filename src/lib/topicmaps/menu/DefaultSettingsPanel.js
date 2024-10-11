@@ -56,6 +56,7 @@ const SettingsPanel = (props) => {
     skipBackgroundSettings = false,
     skipSymbolsizeSetting = false,
     defaultContextValues = {},
+    sparseSettingsSectionsExtensions = []
   } = props;
 
   const { setAppMenuActiveMenuSection, setAppMenuVisible } =
@@ -148,7 +149,7 @@ const SettingsPanel = (props) => {
   let backgroundsFromMode;
   try {
     backgroundsFromMode = backgroundConfigurations[selectedBackground].layerkey;
-  } catch (e) {}
+  } catch (e) { }
 
   useEffect(() => {
     //uglyWinning : with variable using for mapPreveiw there are refresh Problems
@@ -418,6 +419,18 @@ const SettingsPanel = (props) => {
       />
     );
   }
+
+
+  for (let i = 0; i < sparseSettingsSectionsExtensions.length; i++) {
+    const element = sparseSettingsSectionsExtensions[i];
+    if (element) {
+      settingsSections.splice(i, 0, element);
+    }
+
+  }
+
+
+
 
   return (
     <Section
