@@ -43,17 +43,17 @@ const TopicMapComponent = (props) => {
     homeCenter,
     homeZoom,
     home,
-    ondblclick = () => {},
-    onclick = () => {},
-    locationChangedHandler = () => {},
+    ondblclick = () => { },
+    onclick = () => { },
+    locationChangedHandler = () => { },
     outerLocationChangedHandlerExclusive = false,
     pushToHistory,
     autoFitBounds = false,
     autoFitMode = MappingConstants.AUTO_FIT_MODE_STRICT,
     autoFitBoundsTarget = null,
-    setAutoFit = () => {},
+    setAutoFit = () => { },
     urlSearchParams,
-    mappingBoundsChanged = (boundingbox) => {},
+    mappingBoundsChanged = (boundingbox) => { },
     backgroundlayers,
     fullScreenControl = true,
     locatorControl = false,
@@ -85,6 +85,7 @@ const TopicMapComponent = (props) => {
     gazetteerSearchComponent,
     zoomSnap = 1,
     zoomDelta = 1,
+    mapkey = "mapKey",
   } = props;
   const { history, referenceSystem, referenceSystemDefinition, maskingPolygon } = useContext(
     TopicMapContext
@@ -123,7 +124,7 @@ const TopicMapComponent = (props) => {
   let backgroundsFromMode;
   try {
     backgroundsFromMode = backgroundConfigurations[selectedBackground].layerkey;
-  } catch (e) {}
+  } catch (e) { }
 
   const _backgroundLayers = backgroundlayers || backgroundsFromMode || "rvrGrau@40";
 
@@ -214,7 +215,7 @@ const TopicMapComponent = (props) => {
         spinner
         text={initialLoadingText + " " + statusPostfix + "..."}
       >
-        <div>
+        <div key="mapKey">
           {photoLightBox && <PhotoLightBox />}
           <TitleBox />
           <RoutedMap
