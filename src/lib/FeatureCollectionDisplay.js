@@ -47,7 +47,6 @@ const FeatureCollectionDisplay = ({
   }
   return (
     <div>
-      {" "}
       <ProjGeoJson
         key={JSON.stringify(featureCollection) + "." + JSON.stringify(boundingBox)}
         featureCollection={featureCollection}
@@ -94,9 +93,9 @@ FeatureCollectionDisplay.propTypes = {
 FeatureCollectionDisplay.defaultProps = {
   featureCollection: [],
   selectionSpiderfyMinZoom: 7,
-  style: () => {},
+  style: () => { },
   // hoverer: () => {},
-  featureClickHandler: () => {},
+  featureClickHandler: () => { },
   clusterOptions: {},
   clusteringEnabled: false,
   showMarkerCollection: false,
