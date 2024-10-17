@@ -15,7 +15,7 @@ import center from "@turf/center";
 const defaultState = {
   items: undefined,
   itemsDictionary: undefined,
-  createItemsDictionary: () => {},
+  createItemsDictionary: () => { },
   metaInformation: undefined,
   filteredItems: undefined,
   filterState: undefined,
@@ -88,7 +88,7 @@ const FeatureCollectionContextProvider = ({
   persistenceSettings,
   filterState,
   classKeyFunction,
-  createItemsDictionary = () => {},
+  createItemsDictionary = () => { },
   nextFeature,
   prevFeature,
   deriveSecondarySelection,
@@ -172,6 +172,8 @@ const FeatureCollectionContextProvider = ({
     setClusteringEnabled: set("clusteringEnabled"),
     setFeatureTooltipFunction: set("featureTooltipFunction"),
     setClusteringOptions: set("clusteringOptions"),
+    setGetFeatureStyler: set("getFeatureStyler"),
+    setGetColorFromProperties: set("getColorFromProperties"),
   };
 
   const setSelectedFeatureIndex = (selectedIndex) => {
@@ -182,7 +184,7 @@ const FeatureCollectionContextProvider = ({
     setX.setSelectedIndexState({ selectedIndex, forced: false });
   };
 
-  const _setSelectedFeatureByPredicate = (predicate, feedbacker = () => {}) => {
+  const _setSelectedFeatureByPredicate = (predicate, feedbacker = () => { }) => {
     const { shownFeatures } = state.curent; // Access the current state directly
 
     let index = 0;
@@ -203,7 +205,7 @@ const FeatureCollectionContextProvider = ({
     feedbacker(false);
   };
 
-  const setSelectedFeatureByPredicate = (predicate, feedbacker = () => {}) => {
+  const setSelectedFeatureByPredicate = (predicate, feedbacker = () => { }) => {
     dispatch((draft) => {
       let index = 0;
       // console.log("will check in showFeatures:", draft.shownFeatures);
