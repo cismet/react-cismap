@@ -47,6 +47,8 @@ const Component = (props) => {
     photoPreviewWidth,
     openLightBox,
     overrideFeatureCollectionContext,
+    headerColorizer,
+    headerColor,
   } = props;
   let featureCollectionContext = useContext(FeatureCollectionContext) || defaultContextValues;
   if (overrideFeatureCollectionContext !== undefined) {
@@ -104,13 +106,12 @@ const Component = (props) => {
       setVisibleStateOfSecondaryInfo: (vis) => _setSecondaryInfoVisible(vis),
     });
     header = (
-      <span>{funcOrContent(currentFeature?.properties?.info?.header) || config.header}</span>
+      <span>{funcOrContent(currentFeature?.properties?.info?.header) || funcOrContent(config.header)}</span>
     );
     title = funcOrContent(currentFeature?.properties?.info?.title);
     subtitle = funcOrContent(currentFeature?.properties?.info?.subtitle);
     additionalInfo = funcOrContent(currentFeature?.properties?.info?.additionalInfo);
   }
-  const headerColor = getColorForProperties((currentFeature || {}).properties);
 
   const minified = undefined;
   const minify = undefined;
@@ -120,11 +121,11 @@ const Component = (props) => {
       isCollapsible={currentFeature !== undefined}
       items={filteredItems} //?
       // selectedIndex={selectedIndex} //?
-      showModalMenu={() => {}}
-      colorize={getColorForProperties}
+      showModalMenu={() => { }}
+      colorizer={headerColorizer}
       pixelwidth={pixelwidth}
       header={header}
-      // headerColor={headerColor}
+      headerColor={headerColor}
       links={links}
       title={title}
       next={config.next}
@@ -133,19 +134,17 @@ const Component = (props) => {
       additionalInfo={additionalInfo}
       zoomToAllLabel={
         config.zoomToAllLabel ||
-        `${getTotalNumberOfItems(filteredItems)} ${
-          getTotalNumberOfItems(filteredItems) === 1
-            ? config.navigator.noun.singular
-            : config.navigator.noun.plural
+        `${getTotalNumberOfItems(filteredItems)} ${getTotalNumberOfItems(filteredItems) === 1
+          ? config.navigator.noun.singular
+          : config.navigator.noun.plural
         } in ${config.city}`
       }
       fitAll={config.fitAll}
       currentlyShownCountLabel={
         config.currentlyShownCountLabel ||
-        `${getNumberOfShownFeatures(featureCollection)} ${
-          getNumberOfShownFeatures(featureCollection) === 1
-            ? config.navigator.noun.singular
-            : config.navigator.noun.plural
+        `${getNumberOfShownFeatures(featureCollection)} ${getNumberOfShownFeatures(featureCollection) === 1
+          ? config.navigator.noun.singular
+          : config.navigator.noun.plural
         } angezeigt`
       }
       collapsedInfoBox={minified}
@@ -155,12 +154,12 @@ const Component = (props) => {
         <div style={{ marginRight: 9 }}>
           {(config.noCurrentFeatureContent === undefined ||
             config.noCurrentFeatureContent === "") && (
-            <p>
-              Für mehr {config.navigator.noun.plural} Ansicht mit <Icon name="minus-square" />{" "}
-              verkleinern oder mit dem untenstehenden Link alle {config.navigator.noun.plural}{" "}
-              anzeigen.
-            </p>
-          )}
+              <p>
+                Für mehr {config.navigator.noun.plural} Ansicht mit <Icon name="minus-square" />{" "}
+                verkleinern oder mit dem untenstehenden Link alle {config.navigator.noun.plural}{" "}
+                anzeigen.
+              </p>
+            )}
           {config.noCurrentFeatureContent !== undefined &&
             config.noCurrentFeatureContent !== "" && <p>{config.noCurrentFeatureContent}</p>}
 
