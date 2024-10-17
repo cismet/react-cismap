@@ -859,7 +859,7 @@ export const SimpleTopicMapWithInfoBox = () => {
           <GenericInfoBoxFromFeature
             config={{
               city: "Wuppertal",
-              header: "Parkscheinautomat",
+              header: () => "Parkscheinautomat",
               navigator: {
                 noun: {
                   singular: "Parkscheinautomat",
@@ -869,6 +869,8 @@ export const SimpleTopicMapWithInfoBox = () => {
               noCurrentFeatureTitle: "Keine Parkscheinautomaten gefunden",
               noCurrentFeatureContent: "",
             }}
+            headerColorizer={(feature, featureRenderingOption) => "green"} //overrules item.info.color
+            headerColor="yellow" // overrules the colorizer
           />
         }
       >
