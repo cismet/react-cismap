@@ -11,6 +11,7 @@ import {
 import { UIContext, UIDispatchContext } from "../contexts/UIContextProvider";
 import ResponsiveInfoBox from "./ResponsiveInfoBox";
 import parseHtml from "html-react-parser";
+import { TopicMapStylingContext } from "../contexts/TopicMapStylingContextProvider";
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -43,7 +44,7 @@ const InfoBox = ({
   fixedRow = true,
   secondaryInfoBoxElements = [],
 
-  colorizer = (props) => ((props || {}).properties || {}).color,
+  colorizer = (props) => ((props || {}).properties || {}).color, //
   defaultContextValues = {},
 }) => {
   const featureCollectionContext = useContext(FeatureCollectionContext) || defaultContextValues;
@@ -59,6 +60,8 @@ const InfoBox = ({
     useContext(UIContext) || defaultContextValues;
   const { setCollapsedInfoBox: setCollapsedInfoBoxFromContext } =
     useContext(UIDispatchContext) || defaultContextValues;
+  const { additionalStylingInfo } = useContext(TopicMapStylingContext);
+
   const gotoPrevious = featureCollectionDispatchContext.prev;
   const gotoNext = featureCollectionDispatchContext.next;
   // Use this line to enable the collabsible modus even when no object is visible
@@ -108,8 +111,8 @@ const InfoBox = ({
   const [localMinified, setLocalMinify] = useState(false);
   const minified = collapsedInfoBox || collapsedInfoBoxFromContext || localMinified;
   const minify = setCollapsedInfoBox || setCollapsedInfoBoxFromContext || setLocalMinify;
-
-  let headerBackgroundColor = Color(headerColor || colorizer(_currentFeature));
+  let featureRenderingOption = additionalStylingInfo?.featureRenderingOption;
+  let headerBackgroundColor = Color(headerColor || colorizer(_currentFeature, featureRenderingOption));
 
   let textColor = "black";
   if (headerBackgroundColor.isDark()) {
