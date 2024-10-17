@@ -56,7 +56,8 @@ const SettingsPanel = (props) => {
     skipBackgroundSettings = false,
     skipSymbolsizeSetting = false,
     defaultContextValues = {},
-    sparseSettingsSectionsExtensions = []
+    sparseSettingsSectionsExtensions = [],
+    previewFeatureCollectionProps
   } = props;
 
   const { setAppMenuActiveMenuSection, setAppMenuVisible } =
@@ -226,6 +227,7 @@ const SettingsPanel = (props) => {
           featureStylerScalableImageSize={currentMarkerSize}
           //mapRef={previewMapRef} // commented out because there cannot be a ref in a functional comp and it is bnot needed
           showMarkerCollection={false}
+          {...previewFeatureCollectionProps}
         />
       </PreviewMap>
     );
