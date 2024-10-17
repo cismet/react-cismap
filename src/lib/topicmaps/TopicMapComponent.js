@@ -215,7 +215,7 @@ const TopicMapComponent = (props) => {
         spinner
         text={initialLoadingText + " " + statusPostfix + "..."}
       >
-        <div key="mapKey">
+        <div key={"mapKey." + mapkey}>
           {photoLightBox && <PhotoLightBox />}
           <TitleBox />
           <RoutedMap
