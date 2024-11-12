@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useImmer } from "use-immer";
 import FeatureCollectionContextProvider from "./FeatureCollectionContextProvider";
 import ResponsiveTopicMapContextProvider from "./ResponsiveTopicMapContextProvider";
@@ -120,7 +120,10 @@ const TopicMapContextProvider = ({
       (referenceSystem === MappingConstants.crs25832 ? maskingPolygon25832 : maskingPolygon3857),
     mapEPSGCode,
     appMode,
+
   });
+  const realRoutedMapRef = useRef(null);
+
   const contextKey = "topicmap";
   const set = (prop, noTest) => {
     return (x) => {
@@ -153,7 +156,7 @@ const TopicMapContextProvider = ({
   };
 
   return (
-    <StateContext.Provider value={state}>
+    <StateContext.Provider value={{ ...state, realRoutedMapRef }}>
       <DispatchContext.Provider
         value={{
           dispatch,

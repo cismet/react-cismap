@@ -27,7 +27,6 @@ import md5 from "md5";
 import TitleBox from "./TitleBox";
 
 const TopicMapComponent = (props) => {
-  const leafletRoutedMapRef = useRef(null);
   const infoBoxRef = useRef(null);
   let {
     modalMenu,
@@ -87,7 +86,7 @@ const TopicMapComponent = (props) => {
     zoomDelta = 1,
     mapkey = "mapKey",
   } = props;
-  const { history, referenceSystem, referenceSystemDefinition, maskingPolygon } = useContext(
+  const { history, referenceSystem, referenceSystemDefinition, maskingPolygon, realRoutedMapRef: leafletRoutedMapRef } = useContext(
     TopicMapContext
   );
   const {
