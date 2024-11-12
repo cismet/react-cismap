@@ -121,10 +121,11 @@ export const MostSimpleTopicMapWithZoomSnapAndZoomDelta = () => {
 
 export const SimpleMutedTopicMap = () => {
   const MapWrapper = (props) => {
-    const { routedMapRef } =
+    const { routedMapRef, realRoutedMapRef } =
       useContext(TopicMapContext);
 
-    console.log('routedMapRef', routedMapRef?.leafletMap?.leafletElement);
+    console.log('routedMapRe...leafletElement', routedMapRef?.leafletMap?.leafletElement);
+    console.log('realRoutedMapRef...leafletElement', realRoutedMapRef?.current?.leafletMap?.leafletElement);
 
     return (
       <><TopicMapComponent {...props}></TopicMapComponent>
@@ -141,6 +142,21 @@ export const SimpleMutedTopicMap = () => {
           console.log('click');
           routedMapRef.leafletMap.leafletElement.setZoom(14);
         }}>setZoom</Button>
+
+        <br></br><br></br>
+        <Button variant="secondary" onClick={() => {
+          console.log('click');
+          realRoutedMapRef.current.leafletMap.leafletElement.setView([51.270, 7.199], 19);
+        }}>setView</Button>
+        <Button variant="secondary" onClick={() => {
+          console.log('click');
+          realRoutedMapRef.current.leafletMap.leafletElement.setView([51.270, 7.199]);
+        }}>setCenter</Button>
+        <Button variant="secondary" onClick={() => {
+          console.log('click');
+          realRoutedMapRef.current.leafletMap.leafletElement.setZoom(14);
+        }}>setZoom</Button>
+
       </>
 
 
