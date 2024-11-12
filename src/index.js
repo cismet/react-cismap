@@ -104,7 +104,9 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.MostSimpleTopicMapWithZoomSnapAndZoomDelta /> */}
 
       {/* <TopicMapsExamples.SimpleTopicMapWMSBBoxDisplay /> */}
+      <TopicMapsExamples.SimpleMutedTopicMap />
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer /> */}
+      {/* <TopicMapsExamples.MostSimpleTopicMapWithAllCismapLayers /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithVectoprLayerAndSelectionInfoBox /> */}
@@ -121,8 +123,10 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.SimpleTopicMap /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithAdditiopnalStylingInfo /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithCustomMenu /> */}
+      {/* <TopicMapsExamples.SimpleTopicMapWithDefaulAppMenu /> */}
+
       {/* <TopicMapsExamples.SimpleTopicMapWithDefaultInfoBox /> */}
-      <TopicMapsExamples.SimpleTopicMapWithInfoBox />
+      {/* <TopicMapsExamples.SimpleTopicMapWithInfoBox /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithCustomStyling /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithCustomInfoBox /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithFullClusteringOptionsAndStyling /> */}

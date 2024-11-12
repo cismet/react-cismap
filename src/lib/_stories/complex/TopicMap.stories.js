@@ -15,7 +15,7 @@ import {
   FeatureCollectionContext,
   FeatureCollectionDispatchContext,
 } from "../../contexts/FeatureCollectionContextProvider";
-import { TopicMapContextProvider } from "../../contexts/TopicMapContextProvider";
+import { TopicMapContext, TopicMapContextProvider } from "../../contexts/TopicMapContextProvider";
 
 import {
   TopicMapStylingContext,
@@ -78,6 +78,9 @@ import convertItemToFeature from "./helper/emob/convertItemToFeature";
 import { getGazData as getEmobGazData } from "./helper/emob/gazData";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
+
+import DefaultAppMenu from "../../topicmaps/menu/DefaultAppMenu";
+
 export default {
   title: storiesCategory + "TopicMapComponent",
 };
@@ -112,6 +115,67 @@ export const MostSimpleTopicMapWithZoomSnapAndZoomDelta = () => {
     </TopicMapContextProvider>
   );
 };
+
+
+
+
+export const SimpleMutedTopicMap = () => {
+  const MapWrapper = (props) => {
+    const { routedMapRef } =
+      useContext(TopicMapContext);
+
+    console.log('routedMapRef', routedMapRef?.leafletMap?.leafletElement);
+
+    return (
+      <><TopicMapComponent {...props}></TopicMapComponent>
+        <Button onClick={() => {
+          console.log('click');
+          routedMapRef.leafletMap.leafletElement.setView([51.270, 7.199], 19);
+        }}>setView</Button>
+
+        <Button onClick={() => {
+          console.log('click');
+          routedMapRef.leafletMap.leafletElement.setView([51.270, 7.199]);
+        }}>setCenter</Button>
+        <Button onClick={() => {
+          console.log('click');
+          routedMapRef.leafletMap.leafletElement.setZoom(14);
+        }}>setZoom</Button>
+      </>
+
+
+    )
+  }
+  return (
+    <TopicMapContextProvider>
+      <MapWrapper
+        mapStyle={{ height: 682, width: 1024 }}
+        _fullScreenControl={false}
+        _zoomControls={false}
+        homeZoom={19}
+        gazData={undefined}
+        gazetteerSearchControl={false}
+        mappingBoundsChanged={(boundingbox) => {
+          console.log('mappingBoundsChanged', boundingbox);
+
+
+        }}
+        outerLocationChangedHandlerExclusive={true}
+
+        locationChangedHandler={(x) => {
+          console.log('locationChangedHandler', x);
+        }}
+        pushToHistory={(x) => {
+          console.log('pushToHistory', x);
+
+        }}
+      ></MapWrapper>
+    </TopicMapContextProvider>
+  );
+
+
+};
+
 
 export const SimpleTopicMapWMSBBoxDisplay = () => {
   function createWMSBbox(bbox) {
@@ -430,8 +494,39 @@ export const MostSimpleTopicMapWithCustomLayerAnPaleOverlay = () => {
     </TopicMapContextProvider>
   );
 };
-
 export const MostSimpleTopicMapWithCismapLayer = () => {
+  return (
+    <TopicMapContextProvider>
+      <TopicMapComponent gazData={[]} backgroundlayers="empty">
+        <CismapLayer
+          {...
+          {
+            type: "wmts",
+            url: "https://geodaten.metropoleruhr.de/spw2/service",
+            layers: "spw2_light_grundriss",
+            version: "1.3.0",
+            tileSize: 512,
+            transparent: true,
+            opacity: 0.3,
+            pane: "backgroundLayers",
+          }
+          }
+        ></CismapLayer>
+        <CismapLayer {...{
+          title: "Stadtplan (grau)",
+
+          type: "vector",
+          // style: "https://omt.map-hosting.de/styles/cismet-light/style.json",
+          style: "https://omt.map-hosting.de/styles/kanal/style.json",
+
+          pane: "vectorLayers",
+        }} />
+
+      </TopicMapComponent>
+    </TopicMapContextProvider>);
+};
+
+export const SimpleTopicMapWithAllCismapLayers = () => {
   const layerConfigs = [
     {
       type: "wms",
@@ -828,6 +923,36 @@ export const SimpleTopicMapWithCustomMenu = () => {
         <FeatureCollection />
       </TopicMapComponent>
     </TopicMapContextProvider>
+  );
+};
+
+
+
+export const SimpleTopicMapWithDefaulAppMenu = () => {
+  const [gazData, setGazData] = useState([]);
+  useEffect(() => {
+    getGazData(setGazData);
+  }, []);
+
+  return (
+    <TopicMapContextProvider featureItemsURL="/data/parkscheinautomatenfeatures.json">
+      <TopicMapComponent modalMenu={<DefaultAppMenu
+        simpleHelp={{
+          "type": "MARKDOWN",
+          "content": "Als Mitglied der Wasserstoff-Kompetenzregion *Düssel.Rhein.Wupper* treibt die Stadt Wuppertal \ndie Wasserstoff-Mobilität im öffentlichen Sektor voran. Die Kompetenzregion mit den weiteren \nStädten Düsseldorf und Duisburg, dem Rhein-Kreis Neuss und den Unternehmen Wuppertaler Stadtwerke (WSW), \nStadtwerke Düsseldorf und Air Liquide ist Sieger des in 2018 gestarteten Landeswettbewerbs \"Modellkommune/-region Wasserstoffmobilität NRW\". \nDas prämierte Konzept der Kompetenzregion basiert auf einer von den WSW und der Abfallwirtschaftsgesellschaft Wuppertal (AWG) \nentwickelten geschlossenen Wertschöpfungskette, in der Wasserstoff lokal im AWG-Müllheizkraftwerk Korzert produziert \nund in der Wasserstoff-Busflotte der WSW genutzt wird.\n\nIm privaten Sektor ist die Verfügbarkeit von Wasserstofftankstellen für Brennstoffzellenfahrzeuge entscheidend \nfür den Ausbau der Wasserstoff-Mobilität. Solche Tankstellen halten flüssigen oder komprimiert \ngasförmigen Wasserstoff in ihren Tanks bereit. Die Region Rhein-Ruhr gehört neben Hamburg, Berlin, Frankfurt, \nNürnberg, Stuttgart und München zu den sieben Schwerpunktregionen Deutschlands, in denen eine \nflächendeckende Wasserstoff-Infrastruktur aufgebaut werden soll. Zusätzlich sollen Wasserstofftankstellen \nentlang der verbindenden Autobahnen und Fernstraßen entstehen. Auch wenn es Stand 11/2020 erst eine \nWasserstofftankstelle in Wuppertal gibt, ist also damit zu rechnen, dass recht kurzfristig \nweitere Wasserstofftankstellen entstehen werden.\n"
+        }}
+
+        introductionMarkdown={`Über **Einstellungen** können Sie die Darstellung der
+              Hintergrundkarte an Ihre 
+              Vorlieben anpassen. Wählen Sie **Kompaktanleitung** 
+              für detailliertere Bedienungsinformationen.`}
+        sections={{
+          _10_test: <div>test</div>,
+        }}
+      ></DefaultAppMenu>} gazData={gazData} >
+        <FeatureCollection />
+      </TopicMapComponent >
+    </TopicMapContextProvider >
   );
 };
 export const SimpleTopicMapWithDefaultInfoBox = () => {
