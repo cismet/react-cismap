@@ -58,6 +58,7 @@ class MaplibreGlLayer extends GridLayer {
     // Add maxSelectionCount with a default value of 1
     const maxSelectionCount = props.maxSelectionCount || 1;
     const normalizeFeatureHitsById = props.normalizeFeatureHitsById || false;
+    const manualSelectionManagement = props.manualSelectionManagement || false;
     if (props.onSelectionChanged) {
       map.on("click", (e) => {
         if (this.mapLibreMap?.project) {
@@ -80,6 +81,9 @@ class MaplibreGlLayer extends GridLayer {
           if (this.mapLibreMap && this.props.selectionEnabled === true) {
             const hits = this.mapLibreMap.queryRenderedFeatures(rect);
 
+
+            // if (manualSelectionManagement===false) {
+
             // Deselect all features first
             this.mapLibreMap.queryRenderedFeatures().forEach((feature) => {
               this.mapLibreMap.setFeatureState(
@@ -95,10 +99,22 @@ class MaplibreGlLayer extends GridLayer {
               const normalizedLimitedHits = [];
               limitedHits.forEach((hit) => {
                 // console.log("xxx -> ", hit.layer.id, hit.properties.id, hit);
-                this.mapLibreMap.setFeatureState(
-                  { source: hit.source, sourceLayer: hit.sourceLayer, id: hit.id },
-                  { selected: true }
-                );
+
+
+                const setSelection = (selected) => {
+                  this.mapLibreMap.setFeatureState(
+                    { source: hit.source, sourceLayer: hit.sourceLayer, id: hit.id },
+                    { selected }
+                  );
+
+                }
+                if (manualSelectionManagement === false) {
+                  setSelection(true);
+                } else {
+                  hit.setSelection = setSelection;
+                }
+
+
 
                 //add hit to normalizedLimitedHits if an object with the id isn't already in the array
                 if (

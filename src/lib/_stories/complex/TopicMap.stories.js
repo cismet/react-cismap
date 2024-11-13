@@ -375,12 +375,20 @@ export const SimpleTopicMapWithVectoprLayerAndSelectionInfoBox = () => {
             normalizeFeatureHitsById: true,
             maxSelectionCount: 10,
             selectionEnabled: selectionEnabled,
+            manualSelectionManagement: true,
+            onSelectionClick: (e) => {
+              console.log("xxx selectionClick", e);
+            },
             onSelectionChanged: (e) => {
               console.log("xxx selectionChanged", e);
               const selectedFeature = e.hits[0];
               const p = selectedFeature.properties;
               console.log("xxx p", p);
+              if (selectedFeature.setSelection) {
+                console.log('p.setSelection', selectedFeature.setSelection);
+                selectedFeature.setSelection(true);
 
+              }
               const identifications = JSON.parse(p.identifications);
               const mainlocationtype = identifications[0].identification;
               const info = {
