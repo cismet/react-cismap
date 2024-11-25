@@ -6,6 +6,7 @@ import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Control from "react-leaflet-control";
 import { Link } from "react-scroll";
+import L from "leaflet";
 
 import { nordbahntrasse } from "../_data/Demo";
 import { kassenzeichen } from "../_data/Editing.Storybook.data";
@@ -80,6 +81,7 @@ import { faInfo } from "@fortawesome/free-solid-svg-icons";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
 
 import DefaultAppMenu from "../../topicmaps/menu/DefaultAppMenu";
+import ExtraMarker from "../../ExtraMarker";
 
 export default {
   title: storiesCategory + "TopicMapComponent",
@@ -93,12 +95,10 @@ export const MostSimpleTopicMap = () => {
         homeZoom={19}
         gazData={undefined}
         gazetteerSearchControl={false}
-
       ></TopicMapComponent>
     </TopicMapContextProvider>
   );
 };
-
 
 export const MostSimpleTopicMapWithZoomSnapAndZoomDelta = () => {
   return (
@@ -116,52 +116,77 @@ export const MostSimpleTopicMapWithZoomSnapAndZoomDelta = () => {
   );
 };
 
-
-
-
 export const SimpleMutedTopicMap = () => {
   const MapWrapper = (props) => {
-    const { routedMapRef, realRoutedMapRef } =
-      useContext(TopicMapContext);
+    const { routedMapRef, realRoutedMapRef } = useContext(TopicMapContext);
 
-    console.log('routedMapRe...leafletElement', routedMapRef?.leafletMap?.leafletElement);
-    console.log('realRoutedMapRef...leafletElement', realRoutedMapRef?.current?.leafletMap?.leafletElement);
+    console.log("routedMapRe...leafletElement", routedMapRef?.leafletMap?.leafletElement);
+    console.log(
+      "realRoutedMapRef...leafletElement",
+      realRoutedMapRef?.current?.leafletMap?.leafletElement
+    );
 
     return (
-      <><TopicMapComponent {...props}></TopicMapComponent>
-        <Button onClick={() => {
-          console.log('click');
-          routedMapRef.leafletMap.leafletElement.setView([51.270, 7.199], 19);
-        }}>setView</Button>
+      <>
+        <TopicMapComponent {...props}></TopicMapComponent>
+        <Button
+          onClick={() => {
+            console.log("click");
+            routedMapRef.leafletMap.leafletElement.setView([51.27, 7.199], 19);
+          }}
+        >
+          setView
+        </Button>
 
-        <Button onClick={() => {
-          console.log('click');
-          routedMapRef.leafletMap.leafletElement.setView([51.270, 7.199]);
-        }}>setCenter</Button>
-        <Button onClick={() => {
-          console.log('click');
-          routedMapRef.leafletMap.leafletElement.setZoom(14);
-        }}>setZoom</Button>
+        <Button
+          onClick={() => {
+            console.log("click");
+            routedMapRef.leafletMap.leafletElement.setView([51.27, 7.199]);
+          }}
+        >
+          setCenter
+        </Button>
+        <Button
+          onClick={() => {
+            console.log("click");
+            routedMapRef.leafletMap.leafletElement.setZoom(14);
+          }}
+        >
+          setZoom
+        </Button>
 
-        <br></br><br></br>
-        <Button variant="secondary" onClick={() => {
-          console.log('click');
-          realRoutedMapRef.current.leafletMap.leafletElement.setView([51.270, 7.199], 19);
-        }}>setView</Button>
-        <Button variant="secondary" onClick={() => {
-          console.log('click');
-          realRoutedMapRef.current.leafletMap.leafletElement.setView([51.270, 7.199]);
-        }}>setCenter</Button>
-        <Button variant="secondary" onClick={() => {
-          console.log('click');
-          realRoutedMapRef.current.leafletMap.leafletElement.setZoom(14);
-        }}>setZoom</Button>
-
+        <br></br>
+        <br></br>
+        <Button
+          variant="secondary"
+          onClick={() => {
+            console.log("click");
+            realRoutedMapRef.current.leafletMap.leafletElement.setView([51.27, 7.199], 19);
+          }}
+        >
+          setView
+        </Button>
+        <Button
+          variant="secondary"
+          onClick={() => {
+            console.log("click");
+            realRoutedMapRef.current.leafletMap.leafletElement.setView([51.27, 7.199]);
+          }}
+        >
+          setCenter
+        </Button>
+        <Button
+          variant="secondary"
+          onClick={() => {
+            console.log("click");
+            realRoutedMapRef.current.leafletMap.leafletElement.setZoom(14);
+          }}
+        >
+          setZoom
+        </Button>
       </>
-
-
-    )
-  }
+    );
+  };
   return (
     <TopicMapContextProvider>
       <MapWrapper
@@ -172,26 +197,19 @@ export const SimpleMutedTopicMap = () => {
         gazData={undefined}
         gazetteerSearchControl={false}
         mappingBoundsChanged={(boundingbox) => {
-          console.log('mappingBoundsChanged', boundingbox);
-
-
+          console.log("mappingBoundsChanged", boundingbox);
         }}
         outerLocationChangedHandlerExclusive={true}
-
         locationChangedHandler={(x) => {
-          console.log('locationChangedHandler', x);
+          console.log("locationChangedHandler", x);
         }}
         pushToHistory={(x) => {
-          console.log('pushToHistory', x);
-
+          console.log("pushToHistory", x);
         }}
       ></MapWrapper>
     </TopicMapContextProvider>
   );
-
-
 };
-
 
 export const SimpleTopicMapWMSBBoxDisplay = () => {
   function createWMSBbox(bbox) {
@@ -273,7 +291,6 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
   );
 };
 
-
 export const MostSimpleTopicMapWithCustomLayerAndEmptyTopicMapbackgroundLayer = () => {
   return (
     <TopicMapContextProvider>
@@ -314,8 +331,6 @@ export const MostSimpleTopicMapWithCustomLayerAndEmptyTopicMapbackgroundLayer = 
   );
 };
 
-
-
 export const SimpleTopicMapWithVectoprLayerAndSelectionInfoBox = () => {
   const [shownFeatures, setShownFeatures] = useState([]);
   const [selectedFeature, setSelectedFeature] = useState(undefined);
@@ -349,20 +364,19 @@ export const SimpleTopicMapWithVectoprLayerAndSelectionInfoBox = () => {
           )
         }
       >
-        <Control position="topright"><div>
-          <input
-            type="checkbox"
-            id="selectionCheckbox"
-            checked={selectionEnabled}
-            onChange={
-              (event) => {
+        <Control position="topright">
+          <div>
+            <input
+              type="checkbox"
+              id="selectionCheckbox"
+              checked={selectionEnabled}
+              onChange={(event) => {
                 setSelectionEnabled(event.target.checked);
-              }
-
-            }
-          />
-          <label htmlFor="selectionCheckbox">Enable Selection</label>
-        </div></Control>
+              }}
+            />
+            <label htmlFor="selectionCheckbox">Enable Selection</label>
+          </div>
+        </Control>
         <CismapLayer
           {...{
             type: "vector",
@@ -385,9 +399,8 @@ export const SimpleTopicMapWithVectoprLayerAndSelectionInfoBox = () => {
               const p = selectedFeature.properties;
               console.log("xxx p", p);
               if (selectedFeature.setSelection) {
-                console.log('p.setSelection', selectedFeature.setSelection);
+                console.log("p.setSelection", selectedFeature.setSelection);
                 selectedFeature.setSelection(true);
-
               }
               const identifications = JSON.parse(p.identifications);
               const mainlocationtype = identifications[0].identification;
@@ -405,20 +418,38 @@ export const SimpleTopicMapWithVectoprLayerAndSelectionInfoBox = () => {
 
               const f = e.hit;
               //add generic Links
-              f.properties.genericLinks = [{ url: "https://cismet.de", tooltip: "cismet", target: "_blank", icon: (<img src="https://cismet.de/images/projects/wunda_l.png" width="40" />) }, {
-                url: "https://cismet.de", tooltip: "cismet", target: "_blank", icon: (<span >
-                  <FontAwesomeIcon icon={faSquare} size='2x'
-                    transform="down-0 right-0" style={{ color: 'grey', width: '26px' }} />
-                  <FontAwesomeIcon icon={faInfo} transform="left-34 up-5" style={{ color: 'grey', width: '26px' }} />
-                </span>),
+              f.properties.genericLinks = [
+                {
+                  url: "https://cismet.de",
+                  tooltip: "cismet",
+                  target: "_blank",
+                  icon: <img src="https://cismet.de/images/projects/wunda_l.png" width="40" />,
+                },
+                {
+                  url: "https://cismet.de",
+                  tooltip: "cismet",
+                  target: "_blank",
+                  icon: (
+                    <span>
+                      <FontAwesomeIcon
+                        icon={faSquare}
+                        size="2x"
+                        transform="down-0 right-0"
+                        style={{ color: "grey", width: "26px" }}
+                      />
+                      <FontAwesomeIcon
+                        icon={faInfo}
+                        transform="left-34 up-5"
+                        style={{ color: "grey", width: "26px" }}
+                      />
+                    </span>
+                  ),
+                },
+              ];
 
-              }];
-
-              console.log('hit', f);
-
+              console.log("hit", f);
 
               setSelectedFeature(f);
-
             },
             onViewMetaDataChanged: (metadata) => {
               console.log("xxx metadata", metadata);
@@ -435,6 +466,121 @@ export const SimpleTopicMapWithVectoprLayerAndSelectionInfoBox = () => {
         />
       </TopicMapComponent>
     </TopicMapContextProvider>
+  );
+};
+
+export const SimpleTopicMapWithNewSelectionOnZoom = () => {
+  const [shownFeatures, setShownFeatures] = useState([]);
+  const [selectedFeature, setSelectedFeature] = useState(undefined);
+  const [pos, setPos] = useState(undefined);
+  const [selectionEnabled, setSelectionEnabled] = useState(true);
+  const [allFeatures, setAllFeatures] = useState(0);
+  const urlParams = new URLSearchParams(window.location.href);
+  let links = [];
+  if (selectedFeature) {
+    links = getActionLinksForFeature(selectedFeature, {});
+  }
+
+  const { routedMapRef } = useContext(TopicMapContext);
+
+  return (
+    <>
+      <TopicMapComponent
+        gazData={[]}
+        backgroundlayers="empty"
+        locationChangedHandler={(location) => {
+          if (location.zoom.toString() !== urlParams.get("zoom").toString()) {
+            const map = routedMapRef.leafletMap.leafletElement;
+            const latlngPoint = L.latLng(pos);
+            map.fireEvent("click", {
+              latlng: latlngPoint,
+              layerPoint: map.latLngToLayerPoint(latlngPoint),
+              containerPoint: map.latLngToContainerPoint(latlngPoint),
+            });
+          }
+        }}
+        ref={(ref) => {
+          routedMapRef = ref;
+        }}
+        infoBox={
+          selectedFeature && (
+            <InfoBox
+              currentFeature={selectedFeature}
+              hideNavigator={true}
+              header="kjshd"
+              pixelwidth={300}
+              headerColor="#ff0000"
+              {...selectedFeature?.properties?.info}
+              zoomToAllLabel={true}
+              noCurrentFeatureTitle="nix da"
+              noCurrentFeatureContent="nix da"
+              links={links}
+            />
+          )
+        }
+      >
+        {pos && <ExtraMarker position={pos} />}
+        <Control position="topright">
+          <div>
+            <input
+              type="checkbox"
+              id="selectionCheckbox"
+              checked={selectionEnabled}
+              onChange={(event) => {
+                setSelectionEnabled(event.target.checked);
+              }}
+            />
+            <label htmlFor="selectionCheckbox">Enable Selection</label>
+          </div>
+        </Control>
+        <CismapLayer
+          {...{
+            type: "vector",
+            style: "https://tiles.cismet.de/poi/style.json",
+            pane: "additionalLayers1",
+            opacity: 1,
+            maxSelectionCount: 10,
+            selectionEnabled: selectionEnabled,
+            manualSelectionManagement: true,
+            onSelectionClick: (e) => {},
+            onSelectionChanged: (e) => {
+              console.log("xxx onSelectionChanged", e);
+              setPos([e.newLngLat.lat, e.newLngLat.lng]);
+              if (e.hits && e.hits.length > 0) {
+                const selectedFeature = e.hits[0];
+                const p = selectedFeature.properties;
+                if (selectedFeature.setSelection) {
+                  selectedFeature.setSelection(false);
+                }
+                const identifications = JSON.parse(p.identifications);
+                const mainlocationtype = identifications[0].identification;
+                const info = {
+                  title: p.geographicidentifier,
+                  subtitle: p.strasse,
+                  headerColor: p.schrift,
+                  header: mainlocationtype,
+                };
+                selectedFeature.properties.info = info;
+                selectedFeature.properties.url = p.url;
+                selectedFeature.properties.email = "";
+                selectedFeature.properties.tel = p.telefon;
+
+                const f = e.hit;
+
+                setSelectedFeature(f);
+              } else {
+                setSelectedFeature(undefined);
+              }
+            },
+          }}
+        />
+        <TileLayer
+          maxNativeZoom={20}
+          maxZoom={22}
+          url={`https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_light&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`}
+        />
+      </TopicMapComponent>
+    </>
   );
 };
 
@@ -523,8 +669,7 @@ export const MostSimpleTopicMapWithCismapLayer = () => {
     <TopicMapContextProvider>
       <TopicMapComponent gazData={[]} backgroundlayers="empty">
         <CismapLayer
-          {...
-          {
+          {...{
             type: "wmts",
             url: "https://geodaten.metropoleruhr.de/spw2/service",
             layers: "spw2_light_grundriss",
@@ -533,21 +678,22 @@ export const MostSimpleTopicMapWithCismapLayer = () => {
             transparent: true,
             opacity: 0.3,
             pane: "backgroundLayers",
-          }
-          }
+          }}
         ></CismapLayer>
-        <CismapLayer {...{
-          title: "Stadtplan (grau)",
+        <CismapLayer
+          {...{
+            title: "Stadtplan (grau)",
 
-          type: "vector",
-          // style: "https://omt.map-hosting.de/styles/cismet-light/style.json",
-          style: "https://omt.map-hosting.de/styles/kanal/style.json",
+            type: "vector",
+            // style: "https://omt.map-hosting.de/styles/cismet-light/style.json",
+            style: "https://omt.map-hosting.de/styles/kanal/style.json",
 
-          pane: "vectorLayers",
-        }} />
-
+            pane: "vectorLayers",
+          }}
+        />
       </TopicMapComponent>
-    </TopicMapContextProvider>);
+    </TopicMapContextProvider>
+  );
 };
 
 export const SimpleTopicMapWithAllCismapLayers = () => {
@@ -950,8 +1096,6 @@ export const SimpleTopicMapWithCustomMenu = () => {
   );
 };
 
-
-
 export const SimpleTopicMapWithDefaulAppMenu = () => {
   const [gazData, setGazData] = useState([]);
   useEffect(() => {
@@ -960,23 +1104,28 @@ export const SimpleTopicMapWithDefaulAppMenu = () => {
 
   return (
     <TopicMapContextProvider featureItemsURL="/data/parkscheinautomatenfeatures.json">
-      <TopicMapComponent modalMenu={<DefaultAppMenu
-        simpleHelp={{
-          "type": "MARKDOWN",
-          "content": "Als Mitglied der Wasserstoff-Kompetenzregion *Düssel.Rhein.Wupper* treibt die Stadt Wuppertal \ndie Wasserstoff-Mobilität im öffentlichen Sektor voran. Die Kompetenzregion mit den weiteren \nStädten Düsseldorf und Duisburg, dem Rhein-Kreis Neuss und den Unternehmen Wuppertaler Stadtwerke (WSW), \nStadtwerke Düsseldorf und Air Liquide ist Sieger des in 2018 gestarteten Landeswettbewerbs \"Modellkommune/-region Wasserstoffmobilität NRW\". \nDas prämierte Konzept der Kompetenzregion basiert auf einer von den WSW und der Abfallwirtschaftsgesellschaft Wuppertal (AWG) \nentwickelten geschlossenen Wertschöpfungskette, in der Wasserstoff lokal im AWG-Müllheizkraftwerk Korzert produziert \nund in der Wasserstoff-Busflotte der WSW genutzt wird.\n\nIm privaten Sektor ist die Verfügbarkeit von Wasserstofftankstellen für Brennstoffzellenfahrzeuge entscheidend \nfür den Ausbau der Wasserstoff-Mobilität. Solche Tankstellen halten flüssigen oder komprimiert \ngasförmigen Wasserstoff in ihren Tanks bereit. Die Region Rhein-Ruhr gehört neben Hamburg, Berlin, Frankfurt, \nNürnberg, Stuttgart und München zu den sieben Schwerpunktregionen Deutschlands, in denen eine \nflächendeckende Wasserstoff-Infrastruktur aufgebaut werden soll. Zusätzlich sollen Wasserstofftankstellen \nentlang der verbindenden Autobahnen und Fernstraßen entstehen. Auch wenn es Stand 11/2020 erst eine \nWasserstofftankstelle in Wuppertal gibt, ist also damit zu rechnen, dass recht kurzfristig \nweitere Wasserstofftankstellen entstehen werden.\n"
-        }}
-
-        introductionMarkdown={`Über **Einstellungen** können Sie die Darstellung der
+      <TopicMapComponent
+        modalMenu={
+          <DefaultAppMenu
+            simpleHelp={{
+              type: "MARKDOWN",
+              content:
+                'Als Mitglied der Wasserstoff-Kompetenzregion *Düssel.Rhein.Wupper* treibt die Stadt Wuppertal \ndie Wasserstoff-Mobilität im öffentlichen Sektor voran. Die Kompetenzregion mit den weiteren \nStädten Düsseldorf und Duisburg, dem Rhein-Kreis Neuss und den Unternehmen Wuppertaler Stadtwerke (WSW), \nStadtwerke Düsseldorf und Air Liquide ist Sieger des in 2018 gestarteten Landeswettbewerbs "Modellkommune/-region Wasserstoffmobilität NRW". \nDas prämierte Konzept der Kompetenzregion basiert auf einer von den WSW und der Abfallwirtschaftsgesellschaft Wuppertal (AWG) \nentwickelten geschlossenen Wertschöpfungskette, in der Wasserstoff lokal im AWG-Müllheizkraftwerk Korzert produziert \nund in der Wasserstoff-Busflotte der WSW genutzt wird.\n\nIm privaten Sektor ist die Verfügbarkeit von Wasserstofftankstellen für Brennstoffzellenfahrzeuge entscheidend \nfür den Ausbau der Wasserstoff-Mobilität. Solche Tankstellen halten flüssigen oder komprimiert \ngasförmigen Wasserstoff in ihren Tanks bereit. Die Region Rhein-Ruhr gehört neben Hamburg, Berlin, Frankfurt, \nNürnberg, Stuttgart und München zu den sieben Schwerpunktregionen Deutschlands, in denen eine \nflächendeckende Wasserstoff-Infrastruktur aufgebaut werden soll. Zusätzlich sollen Wasserstofftankstellen \nentlang der verbindenden Autobahnen und Fernstraßen entstehen. Auch wenn es Stand 11/2020 erst eine \nWasserstofftankstelle in Wuppertal gibt, ist also damit zu rechnen, dass recht kurzfristig \nweitere Wasserstofftankstellen entstehen werden.\n',
+            }}
+            introductionMarkdown={`Über **Einstellungen** können Sie die Darstellung der
               Hintergrundkarte an Ihre 
               Vorlieben anpassen. Wählen Sie **Kompaktanleitung** 
               für detailliertere Bedienungsinformationen.`}
-        sections={{
-          _10_test: <div>test</div>,
-        }}
-      ></DefaultAppMenu>} gazData={gazData} >
+            sections={{
+              _10_test: <div>test</div>,
+            }}
+          ></DefaultAppMenu>
+        }
+        gazData={gazData}
+      >
         <FeatureCollection />
-      </TopicMapComponent >
-    </TopicMapContextProvider >
+      </TopicMapComponent>
+    </TopicMapContextProvider>
   );
 };
 export const SimpleTopicMapWithDefaultInfoBox = () => {
@@ -1507,7 +1656,7 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
-      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
       >
         <FeatureCollection />
       </TopicMapComponent>
@@ -1631,12 +1780,16 @@ const MyMenu = ({ sparseSettingsSectionsExtensions = [] }) => {
         <Section
           key="filter"
           sectionKey="filter"
-          sectionTitle={`Meine Klimastandorte (${filteredItems?.length || "0"
-            } Standorte gefunden, davon ${shownFeatures?.length || "0"} in der Karte)`}
+          sectionTitle={`Meine Klimastandorte (${
+            filteredItems?.length || "0"
+          } Standorte gefunden, davon ${shownFeatures?.length || "0"} in der Karte)`}
           sectionBsStyle="primary"
           sectionContent={<FilterPanel filterConfiguration={filterConfiguration} />}
         />,
-        <DefaultSettingsPanel key="settings" sparseSettingsSectionsExtensions={sparseSettingsSectionsExtensions} />,
+        <DefaultSettingsPanel
+          key="settings"
+          sparseSettingsSectionsExtensions={sparseSettingsSectionsExtensions}
+        />,
         <Section
           key="help"
           sectionKey="help"
@@ -1705,7 +1858,7 @@ export const TopicMapWithWithCustomSettings = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
-      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
       >
         <FeatureCollection />
       </TopicMapComponent>
@@ -1786,7 +1939,7 @@ export const TopicMapWithAdditionalLayers = () => {
                 };
                 return style;
               }}
-              featureClickHandler={() => { }}
+              featureClickHandler={() => {}}
             />
           ),
         },
@@ -2112,8 +2265,8 @@ export const TopicMapWithCrossTabCommunicationContextProvider = () => {
               fillOpacity: 0.3,
             }}
             masked={false}
-          // _maskingPolygon={maskingPolygon}
-          // _mapRef={leafletRoutedMapRef}
+            // _maskingPolygon={maskingPolygon}
+            // _mapRef={leafletRoutedMapRef}
           />
 
           <CrossTabCommunicationControl key="crosstabcomcontr" hideWhenNoSibblingIsPresent={true} />
@@ -2247,8 +2400,8 @@ export const RemoteControledTopicMap = () => {
             fillOpacity: 0.3,
           }}
           masked={false}
-        // _maskingPolygon={maskingPolygon}
-        // _mapRef={leafletRoutedMapRef}
+          // _maskingPolygon={maskingPolygon}
+          // _mapRef={leafletRoutedMapRef}
         />
       </TopicMapComponent>
     </TopicMapContextProvider>
@@ -2339,7 +2492,7 @@ export const TopicMapWithWithCustomSettingsAndOneAdditionlLayer = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
-      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
       >
         <FeatureCollection />
       </TopicMapComponent>
@@ -2818,22 +2971,22 @@ export const TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole = (
           />
         }
         secondaryInfo={<InfoPanel />}
-      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
-      // gazetteerHitTrigger={(hits) => {
-      //   if (Array.isArray(hits) && hits[0]?.more?.id) {
-      //     setSelectedFeatureByPredicate((feature) => {
-      //       try {
-      //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
-      //         if (check === true) {
-      //           zoomToFeature(feature);
-      //         }
-      //         return check;
-      //       } catch (e) {
-      //         return false;
-      //       }
-      //     });
-      //   }
-      // }}
+        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+        // gazetteerHitTrigger={(hits) => {
+        //   if (Array.isArray(hits) && hits[0]?.more?.id) {
+        //     setSelectedFeatureByPredicate((feature) => {
+        //       try {
+        //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
+        //         if (check === true) {
+        //           zoomToFeature(feature);
+        //         }
+        //         return check;
+        //       } catch (e) {
+        //         return false;
+        //       }
+        //     });
+        //   }
+        // }}
       >
         <FeatureCollection />
       </TopicMapComponent>
@@ -3039,22 +3192,22 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
-      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
-      // gazetteerHitTrigger={(hits) => {
-      //   if (Array.isArray(hits) && hits[0]?.more?.id) {
-      //     setSelectedFeatureByPredicate((feature) => {
-      //       try {
-      //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
-      //         if (check === true) {
-      //           zoomToFeature(feature);
-      //         }
-      //         return check;
-      //       } catch (e) {
-      //         return false;
-      //       }
-      //     });
-      //   }
-      // }}
+        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+        // gazetteerHitTrigger={(hits) => {
+        //   if (Array.isArray(hits) && hits[0]?.more?.id) {
+        //     setSelectedFeatureByPredicate((feature) => {
+        //       try {
+        //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
+        //         if (check === true) {
+        //           zoomToFeature(feature);
+        //         }
+        //         return check;
+        //       } catch (e) {
+        //         return false;
+        //       }
+        //     });
+        //   }
+        // }}
       >
         <FeatureCollection />
       </TopicMapComponent>

@@ -22,6 +22,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "leaflet/dist/leaflet.css";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import { createRoot } from "react-dom/client";
+import TopicMapContextProvider from "./lib/contexts/TopicMapContextProvider";
 const container = document.getElementById("root");
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
 
@@ -34,14 +35,14 @@ console.warn = (message, ...args) => {
     if (message && !message.includes("ReactDOM.render is no longer supported in React 18")) {
       originalWarn(message, ...args);
     }
-  } catch (e) { }
+  } catch (e) {}
 };
 console.error = (message, ...args) => {
   try {
     if (message && !message.includes("ReactDOM.render is no longer supported in React 18")) {
       originalError(message, ...args);
     }
-  } catch (e) { }
+  } catch (e) {}
 };
 
 const ContextDisplay = () => {
@@ -109,7 +110,9 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.MostSimpleTopicMapWithAllCismapLayers /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
-      <TopicMapsExamples.SimpleTopicMapWithVectoprLayerAndSelectionInfoBox />
+      <TopicMapContextProvider>
+        <TopicMapsExamples.SimpleTopicMapWithNewSelectionOnZoom />
+      </TopicMapContextProvider>
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayerAndEmptyTopicMapbackgroundLayer /> */}
 
       {/* <TopicMapsExamples.MostSiprojmpleTopicMapWithCustomLayer25832 /> */}
