@@ -15,7 +15,7 @@ import {
   FeatureCollectionContext,
   FeatureCollectionDispatchContext,
 } from "../../contexts/FeatureCollectionContextProvider";
-import { TopicMapContext, TopicMapContextProvider } from "../../contexts/TopicMapContextProvider";
+import { TopicMapContext, TopicMapDispatchContext, TopicMapContextProvider } from "../../contexts/TopicMapContextProvider";
 
 import {
   TopicMapStylingContext,
@@ -68,7 +68,7 @@ import CrossTabCommunicationContextProvider, {
 import CrossTabCommunicationControl from "../../CrossTabCommunicationControl";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import CismapLayer from "../../CismapLayer";
-import { TileLayer } from "react-leaflet";
+import { Rectangle, TileLayer } from "react-leaflet";
 import PaleOverlay from "../../PaleOverlay";
 import kanalStyle from "./layerstyles/kanal";
 import { select } from "@storybook/addon-knobs";
@@ -80,6 +80,12 @@ import { faInfo } from "@fortawesome/free-solid-svg-icons";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
 
 import DefaultAppMenu from "../../topicmaps/menu/DefaultAppMenu";
+import ProjGeoJson from "../../ProjGeoJson";
+import proj4 from "proj4";
+import bbox from "@turf/bbox";
+import { crs3857, proj4crs3857def } from "../../constants/gis";
+import { convertBBox2Bounds } from "../../tools/gisHelper";
+
 
 export default {
   title: storiesCategory + "TopicMapComponent",
@@ -3191,6 +3197,178 @@ export const TopicMapWithPolygonFeatureCollection = () => {
         <FeatureCollection />
       </TopicMapComponent>
     </TopicMapContextProvider>
+  );
+};
+
+
+
+const TopicMapWithPrintBBoxMap = () => {
+  /**
+ * Calculate the bounding box for printing a map at a specific scale.
+ * 
+ * @param {number} centerX - The X coordinate of the map center in EPSG:3857.
+ * @param {number} centerY - The Y coordinate of the map center in EPSG:3857.
+ * @param {number} pixelWidth - The width of the map in pixels.
+ * @param {number} pixelHeight - The height of the map in pixels.
+ * @param {number} dpi - The dots per inch of the map.
+ * @param {number} scale - The scale denominator (e.g., 50000 for 1:50000 scale).
+ * @returns {Object} - The bounding box as a JSON object with minX, minY, maxX, maxY.
+ */
+  function calculateBBox(centerX, centerY, pixelWidth, pixelHeight, dpi, scale) {
+    // Convert DPI and scale to meters per pixel
+    const metersPerPixel = (0.0254 / dpi) * scale;
+
+    // Calculate the half dimensions in real-world units
+    const halfWidth = (pixelWidth * metersPerPixel) / 2;
+    const halfHeight = (pixelHeight * metersPerPixel) / 2;
+
+    // Calculate the bounding box
+    const minX = centerX - halfWidth;
+    const maxX = centerX + halfWidth;
+    const minY = centerY - halfHeight;
+    const maxY = centerY + halfHeight;
+
+    // Return the result as a JSON object
+    return {
+      minX: minX,
+      minY: minY,
+      maxX: maxX,
+      maxY: maxY
+    };
+  }
+  function createFeatureFromBBox(bbox) {
+    return {
+      "type": "Polygon",
+      "crs": { "type": "name", "properties": { "name": "EPSG:3857" } },
+      "coordinates": [[
+        [bbox.minX, bbox.minY], // Bottom-left
+        [bbox.maxX, bbox.minY], // Bottom-right
+        [bbox.maxX, bbox.maxY], // Top-right
+        [bbox.minX, bbox.maxY], // Top-left
+        [bbox.minX, bbox.minY]  // Close the polygon
+      ]]
+    };
+  }
+  const { setBoundingBox, setLocation, setRoutedMapRef } = useContext(TopicMapDispatchContext);
+  const { routedMapRef, referenceSystem } = useContext(TopicMapContext);
+
+
+  const [gazData, setGazData] = useState([]);
+  // const [feature, setFeature] = useState({ "type": "Polygon", "crs": { "type": "name", "properties": { "name": "EPSG:3857" } }, "coordinates": [[[801397.55, 6669454.71], [801397.55, 6669654.71], [801597.55, 6669654.71], [801597.55, 6669454.71], [801397.55, 6669454.71]]] });
+  const [feature, setFeature] = useState();
+  const featureref = useRef(feature);
+  useEffect(() => {
+    featureref.current = feature;
+  }, [feature]);
+
+
+  useEffect(() => {
+    getGazData(setGazData);
+  }, []);
+
+
+  const clickHandlerForScale = (scale) => {
+    if (routedMapRef) {
+      setFeature(undefined);
+      const map = routedMapRef.leafletMap.leafletElement;
+      const latLngCenter = map.getCenter();
+      const pointCenter = proj4('EPSG:4326', 'EPSG:3857', [latLngCenter.lng, latLngCenter.lat]);
+
+      console.log('xxx', { pointCenter, latLngCenter, map });
+      const f = createFeatureFromBBox(calculateBBox(pointCenter[0], pointCenter[1], 555, 802, 72, scale));
+      setFeature(f);
+      const bb = bbox(f);
+      const bounds = convertBBox2Bounds(bb, proj4crs3857def);
+      const ul = proj4('EPSG:3857', 'EPSG:4326', [bb[0], bb[1]]);
+      const lr = proj4('EPSG:3857', 'EPSG:4326', [bb[2], bb[3]]);
+
+      const divUL = map.latLngToContainerPoint([ul[1], ul[0]]);
+      const divLR = map.latLngToContainerPoint([lr[1], lr[0]]);
+
+      map.fitBounds(bounds);
+
+      console.log('xxx bbox', { bb, bounds, ul, lr, divUL, divLR, _divState });
+    }
+  }
+
+  return (<TopicMapComponent gazData={gazData} editable="true">
+    <>
+      <Control
+        className="leaflet-bar leaflet-control hover-control"
+        position="topleft"
+      >
+        <button onClick={() => {
+          clickHandlerForScale(500);
+        }}>500</button>
+      </Control>
+      <Control
+        className="leaflet-bar leaflet-control hover-control"
+        position="topleft"
+      >
+        <button onClick={() => {
+          clickHandlerForScale(1000);
+        }}>1000</button>
+      </Control>
+      <Control
+        className="leaflet-bar leaflet-control hover-control"
+        position="topleft"
+      >
+        <button onClick={() => {
+          clickHandlerForScale(2500);
+        }}>2500</button>
+      </Control>
+      <Control
+        className="leaflet-bar leaflet-control hover-control"
+        position="topleft"
+      >
+        <button onClick={() => {
+          clickHandlerForScale(10000);
+        }}>10000</button>
+      </Control>
+      <Control
+        className="leaflet-bar leaflet-control hover-control"
+        position="topleft"
+      >
+        <button onClick={() => {
+          if (routedMapRef) {
+            const map = routedMapRef.leafletMap.leafletElement;
+
+            const f = feature;
+            const bb = bbox(f);
+            const bounds = convertBBox2Bounds(bb, proj4crs3857def);
+            map.fitBounds(bounds);
+          }
+        }}>R</button>
+      </Control>
+      {feature &&
+        <ProjGeoJson
+          key={JSON.stringify(feature)}
+          editable={true}
+          style={(feature) => {
+            return { radius: 10 };
+          }}
+          featureCollection={[feature]}
+          editModeStatusChanged={(feature) => {
+            console.log('xxx feature', feature);
+          }}
+        />
+      }
+
+
+    </>
+  </TopicMapComponent>)
+}
+
+export const TopicMapWithPrintBBox = () => {
+
+
+
+
+
+  return (
+    <TopicMapContextProvider >
+      <TopicMapWithPrintBBoxMap />
+    </TopicMapContextProvider >
   );
 };
 

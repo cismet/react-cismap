@@ -109,7 +109,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.MostSimpleTopicMapWithAllCismapLayers /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
-      <TopicMapsExamples.SimpleTopicMapWithVectoprLayerAndSelectionInfoBox />
+      {/* <TopicMapsExamples.SimpleTopicMapWithVectoprLayerAndSelectionInfoBox /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayerAndEmptyTopicMapbackgroundLayer /> */}
 
       {/* <TopicMapsExamples.MostSiprojmpleTopicMapWithCustomLayer25832 /> */}
@@ -160,6 +160,8 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.TopicMapWithLineFeatureCollection /> */}
       {/* <TopicMapsExamples.TopicMapWithLineFeatureCollection /> */}
       {/* <TopicMapsExamples.TopicMapWithPolygonFeatureCollection /> */}
+      <TopicMapsExamples.TopicMapWithPrintBBox />
+
       {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBox /> */}
       {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBoxAndNoTopicMapContextProvider /> */}
       {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBoxInABootstrapMenu /> */}
@@ -174,6 +176,7 @@ if (window.location.pathname === "/follower") {
       {/* <GeojsonExamples.GeoJSONCollectionInTheMap /> */}
       {/* <GeojsonExamples.SingleInvertedGeoJSONInTheMap /> */}
       {/* <GeojsonExamples.SingleInvertedGeoJSONInTheMapIn3852 /> */}
+      {/* <GeojsonExamples.SingleGeoJSONInTheMapIn3852 /> */}
       {/* <GeojsonExamples.SingleGeoJSONInTheMap /> */}
       {/* <LeafletExamples.Simple /> */}
       {/* <LeafletExamples.SimpleWMS /> */}
