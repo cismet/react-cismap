@@ -164,7 +164,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.TopicMapWithLineFeatureCollection /> */}
       {/* <TopicMapsExamples.TopicMapWithLineFeatureCollection /> */}
       {/* <TopicMapsExamples.TopicMapWithPolygonFeatureCollection /> */}
-      <TopicMapsExamples.TopicMapWithPrintBBox />
+      {/* <TopicMapsExamples.TopicMapWithPrintBBox /> */}
 
       {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBox /> */}
       {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBoxAndNoTopicMapContextProvider /> */}
