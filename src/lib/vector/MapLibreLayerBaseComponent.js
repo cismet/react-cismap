@@ -3,7 +3,7 @@ import { GridLayer } from "react-leaflet";
 
 // import {} from "maplibre-gl";
 // import {} from "./mapbox-gl-leaflet";
-import {} from "./leaflet-maplibre-gl";
+import { } from "./leaflet-maplibre-gl";
 import { Marker, Point } from "maplibre-gl";
 
 // import {} from "@maplibre/maplibre-gl-leaflet";
@@ -84,8 +84,10 @@ class MaplibreGlLayer extends GridLayer {
 
           if (this.mapLibreMap && this.props.selectionEnabled === true) {
             const hits = this.mapLibreMap.queryRenderedFeatures(rect);
-
-            // if (manualSelectionManagement===false) {
+            const filteredHits = hits.filter((hit) => {
+              //hit.layer.id should not contain selection
+              return !(hit.layer.id.includes("selection"));
+            });
 
             // Deselect all features first
             this.mapLibreMap.queryRenderedFeatures().forEach((feature) => {
@@ -95,9 +97,10 @@ class MaplibreGlLayer extends GridLayer {
               );
             });
 
-            if (hits.length > 0) {
+            if (filteredHits.length > 0) {
               // Limit the selection to maxSelectionCount
-              const limitedHits = hits.slice(0, maxSelectionCount);
+
+              const limitedHits = filteredHits.slice(0, maxSelectionCount);
 
               const normalizedLimitedHits = [];
               limitedHits.forEach((hit) => {
