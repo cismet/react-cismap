@@ -85,6 +85,7 @@ const TopicMapComponent = (props) => {
     zoomSnap = 1,
     zoomDelta = 1,
     mapkey = "mapKey",
+    editable = false
   } = props;
   const { history, referenceSystem, referenceSystemDefinition, maskingPolygon, realRoutedMapRef: leafletRoutedMapRef } = useContext(
     TopicMapContext
@@ -270,6 +271,7 @@ const TopicMapComponent = (props) => {
             leafletMapProps={leafletMapProps}
             zoomSnap={zoomSnap}
             zoomDelta={zoomDelta}
+            editable={editable}
           >
             {overlayFeature && (
               <ProjSingleGeoJson
