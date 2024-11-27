@@ -3287,7 +3287,9 @@ const TopicMapWithPrintBBoxMap = () => {
 
       map.fitBounds(bounds);
 
-      console.log('xxx bbox', { bb, bounds, ul, lr, divUL, divLR, _divState });
+      console.log('xxx bbox', {
+        bb, bounds, ul, lr, divUL, divLR
+      });
     }
   }
 
