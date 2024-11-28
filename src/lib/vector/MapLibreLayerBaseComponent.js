@@ -67,7 +67,6 @@ class MaplibreGlLayer extends GridLayer {
         if (this.mapLibreMap?.project) {
           // Project the clicked point to map coordinates
           const point = this.mapLibreMap.project([e.latlng.lng, e.latlng.lat]);
-          const newLngLat = this.mapLibreMap.unproject(point);
 
           // Create a small bounding box around the clicked point
           const size = 0;
@@ -134,10 +133,10 @@ class MaplibreGlLayer extends GridLayer {
                   hit: normalizedLimitedHits[0],
                 });
               } else {
-                props.onSelectionChanged({ hits: limitedHits, hit: limitedHits[0], newLngLat });
+                props.onSelectionChanged({ hits: limitedHits, hit: limitedHits[0] });
               }
             } else {
-              props.onSelectionChanged({ hits: undefined, hit: undefined, newLngLat });
+              props.onSelectionChanged({ hits: undefined, hit: undefined });
               // console.log("No features found at the click location.");
             }
           }
