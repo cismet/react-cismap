@@ -22,6 +22,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "leaflet/dist/leaflet.css";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import { createRoot } from "react-dom/client";
+import TopicMapContextProvider from "./lib/contexts/TopicMapContextProvider";
 const container = document.getElementById("root");
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
 
@@ -109,7 +110,9 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.MostSimpleTopicMapWithAllCismapLayers /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
-      {/* <TopicMapsExamples.SimpleTopicMapWithVectoprLayerAndSelectionInfoBox /> */}
+      <TopicMapContextProvider>
+        <TopicMapsExamples.SimpleTopicMapWithNewSelectionOnZoom />
+      </TopicMapContextProvider>
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayerAndEmptyTopicMapbackgroundLayer /> */}
 
       {/* <TopicMapsExamples.MostSiprojmpleTopicMapWithCustomLayer25832 /> */}
@@ -160,7 +163,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.TopicMapWithLineFeatureCollection /> */}
       {/* <TopicMapsExamples.TopicMapWithLineFeatureCollection /> */}
       {/* <TopicMapsExamples.TopicMapWithPolygonFeatureCollection /> */}
-      <TopicMapsExamples.TopicMapWithPrintBBox />
+      {/* <TopicMapsExamples.TopicMapWithPrintBBox /> */}
 
       {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBox /> */}
       {/* <GazetteerSearchBoxExamples.SimpleMapWithDetachedGazetteerSearchBoxAndNoTopicMapContextProvider /> */}

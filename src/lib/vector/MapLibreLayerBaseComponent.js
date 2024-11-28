@@ -4,7 +4,7 @@ import { GridLayer } from "react-leaflet";
 // import {} from "maplibre-gl";
 // import {} from "./mapbox-gl-leaflet";
 import { } from "./leaflet-maplibre-gl";
-import { Point } from "maplibre-gl";
+import { Marker, Point } from "maplibre-gl";
 
 // import {} from "@maplibre/maplibre-gl-leaflet";
 
@@ -19,7 +19,11 @@ class MaplibreGlLayer extends GridLayer {
   componentDidUpdate(prevProps) {
     // Check if any props have changed
     if (prevProps !== this.props) {
-      if (this.mapLibreMap && this.props.selectionEnabled === false && this.props.onSelectionChanged !== undefined) {
+      if (
+        this.mapLibreMap &&
+        this.props.selectionEnabled === false &&
+        this.props.onSelectionChanged !== undefined
+      ) {
         // Deselect all features first
         this.mapLibreMap.queryRenderedFeatures().forEach((feature) => {
           this.mapLibreMap.setFeatureState(
@@ -29,7 +33,6 @@ class MaplibreGlLayer extends GridLayer {
         });
         this.props.onSelectionChanged({ hits: undefined, hit: undefined });
       }
-
     }
   }
 
@@ -64,6 +67,7 @@ class MaplibreGlLayer extends GridLayer {
         if (this.mapLibreMap?.project) {
           // Project the clicked point to map coordinates
           const point = this.mapLibreMap.project([e.latlng.lng, e.latlng.lat]);
+          const newLngLat = this.mapLibreMap.unproject(point);
 
           // Create a small bounding box around the clicked point
           const size = 0;
@@ -80,9 +84,10 @@ class MaplibreGlLayer extends GridLayer {
 
           if (this.mapLibreMap && this.props.selectionEnabled === true) {
             const hits = this.mapLibreMap.queryRenderedFeatures(rect);
-
-
-            // if (manualSelectionManagement===false) {
+            const filteredHits = hits.filter((hit) => {
+              //hit.layer.id should not contain selection
+              return !(hit.layer.id.includes("selection"));
+            });
 
             // Deselect all features first
             this.mapLibreMap.queryRenderedFeatures().forEach((feature) => {
@@ -92,34 +97,29 @@ class MaplibreGlLayer extends GridLayer {
               );
             });
 
-            if (hits.length > 0) {
+            if (filteredHits.length > 0) {
               // Limit the selection to maxSelectionCount
-              const limitedHits = hits.slice(0, maxSelectionCount);
+
+              const limitedHits = filteredHits.slice(0, maxSelectionCount);
 
               const normalizedLimitedHits = [];
               limitedHits.forEach((hit) => {
                 // console.log("xxx -> ", hit.layer.id, hit.properties.id, hit);
-
 
                 const setSelection = (selected) => {
                   this.mapLibreMap.setFeatureState(
                     { source: hit.source, sourceLayer: hit.sourceLayer, id: hit.id },
                     { selected }
                   );
-
-                }
+                };
                 if (manualSelectionManagement === false) {
                   setSelection(true);
                 } else {
                   hit.setSelection = setSelection;
                 }
 
-
-
                 //add hit to normalizedLimitedHits if an object with the id isn't already in the array
-                if (
-                  !normalizedLimitedHits.some((e) => e.id === hit.id)
-                ) {
+                if (!normalizedLimitedHits.some((e) => e.id === hit.id)) {
                   normalizedLimitedHits.push(hit);
                 }
 
@@ -129,14 +129,15 @@ class MaplibreGlLayer extends GridLayer {
               // console.log('normalizedLimitedHits', normalizedLimitedHits);
 
               if (normalizeFeatureHitsById) {
-                props.onSelectionChanged({ hits: normalizedLimitedHits, hit: normalizedLimitedHits[0] });
-
+                props.onSelectionChanged({
+                  hits: normalizedLimitedHits,
+                  hit: normalizedLimitedHits[0],
+                });
               } else {
-                props.onSelectionChanged({ hits: limitedHits, hit: limitedHits[0] });
-
+                props.onSelectionChanged({ hits: limitedHits, hit: limitedHits[0], newLngLat });
               }
             } else {
-              props.onSelectionChanged({ hits: undefined, hit: undefined });
+              props.onSelectionChanged({ hits: undefined, hit: undefined, newLngLat });
               // console.log("No features found at the click location.");
             }
           }
