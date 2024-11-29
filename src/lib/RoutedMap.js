@@ -163,6 +163,14 @@ export class RoutedMap extends React.Component {
     map.createPane("backgroundlayerTooltips");
     map.getPane("backgroundlayerTooltips").style.zIndex = 550;
 
+
+    // add a special marker pane with mix-blend-mode=difference
+    map.createPane("markerPaneWithBlendModeDifference");
+    map.getPane("markerPaneWithBlendModeDifference").style.zIndex = 599; // one unde markerPane
+    map.getPane("markerPaneWithBlendModeDifference").style.mixBlendMode = "difference";
+
+
+
     map.editable = this.props.editable;
 
     // leader Follower Stuff
