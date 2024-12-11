@@ -63,7 +63,7 @@ const SettingsPanel = (props) => {
   const { setAppMenuActiveMenuSection, setAppMenuVisible } =
     useContext(UIDispatchContext) || defaultContextValues;
   const { activeMenuSection } = useContext(UIContext) || defaultContextValues;
-  const { routedMapRef, history, referenceSystem } =
+  const { routedMapRef, history, referenceSystem, } =
     useContext(TopicMapContext) || defaultContextValues;
   const { setMarkerSymbolSize } =
     useContext(TopicMapStylingDispatchContext) || defaultContextValues;
@@ -72,6 +72,7 @@ const SettingsPanel = (props) => {
     additionalLayerConfiguration,
     activeAdditionalLayerKeys,
     additionalStylingInfo,
+    baseLayerConf,
   } = useContext(TopicMapStylingContext) || defaultContextValues;
   const {
     allFeatures,
@@ -200,7 +201,7 @@ const SettingsPanel = (props) => {
         maxZoom={Number(previewMapZoom)}
       >
         <div key={"." + "JSON.stringify(activeAdditionalLayerKeys)" + "." + "offlineReadyToUse"}>
-          {getLayersByName(backgroundsFromMode, _namedMapStyle)}
+          {getLayersByName(backgroundsFromMode, _namedMapStyle, undefined, baseLayerConf)}
           {activeAdditionalLayerKeys !== undefined &&
             activeAdditionalLayerKeys?.length > 0 &&
             activeAdditionalLayerKeys.map((activekey, index) => {
