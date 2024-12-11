@@ -6,6 +6,7 @@ import { namedStyles } from "../constants/layers";
 import NonTiledWMSLayer from "../NonTiledWMSLayer";
 import StyledWMSTileLayer from "../StyledWMSTileLayer";
 import MapLibreLayer from "../vector/MapLibreLayer";
+import StyledTileLayer from "../StyledTileLayer";
 
 export default function getLayers(
   layerString,
@@ -125,10 +126,10 @@ const createLayerFactoryFunction = (key, _conf = defaultLayerConf) => {
     case "tiles":
       return (options) => {
         let params = { ...conf.defaults.wms, ...conf.namedLayers[key] };
-        console.log("params for " + key, params);
+        // console.log("params for " + key, params);
 
         return (
-          <TileLayer
+          <StyledTileLayer
             key={key + JSON.stringify(options)}
             {...params}
             opacity={options.opacity}
