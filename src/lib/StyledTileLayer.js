@@ -1,0 +1,62 @@
+import { TileLayer } from "react-leaflet";
+// import filters from 'pleeease-filters'; /a postcss  plugin. worked only for the first expression
+import PropTypes from "prop-types";
+
+export class StyledTileLayer_ extends TileLayer {
+  constructor(props) {
+    // console.debug("constructor");
+
+    super(props);
+    this.setFilter = this.setFilter.bind(this);
+  }
+
+  createLeafletElement(props) {
+    return super.createLeafletElement(props);
+  }
+  componentDidMount() {
+    super.componentDidMount();
+    this.setFilter();
+  }
+  updateLeafletElement(fromProps, toProps) {
+    super.updateLeafletElement(fromProps, toProps);
+    this.setFilter();
+  }
+
+  setFilter() {
+    if (this.props.cssFilter) {
+      if (this.leafletElement) {
+        if (this.leafletElement._container) {
+          if (this.leafletElement._container.style) {
+            this.leafletElement._container.style.cssText += " " + this.props.cssFilter;
+          } else {
+            // console.debug("this.leafletElement._container not set");
+          }
+        } else {
+          //   console.debug("this.leafletElement._container not set");
+        }
+      } else {
+        // console.debug("this.leafletElemen not set");
+      }
+    } else {
+      // console.debug('no cssFilter set');
+    }
+  }
+
+  getOptions(params) {
+    return super.getOptions(params);
+  }
+}
+
+const StyledTileLayer = StyledTileLayer_;
+
+export default StyledTileLayer;
+
+StyledTileLayer.propTypes = {
+  url: PropTypes.string,
+  format: PropTypes.string,
+  tiled: PropTypes.bool,
+  version: PropTypes.string,
+  maxZoom: PropTypes.number,
+  opacity: PropTypes.number,
+  cssFilter: PropTypes.string,
+};
