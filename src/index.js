@@ -110,9 +110,11 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.MostSimpleTopicMapWithAllCismapLayers /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
-      <TopicMapContextProvider>
+      {/* <TopicMapContextProvider>
         <TopicMapsExamples.SimpleTopicMapWithNewSelectionOnZoom />
-      </TopicMapContextProvider>
+      </TopicMapContextProvider> */}
+      <TopicMapsExamples.TopicMapWithCustomLayersAndBackgroundModes />
+
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayerAndEmptyTopicMapbackgroundLayer /> */}
 
       {/* <TopicMapsExamples.MostSiprojmpleTopicMapWithCustomLayer25832 /> */}

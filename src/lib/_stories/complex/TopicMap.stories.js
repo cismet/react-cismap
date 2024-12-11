@@ -300,6 +300,57 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
     </TopicMapContextProvider>
   );
 };
+export const TopicMapWithCustomLayersAndBackgroundModes = () => {
+
+  const baseLayerConf = JSON.parse(JSON.stringify(defaultLayerConf));
+
+  baseLayerConf.namedLayers["rvr-spw2_light-tiles"] = {
+    "type": "tiles",
+    "maxNativeZoom": 20,
+    "maxZoom": 22,
+    "url": "https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_light&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}"
+  };
+  return (
+    <TopicMapContextProvider
+      backgroundModes={[
+        {
+          "title": "my Stadtplan (Tag)",
+          "mode": "default",
+          "layerKey": "stadtplan"
+        },
+        {
+          "title": "my Stadtplan (Nacht)",
+          "mode": "night",
+          "layerKey": "stadtplan"
+        },
+        { "title": "my Luftbildkarte", "mode": "default", "layerKey": "lbk" }
+      ]}
+      backgroundConfigurations={{
+        topo: {
+          layerkey: "hillshade|bplan_abkg@30|wupp-plan-live@20",
+          src: "/images/rain-hazard-map-bg/topo.png",
+          title: "Top. Karte",
+        },
+        lbk: {
+          layerkey: "rvrGrundriss@100|trueOrtho2022@75|rvrSchriftNT@100",
+          src: "/images/rain-hazard-map-bg/ortho.png",
+          title: "Luftbildkarte",
+        },
+        stadtplan: {
+          layerkey: "rvr-spw2_light-tiles@100",
+          src: "/images/rain-hazard-map-bg/citymap.png",
+          title: "Stadtplan",
+        },
+      }}
+      baseLayerConf={baseLayerConf}
+    >
+      <TopicMapComponent gazData={[]} >
+
+      </TopicMapComponent>
+    </TopicMapContextProvider >
+  );
+};
+
 
 export const MostSimpleTopicMapWithCustomLayerAndEmptyTopicMapbackgroundLayer = () => {
   return (
