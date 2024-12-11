@@ -57,7 +57,8 @@ export class RoutedMap extends React.Component {
   }
 
   //Handle a autoFit Command if needed
-  componentDidUpdate() {}
+  componentDidUpdate() { }
+
 
   render() {
     return (
@@ -121,18 +122,18 @@ RoutedMap.propTypes = {
 
 RoutedMap.defaultProps = {
   layers: "",
-  gazeteerHitTrigger: function () {},
-  searchButtonTrigger: function () {},
-  featureClickHandler: function () {},
-  onFeatureCreation: function () {},
-  onFeatureChangeAfterEditing: function () {},
-  ondblclick: function () {},
-  onclick: function () {},
-  locationChangedHandler: function () {},
+  gazeteerHitTrigger: function () { },
+  searchButtonTrigger: function () { },
+  featureClickHandler: function () { },
+  onFeatureCreation: function () { },
+  onFeatureChangeAfterEditing: function () { },
+  ondblclick: function () { },
+  onclick: function () { },
+  locationChangedHandler: function () { },
   autoFitConfiguration: {},
   urlSearchParams: new URLSearchParams(""),
-  boundingBoxChangedHandler: () => {},
-  autoFitProcessedHandler: () => {},
+  boundingBoxChangedHandler: () => { },
+  autoFitProcessedHandler: () => { },
   fallbackPosition: {
     lat: 51.272399,
     lng: 7.199712,
@@ -147,7 +148,7 @@ RoutedMap.defaultProps = {
   zoomDelta: 1,
   editable: false,
   attributionControl: false,
-  mapReady: (map) => {},
+  mapReady: (map) => { },
   createFeatureFromEditLayer: (id, layer) => {
     try {
       const wgs84geoJSON = layer.toGeoJSON();
