@@ -116,7 +116,7 @@ class MaplibreGlLayer extends GridLayer {
                     setSelection(true);
                   } else {
                     hit.setSelection = setSelection;
-                    hit.selectionLayerExists = selectionLayerExists;
+                    hit.selectionLayerExists = this.selectionLayerExists;
                   }
 
 
