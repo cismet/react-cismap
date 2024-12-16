@@ -106,14 +106,14 @@ if (window.location.pathname === "/follower") {
 
       {/* <TopicMapsExamples.SimpleTopicMapWMSBBoxDisplay /> */}
       {/* <TopicMapsExamples.SimpleMutedTopicMap /> */}
-      {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer /> */}
+      <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer />
       {/* <TopicMapsExamples.MostSimpleTopicMapWithAllCismapLayers /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
       {/* <TopicMapContextProvider>
         <TopicMapsExamples.SimpleTopicMapWithNewSelectionOnZoom />
       </TopicMapContextProvider> */}
-      <TopicMapsExamples.TopicMapWithCustomLayersAndBackgroundModes />
+      {/* <TopicMapsExamples.TopicMapWithCustomLayersAndBackgroundModes /> */}
 
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayerAndEmptyTopicMapbackgroundLayer /> */}
 

@@ -754,7 +754,22 @@ export const MostSimpleTopicMapWithCismapLayer = () => {
 
             type: "vector",
             // style: "https://omt.map-hosting.de/styles/cismet-light/style.json",
-            style: "https://omt.map-hosting.de/styles/kanal/style.json",
+            // style: "https://omt.map-hosting.de/styles/kanal/style.json",
+            // style: "https://tiles.cismet.de/wohnlagen2024/style.json",
+            // style: "https://tiles.cismet.de/bplanhintergrund/style.json",
+            // style: "https://tiles.cismet.de/poi/style.json",
+            style: "https://tiles.cismet.de/baeume/style.json",
+
+            // selectionLayerExists: true,
+            maxSelectionCount: 1,
+            selectionEnabled: true,
+            onSelectionChanged: (e) => {
+              const selectedFeature = e.hits[0];
+              console.log(
+                "xxxy selectedFeature",
+                JSON.stringify(selectedFeature, null, 2)
+              );
+            },
 
             pane: "vectorLayers",
           }}
