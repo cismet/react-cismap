@@ -64,7 +64,7 @@ class MaplibreGlLayer extends GridLayer {
     const manualSelectionManagement = props.manualSelectionManagement || false;
     if (props.onSelectionChanged) {
       map.on("click", (e) => {
-        if (this.selectionLayerExists || props.selectionLayerExists) {
+        if (this.selectionLayerExists || manualSelectionManagement) {
           if (this.mapLibreMap?.project) {
             // Project the clicked point to map coordinates
             const point = this.mapLibreMap.project([e.latlng.lng, e.latlng.lat]);
@@ -116,7 +116,10 @@ class MaplibreGlLayer extends GridLayer {
                     setSelection(true);
                   } else {
                     hit.setSelection = setSelection;
+                    hit.selectionLayerExists = selectionLayerExists;
                   }
+
+
 
                   //add hit to normalizedLimitedHits if an object with the id isn't already in the array
                   if (!normalizedLimitedHits.some((e) => e.id === hit.id)) {

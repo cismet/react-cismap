@@ -760,7 +760,6 @@ export const MostSimpleTopicMapWithCismapLayer = () => {
             // style: "https://tiles.cismet.de/poi/style.json",
             style: "https://tiles.cismet.de/baeume/style.json",
 
-            // selectionLayerExists: true,
             maxSelectionCount: 1,
             selectionEnabled: true,
             onSelectionChanged: (e) => {
