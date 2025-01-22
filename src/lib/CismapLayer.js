@@ -22,7 +22,11 @@ export default function CismapLayer(props) {
     console.error("CismapLayer: type not set", props);
     return null;
   } else {
-    let opacity = props.opacity || 1;
+
+    let opacity = props.opacity;
+    if (opacity === undefined || opacity === null) {
+      opacity = 1;
+    }
     if (props.opacityFunction) {
       opacity = props.opacityFunction(opacity);
     }
