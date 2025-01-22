@@ -43,6 +43,7 @@ class MaplibreGlLayer extends GridLayer {
       // console.log('xxx props did change', this, this._layer._container);
       this._layer._container.style.opacity = this.props.opacity;
     }
+
   }
 
   createLeafletElement(props) {
@@ -187,7 +188,10 @@ class MaplibreGlLayer extends GridLayer {
     const mlMap = layer.getMaplibreMap();
     this._layer = layer;
     const { _map } = this._layer;
+
+    //handle opacity prop to set the native css opacity of the layer container
     this._layer._container.style.opacity = props.opacity;
+
     mlMap.on("load", () => {
       this.mapLibreMap = mlMap;
       const style = mlMap.getStyle();
@@ -200,38 +204,30 @@ class MaplibreGlLayer extends GridLayer {
 
       this._onViewChanged();
 
-      // if ((props.opacity || props.textOpacity || props.iconOpacity) && mlMap) {
-      //   try {
-      //     const layers = style.layers;
-      //     layers.map((layer) => {
-      //       if (layer.type === "symbol") {
-      //         const existingIconOpacity = mlMap.getPaintProperty(layer.id, "icon-opacity") || 1;
-      //         const existingTextOpacity = mlMap.getPaintProperty(layer.id, "text-opacity") || 1;
-      //         mlMap.setPaintProperty(
-      //           layer.id,
-      //           `icon-opacity`,
-      //           (props.iconOpacity || props.opacity || 1) * existingIconOpacity
-      //         );
-      //         mlMap.setPaintProperty(
-      //           layer.id,
-      //           `text-opacity`,
-      //           (props.textOpacity || props.opacity || 1) * existingTextOpacity
-      //         );
-      //       } else {
-      //         const existingOpacity =
-      //           mlMap.getPaintProperty(layer.id, `${layer.type}-opacity`) || 1;
-      //         mlMap.setPaintProperty(
-      //           layer.id,
-      //           `${layer.type}-opacity`,
-      //           (props.opacity || 1) * existingOpacity
-      //         );
-      //       }
-      //     });
-      //     // console.log("vectorLayerOpacitySetter: looks good");
-      //   } catch (e) {
-      //     console.log("vectorLayerOpacitySetter: map not ready error", e);
-      //   }
-      // }
+      if ((props.textOpacity || props.iconOpacity) && mlMap) {
+        try {
+          const layers = style.layers;
+          layers.map((layer) => {
+            if (layer.type === "symbol") {
+              const existingIconOpacity = mlMap.getPaintProperty(layer.id, "icon-opacity") || 1;
+              const existingTextOpacity = mlMap.getPaintProperty(layer.id, "text-opacity") || 1;
+              mlMap.setPaintProperty(
+                layer.id,
+                `icon-opacity`,
+                (props.iconOpacity || 1) * existingIconOpacity
+              );
+              mlMap.setPaintProperty(
+                layer.id,
+                `text-opacity`,
+                (props.textOpacity || 1) * existingTextOpacity
+              );
+            }
+          });
+          // console.log("vectorLayerOpacitySetter: looks good");
+        } catch (e) {
+          console.log("vectorLayerOpacitySetter: map not ready error", e);
+        }
+      }
 
       if (_map) {
         // Force a resize calculation on the map so that
