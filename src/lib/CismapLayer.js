@@ -40,7 +40,7 @@ export default function CismapLayer(props) {
       } else if (leafletMap && leafletMap.getPane(paneName)) {
         // console.log('xxx pane already exists', paneName, props.additionalLayersFreeZOrder);
         leafletMap.getPane(paneName).style.zIndex = 250 + props.additionalLayersFreeZOrder;
-
+        setAdditionalLayerUniquePaneCreated(true);
       }
 
     }
