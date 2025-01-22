@@ -18,7 +18,9 @@ class MaplibreGlLayer extends GridLayer {
 
   componentDidUpdate(prevProps) {
     // Check if any props have changed
+
     if (prevProps !== this.props) {
+
       if (
         this.mapLibreMap &&
         this.props.selectionEnabled === false &&
@@ -33,6 +35,13 @@ class MaplibreGlLayer extends GridLayer {
         });
         this.props.onSelectionChanged({ hits: undefined, hit: undefined });
       }
+    }
+
+    // Detect opacity change
+
+    if (prevProps.opacity !== this.props.opacity) {
+      // console.log('xxx props did change', this, this._layer._container);
+      this._layer._container.style.opacity = this.props.opacity;
     }
   }
 
@@ -149,6 +158,7 @@ class MaplibreGlLayer extends GridLayer {
           }
         }
       });
+
     }
 
     // if (props.offlineAvailable) {
@@ -169,14 +179,15 @@ class MaplibreGlLayer extends GridLayer {
       ...props,
     });
 
+
     return layer;
   }
 
   _addLayer({ layer }, props) {
-
     const mlMap = layer.getMaplibreMap();
     this._layer = layer;
     const { _map } = this._layer;
+    this._layer._container.style.opacity = props.opacity;
     mlMap.on("load", () => {
       this.mapLibreMap = mlMap;
       const style = mlMap.getStyle();
@@ -189,38 +200,38 @@ class MaplibreGlLayer extends GridLayer {
 
       this._onViewChanged();
 
-      if ((props.opacity || props.textOpacity || props.iconOpacity) && mlMap) {
-        try {
-          const layers = style.layers;
-          layers.map((layer) => {
-            if (layer.type === "symbol") {
-              const existingIconOpacity = mlMap.getPaintProperty(layer.id, "icon-opacity") || 1;
-              const existingTextOpacity = mlMap.getPaintProperty(layer.id, "text-opacity") || 1;
-              mlMap.setPaintProperty(
-                layer.id,
-                `icon-opacity`,
-                (props.iconOpacity || props.opacity || 1) * existingIconOpacity
-              );
-              mlMap.setPaintProperty(
-                layer.id,
-                `text-opacity`,
-                (props.textOpacity || props.opacity || 1) * existingTextOpacity
-              );
-            } else {
-              const existingOpacity =
-                mlMap.getPaintProperty(layer.id, `${layer.type}-opacity`) || 1;
-              mlMap.setPaintProperty(
-                layer.id,
-                `${layer.type}-opacity`,
-                (props.opacity || 1) * existingOpacity
-              );
-            }
-          });
-          // console.log("vectorLayerOpacitySetter: looks good");
-        } catch (e) {
-          console.log("vectorLayerOpacitySetter: map not ready error", e);
-        }
-      }
+      // if ((props.opacity || props.textOpacity || props.iconOpacity) && mlMap) {
+      //   try {
+      //     const layers = style.layers;
+      //     layers.map((layer) => {
+      //       if (layer.type === "symbol") {
+      //         const existingIconOpacity = mlMap.getPaintProperty(layer.id, "icon-opacity") || 1;
+      //         const existingTextOpacity = mlMap.getPaintProperty(layer.id, "text-opacity") || 1;
+      //         mlMap.setPaintProperty(
+      //           layer.id,
+      //           `icon-opacity`,
+      //           (props.iconOpacity || props.opacity || 1) * existingIconOpacity
+      //         );
+      //         mlMap.setPaintProperty(
+      //           layer.id,
+      //           `text-opacity`,
+      //           (props.textOpacity || props.opacity || 1) * existingTextOpacity
+      //         );
+      //       } else {
+      //         const existingOpacity =
+      //           mlMap.getPaintProperty(layer.id, `${layer.type}-opacity`) || 1;
+      //         mlMap.setPaintProperty(
+      //           layer.id,
+      //           `${layer.type}-opacity`,
+      //           (props.opacity || 1) * existingOpacity
+      //         );
+      //       }
+      //     });
+      //     // console.log("vectorLayerOpacitySetter: looks good");
+      //   } catch (e) {
+      //     console.log("vectorLayerOpacitySetter: map not ready error", e);
+      //   }
+      // }
 
       if (_map) {
         // Force a resize calculation on the map so that
