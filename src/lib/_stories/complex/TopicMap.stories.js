@@ -398,7 +398,7 @@ export const SimpleTopicMapWithVectorLayerAndSelectionInfoBox = () => {
   const [selectedFeature, setSelectedFeature] = useState(undefined);
   const [selectionEnabled, setSelectionEnabled] = useState(true);
   const [allFeatures, setAllFeatures] = useState(0);
-  console.log("xxx", selectionEnabled);
+  const [opacity, setOpacity] = useState(0.2);
   let links = [];
   if (selectedFeature) {
     links = getActionLinksForFeature(selectedFeature, {});
@@ -437,7 +437,20 @@ export const SimpleTopicMapWithVectorLayerAndSelectionInfoBox = () => {
               }}
             />
             <label htmlFor="selectionCheckbox">Enable Selection</label>
+            <br></br>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={opacity * 100}
+              onChange={(event) => {
+                setOpacity(event.target.value / 100);
+              }}
+
+            />
+
           </div>
+
         </Control>
         <CismapLayer
           {...{
@@ -447,7 +460,7 @@ export const SimpleTopicMapWithVectorLayerAndSelectionInfoBox = () => {
             // style: "https://tiles.kg6.cismet.de/kanal_kb_abschnitte/style.json",
             _metadata: "https://tiles.cismet.de/poi/metadata.json",
             pane: "additionalLayers1",
-            opacity: 1,
+            opacity: opacity,
             normalizeFeatureHitsById: true,
             maxSelectionCount: 10,
             selectionEnabled: selectionEnabled,
@@ -532,7 +545,7 @@ export const SimpleTopicMapWithVectorLayerAndSelectionInfoBox = () => {
           url={`https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_light&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`}
         />
       </TopicMapComponent>
-    </TopicMapContextProvider>
+    </TopicMapContextProvider >
   );
 };
 
