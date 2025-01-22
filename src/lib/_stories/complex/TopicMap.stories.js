@@ -92,6 +92,7 @@ import { crs3857, proj4crs3857def } from "../../constants/gis";
 import { convertBBox2Bounds } from "../../tools/gisHelper";
 
 import ExtraMarker from "../../ExtraMarker";
+import { faFacebook } from "@fortawesome/free-brands-svg-icons";
 
 export default {
   title: storiesCategory + "TopicMapComponent",
@@ -392,7 +393,7 @@ export const MostSimpleTopicMapWithCustomLayerAndEmptyTopicMapbackgroundLayer = 
   );
 };
 
-export const SimpleTopicMapWithVectoprLayerAndSelectionInfoBox = () => {
+export const SimpleTopicMapWithVectorLayerAndSelectionInfoBox = () => {
   const [shownFeatures, setShownFeatures] = useState([]);
   const [selectedFeature, setSelectedFeature] = useState(undefined);
   const [selectionEnabled, setSelectionEnabled] = useState(true);
@@ -479,33 +480,38 @@ export const SimpleTopicMapWithVectoprLayerAndSelectionInfoBox = () => {
 
               const f = e.hit;
               //add generic Links
+              //<img src="https://cismet.de/images/logo16.png" />,
               f.properties.genericLinks = [
                 {
                   url: "https://cismet.de",
                   tooltip: "cismet",
                   target: "_blank",
-                  icon: <img src="https://cismet.de/images/projects/wunda_l.png" width="40" />,
+                  icon: <FontAwesomeIcon
+                    icon={faFacebook}
+                    size="2x"
+                    style={{ color: "grey", width: "26px" }}
+                  />
                 },
-                {
-                  url: "https://cismet.de",
-                  tooltip: "cismet",
-                  target: "_blank",
-                  icon: (
-                    <span>
-                      <FontAwesomeIcon
-                        icon={faSquare}
-                        size="2x"
-                        transform="down-0 right-0"
-                        style={{ color: "grey", width: "26px" }}
-                      />
-                      <FontAwesomeIcon
-                        icon={faInfo}
-                        transform="left-34 up-5"
-                        style={{ color: "grey", width: "26px" }}
-                      />
-                    </span>
-                  ),
-                },
+                // {
+                //   url: "https://cismet.de",
+                //   tooltip: "cismet",
+                //   target: "_blank",
+                //   icon: (
+                //     <span>
+                //       <FontAwesomeIcon
+                //         icon={faSquare}
+                //         size="2x"
+                //         transform="down-0 right-0"
+                //         style={{ color: "grey", width: "26px" }}
+                //       />
+                //       {/* <FontAwesomeIcon
+                //         icon={faInfo}
+                //         transform="left-34 up-5"
+                //         style={{ color: "grey", width: "26px" }}
+                //       /> */}
+                //     </span>
+                //   ),
+                // },
               ];
 
               console.log("hit", f);
