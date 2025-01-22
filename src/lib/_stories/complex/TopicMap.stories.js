@@ -261,6 +261,7 @@ export const MostSimpleTopicMapWithInfoBoxComponent = () => {
 };
 
 export const MostSimpleTopicMapWithCustomLayer = () => {
+  const [zIndex, setZIndex] = useState(10);
   return (
     <TopicMapContextProvider>
       <TopicMapComponent gazData={[]} backgroundlayers="wupp-plan-live-tiles-3857">
@@ -276,7 +277,7 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
           }}
         ></StyledWMSTileLayer> */}
 
-        <CismapLayer
+        {/* <CismapLayer
           {...{
             type: "vector",
             _style: "https://tiles.cismet.de/test/style.json",
@@ -291,12 +292,38 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
             //   console.log("xxx onLayerClick", e);
             // },
           }}
-        />
+        /> */}
         {/* <TileLayer
           maxNativeZoom={20}
           maxZoom={22}
           url={`https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_light&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`}
         /> */}
+
+        <CismapLayer
+          {...{
+            type: "vector",
+            style: "https://tiles.cismet.de/bplanhintergrund/style.json",
+            additionalLayerUniquePane: "bplan",
+            opacity: 1,
+            additionalLayersFreeZOrder: 9
+          }}
+
+        />
+        <CismapLayer
+          {...{
+            type: "vector",
+            style: "https://tiles.cismet.de/hitzeinsel/style.json",
+            additionalLayerUniquePane: "hitzeinsel",
+            opacity: 1,
+            additionalLayersFreeZOrder: zIndex,
+          }}
+        />
+        <Control position="topright">
+          <><button onClick={() => { setZIndex(15) }}>⬆️</button>
+            <button onClick={() => { setZIndex(5) }}>⬇️</button>
+          </>
+        </Control>
+
       </TopicMapComponent>
     </TopicMapContextProvider>
   );
@@ -464,6 +491,7 @@ export const SimpleTopicMapWithVectorLayerAndSelectionInfoBox = () => {
             normalizeFeatureHitsById: true,
             maxSelectionCount: 10,
             selectionEnabled: selectionEnabled,
+            zIndex: 900000,
             manualSelectionManagement: true,
             onSelectionClick: (e) => {
               console.log("xxx selectionClick", e);
