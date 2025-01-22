@@ -253,15 +253,15 @@ class MaplibreGlLayer extends GridLayer {
     this._layer = null;
   }
   _onViewChanged() {
-    if (this.mapLibreMap) {
-      const visibleFeatures = this.mapLibreMap.queryRenderedFeatures({
-        layers: ["poi-images"],
-      });
-      const visibleFeatureCount = visibleFeatures.length;
-      if (this.props.onViewMetaDataChanged) {
-        this.props.onViewMetaDataChanged(visibleFeatureCount);
-      }
-    }
+    // if (this.mapLibreMap) {
+    //   const visibleFeatures = this.mapLibreMap.queryRenderedFeatures({
+    //     layers: ["poi-images"],
+    //   });
+    //   const visibleFeatureCount = visibleFeatures.length;
+    //   if (this.props.onViewMetaDataChanged) {
+    //     this.props.onViewMetaDataChanged(visibleFeatureCount);
+    //   }
+    // }
   }
 }
 
