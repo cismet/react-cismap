@@ -52,7 +52,7 @@ export default function CismapLayer(props) {
   if (props.type === undefined) {
     console.error("CismapLayer: type not set", props);
     return null;
-  } else if (routedMapRef && (props.additionalLayerUniquePane === undefined || additionalLayerUniquePaneCreated === true)) {
+  } else if (props.additionalLayerUniquePane === undefined || (routedMapRef && additionalLayerUniquePaneCreated === true)) {
     let opacity = props.opacity;
     if (opacity === undefined || opacity === null) {
       opacity = 1;
