@@ -3,7 +3,7 @@ import { GridLayer } from "react-leaflet";
 
 // import {} from "maplibre-gl";
 // import {} from "./mapbox-gl-leaflet";
-import { } from "./leaflet-maplibre-gl";
+import {} from "./leaflet-maplibre-gl";
 import { Marker, Point } from "maplibre-gl";
 
 // import {} from "@maplibre/maplibre-gl-leaflet";
@@ -20,7 +20,6 @@ class MaplibreGlLayer extends GridLayer {
     // Check if any props have changed
 
     if (prevProps !== this.props) {
-
       if (
         this.mapLibreMap &&
         this.props.selectionEnabled === false &&
@@ -43,11 +42,11 @@ class MaplibreGlLayer extends GridLayer {
       // console.log('xxx props did change', this, this._layer._container);
       this._layer._container.style.opacity = this.props.opacity;
     }
-
   }
 
   createLeafletElement(props) {
     const { map } = props.leaflet || this.context;
+    const selectedFeatures = new Set();
 
     map.on("layeradd", (e) => {
       // only call _addLayer if the layer being added is this layer
@@ -96,16 +95,18 @@ class MaplibreGlLayer extends GridLayer {
               const hits = this.mapLibreMap.queryRenderedFeatures(rect);
               const filteredHits = hits.filter((hit) => {
                 //hit.layer.id should not contain selection
-                return !(hit.layer.id.includes("selection"));
+                return !hit.layer.id.includes("selection");
               });
 
-              // Deselect all features first
-              this.mapLibreMap.queryRenderedFeatures().forEach((feature) => {
+              // Deselect all selected features first
+              selectedFeatures.forEach((feature) => {
                 this.mapLibreMap.setFeatureState(
                   { source: feature.source, sourceLayer: feature.sourceLayer, id: feature.id },
                   { selected: false }
                 );
               });
+
+              selectedFeatures.clear();
 
               if (filteredHits.length > 0) {
                 // Limit the selection to maxSelectionCount
@@ -121,6 +122,11 @@ class MaplibreGlLayer extends GridLayer {
                       { source: hit.source, sourceLayer: hit.sourceLayer, id: hit.id },
                       { selected }
                     );
+                    selectedFeatures.add({
+                      source: hit.source,
+                      sourceLayer: hit.sourceLayer,
+                      id: hit.id,
+                    });
                   };
                   if (manualSelectionManagement === false) {
                     setSelection(true);
@@ -128,8 +134,6 @@ class MaplibreGlLayer extends GridLayer {
                     hit.setSelection = setSelection;
                     hit.selectionLayerExists = this.selectionLayerExists;
                   }
-
-
 
                   //add hit to normalizedLimitedHits if an object with the id isn't already in the array
                   if (!normalizedLimitedHits.some((e) => e.id === hit.id)) {
@@ -159,7 +163,6 @@ class MaplibreGlLayer extends GridLayer {
           }
         }
       });
-
     }
 
     // if (props.offlineAvailable) {
@@ -180,7 +183,6 @@ class MaplibreGlLayer extends GridLayer {
       ...props,
     });
 
-
     return layer;
   }
 
@@ -200,7 +202,6 @@ class MaplibreGlLayer extends GridLayer {
       this.selectionLayerExists = style.layers.some((layer) => {
         return layer.id.includes("selection");
       });
-
 
       this._onViewChanged();
 
