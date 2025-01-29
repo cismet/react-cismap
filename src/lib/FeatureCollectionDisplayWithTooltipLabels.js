@@ -111,7 +111,7 @@ const FeatureCollectionDisplay = ({
       markers.push(selectedMarkers[midx]);
     }
   }
-  console.log("FeatureCollectionDisplayWITHTOOLTIPLABELS appMode", appMode);
+  // console.log("FeatureCollectionDisplayWITHTOOLTIPLABELS appMode", appMode);
 
   return (
     <div>
