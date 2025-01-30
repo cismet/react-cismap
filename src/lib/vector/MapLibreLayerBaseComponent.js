@@ -105,9 +105,7 @@ class MaplibreGlLayer extends GridLayer {
                     { source: feature.source, sourceLayer: feature.sourceLayer, id: feature.id },
                     { selected: false }
                   );
-                } catch (e) {
-                  console.error("xxx deselect error", e);
-                }
+                } catch (e) {}
               });
 
               selectedFeatures.clear();
