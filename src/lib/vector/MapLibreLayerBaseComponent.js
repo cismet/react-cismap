@@ -100,10 +100,14 @@ class MaplibreGlLayer extends GridLayer {
 
               // Deselect all selected features first
               selectedFeatures.forEach((feature) => {
-                this.mapLibreMap.setFeatureState(
-                  { source: feature.source, sourceLayer: feature.sourceLayer, id: feature.id },
-                  { selected: false }
-                );
+                try {
+                  this.mapLibreMap.setFeatureState(
+                    { source: feature.source, sourceLayer: feature.sourceLayer, id: feature.id },
+                    { selected: false }
+                  );
+                } catch (e) {
+                  console.error("xxx deselect error", e);
+                }
               });
 
               selectedFeatures.clear();
