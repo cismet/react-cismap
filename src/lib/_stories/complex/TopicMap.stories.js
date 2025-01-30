@@ -305,9 +305,8 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
             style: "https://tiles.cismet.de/bplanhintergrund/style.json",
             additionalLayerUniquePane: "bplan",
             opacity: 1,
-            additionalLayersFreeZOrder: 9
+            additionalLayersFreeZOrder: 9,
           }}
-
         />
         <CismapLayer
           {...{
@@ -319,39 +318,51 @@ export const MostSimpleTopicMapWithCustomLayer = () => {
           }}
         />
         <Control position="topright">
-          <><button onClick={() => { setZIndex(15) }}>⬆️</button>
-            <button onClick={() => { setZIndex(5) }}>⬇️</button>
+          <>
+            <button
+              onClick={() => {
+                setZIndex(15);
+              }}
+            >
+              ⬆️
+            </button>
+            <button
+              onClick={() => {
+                setZIndex(5);
+              }}
+            >
+              ⬇️
+            </button>
           </>
         </Control>
-
       </TopicMapComponent>
     </TopicMapContextProvider>
   );
 };
 export const TopicMapWithCustomLayersAndBackgroundModes = () => {
-
   const baseLayerConf = JSON.parse(JSON.stringify(defaultLayerConf));
 
   baseLayerConf.namedLayers["rvr-spw2_light-tiles"] = {
-    "type": "tiles",
-    "maxNativeZoom": 20,
-    "maxZoom": 22,
-    "url": "https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_light&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}"
+    type: "tiles",
+    maxNativeZoom: 20,
+    maxZoom: 22,
+    url:
+      "https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_light&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}",
   };
   return (
     <TopicMapContextProvider
       backgroundModes={[
         {
-          "title": "my Stadtplan (Tag)",
-          "mode": "default",
-          "layerKey": "stadtplan"
+          title: "my Stadtplan (Tag)",
+          mode: "default",
+          layerKey: "stadtplan",
         },
         {
-          "title": "my Stadtplan (Nacht)",
-          "mode": "night",
-          "layerKey": "stadtplan"
+          title: "my Stadtplan (Nacht)",
+          mode: "night",
+          layerKey: "stadtplan",
         },
-        { "title": "my Luftbildkarte", "mode": "default", "layerKey": "lbk" }
+        { title: "my Luftbildkarte", mode: "default", layerKey: "lbk" },
       ]}
       backgroundConfigurations={{
         topo: {
@@ -372,13 +383,10 @@ export const TopicMapWithCustomLayersAndBackgroundModes = () => {
       }}
       baseLayerConf={baseLayerConf}
     >
-      <TopicMapComponent gazData={[]} >
-
-      </TopicMapComponent>
-    </TopicMapContextProvider >
+      <TopicMapComponent gazData={[]}></TopicMapComponent>
+    </TopicMapContextProvider>
   );
 };
-
 
 export const MostSimpleTopicMapWithCustomLayerAndEmptyTopicMapbackgroundLayer = () => {
   return (
@@ -424,8 +432,9 @@ export const SimpleTopicMapWithVectorLayerAndSelectionInfoBox = () => {
   const [shownFeatures, setShownFeatures] = useState([]);
   const [selectedFeature, setSelectedFeature] = useState(undefined);
   const [selectionEnabled, setSelectionEnabled] = useState(true);
+  const [showVectorLayer, setShowVectorLayer] = useState(true);
   const [allFeatures, setAllFeatures] = useState(0);
-  const [opacity, setOpacity] = useState(0.2);
+  const [opacity, setOpacity] = useState(0.9);
   let links = [];
   if (selectedFeature) {
     links = getActionLinksForFeature(selectedFeature, {});
@@ -473,107 +482,114 @@ export const SimpleTopicMapWithVectorLayerAndSelectionInfoBox = () => {
               onChange={(event) => {
                 setOpacity(event.target.value / 100);
               }}
-
             />
-
+            <br />
+            <button
+              onClick={() => {
+                setShowVectorLayer(false);
+                setSelectedFeature(undefined);
+              }}
+            >
+              X
+            </button>
+            <br />
+            <button
+              onClick={() => {
+                setShowVectorLayer(true);
+              }}
+            >
+              Add
+            </button>
           </div>
-
         </Control>
-        <CismapLayer
-          {...{
-            type: "vector",
-            // style: "https://tiles.cismet.de/test/style.json",
-            style: "https://tiles.cismet.de/poi/style.json",
-            // style: "https://tiles.kg6.cismet.de/kanal_kb_abschnitte/style.json",
-            _metadata: "https://tiles.cismet.de/poi/metadata.json",
-            pane: "additionalLayers1",
-            opacity: opacity,
-            normalizeFeatureHitsById: true,
-            maxSelectionCount: 10,
-            selectionEnabled: selectionEnabled,
-            zIndex: 900000,
-            manualSelectionManagement: true,
-            onSelectionClick: (e) => {
-              console.log("xxx selectionClick", e);
-            },
-            onSelectionChanged: (e) => {
-              console.log("xxx selectionChanged", e);
-              const selectedFeature = e.hits[0];
-              const p = selectedFeature.properties;
-              console.log("xxx p", p);
-              if (selectedFeature.setSelection) {
-                console.log("p.setSelection", selectedFeature.setSelection);
-                selectedFeature.setSelection(true);
-              }
-              const identifications = JSON.parse(p.identifications);
-              const mainlocationtype = identifications[0].identification;
-              const info = {
-                title: p.geographicidentifier,
-                // additionalInfo: "bbb",
-                subtitle: p.strasse,
-                headerColor: p.schrift,
-                header: mainlocationtype,
-              };
-              selectedFeature.properties.info = info;
-              selectedFeature.properties.url = p.url;
-              selectedFeature.properties.email = "";
-              selectedFeature.properties.tel = p.telefon;
+        {showVectorLayer && (
+          <CismapLayer
+            {...{
+              type: "vector",
+              // style: "https://tiles.cismet.de/test/style.json",
+              style: "https://tiles.cismet.de/poi/style.json",
+              // style: "https://tiles.kg6.cismet.de/kanal_kb_abschnitte/style.json",
+              _metadata: "https://tiles.cismet.de/poi/metadata.json",
+              pane: "additionalLayers1",
+              opacity: opacity,
+              normalizeFeatureHitsById: true,
+              maxSelectionCount: 10,
+              selectionEnabled: selectionEnabled,
+              zIndex: 900000,
+              manualSelectionManagement: true,
+              onSelectionClick: (e) => {
+                console.log("xxx selectionClick", e);
+              },
+              onSelectionChanged: (e) => {
+                // console.log("xxx selectionChanged", e);
+                if (e.hits) {
+                  e.hits.forEach((hit) => {
+                    if (hit.setSelection) {
+                      hit.setSelection(true);
+                    }
+                  });
+                  const selectedFeature = e.hits[0];
+                  const p = selectedFeature.properties;
+                  // console.log("xxx p", p);
+                  if (selectedFeature.setSelection) {
+                    // console.log("p.setSelection", selectedFeature.setSelection);
+                    selectedFeature.setSelection(true);
+                  }
+                  const identifications = JSON.parse(p.identifications);
+                  const mainlocationtype = identifications[0].identification;
+                  const info = {
+                    title: p.geographicidentifier,
+                    // additionalInfo: "bbb",
+                    subtitle: p.strasse,
+                    headerColor: p.schrift,
+                    header: mainlocationtype,
+                  };
+                  selectedFeature.properties.info = info;
+                  selectedFeature.properties.url = p.url;
+                  selectedFeature.properties.email = "";
+                  selectedFeature.properties.tel = p.telefon;
 
-              const f = e.hit;
-              //add generic Links
-              //<img src="https://cismet.de/images/logo16.png" />,
-              f.properties.genericLinks = [
-                {
-                  url: "https://cismet.de",
-                  tooltip: "cismet",
-                  target: "_blank",
-                  icon: <FontAwesomeIcon
-                    icon={faFacebook}
-                    size="2x"
-                    style={{ color: "grey", width: "26px" }}
-                  />
-                },
-                // {
-                //   url: "https://cismet.de",
-                //   tooltip: "cismet",
-                //   target: "_blank",
-                //   icon: (
-                //     <span>
-                //       <FontAwesomeIcon
-                //         icon={faSquare}
-                //         size="2x"
-                //         transform="down-0 right-0"
-                //         style={{ color: "grey", width: "26px" }}
-                //       />
-                //       {/* <FontAwesomeIcon
-                //         icon={faInfo}
-                //         transform="left-34 up-5"
-                //         style={{ color: "grey", width: "26px" }}
-                //       /> */}
-                //     </span>
-                //   ),
-                // },
-              ];
+                  const f = e.hit;
+                  //add generic Links
+                  //<img src="https://cismet.de/images/logo16.png" />,
+                  f.properties.genericLinks = [
+                    {
+                      url: "https://cismet.de",
+                      tooltip: "cismet",
+                      target: "_blank",
+                      icon: (
+                        <FontAwesomeIcon
+                          icon={faFacebook}
+                          size="2x"
+                          style={{ color: "grey", width: "26px" }}
+                        />
+                      ),
+                    },
+                  ];
 
-              console.log("hit", f);
+                  console.log("hit", f);
 
-              setSelectedFeature(f);
-            },
-            onViewMetaDataChanged: (metadata) => {
-              console.log("xxx metadata", metadata);
-            },
-            // onLayerClick: (e) => {
-            //   console.log("xxx onLayerClick", e);
-            // },
-          }}
-        />
+                  setSelectedFeature(f);
+                } else {
+                  setSelectedFeature(undefined);
+                }
+              },
+              onViewMetaDataChanged: (metadata) => {
+                console.log("xxx metadata", metadata);
+              },
+              // onLayerClick: (e) => {
+              //   console.log("xxx onLayerClick", e);
+              // },
+            }}
+          />
+        )}
         <TileLayer
           maxNativeZoom={20}
           maxZoom={22}
           url={`https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_light&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`}
         />
       </TopicMapComponent>
-    </TopicMapContextProvider >
+    </TopicMapContextProvider>
   );
 };
 
@@ -602,7 +618,6 @@ export const SimpleTopicMapWithNewSelectionOnZoom = () => {
         backgroundlayers="empty"
         locationChangedHandler={(location) => {
           if (location.zoom.toString() !== urlParams.get("zoom").toString()) {
-
             setTimeout(() => {
               const map = routedMapRef.leafletMap.leafletElement;
               const latlngPoint = L.latLng(posRef.current);
@@ -657,7 +672,7 @@ export const SimpleTopicMapWithNewSelectionOnZoom = () => {
             maxSelectionCount: 10,
             selectionEnabled: selectionEnabled,
             manualSelectionManagement: true,
-            onSelectionClick: (e) => { },
+            onSelectionClick: (e) => {},
             onSelectionChanged: (e) => {
               console.log("xxx onSelectionChanged", e);
               setPos([e.newLngLat.lat, e.newLngLat.lng]);
@@ -811,10 +826,7 @@ export const MostSimpleTopicMapWithCismapLayer = () => {
             selectionEnabled: true,
             onSelectionChanged: (e) => {
               const selectedFeature = e.hits[0];
-              console.log(
-                "xxxy selectedFeature",
-                JSON.stringify(selectedFeature, null, 2)
-              );
+              console.log("xxxy selectedFeature", JSON.stringify(selectedFeature, null, 2));
             },
 
             pane: "vectorLayers",
@@ -1785,7 +1797,7 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
-      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
       >
         <FeatureCollection />
       </TopicMapComponent>
@@ -1909,8 +1921,9 @@ const MyMenu = ({ sparseSettingsSectionsExtensions = [] }) => {
         <Section
           key="filter"
           sectionKey="filter"
-          sectionTitle={`Meine Klimastandorte (${filteredItems?.length || "0"
-            } Standorte gefunden, davon ${shownFeatures?.length || "0"} in der Karte)`}
+          sectionTitle={`Meine Klimastandorte (${
+            filteredItems?.length || "0"
+          } Standorte gefunden, davon ${shownFeatures?.length || "0"} in der Karte)`}
           sectionBsStyle="primary"
           sectionContent={<FilterPanel filterConfiguration={filterConfiguration} />}
         />,
@@ -1986,7 +1999,7 @@ export const TopicMapWithWithCustomSettings = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
-      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
       >
         <FeatureCollection />
       </TopicMapComponent>
@@ -2067,7 +2080,7 @@ export const TopicMapWithAdditionalLayers = () => {
                 };
                 return style;
               }}
-              featureClickHandler={() => { }}
+              featureClickHandler={() => {}}
             />
           ),
         },
@@ -2393,8 +2406,8 @@ export const TopicMapWithCrossTabCommunicationContextProvider = () => {
               fillOpacity: 0.3,
             }}
             masked={false}
-          // _maskingPolygon={maskingPolygon}
-          // _mapRef={leafletRoutedMapRef}
+            // _maskingPolygon={maskingPolygon}
+            // _mapRef={leafletRoutedMapRef}
           />
 
           <CrossTabCommunicationControl key="crosstabcomcontr" hideWhenNoSibblingIsPresent={true} />
@@ -2528,8 +2541,8 @@ export const RemoteControledTopicMap = () => {
             fillOpacity: 0.3,
           }}
           masked={false}
-        // _maskingPolygon={maskingPolygon}
-        // _mapRef={leafletRoutedMapRef}
+          // _maskingPolygon={maskingPolygon}
+          // _mapRef={leafletRoutedMapRef}
         />
       </TopicMapComponent>
     </TopicMapContextProvider>
@@ -2620,7 +2633,7 @@ export const TopicMapWithWithCustomSettingsAndOneAdditionlLayer = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
-      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
       >
         <FeatureCollection />
       </TopicMapComponent>
@@ -3099,22 +3112,22 @@ export const TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole = (
           />
         }
         secondaryInfo={<InfoPanel />}
-      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
-      // gazetteerHitTrigger={(hits) => {
-      //   if (Array.isArray(hits) && hits[0]?.more?.id) {
-      //     setSelectedFeatureByPredicate((feature) => {
-      //       try {
-      //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
-      //         if (check === true) {
-      //           zoomToFeature(feature);
-      //         }
-      //         return check;
-      //       } catch (e) {
-      //         return false;
-      //       }
-      //     });
-      //   }
-      // }}
+        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+        // gazetteerHitTrigger={(hits) => {
+        //   if (Array.isArray(hits) && hits[0]?.more?.id) {
+        //     setSelectedFeatureByPredicate((feature) => {
+        //       try {
+        //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
+        //         if (check === true) {
+        //           zoomToFeature(feature);
+        //         }
+        //         return check;
+        //       } catch (e) {
+        //         return false;
+        //       }
+        //     });
+        //   }
+        // }}
       >
         <FeatureCollection />
       </TopicMapComponent>
@@ -3320,22 +3333,22 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
-      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
-      // gazetteerHitTrigger={(hits) => {
-      //   if (Array.isArray(hits) && hits[0]?.more?.id) {
-      //     setSelectedFeatureByPredicate((feature) => {
-      //       try {
-      //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
-      //         if (check === true) {
-      //           zoomToFeature(feature);
-      //         }
-      //         return check;
-      //       } catch (e) {
-      //         return false;
-      //       }
-      //     });
-      //   }
-      // }}
+        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+        // gazetteerHitTrigger={(hits) => {
+        //   if (Array.isArray(hits) && hits[0]?.more?.id) {
+        //     setSelectedFeatureByPredicate((feature) => {
+        //       try {
+        //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
+        //         if (check === true) {
+        //           zoomToFeature(feature);
+        //         }
+        //         return check;
+        //       } catch (e) {
+        //         return false;
+        //       }
+        //     });
+        //   }
+        // }}
       >
         <FeatureCollection />
       </TopicMapComponent>
