@@ -429,16 +429,62 @@ export const MostSimpleTopicMapWithCustomLayerAndEmptyTopicMapbackgroundLayer = 
 };
 
 export const SimpleTopicMapWithVectorLayerAndSelectionInfoBox = () => {
-  const [shownFeatures, setShownFeatures] = useState([]);
   const [selectedFeature, setSelectedFeature] = useState(undefined);
   const [selectionEnabled, setSelectionEnabled] = useState(true);
-  const [showVectorLayer, setShowVectorLayer] = useState(true);
-  const [allFeatures, setAllFeatures] = useState(0);
+  const [showBahnhofVectorLayer, setShowBahnhofVectorLayer] = useState(true);
+  const [showDienstleistungsVectorLayer, setShowDienstleistungsVectorLayer] = useState(true);
   const [opacity, setOpacity] = useState(0.9);
   let links = [];
   if (selectedFeature) {
     links = getActionLinksForFeature(selectedFeature, {});
   }
+
+  // INFOBOX NOT WORKING FOR FIRST LAYER
+  // Selection of features is working
+  // Line 485 resets the selectedFeature when the second layer has no hits
+
+  const onSelectionChanged = (e) => {
+    if (e.hits) {
+      e.hits.forEach((hit) => {
+        if (hit.setSelection) {
+          hit.setSelection(true);
+        }
+      });
+      const selectedFeature = e.hits[0];
+      const p = selectedFeature.properties;
+      if (selectedFeature.setSelection) {
+        selectedFeature.setSelection(true);
+      }
+      const identifications = JSON.parse(p.identifications);
+      const mainlocationtype = identifications[0].identification;
+      const info = {
+        title: p.geographicidentifier,
+        subtitle: p.strasse,
+        headerColor: p.schrift,
+        header: mainlocationtype,
+      };
+      selectedFeature.properties.info = info;
+      selectedFeature.properties.url = p.url;
+      selectedFeature.properties.email = "";
+      selectedFeature.properties.tel = p.telefon;
+
+      const f = e.hit;
+      f.properties.genericLinks = [
+        {
+          url: "https://cismet.de",
+          tooltip: "cismet",
+          target: "_blank",
+          icon: (
+            <FontAwesomeIcon icon={faFacebook} size="2x" style={{ color: "grey", width: "26px" }} />
+          ),
+        },
+      ];
+
+      setSelectedFeature(f);
+    } else {
+      setSelectedFeature(undefined);
+    }
+  };
 
   return (
     <TopicMapContextProvider>
@@ -486,28 +532,45 @@ export const SimpleTopicMapWithVectorLayerAndSelectionInfoBox = () => {
             <br />
             <button
               onClick={() => {
-                setShowVectorLayer(false);
+                setShowBahnhofVectorLayer(false);
                 setSelectedFeature(undefined);
               }}
             >
-              X
+              Delete Bahnhof
             </button>
             <br />
             <button
               onClick={() => {
-                setShowVectorLayer(true);
+                setShowBahnhofVectorLayer(true);
               }}
             >
-              Add
+              Add Bahnhof
+            </button>
+            <br />
+            <button
+              onClick={() => {
+                setShowDienstleistungsVectorLayer(false);
+                setSelectedFeature(undefined);
+              }}
+            >
+              Delete Dienstleistungen
+            </button>
+            <br />
+            <button
+              onClick={() => {
+                setShowDienstleistungsVectorLayer(true);
+              }}
+            >
+              Add Dienstleistungen
             </button>
           </div>
         </Control>
-        {showVectorLayer && (
+        {showBahnhofVectorLayer && (
           <CismapLayer
             {...{
               type: "vector",
               // style: "https://tiles.cismet.de/test/style.json",
-              style: "https://tiles.cismet.de/poi/style.json",
+              style: "https://tiles.cismet.de/poi/bahnhofe.style.json",
               // style: "https://tiles.kg6.cismet.de/kanal_kb_abschnitte/style.json",
               _metadata: "https://tiles.cismet.de/poi/metadata.json",
               pane: "additionalLayers1",
@@ -520,60 +583,35 @@ export const SimpleTopicMapWithVectorLayerAndSelectionInfoBox = () => {
               onSelectionClick: (e) => {
                 console.log("xxx selectionClick", e);
               },
-              onSelectionChanged: (e) => {
-                // console.log("xxx selectionChanged", e);
-                if (e.hits) {
-                  e.hits.forEach((hit) => {
-                    if (hit.setSelection) {
-                      hit.setSelection(true);
-                    }
-                  });
-                  const selectedFeature = e.hits[0];
-                  const p = selectedFeature.properties;
-                  // console.log("xxx p", p);
-                  if (selectedFeature.setSelection) {
-                    // console.log("p.setSelection", selectedFeature.setSelection);
-                    selectedFeature.setSelection(true);
-                  }
-                  const identifications = JSON.parse(p.identifications);
-                  const mainlocationtype = identifications[0].identification;
-                  const info = {
-                    title: p.geographicidentifier,
-                    // additionalInfo: "bbb",
-                    subtitle: p.strasse,
-                    headerColor: p.schrift,
-                    header: mainlocationtype,
-                  };
-                  selectedFeature.properties.info = info;
-                  selectedFeature.properties.url = p.url;
-                  selectedFeature.properties.email = "";
-                  selectedFeature.properties.tel = p.telefon;
-
-                  const f = e.hit;
-                  //add generic Links
-                  //<img src="https://cismet.de/images/logo16.png" />,
-                  f.properties.genericLinks = [
-                    {
-                      url: "https://cismet.de",
-                      tooltip: "cismet",
-                      target: "_blank",
-                      icon: (
-                        <FontAwesomeIcon
-                          icon={faFacebook}
-                          size="2x"
-                          style={{ color: "grey", width: "26px" }}
-                        />
-                      ),
-                    },
-                  ];
-
-                  console.log("hit", f);
-
-                  setSelectedFeature(f);
-                } else {
-                  setSelectedFeature(undefined);
-                }
+              onSelectionChanged: onSelectionChanged,
+              onViewMetaDataChanged: (metadata) => {
+                console.log("xxx metadata", metadata);
               },
+              // onLayerClick: (e) => {
+              //   console.log("xxx onLayerClick", e);
+              // },
+            }}
+          />
+        )}
+        {showDienstleistungsVectorLayer && (
+          <CismapLayer
+            {...{
+              type: "vector",
+              // style: "https://tiles.cismet.de/test/style.json",
+              style: "https://tiles.cismet.de/poi/dienstleistungsangebote.style.json",
+              // style: "https://tiles.kg6.cismet.de/kanal_kb_abschnitte/style.json",
+              _metadata: "https://tiles.cismet.de/poi/metadata.json",
+              pane: "additionalLayers2",
+              opacity: opacity,
+              normalizeFeatureHitsById: true,
+              maxSelectionCount: 10,
+              selectionEnabled: selectionEnabled,
+              zIndex: 900000,
+              manualSelectionManagement: true,
+              onSelectionClick: (e) => {
+                // console.log("xxx selectionClick", e);
+              },
+              onSelectionChanged: onSelectionChanged,
               onViewMetaDataChanged: (metadata) => {
                 console.log("xxx metadata", metadata);
               },
