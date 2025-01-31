@@ -60,28 +60,29 @@ export default function CismapLayer(props) {
     if (props.opacityFunction) {
       opacity = props.opacityFunction(opacity);
     }
+
     switch (props.type) {
       case "wms":
       case "wmts": {
-        let params = { ...defaults.wms, ...props, opacity, pane: paneName };
+        let params = { ...defaults.wms, ...props, opacity, pane: paneName || "backgroundLayers" };
         return <StyledWMSTileLayer {...params} />;
       }
       case "wms-nt":
       case "wmts-nt": {
-        let params = { ...defaults.wms, ...props, opacity, pane: paneName };
+        let params = { ...defaults.wms, ...props, opacity, pane: paneName || "backgroundLayers" };
         return <NonTiledWMSLayer {...params} />;
       }
 
       case "tiles": {
-        let params = { ...defaults.wms, ...props, opacity, pane: paneName };
+        let params = { ...defaults.wms, ...props, opacity, pane: paneName || "backgroundLayers" };
         return <TileLayer {...params} />;
       }
       case "vector": {
-        let params = { ...defaults.vector, ...props, opacity, pane: paneName };
+        let params = { ...defaults.vector, ...props, opacity, pane: paneName || "backgroundvectorLayers" };
         return <MapLibreLayer {...params} />;
       }
       case "graphql": {
-        let params = { ...defaults.graphql, ...props, opacity, pane: paneName };
+        let params = { ...defaults.graphql, ...props, opacity, pane: paneName || "oneAboveBackgroundLayers" };
         return <GraphqlLayer {...params} />;
       }
     }
