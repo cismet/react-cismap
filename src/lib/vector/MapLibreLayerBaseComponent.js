@@ -55,16 +55,19 @@ class MaplibreGlLayer extends GridLayer {
       }
     });
 
-    map.on("layerremove", (e) => {
+    this.myLayerRemoveListener = (e) => {
       // only call _removeLayer if the layer being removed is this layer
       if (e.layer === this.leafletElement) {
         this._removeLayer(e);
-        map.off("layerremove");
+        map.off("layerremove", this.myLayerRemoveListener);
+        // selectedFeatures.clear();
 
         //clean up the local click listener
         map.off("click", myClickListener);
       }
-    });
+    };
+
+    map.on("layerremove", this.myLayerRemoveListener);
     // map.on("moveend", (e) => {
     //   console.log("xxx moveend", new Error().stack);
     //   this._onViewChanged();
