@@ -32,7 +32,7 @@ class MaplibreGlLayer extends GridLayer {
             { selected: false }
           );
         });
-        this.props.onSelectionChanged({ hits: undefined, hit: undefined });
+        this.props.onSelectionChanged({ hits: undefined, hit: undefined, latlng: undefined });
       }
     }
 
@@ -93,9 +93,6 @@ class MaplibreGlLayer extends GridLayer {
           // Convert the bounding box points back to latitude and longitude
           const queryRect = rect.map((p) => this.mapLibreMap.unproject(p));
 
-          // console.log("xxx adjusted point:", point.x, point.y);
-          // console.log("xxx this.mapLibreMap", this.mapLibreMap);
-
           if (this.mapLibreMap && this.props.selectionEnabled === true) {
             const hits = this.mapLibreMap.queryRenderedFeatures(rect);
             const filteredHits = hits.filter((hit) => {
@@ -124,8 +121,6 @@ class MaplibreGlLayer extends GridLayer {
 
               const normalizedLimitedHits = [];
               limitedHits.forEach((hit) => {
-                // console.log("xxx -> ", hit.layer.id, hit.properties.id, hit);
-
                 const setSelection = (selected) => {
                   this.mapLibreMap.setFeatureState(
                     { source: hit.source, sourceLayer: hit.sourceLayer, id: hit.id },
@@ -137,11 +132,6 @@ class MaplibreGlLayer extends GridLayer {
                     id: hit.id,
                   });
                 };
-                console.log("xxx ", {
-                  source: hit.source,
-                  sourceLayer: hit.sourceLayer,
-                  id: hit.id,
-                });
 
                 if (manualSelectionManagement === false) {
                   setSelection(true);
@@ -154,22 +144,23 @@ class MaplibreGlLayer extends GridLayer {
                 if (!normalizedLimitedHits.some((e) => e.id === hit.id)) {
                   normalizedLimitedHits.push(hit);
                 }
-
-                // console.log(`State set for feature ID ${hit.id}`);
               });
-              // console.log('limitedHits', limitedHits);
-              // console.log('normalizedLimitedHits', normalizedLimitedHits);
 
               if (normalizeFeatureHitsById) {
                 props.onSelectionChanged({
                   hits: normalizedLimitedHits,
                   hit: normalizedLimitedHits[0],
+                  latlng: e.latlng,
                 });
               } else {
-                props.onSelectionChanged({ hits: limitedHits, hit: limitedHits[0] });
+                props.onSelectionChanged({
+                  hits: limitedHits,
+                  hit: limitedHits[0],
+                  latlng: e.latlng,
+                });
               }
             } else {
-              props.onSelectionChanged({ hits: undefined, hit: undefined });
+              props.onSelectionChanged({ hits: undefined, hit: undefined, latlng: e.latlng });
               // console.log("No features found at the click location.");
             }
           }
