@@ -49,7 +49,7 @@ const SettingsPanel = (props) => {
     previewFeatureCollectionCount,
     previewMapClusteringEnabled,
     previewMapClusteringOptions,
-    titleCheckBoxlabel,
+    titleCheckBoxlabel = "Titel bei individueller Filterung anzeigen",
     skipFilterTitleSettings = false,
     skipClusteringSettings = false,
     skipOfflineLayerSettings = false,
@@ -57,7 +57,10 @@ const SettingsPanel = (props) => {
     skipSymbolsizeSetting = false,
     defaultContextValues = {},
     sparseSettingsSectionsExtensions = [],
-    previewFeatureCollectionDisplayProps
+    previewFeatureCollectionDisplayProps,
+    checkBoxSettingsSectionTitle = "Einstellungen:",
+    checkBoxTextClustering = "Objekte maßstabsabhängig zusammenfassen",
+
   } = props;
 
   const { setAppMenuActiveMenuSection, setAppMenuVisible } =
@@ -327,7 +330,7 @@ const SettingsPanel = (props) => {
 
   const settingsSections = [
     <Form>
-      <Form.Label>Einstellungen:</Form.Label>
+      <Form.Label>{checkBoxSettingsSectionTitle}</Form.Label>
       <br />
       {skipFilterTitleSettings === false && (itemFilterFunction || filterFunction) && (
         <Form.Group>
@@ -346,7 +349,7 @@ const SettingsPanel = (props) => {
                 setTitleDisplay(true);
               }
             }}
-            label={titleCheckBoxlabel || "Titel bei individueller Filterung anzeigen"}
+            label={titleCheckBoxlabel}
           ></Form.Check>
         </Form.Group>
       )}
@@ -369,7 +372,7 @@ const SettingsPanel = (props) => {
                 setClusteringEnabled(true);
               }
             }}
-            label="Objekte maßstabsabhängig zusammenfassen"
+            label={checkBoxTextClustering}
           />
         </Form.Group>
       )}

@@ -710,7 +710,7 @@ export const SimpleTopicMapWithNewSelectionOnZoom = () => {
             maxSelectionCount: 10,
             selectionEnabled: selectionEnabled,
             manualSelectionManagement: true,
-            onSelectionClick: (e) => {},
+            onSelectionClick: (e) => { },
             onSelectionChanged: (e) => {
               console.log("xxx onSelectionChanged", e);
               setPos([e.newLngLat.lat, e.newLngLat.lng]);
@@ -1835,7 +1835,7 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
-        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
       >
         <FeatureCollection />
       </TopicMapComponent>
@@ -1959,15 +1959,18 @@ const MyMenu = ({ sparseSettingsSectionsExtensions = [] }) => {
         <Section
           key="filter"
           sectionKey="filter"
-          sectionTitle={`Meine Klimastandorte (${
-            filteredItems?.length || "0"
-          } Standorte gefunden, davon ${shownFeatures?.length || "0"} in der Karte)`}
+          sectionTitle={`Meine Klimastandorte (${filteredItems?.length || "0"
+            } Standorte gefunden, davon ${shownFeatures?.length || "0"} in der Karte)`}
           sectionBsStyle="primary"
           sectionContent={<FilterPanel filterConfiguration={filterConfiguration} />}
         />,
         <DefaultSettingsPanel
           key="settings"
           sparseSettingsSectionsExtensions={sparseSettingsSectionsExtensions}
+
+          titleCheckBoxlabel="Titel anzeigen (📝)"
+          checkBoxSettingsSectionTitle="Einstellungen (📝)"
+          checkBoxTextClustering="Clustering aktivieren (📝)"
         />,
         <Section
           key="help"
@@ -2037,7 +2040,7 @@ export const TopicMapWithWithCustomSettings = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
-        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
       >
         <FeatureCollection />
       </TopicMapComponent>
@@ -2118,7 +2121,7 @@ export const TopicMapWithAdditionalLayers = () => {
                 };
                 return style;
               }}
-              featureClickHandler={() => {}}
+              featureClickHandler={() => { }}
             />
           ),
         },
@@ -2444,8 +2447,8 @@ export const TopicMapWithCrossTabCommunicationContextProvider = () => {
               fillOpacity: 0.3,
             }}
             masked={false}
-            // _maskingPolygon={maskingPolygon}
-            // _mapRef={leafletRoutedMapRef}
+          // _maskingPolygon={maskingPolygon}
+          // _mapRef={leafletRoutedMapRef}
           />
 
           <CrossTabCommunicationControl key="crosstabcomcontr" hideWhenNoSibblingIsPresent={true} />
@@ -2579,8 +2582,8 @@ export const RemoteControledTopicMap = () => {
             fillOpacity: 0.3,
           }}
           masked={false}
-          // _maskingPolygon={maskingPolygon}
-          // _mapRef={leafletRoutedMapRef}
+        // _maskingPolygon={maskingPolygon}
+        // _mapRef={leafletRoutedMapRef}
         />
       </TopicMapComponent>
     </TopicMapContextProvider>
@@ -2671,7 +2674,7 @@ export const TopicMapWithWithCustomSettingsAndOneAdditionlLayer = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
-        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
       >
         <FeatureCollection />
       </TopicMapComponent>
@@ -3150,22 +3153,22 @@ export const TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole = (
           />
         }
         secondaryInfo={<InfoPanel />}
-        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
-        // gazetteerHitTrigger={(hits) => {
-        //   if (Array.isArray(hits) && hits[0]?.more?.id) {
-        //     setSelectedFeatureByPredicate((feature) => {
-        //       try {
-        //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
-        //         if (check === true) {
-        //           zoomToFeature(feature);
-        //         }
-        //         return check;
-        //       } catch (e) {
-        //         return false;
-        //       }
-        //     });
-        //   }
-        // }}
+      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+      // gazetteerHitTrigger={(hits) => {
+      //   if (Array.isArray(hits) && hits[0]?.more?.id) {
+      //     setSelectedFeatureByPredicate((feature) => {
+      //       try {
+      //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
+      //         if (check === true) {
+      //           zoomToFeature(feature);
+      //         }
+      //         return check;
+      //       } catch (e) {
+      //         return false;
+      //       }
+      //     });
+      //   }
+      // }}
       >
         <FeatureCollection />
       </TopicMapComponent>
@@ -3371,22 +3374,22 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
-        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
-        // gazetteerHitTrigger={(hits) => {
-        //   if (Array.isArray(hits) && hits[0]?.more?.id) {
-        //     setSelectedFeatureByPredicate((feature) => {
-        //       try {
-        //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
-        //         if (check === true) {
-        //           zoomToFeature(feature);
-        //         }
-        //         return check;
-        //       } catch (e) {
-        //         return false;
-        //       }
-        //     });
-        //   }
-        // }}
+      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+      // gazetteerHitTrigger={(hits) => {
+      //   if (Array.isArray(hits) && hits[0]?.more?.id) {
+      //     setSelectedFeatureByPredicate((feature) => {
+      //       try {
+      //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
+      //         if (check === true) {
+      //           zoomToFeature(feature);
+      //         }
+      //         return check;
+      //       } catch (e) {
+      //         return false;
+      //       }
+      //     });
+      //   }
+      // }}
       >
         <FeatureCollection />
       </TopicMapComponent>
