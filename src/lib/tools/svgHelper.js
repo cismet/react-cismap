@@ -9,7 +9,8 @@ export const DEFAULT_SVG = {
 export const addSVGToProps = (
   input,
   getSignatur,
-  url = "https://wunda-geoportal.cismet.de/poi-signaturen/",
+  url = "https://wupp-digitaltwin-assets.cismet.de/poi-signaturen/",//"https://wunda-geoportal.cismet.de/poi-signaturen/",
+
   manualReloadRequested
 ) => {
   return new Promise(function (fulfilled, rejected) {
@@ -18,6 +19,9 @@ export const addSVGToProps = (
     if (manualReloadRequested) {
       cacheHeaders.append("pragma", "no-cache");
       cacheHeaders.append("cache-control", "no-cache");
+    } else {
+      // Enforce strong caching for 1 week with immutable flag for better performance
+      cacheHeaders.append("cache-control", "public, max-age=604800, immutable");
     }
     const sigUrl = url + getSignatur(props);
 
