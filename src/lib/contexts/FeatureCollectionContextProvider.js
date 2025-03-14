@@ -82,6 +82,8 @@ const FeatureCollectionContextProvider = ({
   featureCollectionName,
   featureTooltipFunction,
   convertItemToFeature = (itemIsFeature) => JSON.parse(JSON.stringify(itemIsFeature || {})),
+  convertItemToFeatureProgressCallback = () => { },
+  convertItemToFeatureProgressCallbackPercentageSteps = 5,
   itemFilterFunction,
   filterFunction,
   appKey,
@@ -116,6 +118,7 @@ const FeatureCollectionContextProvider = ({
     return (x) => {
       dispatch((state) => {
         if (noTest === true || JSON.stringify(state[prop]) !== JSON.stringify(x)) {
+          console.log("xxx will set " + prop, x, contextKey, persistenceSettings[contextKey]);
           if (persistenceSettings[contextKey]?.includes(prop)) {
             // (async () => {
             localforage.setItem("@" + appKey + "." + contextKey + "." + prop, x);
@@ -307,14 +310,22 @@ const FeatureCollectionContextProvider = ({
   // }
   // effect when items are changed
   useEffect(() => {
-    //async star
+    //async start
     (async () => {
       if (state.filteredItems) {
         set("initializingFeatures")(true);
-        let id = 0;
 
         const points = [];
         const others = [];
+        let current = 0;
+        let id = 0;
+
+        // Calculate at which items we should fire callbacks
+        const totalItems = state.filteredItems.length;
+        const stepSize = Math.floor(totalItems * (convertItemToFeatureProgressCallbackPercentageSteps / 100));
+
+        // Initial progress callback
+        convertItemToFeatureProgressCallback({ current: 0, total: 100, inProgress: true });
 
         for (const item of state.filteredItems || []) {
           const f = await convertItemToFeature(item);
@@ -337,9 +348,18 @@ const FeatureCollectionContextProvider = ({
           } else {
             doFeature(f);
           }
+
+          // Fire callback at specific intervals
+          if (stepSize > 0 && current > 0 && current % stepSize === 0) {
+            const progressPercentage = Math.floor((current / totalItems) * 100);
+            convertItemToFeatureProgressCallback({
+              current: progressPercentage,
+              total: 100,
+              inProgress: true
+            });
+          }
+          current++;
         }
-        // console.log("xxx points", points);
-        // console.log("xxx others", others);
 
         setX.setAllFeatures([...points, ...others]);
         setX.setPointFeatures(points);
@@ -357,6 +377,7 @@ const FeatureCollectionContextProvider = ({
         const polyindex = createFlatbushIndex(others);
         setX.setPolyFeatureIndex(polyindex);
         set("initializingFeatures")(false);
+        convertItemToFeatureProgressCallback({ current: 100, total: 100, inProgress: false });
       }
     })();
     //async end

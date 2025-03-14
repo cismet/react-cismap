@@ -53,6 +53,7 @@ const TopicMapContextProvider = ({
   createFeatureItemsDictionary,
   items,
   convertItemToFeature,
+  convertItemToFeatureProgressCallback,
   featureCollectionName,
   itemFilterFunction,
   filterFunction,
@@ -229,6 +230,7 @@ const TopicMapContextProvider = ({
             createItemsDictionary={createFeatureItemsDictionary}
             items={items}
             convertItemToFeature={convertItemToFeature}
+            convertItemToFeatureProgressCallback={convertItemToFeatureProgressCallback}
             featureCollectionName={featureCollectionName}
             itemFilterFunction={itemFilterFunction}
             filterFunction={filterFunction}

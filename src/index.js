@@ -4,6 +4,8 @@ import ReactDOM from "react-dom";
 import * as GenericTopicMapsExamples from "./lib/_stories/complex/GenericTopicMap.stories";
 import * as MoreTopicMapsExamples from "./lib/_stories/complex/MoreTopicMap.stories";
 import * as TopicMapsExamples from "./lib/_stories/complex/TopicMap.stories";
+import * as XTopicMapsExamples from "./lib/_stories/complex/TopicMapX.stories";
+
 import * as ProjectorExamples from "./lib/_stories/complex/Projector.stories";
 import * as LeafletExamples from "./lib/_stories/mainComponents/Map.stories";
 import * as GeojsonExamples from "./lib/_stories/mainComponents/ProjGeoJSON.stories";
@@ -100,6 +102,7 @@ if (window.location.pathname === "/follower") {
 } else {
   root.render(
     <div>
+      <XTopicMapsExamples.XTopicMap />
       {/* <PlaygroundApp /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMap /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithZoomSnapAndZoomDelta /> */}
@@ -107,7 +110,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.SimpleTopicMapWMSBBoxDisplay /> */}
       {/* <TopicMapsExamples.SimpleMutedTopicMap /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer /> */}
-      <TopicMapsExamples.SimpleTopicMapWithVectorLayerAndSelectionInfoBox />
+      {/* <TopicMapsExamples.SimpleTopicMapWithVectorLayerAndSelectionInfoBox /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithAllCismapLayers /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
@@ -137,7 +140,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.SimpleTopicMapWithCustomInfoBox /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithFullClusteringOptionsAndStyling /> */}
       {/* <TopicMapsExamples.TopicMapWithWithSecondaryInfoSheet /> */}
-      <TopicMapsExamples.TopicMapWithWithCustomSettings />
+      {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
       {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
       {/* <TopicMapsExamples.TopicMapWithDynamicAdditionalLayers /> */}
       {/* <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProvider /> */}
