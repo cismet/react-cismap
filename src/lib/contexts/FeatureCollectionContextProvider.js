@@ -118,7 +118,7 @@ const FeatureCollectionContextProvider = ({
     return (x) => {
       dispatch((state) => {
         if (noTest === true || JSON.stringify(state[prop]) !== JSON.stringify(x)) {
-          console.log("xxx will set " + prop, x, contextKey, persistenceSettings[contextKey]);
+          // console.log("xxx will set " + prop, x, contextKey, persistenceSettings[contextKey]);
           if (persistenceSettings[contextKey]?.includes(prop)) {
             // (async () => {
             localforage.setItem("@" + appKey + "." + contextKey + "." + prop, x);
@@ -196,9 +196,9 @@ const FeatureCollectionContextProvider = ({
     for (const feature of shownFeatures) {
       // console.log("xxx predicate loop. will check ", feature.properties.id);
       if (predicate(feature) === true) {
-        console.log("xxx predicate hit. will select ", index);
+        // console.log("xxx predicate hit. will select ", index);
         setSelectedFeatureIndex(index); // Call setSelectedFeatureIndex outside the dispatch function
-        console.log("xxx predicate hit. after setSelectedIndex", index);
+        // console.log("xxx predicate hit. after setSelectedIndex", index);
         feedbacker(true);
         return;
       }
