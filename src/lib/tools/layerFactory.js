@@ -348,6 +348,12 @@ export const defaultLayerConf = {
       layers: "R102:trueortho2022",
       transparent: true,
     },
+    trueOrtho2024: {
+      type: "wms",
+      url: "https://maps.wuppertal.de/karten",
+      layers: "R102:trueortho2024",
+      transparent: true,
+    },
     hillshade: {
       type: "wms",
       url: "https://maps.wuppertal.de/karten",

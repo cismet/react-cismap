@@ -102,7 +102,7 @@ if (window.location.pathname === "/follower") {
 } else {
   root.render(
     <div>
-      <XTopicMapsExamples.XTopicMap />
+      {/* <XTopicMapsExamples.XTopicMap /> */}
       {/* <PlaygroundApp /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMap /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithZoomSnapAndZoomDelta /> */}
@@ -117,7 +117,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapContextProvider>
         <TopicMapsExamples.SimpleTopicMapWithNewSelectionOnZoom />
       </TopicMapContextProvider> */}
-      {/* <TopicMapsExamples.TopicMapWithCustomLayersAndBackgroundModes /> */}
+      <TopicMapsExamples.TopicMapWithCustomLayersAndBackgroundModes />
 
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayerAndEmptyTopicMapbackgroundLayer /> */}
 
