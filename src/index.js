@@ -117,7 +117,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapContextProvider>
         <TopicMapsExamples.SimpleTopicMapWithNewSelectionOnZoom />
       </TopicMapContextProvider> */}
-      <TopicMapsExamples.TopicMapWithCustomLayersAndBackgroundModes />
+      {/* <TopicMapsExamples.TopicMapWithCustomLayersAndBackgroundModes /> */}
 
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayerAndEmptyTopicMapbackgroundLayer /> */}
 
@@ -154,7 +154,7 @@ if (window.location.pathname === "/follower") {
       {/* <MoreTopicMapsExamples.TopicMapWithOfflineDataConfiguration /> */}
       {/* <GenericTopicMapsExamples.SimpleStaticGenericTopicMap_Wasserstofftankstelle /> */}
       {/* <TopicMapsExamples.TopicMapWithWithStaticFilter /> */}
-      {/* <MapLibreExamples.SimpleMapLibreLayer /> */}
+      <MapLibreExamples.SimpleMapLibreLayer />
       {/* <MapLibreExamples.SimpleMapLibreLayerRedrawingitself /> */}
       {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMap /> */}
       {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMapWithFeatureCollectionInAnotherCRS /> */}

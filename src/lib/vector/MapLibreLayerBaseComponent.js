@@ -3,7 +3,7 @@ import { GridLayer } from "react-leaflet";
 
 // import {} from "maplibre-gl";
 // import {} from "./mapbox-gl-leaflet";
-import {} from "./leaflet-maplibre-gl";
+import { } from "./leaflet-maplibre-gl";
 import { Marker, Point } from "maplibre-gl";
 
 // import {} from "@maplibre/maplibre-gl-leaflet";
@@ -196,6 +196,7 @@ class MaplibreGlLayer extends GridLayer {
 
   _addLayer({ layer }, props) {
     const mlMap = layer.getMaplibreMap();
+    mlMap.showTileBoundaries = props.showTileBoundaries || false;
     this._layer = layer;
     const { _map } = this._layer;
 

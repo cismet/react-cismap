@@ -33,7 +33,7 @@ export const SimpleMapLibreLayer = () => {
   const position = [51.2720151, 7.2000203134];
 
   return (
-    <Map style={mapStyle} center={position} zoom={18} maxZoom={25}>
+    <Map style={mapStyle} center={position} zoom={14} maxZoom={25}>
       {/* <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -43,6 +43,8 @@ export const SimpleMapLibreLayer = () => {
       <MapLibreLayer
         // opacity={0.5}
         // accessToken={"dd"}
+        showTileBoundaries={true}
+
         style="https://omt.map-hosting.de/styles/klokantech-basic/style.json"
         _style="http://localhost:888/styles/osm-bright/style.json"
       />
