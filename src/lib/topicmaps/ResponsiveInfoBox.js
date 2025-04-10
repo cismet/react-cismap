@@ -1,7 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CollapsibleWell from "../commons/CollapsibleWell";
 import CollapsibleABWell from "../commons/CollapsibleABWell";
-import { ResponsiveTopicMapContext } from "../contexts/ResponsiveTopicMapContextProvider";
+import {
+  ResponsiveTopicMapContext,
+  ResponsiveTopicMapDispatchContext,
+} from "../contexts/ResponsiveTopicMapContextProvider";
 import Control from "react-leaflet-control";
 import { FeatureCollectionContext } from "../contexts/FeatureCollectionContextProvider";
 import { UIContext, UIDispatchContext } from "../contexts/UIContextProvider";
@@ -37,6 +40,8 @@ const InfoBox = ({
     useContext(UIContext) || defaultContextValues;
   const { setCollapsedInfoBox: setCollapsedInfoBoxFromContext } =
     useContext(UIDispatchContext) || defaultContextValues;
+  const { setInfoBoxPixelWidth } =
+    useContext(ResponsiveTopicMapDispatchContext) || defaultContextValues;
 
   let infoBoxBottomMargin;
   if (handleResponsiveDesign === true) {
@@ -70,6 +75,10 @@ const InfoBox = ({
       width: 25,
     };
   }
+
+  useEffect(() => {
+    setInfoBoxPixelWidth(pixelwidth);
+  }, [pixelwidth]);
 
   return (
     <div>
