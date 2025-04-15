@@ -109,7 +109,7 @@ if (window.location.pathname === "/follower") {
 
       {/* <TopicMapsExamples.SimpleTopicMapWMSBBoxDisplay /> */}
       {/* <TopicMapsExamples.SimpleMutedTopicMap /> */}
-      <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer />
+      {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithVectorLayerAndSelectionInfoBox /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithAllCismapLayers /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
@@ -117,7 +117,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapContextProvider>
         <TopicMapsExamples.SimpleTopicMapWithNewSelectionOnZoom />
       </TopicMapContextProvider> */}
-      {/* <TopicMapsExamples.TopicMapWithCustomLayersAndBackgroundModes /> */}
+      <TopicMapsExamples.TopicMapWithCustomLayersAndBackgroundModes />
 
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayerAndEmptyTopicMapbackgroundLayer /> */}
 

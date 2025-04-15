@@ -78,7 +78,11 @@ class MaplibreGlLayer extends GridLayer {
     const normalizeFeatureHitsById = props.normalizeFeatureHitsById || false;
     const manualSelectionManagement = props.manualSelectionManagement || false;
     const myClickListener = (e) => {
-      if (this.selectionLayerExists || manualSelectionManagement) {
+
+
+
+
+      if (true || this.selectionLayerExists || manualSelectionManagement) {
         if (this.mapLibreMap?.project) {
           // Project the clicked point to map coordinates
           const point = this.mapLibreMap.project([e.latlng.lng, e.latlng.lat]);
@@ -197,6 +201,7 @@ class MaplibreGlLayer extends GridLayer {
   _addLayer({ layer }, props) {
     const mlMap = layer.getMaplibreMap();
     mlMap.showTileBoundaries = props.showTileBoundaries || false;
+    mlMap.showCollisionBoxes = true;
     this._layer = layer;
     const { _map } = this._layer;
 

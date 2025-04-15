@@ -351,6 +351,8 @@ export const TopicMapWithCustomLayersAndBackgroundModes = () => {
   };
   return (
     <TopicMapContextProvider
+      referenceSystem={MappingConstants.crs3857}
+      mapEPSGCode="3857"
       backgroundModes={[
         {
           title: "my Stadtplan (Tag)",
@@ -376,7 +378,7 @@ export const TopicMapWithCustomLayersAndBackgroundModes = () => {
           title: "Luftbildkarte",
         },
         stadtplan: {
-          layerkey: "rvr-spw2_light-tiles@100",
+          layerkey: "rvrGrau-tiles-3857@100",
           src: "/images/rain-hazard-map-bg/citymap.png",
           title: "Stadtplan",
         },
@@ -835,7 +837,7 @@ export const MostSimpleTopicMapWithCustomLayerAnPaleOverlay = () => {
 export const MostSimpleTopicMapWithCismapLayer = () => {
   return (
     <TopicMapContextProvider>
-      <TopicMapComponent gazData={[]} backgroundlayers="empty">
+      <TopicMapComponent gazData={[]} backgroundlayers="empty" homeCenter={[51.27771, 7.1413124]} homeZoom={19}>
         <CismapLayer
           {...{
             type: "wmts",
@@ -858,8 +860,11 @@ export const MostSimpleTopicMapWithCismapLayer = () => {
             // style: "https://tiles.cismet.de/wohnlagen2024/style.json",
             // style: "https://tiles.cismet.de/bplanhintergrund/style.json",
             // style: "https://tiles.cismet.de/poi/style.json",
-            style: "https://tiles.cismet.de/baeume/style.json",
+            // style: "https://tiles.cismet.de/baeume/style.json",
+            style: "https://tiles.cismet.de/bplanverfahren_rechtsverbindlich/style.json",
+            // style: "https://tiles.cismet.de/baubloecke/style.json",
             showTileBoundaries: true,
+            debugHovering: true,
             maxSelectionCount: 1,
             selectionEnabled: true,
             onSelectionChanged: (e) => {

@@ -318,6 +318,12 @@ export const defaultLayerConf = {
       maxNativeZoom: 20,
       maxZoom: 22
     },
+    "rvrGrau-tiles-3857": {
+      type: "tiles",
+      url: "https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_graublau&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}",
+      maxNativeZoom: 20,
+      maxZoom: 22
+    },
     orthoIntra: {
       type: "wms",
       url: "http://s10221:7098/orthofotos/services",
