@@ -3,7 +3,7 @@ import { GridLayer } from "react-leaflet";
 
 // import {} from "maplibre-gl";
 // import {} from "./mapbox-gl-leaflet";
-import { } from "./leaflet-maplibre-gl";
+import {} from "./leaflet-maplibre-gl";
 import { Marker, Point } from "maplibre-gl";
 
 // import {} from "@maplibre/maplibre-gl-leaflet";
@@ -52,6 +52,7 @@ class MaplibreGlLayer extends GridLayer {
       // only call _addLayer if the layer being added is this layer
       if (e.layer === this.leafletElement) {
         this._addLayer(e, props);
+        map.on("click", myClickListener);
       }
     });
 
@@ -78,10 +79,6 @@ class MaplibreGlLayer extends GridLayer {
     const normalizeFeatureHitsById = props.normalizeFeatureHitsById || false;
     const manualSelectionManagement = props.manualSelectionManagement || false;
     const myClickListener = (e) => {
-
-
-
-
       if (true || this.selectionLayerExists || manualSelectionManagement) {
         if (this.mapLibreMap?.project) {
           // Project the clicked point to map coordinates
