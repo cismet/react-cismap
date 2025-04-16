@@ -117,7 +117,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapContextProvider>
         <TopicMapsExamples.SimpleTopicMapWithNewSelectionOnZoom />
       </TopicMapContextProvider> */}
-      <TopicMapsExamples.TopicMapWithCustomLayersAndBackgroundModes />
+      {/* <TopicMapsExamples.TopicMapWithCustomLayersAndBackgroundModes /> */}
 
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayerAndEmptyTopicMapbackgroundLayer /> */}
 
@@ -140,7 +140,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.SimpleTopicMapWithCustomInfoBox /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithFullClusteringOptionsAndStyling /> */}
       {/* <TopicMapsExamples.TopicMapWithWithSecondaryInfoSheet /> */}
-      {/* <TopicMapsExamples.TopicMapWithWithCustomSettings /> */}
+      <TopicMapsExamples.TopicMapWithWithCustomSettings />
       {/* <TopicMapsExamples.TopicMapWithAdditionalLayers /> */}
       {/* <TopicMapsExamples.TopicMapWithDynamicAdditionalLayers /> */}
       {/* <TopicMapsExamples.TopicMapWithCrossTabCommunicationContextProvider /> */}

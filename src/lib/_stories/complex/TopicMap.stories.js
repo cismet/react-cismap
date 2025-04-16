@@ -1971,10 +1971,14 @@ const MyMenu = ({ sparseSettingsSectionsExtensions = [] }) => {
         />,
         <DefaultSettingsPanel
           key="settings"
+
           sparseSettingsSectionsExtensions={sparseSettingsSectionsExtensions}
 
           titleCheckBoxlabel="Titel anzeigen (📝)"
           checkBoxSettingsSectionTitle="Einstellungen (📝)"
+          // checkBoxSettingsSectionTitle={null}
+          // skipClusteringSettings={true}
+          // skipFilterTitleSettings={true}
           checkBoxTextClustering="Clustering aktivieren (📝)"
         />,
         <Section
