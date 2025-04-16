@@ -328,7 +328,11 @@ const SettingsPanel = (props) => {
     _pushNewRoute = history.push;
   }
 
-  const settingsSections = [
+  const settingsSections = (
+    checkBoxSettingsSectionTitle
+    || (skipFilterTitleSettings === false && (itemFilterFunction || filterFunction))
+    || skipClusteringSettings === false
+    || (skipOfflineLayerSettings === false && offlineCacheConfig?.optional)) ? [
     <Form>
       {checkBoxSettingsSectionTitle &&
         <>
@@ -402,7 +406,7 @@ const SettingsPanel = (props) => {
         </Form.Group>
       )}
     </Form>,
-  ];
+  ] : [];
   if (skipBackgroundSettings === false) {
     settingsSections.push(
       <NamedMapStyleChooser
