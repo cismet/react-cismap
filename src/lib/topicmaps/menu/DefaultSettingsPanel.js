@@ -330,8 +330,11 @@ const SettingsPanel = (props) => {
 
   const settingsSections = [
     <Form>
-      <Form.Label>{checkBoxSettingsSectionTitle}</Form.Label>
-      <br />
+      {checkBoxSettingsSectionTitle &&
+        <>
+          <Form.Label>{checkBoxSettingsSectionTitle}</Form.Label>
+          <br />
+        </>}
       {skipFilterTitleSettings === false && (itemFilterFunction || filterFunction) && (
         <Form.Group>
           <Form.Check
