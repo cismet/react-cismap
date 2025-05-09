@@ -62,7 +62,7 @@ const SettingsPanel = (props) => {
     checkBoxTextClustering = "Objekte maßstabsabhängig zusammenfassen",
     overridingMapPreview,
     previewChildren,
-
+    previewMapKeyPostfix
   } = props;
 
   const { setAppMenuActiveMenuSection, setAppMenuVisible } =
@@ -189,7 +189,7 @@ const SettingsPanel = (props) => {
 
     setMapPreview(overridingMapPreview || (
       <PreviewMap
-        key={"map" + allFeatures?.length + selectedBackground + _namedMapStyle}
+        key={"map" + allFeatures?.length + selectedBackground + _namedMapStyle + previewMapKeyPostfix}
         referenceSystem={referenceSystem || MappingConstants.crs25832}
         style={{ height: 300 }}
         center={{
