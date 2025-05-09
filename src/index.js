@@ -132,7 +132,9 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.SimpleTopicMap /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithAdditiopnalStylingInfo /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithCustomMenu /> */}
-      <TopicMapsExamples.SimpleTopicMapWithDefaulAppMenu />
+      {/* <TopicMapsExamples.SimpleTopicMapWithDefaulAppMenu /> */}
+      {/* <TopicMapsExamples.SimpleTopicMapWithDefaulAppMenuAndReplacedMapPreview /> */}
+      <TopicMapsExamples.SimpleTopicMapWithDefaulAppMenuAndAdditionalPreviewLayers />
 
       {/* <TopicMapsExamples.SimpleTopicMapWithDefaultInfoBox /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithInfoBox /> */}

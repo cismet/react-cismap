@@ -1291,6 +1291,43 @@ export const SimpleTopicMapWithDefaulAppMenu = () => {
       <TopicMapComponent
         modalMenu={
           <DefaultAppMenu
+            simpleHelp={{
+              type: "MARKDOWN",
+              content:
+                'Als Mitglied der Wasserstoff-Kompetenzregion *Düssel.Rhein.Wupper* treibt die Stadt Wuppertal \ndie Wasserstoff-Mobilität im öffentlichen Sektor voran. Die Kompetenzregion mit den weiteren \nStädten Düsseldorf und Duisburg, dem Rhein-Kreis Neuss und den Unternehmen Wuppertaler Stadtwerke (WSW), \nStadtwerke Düsseldorf und Air Liquide ist Sieger des in 2018 gestarteten Landeswettbewerbs "Modellkommune/-region Wasserstoffmobilität NRW". \nDas prämierte Konzept der Kompetenzregion basiert auf einer von den WSW und der Abfallwirtschaftsgesellschaft Wuppertal (AWG) \nentwickelten geschlossenen Wertschöpfungskette, in der Wasserstoff lokal im AWG-Müllheizkraftwerk Korzert produziert \nund in der Wasserstoff-Busflotte der WSW genutzt wird.\n\nIm privaten Sektor ist die Verfügbarkeit von Wasserstofftankstellen für Brennstoffzellenfahrzeuge entscheidend \nfür den Ausbau der Wasserstoff-Mobilität. Solche Tankstellen halten flüssigen oder komprimiert \ngasförmigen Wasserstoff in ihren Tanks bereit. Die Region Rhein-Ruhr gehört neben Hamburg, Berlin, Frankfurt, \nNürnberg, Stuttgart und München zu den sieben Schwerpunktregionen Deutschlands, in denen eine \nflächendeckende Wasserstoff-Infrastruktur aufgebaut werden soll. Zusätzlich sollen Wasserstofftankstellen \nentlang der verbindenden Autobahnen und Fernstraßen entstehen. Auch wenn es Stand 11/2020 erst eine \nWasserstofftankstelle in Wuppertal gibt, ist also damit zu rechnen, dass recht kurzfristig \nweitere Wasserstofftankstellen entstehen werden.\n',
+            }}
+            introductionMarkdown={`Über **Einstellungen** können Sie die Darstellung der
+              Hintergrundkarte an Ihre 
+              Vorlieben anpassen. Wählen Sie **Kompaktanleitung** 
+              für detailliertere Bedienungsinformationen.`}
+            sections={{
+              _10_test: <div>test</div>,
+            }}
+            previewMapPosition="?lat=51.28057512270058&lng=7.216461896896363&zoom=15"
+
+          ></DefaultAppMenu>
+        }
+        gazData={gazData}
+      >
+        <FeatureCollection />
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+};
+
+
+
+export const SimpleTopicMapWithDefaulAppMenuAndReplacedMapPreview = () => {
+  const [gazData, setGazData] = useState([]);
+  useEffect(() => {
+    getGazData(setGazData);
+  }, []);
+
+  return (
+    <TopicMapContextProvider featureItemsURL="/data/parkscheinautomatenfeatures.json">
+      <TopicMapComponent
+        modalMenu={
+          <DefaultAppMenu
             getSymbolSVG={(size, color) => { return <img width={size} src="/svgs/pikto_e-mobil.svg" /> }}
             simpleHelp={{
               type: "MARKDOWN",
@@ -1305,8 +1342,46 @@ export const SimpleTopicMapWithDefaulAppMenu = () => {
               _10_test: <div>test</div>,
             }}
             previewMapPosition="?lat=51.28057512270058&lng=7.216461896896363&zoom=15"
-            overridingMapPreview_={<div style={{ height: 300, background: "orange" }}
+            overridingMapPreview={<div style={{ height: 300, background: "orange" }}
             >Map Preview</div>}
+
+          ></DefaultAppMenu>
+        }
+        gazData={gazData}
+      >
+        <FeatureCollection />
+      </TopicMapComponent >
+    </TopicMapContextProvider >
+  );
+};
+
+
+
+export const SimpleTopicMapWithDefaulAppMenuAndAdditionalPreviewLayers = () => {
+  const [gazData, setGazData] = useState([]);
+  useEffect(() => {
+    getGazData(setGazData);
+  }, []);
+
+  return (
+    <TopicMapContextProvider featureItemsURL="/data/parkscheinautomatenfeatures.json">
+      <TopicMapComponent
+        modalMenu={
+          <DefaultAppMenu
+            getSymbolSVG={(size, color) => { return <img width={size} src="/svgs/pikto_e-mobil.svg" /> }}
+            simpleHelp={{
+              type: "MARKDOWN",
+              content:
+                'Als Mitglied der Wasserstoff-Kompetenzregion *Düssel.Rhein.Wupper* treibt die Stadt Wuppertal \ndie Wasserstoff-Mobilität im öffentlichen Sektor voran. Die Kompetenzregion mit den weiteren \nStädten Düsseldorf und Duisburg, dem Rhein-Kreis Neuss und den Unternehmen Wuppertaler Stadtwerke (WSW), \nStadtwerke Düsseldorf und Air Liquide ist Sieger des in 2018 gestarteten Landeswettbewerbs "Modellkommune/-region Wasserstoffmobilität NRW". \nDas prämierte Konzept der Kompetenzregion basiert auf einer von den WSW und der Abfallwirtschaftsgesellschaft Wuppertal (AWG) \nentwickelten geschlossenen Wertschöpfungskette, in der Wasserstoff lokal im AWG-Müllheizkraftwerk Korzert produziert \nund in der Wasserstoff-Busflotte der WSW genutzt wird.\n\nIm privaten Sektor ist die Verfügbarkeit von Wasserstofftankstellen für Brennstoffzellenfahrzeuge entscheidend \nfür den Ausbau der Wasserstoff-Mobilität. Solche Tankstellen halten flüssigen oder komprimiert \ngasförmigen Wasserstoff in ihren Tanks bereit. Die Region Rhein-Ruhr gehört neben Hamburg, Berlin, Frankfurt, \nNürnberg, Stuttgart und München zu den sieben Schwerpunktregionen Deutschlands, in denen eine \nflächendeckende Wasserstoff-Infrastruktur aufgebaut werden soll. Zusätzlich sollen Wasserstofftankstellen \nentlang der verbindenden Autobahnen und Fernstraßen entstehen. Auch wenn es Stand 11/2020 erst eine \nWasserstofftankstelle in Wuppertal gibt, ist also damit zu rechnen, dass recht kurzfristig \nweitere Wasserstofftankstellen entstehen werden.\n',
+            }}
+            introductionMarkdown={`Über **Einstellungen** können Sie die Darstellung der
+              Hintergrundkarte an Ihre 
+              Vorlieben anpassen. Wählen Sie **Kompaktanleitung** 
+              für detailliertere Bedienungsinformationen.`}
+            sections={{
+              _10_test: <div>test</div>,
+            }}
+            previewMapPosition="?lat=51.28057512270058&lng=7.216461896896363&zoom=15"
             previewChildren={(<>
               <CismapLayer
                 {...{
