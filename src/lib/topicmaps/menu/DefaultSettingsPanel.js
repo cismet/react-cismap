@@ -60,6 +60,8 @@ const SettingsPanel = (props) => {
     previewFeatureCollectionDisplayProps,
     checkBoxSettingsSectionTitle = "Einstellungen:",
     checkBoxTextClustering = "Objekte maßstabsabhängig zusammenfassen",
+    overridingMapPreview,
+    previewChildren,
 
   } = props;
 
@@ -185,7 +187,7 @@ const SettingsPanel = (props) => {
       }
     }
 
-    setMapPreview(
+    setMapPreview(overridingMapPreview || (
       <PreviewMap
         key={"map" + allFeatures?.length + selectedBackground + _namedMapStyle}
         referenceSystem={referenceSystem || MappingConstants.crs25832}
@@ -233,7 +235,8 @@ const SettingsPanel = (props) => {
           showMarkerCollection={false}
           {...previewFeatureCollectionDisplayProps}
         />
-      </PreviewMap>
+        {previewChildren}
+      </PreviewMap>)
     );
   }, [
     allFeatures,
