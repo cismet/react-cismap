@@ -1291,6 +1291,7 @@ export const SimpleTopicMapWithDefaulAppMenu = () => {
       <TopicMapComponent
         modalMenu={
           <DefaultAppMenu
+            getSymbolSVG={(size, color) => { return <img width={size} src="/svgs/pikto_e-mobil.svg" /> }}
             simpleHelp={{
               type: "MARKDOWN",
               content:
@@ -1303,6 +1304,29 @@ export const SimpleTopicMapWithDefaulAppMenu = () => {
             sections={{
               _10_test: <div>test</div>,
             }}
+            previewMapPosition="?lat=51.28057512270058&lng=7.216461896896363&zoom=15"
+            overridingMapPreview_={<div style={{ height: 300, background: "orange" }}
+            >Map Preview</div>}
+            previewChildren={(<>
+              <CismapLayer
+                {...{
+                  type: "vector",
+                  style: "https://tiles.cismet.de/poi/trinkwasserbrunnen.style.json",
+                  additionalLayerUniquePane: "trinkwasserbrunnen",
+                  opacity: 1,
+                  additionalLayersFreeZOrder: 9,
+                }}
+              />
+              {/* <CismapLayer
+                {...{
+                  type: "vector",
+                  style: "https://tiles.cismet.de/bplanhintergrund/style.json",
+                  additionalLayerUniquePane: "bplan",
+                  opacity: 1,
+                  additionalLayersFreeZOrder: 9,
+                }}
+              /> */}
+            </>)}
           ></DefaultAppMenu>
         }
         gazData={gazData}
