@@ -1389,18 +1389,20 @@ export const SimpleTopicMapWithDefaulAppMenuAndAdditionalPreviewLayers = () => {
                   style: "https://tiles.cismet.de/poi/trinkwasserbrunnen.style.json",
                   additionalLayerUniquePane: "trinkwasserbrunnen",
                   opacity: 1,
-                  additionalLayersFreeZOrder: 9,
+                  pane: "additionalLayers0",
+                  additionalLayersFreeZOrder: 10,
                 }}
               />
-              {/* <CismapLayer
+              <CismapLayer
                 {...{
                   type: "vector",
                   style: "https://tiles.cismet.de/bplanhintergrund/style.json",
                   additionalLayerUniquePane: "bplan",
                   opacity: 1,
+                  pane: "additionalLayers1",
                   additionalLayersFreeZOrder: 9,
                 }}
-              /> */}
+              />
             </>)}
           ></DefaultAppMenu>
         }
