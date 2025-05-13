@@ -481,6 +481,7 @@ export const SimpleTopicMapWithVectorLayerAndSelectionInfoBox = () => {
           ),
         },
       ];
+      console.log('selectedFeature', f);
 
       setSelectedFeature(f);
     } else {
@@ -609,6 +610,7 @@ export const SimpleTopicMapWithVectorLayerAndSelectionInfoBox = () => {
               maxSelectionCount: 10,
               selectionEnabled: selectionEnabled,
               zIndex: 900000,
+              initialVisualSelection: { source: "poi-source", sourceLayer: "poi", id: 143, },
               manualSelectionManagement: true,
               onSelectionClick: (e) => {
                 // console.log("xxx selectionClick", e);
@@ -712,6 +714,7 @@ export const SimpleTopicMapWithNewSelectionOnZoom = () => {
             maxSelectionCount: 10,
             selectionEnabled: selectionEnabled,
             manualSelectionManagement: true,
+
             onSelectionClick: (e) => { },
             onSelectionChanged: (e) => {
               console.log("xxx onSelectionChanged", e);

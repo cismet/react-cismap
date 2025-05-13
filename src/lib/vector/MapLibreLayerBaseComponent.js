@@ -1,12 +1,7 @@
 import L from "leaflet";
 import { GridLayer } from "react-leaflet";
+import { } from "./leaflet-maplibre-gl";
 
-// import {} from "maplibre-gl";
-// import {} from "./mapbox-gl-leaflet";
-import {} from "./leaflet-maplibre-gl";
-import { Marker, Point } from "maplibre-gl";
-
-// import {} from "@maplibre/maplibre-gl-leaflet";
 
 class MaplibreGlLayer extends GridLayer {
   constructor(props) {
@@ -46,8 +41,8 @@ class MaplibreGlLayer extends GridLayer {
 
   createLeafletElement(props) {
     const { map } = props.leaflet || this.context;
-    const selectedFeatures = new Set();
 
+    this.selectedFeatures = new Set();
     map.on("layeradd", (e) => {
       // only call _addLayer if the layer being added is this layer
       if (e.layer === this.leafletElement) {
@@ -100,9 +95,10 @@ class MaplibreGlLayer extends GridLayer {
               //hit.layer.id should not contain selection
               return !hit.layer.id.includes("selection");
             });
+            // console.log("xxx filteredHits", filteredHits);
 
             // Deselect all selected features first
-            selectedFeatures.forEach((feature) => {
+            this.selectedFeatures.forEach((feature) => {
               try {
                 this.mapLibreMap.setFeatureState(
                   { source: feature.source, sourceLayer: feature.sourceLayer, id: feature.id },
@@ -113,7 +109,7 @@ class MaplibreGlLayer extends GridLayer {
               }
             });
 
-            selectedFeatures.clear();
+            this.selectedFeatures.clear();
 
             if (filteredHits.length > 0) {
               // Limit the selection to maxSelectionCount
@@ -127,7 +123,7 @@ class MaplibreGlLayer extends GridLayer {
                     { source: hit.source, sourceLayer: hit.sourceLayer, id: hit.id },
                     { selected }
                   );
-                  selectedFeatures.add({
+                  this.selectedFeatures.add({
                     source: hit.source,
                     sourceLayer: hit.sourceLayer,
                     id: hit.id,
@@ -214,6 +210,20 @@ class MaplibreGlLayer extends GridLayer {
     mlMap.on("load", () => {
       this.mapLibreMap = mlMap;
       const style = mlMap.getStyle();
+
+
+      if (this.props.initialVisualSelection) {
+        this.mapLibreMap.setFeatureState(
+          this.props.initialVisualSelection,
+          { selected: true }
+        );
+        this.selectedFeatures.add(this.props.initialVisualSelection);
+        // this.props.onSelectionChanged({
+        //   hits: [this.props.initialVisualSelection],
+        //   hit: this.props.initialVisualSelection,
+        // });
+      }
+
 
       //check if a layer in the style has the word "selection" in its id
       this.selectionLayerExists = style.layers.some((layer) => {

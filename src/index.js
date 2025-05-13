@@ -110,13 +110,13 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.SimpleTopicMapWMSBBoxDisplay /> */}
       {/* <TopicMapsExamples.SimpleMutedTopicMap /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer /> */}
-      {/* <TopicMapsExamples.SimpleTopicMapWithVectorLayerAndSelectionInfoBox /> */}
+      <TopicMapsExamples.SimpleTopicMapWithVectorLayerAndSelectionInfoBox />
       {/* <TopicMapsExamples.MostSimpleTopicMapWithAllCismapLayers /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
-      {/* <TopicMapContextProvider>
-        <TopicMapsExamples.SimpleTopicMapWithNewSelectionOnZoom />
-      </TopicMapContextProvider> */}
+      {/* <TopicMapContextProvider>*/}
+      {/* <TopicMapsExamples.SimpleTopicMapWithNewSelectionOnZoom /> */}
+      {/*</TopicMapContextProvider> */}
       {/* <TopicMapsExamples.TopicMapWithCustomLayersAndBackgroundModes /> */}
 
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayerAndEmptyTopicMapbackgroundLayer /> */}
@@ -134,7 +134,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.SimpleTopicMapWithCustomMenu /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithDefaulAppMenu /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithDefaulAppMenuAndReplacedMapPreview /> */}
-      <TopicMapsExamples.SimpleTopicMapWithDefaulAppMenuAndAdditionalPreviewLayers />
+      {/* <TopicMapsExamples.SimpleTopicMapWithDefaulAppMenuAndAdditionalPreviewLayers /> */}
 
       {/* <TopicMapsExamples.SimpleTopicMapWithDefaultInfoBox /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithInfoBox /> */}
