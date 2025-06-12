@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
-import localforage from "localforage";
-import { setFromLocalforage } from "./_helper";
-import { useImmer } from "use-immer";
 import { BroadcastChannel } from "broadcast-channel";
+import localforage from "localforage";
+import React, { useEffect, useRef } from "react";
+import { useImmer } from "use-immer";
+import { setFromLocalforage } from "./_helper";
 
 const StateContext = React.createContext();
 const DispatchContext = React.createContext();
@@ -303,8 +303,8 @@ const CrossTabCommunicationContextProvider = ({
 };
 export default CrossTabCommunicationContextProvider;
 export {
-  CrossTabCommunicationContextProvider,
   StateContext as CrossTabCommunicationContext,
+  CrossTabCommunicationContextProvider,
   DispatchContext as CrossTabCommunicationDispatchContext,
   TYPES,
 };

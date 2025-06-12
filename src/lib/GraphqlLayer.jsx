@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import FeatureCollectionDisplay from "./FeatureCollectionDisplay";
-import { isEqual } from "lodash";
-import { getBoundingBoxForLeafletMap } from "./tools/gisHelper";
-import { proj4crs25832def, projectionData } from "./constants/gis";
 import bboxPolygon from "@turf/bbox-polygon";
+import React, { useEffect, useState } from "react";
 import { reproject } from "reproject";
+import { projectionData } from "./constants/gis";
+import FeatureCollectionDisplay from "./FeatureCollectionDisplay";
+import { getBoundingBoxForLeafletMap } from "./tools/gisHelper";
 
 export const STATUS = {
   LOADING: "LOADING",

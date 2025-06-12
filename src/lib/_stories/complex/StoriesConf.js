@@ -1,4 +1,4 @@
-import { md5FetchText, fetchJSON } from "../../tools/fetching";
+import { md5FetchText } from "../../tools/fetching";
 import { getGazDataForTopicIds } from "../../tools/gazetteerHelper";
 
 export const storiesCategory = "MoreComplexStuff/";

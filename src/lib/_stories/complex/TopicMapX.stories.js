@@ -1,26 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { ProgressBar } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
-import {
-  TopicMapContextProvider
-} from "../../contexts/TopicMapContextProvider";
+import { TopicMapContextProvider } from "../../contexts/TopicMapContextProvider";
 
 import FeatureCollection from "../../FeatureCollection";
-import {
-  MappingConstants
-} from "../../index";
+import { MappingConstants } from "../../index";
 import { addSVGToProps } from "../../tools/svgHelper";
-import {
-  getClusterIconCreatorFunction
-} from "../../tools/uiHelper";
+import { getClusterIconCreatorFunction } from "../../tools/uiHelper";
 import getGTMFeatureStyler from "../../topicmaps/generic/GTMStyler";
 import GenericInfoBoxFromFeature from "../../topicmaps/GenericInfoBoxFromFeature";
 import TopicMapComponent from "../../topicmaps/TopicMapComponent";
 import { getGazData, host, storiesCategory } from "./StoriesConf";
-
-
 
 export default {
   title: storiesCategory + "TopicMapComponent",
@@ -75,7 +65,13 @@ export const XTopicMap = () => {
       //appKey='CoronaPraeventionskarteWuppertal.TopicMap'
       persistenceSettings={{
         ui: ["appMenuVisible", "appMenuActiveMenuSection", "collapsedInfoBox"],
-        _featureCollection: ["filterState", "filterMode", "clusteringEnabled", "allfeatures", "pointFeatures"],
+        _featureCollection: [
+          "filterState",
+          "filterMode",
+          "clusteringEnabled",
+          "allfeatures",
+          "pointFeatures",
+        ],
         responsive: [],
         styling: [
           "activeAdditionalLayerKeys",
@@ -104,7 +100,6 @@ export const XTopicMap = () => {
       clusteringEnabled={true}
       itemFilterFunction={() => {
         return (item) => true;
-
       }}
       getColorFromProperties={(props) => props.color}
       titleFactory={() => {
@@ -116,37 +111,41 @@ export const XTopicMap = () => {
       }}
     >
       {showProgress && (
-        <div style={{
-          position: 'absolute',
-          zIndex: 1000,
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          backgroundColor: 'rgba(255, 255, 255, 0.65)',
-          padding: '25px 30px',
-          borderRadius: '12px',
-          boxShadow: '0 10px 25px rgba(0,0,0,0.1), 0 5px 10px rgba(0,0,0,0.05)',
-          width: '350px',
-          border: '1px solid rgba(0,0,0,0.1)',
-          backdropFilter: 'blur(5px)'
-        }}>
-          <div style={{
-            fontSize: '14px',
-            marginBottom: '12px',
-            color: '#666',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px'
-          }}>
+        <div
+          style={{
+            position: "absolute",
+            zIndex: 1000,
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "rgba(255, 255, 255, 0.65)",
+            padding: "25px 30px",
+            borderRadius: "12px",
+            boxShadow: "0 10px 25px rgba(0,0,0,0.1), 0 5px 10px rgba(0,0,0,0.05)",
+            width: "350px",
+            border: "1px solid rgba(0,0,0,0.1)",
+            backdropFilter: "blur(5px)",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "14px",
+              marginBottom: "12px",
+              color: "#666",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
             Daten werden geladen und gecached ...
           </div>
           <ProgressBar
             now={progress}
             // label={`${progress}%`}
             style={{
-              height: '20px',
-              borderRadius: '10px',
-              overflow: 'hidden'
+              height: "20px",
+              borderRadius: "10px",
+              overflow: "hidden",
             }}
             variant="secondary"
             animated

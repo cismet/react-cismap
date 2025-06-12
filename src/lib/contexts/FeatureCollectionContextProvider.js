@@ -1,21 +1,21 @@
-import { useImmer } from "use-immer";
-import React, { useEffect, useContext, useRef } from "react";
-import { fetchJSON, md5FetchJSON } from "../tools/fetching";
-import KDBush from "kdbush";
-import { TopicMapContext, TopicMapDispatchContext } from "./TopicMapContextProvider";
 import bboxPolygon from "@turf/bbox-polygon";
-import localforage from "localforage";
-import { setFromLocalforage } from "./_helper";
-import proj4 from "proj4";
-import { projectionData } from "../constants/gis";
-import { findInFlatbush, createFlatbushIndex } from "../tools/gisHelper";
+import center from "@turf/center";
 import envelope from "@turf/envelope";
 import { featureCollection } from "@turf/helpers";
-import center from "@turf/center";
+import KDBush from "kdbush";
+import localforage from "localforage";
+import proj4 from "proj4";
+import React, { useContext, useEffect } from "react";
+import { useImmer } from "use-immer";
+import { projectionData } from "../constants/gis";
+import { fetchJSON, md5FetchJSON } from "../tools/fetching";
+import { createFlatbushIndex, findInFlatbush } from "../tools/gisHelper";
+import { setFromLocalforage } from "./_helper";
+import { TopicMapContext, TopicMapDispatchContext } from "./TopicMapContextProvider";
 const defaultState = {
   items: undefined,
   itemsDictionary: undefined,
-  createItemsDictionary: () => { },
+  createItemsDictionary: () => {},
   metaInformation: undefined,
   filteredItems: undefined,
   filterState: undefined,
@@ -82,7 +82,7 @@ const FeatureCollectionContextProvider = ({
   featureCollectionName,
   featureTooltipFunction,
   convertItemToFeature = (itemIsFeature) => JSON.parse(JSON.stringify(itemIsFeature || {})),
-  convertItemToFeatureProgressCallback = () => { },
+  convertItemToFeatureProgressCallback = () => {},
   convertItemToFeatureProgressCallbackPercentageSteps = 5,
   itemFilterFunction,
   filterFunction,
@@ -90,7 +90,7 @@ const FeatureCollectionContextProvider = ({
   persistenceSettings,
   filterState,
   classKeyFunction,
-  createItemsDictionary = () => { },
+  createItemsDictionary = () => {},
   nextFeature,
   prevFeature,
   deriveSecondarySelection,
@@ -187,7 +187,7 @@ const FeatureCollectionContextProvider = ({
     setX.setSelectedIndexState({ selectedIndex, forced: false });
   };
 
-  const _setSelectedFeatureByPredicate = (predicate, feedbacker = () => { }) => {
+  const _setSelectedFeatureByPredicate = (predicate, feedbacker = () => {}) => {
     const { shownFeatures } = state.curent; // Access the current state directly
 
     let index = 0;
@@ -208,7 +208,7 @@ const FeatureCollectionContextProvider = ({
     feedbacker(false);
   };
 
-  const setSelectedFeatureByPredicate = (predicate, feedbacker = () => { }) => {
+  const setSelectedFeatureByPredicate = (predicate, feedbacker = () => {}) => {
     dispatch((draft) => {
       let index = 0;
       // console.log("will check in showFeatures:", draft.shownFeatures);
@@ -322,7 +322,9 @@ const FeatureCollectionContextProvider = ({
 
         // Calculate at which items we should fire callbacks
         const totalItems = state.filteredItems.length;
-        const stepSize = Math.floor(totalItems * (convertItemToFeatureProgressCallbackPercentageSteps / 100));
+        const stepSize = Math.floor(
+          totalItems * (convertItemToFeatureProgressCallbackPercentageSteps / 100)
+        );
 
         // Initial progress callback
         convertItemToFeatureProgressCallback({ current: 0, total: 100, inProgress: true });
@@ -355,7 +357,7 @@ const FeatureCollectionContextProvider = ({
             convertItemToFeatureProgressCallback({
               current: progressPercentage,
               total: 100,
-              inProgress: true
+              inProgress: true,
             });
           }
           current++;
@@ -647,7 +649,7 @@ const FeatureCollectionContextProvider = ({
 export default FeatureCollectionContextProvider;
 
 export {
-  FeatureCollectionContextProvider,
   StateContext as FeatureCollectionContext,
+  FeatureCollectionContextProvider,
   DispatchContext as FeatureCollectionDispatchContext,
 };

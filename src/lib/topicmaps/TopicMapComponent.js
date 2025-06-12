@@ -1,29 +1,25 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
-import { Pane } from "react-leaflet";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
-import * as MappingConstants from "../constants/gis";
-import GazetteerHitDisplay from "../GazetteerHitDisplay";
-import ProjSingleGeoJson from "../ProjSingleGeoJson";
-import { modifyQueryPart } from "../tools/routingHelper";
-import Control from "react-leaflet-control";
+import md5 from "md5";
+import Button from "react-bootstrap/Button";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import Button from "react-bootstrap/Button";
-import Icon from "../commons/Icon";
-import RoutedMap from "../RoutedMap";
+import Control from "react-leaflet-control";
 import Loadable from "react-loading-overlay";
-import GazetteerSearchControl from "../GazetteerSearchControl";
-import { TopicMapContext, TopicMapDispatchContext } from "../contexts/TopicMapContextProvider";
+import Icon from "../commons/Icon";
+import * as MappingConstants from "../constants/gis";
 import { ResponsiveTopicMapContext } from "../contexts/ResponsiveTopicMapContextProvider";
+import { TopicMapContext, TopicMapDispatchContext } from "../contexts/TopicMapContextProvider";
+import { TopicMapStylingContext } from "../contexts/TopicMapStylingContextProvider";
 import { UIContext, UIDispatchContext } from "../contexts/UIContextProvider";
-import {
-  TopicMapStylingContext,
-  TopicMapStylingDispatchContext,
-} from "../contexts/TopicMapStylingContextProvider";
+import GazetteerHitDisplay from "../GazetteerHitDisplay";
+import GazetteerSearchControl from "../GazetteerSearchControl";
+import ProjSingleGeoJson from "../ProjSingleGeoJson";
+import RoutedMap from "../RoutedMap";
+import getLayers from "../tools/layerFactory";
+import { modifyQueryPart } from "../tools/routingHelper";
 import DefaultAppMenu from "./menu/DefaultAppMenu";
 import PhotoLightBox from "./PhotoLightbox";
-import getLayers from "../tools/layerFactory";
-import md5 from "md5";
 import TitleBox from "./TitleBox";
 
 const TopicMapComponent = (props) => {
@@ -42,17 +38,17 @@ const TopicMapComponent = (props) => {
     homeCenter,
     homeZoom,
     home,
-    ondblclick = () => { },
-    onclick = () => { },
-    locationChangedHandler = () => { },
+    ondblclick = () => {},
+    onclick = () => {},
+    locationChangedHandler = () => {},
     outerLocationChangedHandlerExclusive = false,
     pushToHistory,
     autoFitBounds = false,
     autoFitMode = MappingConstants.AUTO_FIT_MODE_STRICT,
     autoFitBoundsTarget = null,
-    setAutoFit = () => { },
+    setAutoFit = () => {},
     urlSearchParams,
-    mappingBoundsChanged = (boundingbox) => { },
+    mappingBoundsChanged = (boundingbox) => {},
     backgroundlayers,
     fullScreenControl = true,
     locatorControl = false,
@@ -85,11 +81,15 @@ const TopicMapComponent = (props) => {
     zoomSnap = 1,
     zoomDelta = 1,
     mapkey = "mapKey",
-    editable = false
+    editable = false,
   } = props;
-  const { history, referenceSystem, referenceSystemDefinition, maskingPolygon, realRoutedMapRef: leafletRoutedMapRef } = useContext(
-    TopicMapContext
-  );
+  const {
+    history,
+    referenceSystem,
+    referenceSystemDefinition,
+    maskingPolygon,
+    realRoutedMapRef: leafletRoutedMapRef,
+  } = useContext(TopicMapContext);
   const {
     backgroundModes,
     selectedBackground,
@@ -124,7 +124,7 @@ const TopicMapComponent = (props) => {
   let backgroundsFromMode;
   try {
     backgroundsFromMode = backgroundConfigurations[selectedBackground].layerkey;
-  } catch (e) { }
+  } catch (e) {}
 
   const _backgroundLayers = backgroundlayers || backgroundsFromMode || "rvrGrau@40";
 

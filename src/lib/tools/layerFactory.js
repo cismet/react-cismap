@@ -1,12 +1,11 @@
 import objectAssign from "object-assign";
 import React from "react";
-import { TileLayer } from "react-leaflet";
 
 import { namedStyles } from "../constants/layers";
 import NonTiledWMSLayer from "../NonTiledWMSLayer";
+import StyledTileLayer from "../StyledTileLayer";
 import StyledWMSTileLayer from "../StyledWMSTileLayer";
 import MapLibreLayer from "../vector/MapLibreLayer";
-import StyledTileLayer from "../StyledTileLayer";
 
 export default function getLayers(
   layerString,
@@ -69,7 +68,7 @@ export default function getLayers(
             console.error(error);
             console.error(
               "Problems during parsing of the layer options. Skip options. You will get the 100% Layer:" +
-              layOp[0]
+                layOp[0]
             );
             const layerWithNamedStyleExtension = layOp[0] + namedMapStyleExtension;
             return getLayer(layerWithNamedStyleExtension);
@@ -149,7 +148,7 @@ const createLayerFactoryFunction = (key, _conf = defaultLayerConf) => {
             {...params}
             opacity={options.opacity}
 
-          // cssFilter={options["css-filter"]}
+            // cssFilter={options["css-filter"]}
           />
         );
       };
@@ -314,15 +313,17 @@ export const defaultLayerConf = {
     },
     "wupp-plan-live-tiles-3857": {
       type: "tiles",
-      url: "https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_light&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}",
+      url:
+        "https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_light&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}",
       maxNativeZoom: 20,
-      maxZoom: 22
+      maxZoom: 22,
     },
     "rvrGrau-tiles-3857": {
       type: "tiles",
-      url: "https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_graublau&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}",
+      url:
+        "https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_graublau&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}",
       maxNativeZoom: 20,
-      maxZoom: 22
+      maxZoom: 22,
     },
     orthoIntra: {
       type: "wms",

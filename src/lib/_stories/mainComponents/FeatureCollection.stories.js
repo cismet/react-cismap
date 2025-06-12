@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
-import { storiesCategory } from "./StoriesConf";
-import { RoutedMap, MappingConstants, FeatureCollectionDisplay } from "../..";
-import { parkscheinautomaten, featureDefaults } from "../_data/Demo";
+import React, { useRef, useState } from "react";
+import { FeatureCollectionDisplay, MappingConstants, RoutedMap } from "../..";
 import { modifyQueryPart } from "../../tools/routingHelper";
+import { featureDefaults, parkscheinautomaten } from "../_data/Demo";
 import { kassenzeichen } from "../_data/Editing.Storybook.data";
+import { storiesCategory } from "./StoriesConf";
 export default {
   title: storiesCategory + "FeatureCollectionDisplay",
 };

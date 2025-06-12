@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { CustomizationContext } from "../../contexts/CustomizationContextProvider";
 
 export default ({ customizationComponent, customizationKey, defaultContextValues = {} }) => {

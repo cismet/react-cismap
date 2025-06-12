@@ -1,5 +1,4 @@
 import L from "leaflet";
-import PropTypes from "prop-types";
 import React, { useContext, useEffect, useRef } from "react";
 import Control from "react-leaflet-control";
 

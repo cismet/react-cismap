@@ -1,16 +1,14 @@
-import React, { useRef } from "react";
-import { useState } from "react";
-import GraphqlLayer, { createQueryGeomFromBB } from "../../GraphqlLayer";
-import { storiesCategory } from "./StoriesConf";
-import RoutedMap from "../../RoutedMap";
-import bboxPolygon from "@turf/bbox-polygon";
-import { reproject } from "reproject";
-import { projectionData } from "../../constants/gis";
-import { concat, flatten } from "lodash";
-import { MappingConstants } from "../..";
 import getArea from "@turf/area";
+import { concat, flatten } from "lodash";
 import proj4 from "proj4";
+import React, { useRef, useState } from "react";
+import { reproject } from "reproject";
+import { MappingConstants } from "../..";
 import CismapLayer from "../../CismapLayer";
+import { projectionData } from "../../constants/gis";
+import GraphqlLayer from "../../GraphqlLayer";
+import RoutedMap from "../../RoutedMap";
+import { storiesCategory } from "./StoriesConf";
 
 export default {
   title: storiesCategory + "GraphqlLayer",

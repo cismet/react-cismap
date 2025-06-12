@@ -1,6 +1,5 @@
-import FeatureCollectionDisplay from "../FeatureCollectionDisplay";
-import React, { useEffect, useState } from "react";
 import Easing from "easing";
+import React, { useEffect, useState } from "react";
 
 export default function (props) {
   const {

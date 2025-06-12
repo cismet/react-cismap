@@ -1,17 +1,14 @@
-import React, { useContext, useState } from "react";
-import PropTypes from "prop-types";
 import Color from "color";
-import CollapsibleWell from "../commons/CollapsibleWell";
-import { ResponsiveTopicMapContext } from "../contexts/ResponsiveTopicMapContextProvider";
-import Control from "react-leaflet-control";
+import parseHtml from "html-react-parser";
+import React, { useContext, useState } from "react";
 import {
   FeatureCollectionContext,
   FeatureCollectionDispatchContext,
 } from "../contexts/FeatureCollectionContextProvider";
+import { ResponsiveTopicMapContext } from "../contexts/ResponsiveTopicMapContextProvider";
+import { TopicMapStylingContext } from "../contexts/TopicMapStylingContextProvider";
 import { UIContext, UIDispatchContext } from "../contexts/UIContextProvider";
 import ResponsiveInfoBox from "./ResponsiveInfoBox";
-import parseHtml from "html-react-parser";
-import { TopicMapStylingContext } from "../contexts/TopicMapStylingContextProvider";
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
@@ -112,7 +109,9 @@ const InfoBox = ({
   const minified = collapsedInfoBox || collapsedInfoBoxFromContext || localMinified;
   const minify = setCollapsedInfoBox || setCollapsedInfoBoxFromContext || setLocalMinify;
   let featureRenderingOption = additionalStylingInfo?.featureRenderingOption;
-  let headerBackgroundColor = Color(headerColor || colorizer(_currentFeature, featureRenderingOption));
+  let headerBackgroundColor = Color(
+    headerColor || colorizer(_currentFeature, featureRenderingOption)
+  );
 
   let textColor = "black";
   if (headerBackgroundColor.isDark()) {

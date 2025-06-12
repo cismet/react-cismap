@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useLayoutEffect } from "react";
-import { useImmer } from "use-immer";
 import localforage from "localforage";
-import { setFromLocalforage } from "./_helper";
+import React, { useEffect } from "react";
+import { useImmer } from "use-immer";
 import { deleteOfflineMapData, loadAndCacheOfflineMapData } from "../tools/offlineMapsHelper";
+import { setFromLocalforage } from "./_helper";
 const StateContext = React.createContext();
 const DispatchContext = React.createContext();
 const defaultState = { cacheStatus: {} };
@@ -112,7 +112,7 @@ const OfflineLayerCacheContextProvider = ({
 export default OfflineLayerCacheContextProvider;
 
 export {
-  OfflineLayerCacheContextProvider,
   StateContext as OfflineLayerCacheContext,
+  OfflineLayerCacheContextProvider,
   DispatchContext as OfflineLayerCacheDispatchContext,
 };

@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 
-import { featureDefaults, parkscheinautomaten } from "../_data/Demo";
-import { uwz } from "../_data/Demo";
 import { MappingConstants, RoutedMap } from "../..";
 import ProjGeoJson from "../../ProjGeoJson";
 import ProjSingleGeoJson from "../../ProjSingleGeoJson";
+import { featureDefaults, parkscheinautomaten, uwz } from "../_data/Demo";
 import { storiesCategory } from "./StoriesConf";
 
 export default {

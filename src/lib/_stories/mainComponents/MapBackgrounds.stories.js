@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
-import { storiesCategory } from "./StoriesConf";
-import { RoutedMap, MappingConstants } from "../..";
+import React from "react";
+import { MappingConstants, RoutedMap } from "../..";
 import { DEFAULTLAYERKEYS } from "../../constants/layers";
+import { storiesCategory } from "./StoriesConf";
 export default {
   title: storiesCategory + "MapBackgrounds",
 };

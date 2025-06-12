@@ -1,6 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // Since this component is simple and static, there's no parent container for it.
 
 //This is a first idea how to avoid the

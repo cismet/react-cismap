@@ -1,18 +1,13 @@
-import L from "leaflet";
 import PropTypes from "prop-types";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { Button, Form, FormGroup, InputGroup, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Typeahead } from "react-bootstrap-typeahead";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //import { faSun } from '@fortawesome/free-solid-svg-icons';
 
-import Control from "react-leaflet-control";
-
-import Icon from "./commons/Icon";
-import { FeatureCollectionDispatchContext } from "./contexts/FeatureCollectionContextProvider";
-import { TopicMapContext } from "./contexts/TopicMapContextProvider";
-import { builtInGazetteerHitTrigger } from "./tools/gazetteerHelper";
 import { faDirections } from "@fortawesome/free-solid-svg-icons";
+import Icon from "./commons/Icon";
+import { builtInGazetteerHitTrigger } from "./tools/gazetteerHelper";
 
 const COMP = ({
   mapRef,

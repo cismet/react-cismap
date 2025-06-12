@@ -1,10 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { parkscheinautomatenfeatures, storiesCategory } from "./StoriesConf";
-import { RoutedMap, MappingConstants } from "../..";
-import TopicMapContextProvider from "../../contexts/TopicMapContextProvider";
-import TopicMapComponent from "../TopicMapComponent";
-import FeatureCollection from "../../FeatureCollection";
-import GenericInfoBoxFromFeature from "../GenericInfoBoxFromFeature";
+import React, { useState } from "react";
+import { storiesCategory } from "./StoriesConf";
 
 import PhotoLightbox from "../PhotoLightbox";
 export default {

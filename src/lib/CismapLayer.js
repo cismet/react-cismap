@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import StyledWMSTileLayer from "./StyledWMSTileLayer";
-import NonTiledWMSLayer from "./NonTiledWMSLayer";
 import { TileLayer } from "react-leaflet";
-import MapLibreLayer from "./vector/MapLibreLayer";
 import GraphqlLayer from "./GraphqlLayer";
+import NonTiledWMSLayer from "./NonTiledWMSLayer";
+import StyledWMSTileLayer from "./StyledWMSTileLayer";
 import { TopicMapContext } from "./contexts/TopicMapContextProvider";
-import { use } from "react";
+import MapLibreLayer from "./vector/MapLibreLayer";
 
 const defaults = {
   wms: {
@@ -34,7 +33,7 @@ export default function CismapLayer(props) {
         // console.log('xxx try to createPane(paneName); ', paneName, props.additionalLayersFreeZOrder);
         leafletMap.createPane(paneName);
         //set zIndex to 250 + props.additionalLayersFreeZOrder
-        leafletMap.getPane(paneName).style.zIndex = 250 + props.additionalLayersFreeZOrder
+        leafletMap.getPane(paneName).style.zIndex = 250 + props.additionalLayersFreeZOrder;
         // console.log('xxx tried to createPane(paneName); ', leafletMap.getPane(paneName));
         setAdditionalLayerUniquePaneCreated(true);
       } else if (leafletMap && leafletMap.getPane(paneName)) {
@@ -42,17 +41,16 @@ export default function CismapLayer(props) {
         leafletMap.getPane(paneName).style.zIndex = 250 + props.additionalLayersFreeZOrder;
         setAdditionalLayerUniquePaneCreated(true);
       }
-
     }
-
-
   }, [routedMapRef, props.additionalLayerUniquePane, props.additionalLayersFreeZOrder]);
-
 
   if (props.type === undefined) {
     console.error("CismapLayer: type not set", props);
     return null;
-  } else if (props.additionalLayerUniquePane === undefined || (routedMapRef && additionalLayerUniquePaneCreated === true)) {
+  } else if (
+    props.additionalLayerUniquePane === undefined ||
+    (routedMapRef && additionalLayerUniquePaneCreated === true)
+  ) {
     let opacity = props.opacity;
     if (opacity === undefined || opacity === null) {
       opacity = 1;
@@ -78,11 +76,21 @@ export default function CismapLayer(props) {
         return <TileLayer {...params} />;
       }
       case "vector": {
-        let params = { ...defaults.vector, ...props, opacity, pane: paneName || "backgroundvectorLayers" };
+        let params = {
+          ...defaults.vector,
+          ...props,
+          opacity,
+          pane: paneName || "backgroundvectorLayers",
+        };
         return <MapLibreLayer {...params} />;
       }
       case "graphql": {
-        let params = { ...defaults.graphql, ...props, opacity, pane: paneName || "oneAboveBackgroundLayers" };
+        let params = {
+          ...defaults.graphql,
+          ...props,
+          opacity,
+          pane: paneName || "oneAboveBackgroundLayers",
+        };
         return <GraphqlLayer {...params} />;
       }
     }

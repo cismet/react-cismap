@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useLayoutEffect } from "react";
+import localforage from "localforage";
+import React, { useEffect } from "react";
 import { useImmer } from "use-immer";
 import { getInternetExplorerVersion } from "../tools/browserHelper";
-import localforage from "localforage";
 import { setFromLocalforage } from "./_helper";
 
 const StateContext = React.createContext();
@@ -175,7 +175,7 @@ const TopicMapStylingContextProvider = ({
 export default TopicMapStylingContextProvider;
 
 export {
-  TopicMapStylingContextProvider,
   StateContext as TopicMapStylingContext,
+  TopicMapStylingContextProvider,
   DispatchContext as TopicMapStylingDispatchContext,
 };

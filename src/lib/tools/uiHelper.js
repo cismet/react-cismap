@@ -1,16 +1,15 @@
-import React from "react";
-import IconLink from "../commons/IconLink";
-import slugify from "slugify";
-import { Link } from "react-scroll";
-import { Icon } from "react-fa";
-import Label from "react-bootstrap/Badge";
-import SVGInline from "react-svg-inline";
 import Color from "color";
 import createSVGPie from "create-svg-pie";
-import createElement from "svg-create-element";
 import L from "leaflet";
+import React from "react";
+import Label from "react-bootstrap/Badge";
+import { Icon } from "react-fa";
+import { Link } from "react-scroll";
+import SVGInline from "react-svg-inline";
+import slugify from "slugify";
+import createElement from "svg-create-element";
+import IconLink from "../commons/IconLink";
 import { DEFAULT_SVG } from "./svgHelper";
-import { CustomizationContext } from "../contexts/CustomizationContextProvider";
 
 export const getActionLinksForFeature = (
   feature,
@@ -103,7 +102,6 @@ export const getActionLinksForFeature = (
             onClick={genericLink.action}
             iconname={genericLink.iconname || "globe"}
             icon={genericLink.icon || undefined}
-
           />
         );
       }
@@ -204,9 +202,11 @@ export const getSymbolSVGGetter = (
                         }
                     /* ]]> */
                     </style>
-                <svg x="${svgSize / bdim.width / 2}" y="${svgSize / bdim.height / 2}"  width="${svgSize - (2 * svgSize) / bdim.width / 2
-      }" height="${svgSize - (2 * svgSize) / bdim.height / 2}" viewBox="0 0 ${bdim.width} ${bdim.height || 24
-      }">       
+                <svg x="${svgSize / bdim.width / 2}" y="${svgSize / bdim.height / 2}"  width="${
+      svgSize - (2 * svgSize) / bdim.width / 2
+    }" height="${svgSize - (2 * svgSize) / bdim.height / 2}" viewBox="0 0 ${bdim.width} ${
+      bdim.height || 24
+    }">       
                     ${svgCode}
                 </svg>
                 </svg>  `;

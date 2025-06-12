@@ -1,12 +1,10 @@
-import React, { useContext } from "react";
-import Icon from "../../commons/Icon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useContext } from "react";
 
-import meinStandpunktMarkerDoppel from "./MeinStandpunktMarkerDoppel.jpg";
-import meinStandpunktMarker from "./MeinStandpunktMarker.jpg";
-import meinStandpunktMarkerMitKompass from "./MeinStandpunktMarkerMitKompass.jpg";
-import { CustomizationContext } from "../../contexts/CustomizationContextProvider";
 import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
+import { CustomizationContext } from "../../contexts/CustomizationContextProvider";
+import meinStandpunktMarkerDoppel from "./MeinStandpunktMarkerDoppel.jpg";
+import meinStandpunktMarkerMitKompass from "./MeinStandpunktMarkerMitKompass.jpg";
 const GenericHelpTextForMyLocation = ({ defaultContextValues = {} }) => {
   const customizations = useContext(CustomizationContext) || defaultContextValues;
   let addendum = customizations?.genericHelpTextForMyLocation?.addendum || null;

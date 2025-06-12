@@ -1,24 +1,23 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 
-import { TopicMapContext } from "../../contexts/TopicMapContextProvider";
-import ProjSingleGeoJson from "../../XProjSingleGeoJson";
-import TopicMapComponent from "../../topicmaps/TopicMapComponent";
-import { getBoundsForFeatureCollection } from "../../tools/gisHelper";
+import L from "leaflet";
 import { FeatureCollectionDisplay, ProjGeoJson } from "../..";
 import { useWindowSize } from "../../contexts/ResponsiveTopicMapContextProvider";
+import { TopicMapContext } from "../../contexts/TopicMapContextProvider";
 import StyledWMSTileLayer from "../../StyledWMSTileLayer";
+import { md5FetchJSON } from "../../tools/fetching";
+import { getBoundsForFeatureCollection } from "../../tools/gisHelper";
+import TopicMapComponent from "../../topicmaps/TopicMapComponent";
 import MapLibreLayer from "../../vector/MapLibreLayer";
-import { rathaus } from "./ProjectorData";
+import ProjSingleGeoJson from "../../XProjSingleGeoJson";
 import "./blurredPaths.css";
-import L from "leaflet";
-import { Layer, useProjection } from "react-projection-mapping";
+import Controller from "./ProjectionMappingController";
+import { rathaus } from "./ProjectorData";
 import {
   createDividingLines,
   printedModelBounds,
   printedModelBounds25832,
 } from "./projectorHelper";
-import Controller from "./ProjectionMappingController";
-import { md5FetchJSON } from "../../tools/fetching";
 
 const Map = ({ broadcastChannel, configKey, dynamicMapStyle, inCalibration }) => {
   let fullScreenChange;

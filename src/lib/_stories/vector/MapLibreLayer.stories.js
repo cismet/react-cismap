@@ -1,10 +1,8 @@
 import Dexie from "dexie";
-import * as fflate from "fflate";
 import maplibreGl from "maplibre-gl";
 import React, { useEffect, useRef, useState } from "react";
 import { Map } from "react-leaflet";
 
-import { kassenzeichen } from "../_data/Editing.Storybook.data";
 import { MappingConstants } from "../..";
 import TopicMapContextProvider from "../../contexts/TopicMapContextProvider";
 import FeatureCollectionDisplay from "../../FeatureCollectionDisplay";
@@ -13,6 +11,7 @@ import StyledWMSTileLayer from "../../StyledWMSTileLayer";
 import { customOfflineFetch, loadAndCacheOfflineMapData } from "../../tools/offlineMapsHelper";
 import TopicMapComponent from "../../topicmaps/TopicMapComponent";
 import MapLibreLayer from "../../vector/MapLibreLayer";
+import { kassenzeichen } from "../_data/Editing.Storybook.data";
 import { getGazData } from "../complex/StoriesConf";
 import { layerStyleObject, offlineConfig } from "./offlineConfig";
 
@@ -44,7 +43,6 @@ export const SimpleMapLibreLayer = () => {
         // opacity={0.5}
         // accessToken={"dd"}
         showTileBoundaries={true}
-
         style="https://omt.map-hosting.de/styles/klokantech-basic/style.json"
         _style="http://localhost:888/styles/osm-bright/style.json"
       />

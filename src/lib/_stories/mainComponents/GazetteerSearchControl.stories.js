@@ -7,18 +7,10 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import TopicMapContextProvider from "../../contexts/TopicMapContextProvider";
-import FeatureCollection from "../../FeatureCollection";
 import GazetteerHitDisplay from "../../GazetteerHitDisplay";
 import GazetteerSearchComponent from "../../GazetteerSearchComponent";
 import { MappingConstants, RoutedMap } from "../../index";
 import ProjSingleGeoJson from "../../ProjSingleGeoJson";
-import StyledWMSTileLayer from "../../StyledWMSTileLayer";
-import { md5FetchText } from "../../tools/fetching";
-import { getGazDataForTopicIds } from "../../tools/gazetteerHelper";
-import { getClusterIconCreatorFunction } from "../../tools/uiHelper";
-import getGTMFeatureStyler from "../../topicmaps/generic/GTMStyler";
-import GenericInfoBoxFromFeature from "../../topicmaps/GenericInfoBoxFromFeature";
-import TopicMapComponent from "../../topicmaps/TopicMapComponent";
 import { storiesCategory } from "./StoriesConf";
 
 import { getGazData } from "../../_stories/complex/StoriesConf";

@@ -1,15 +1,14 @@
-import React, { useContext, useState } from "react";
-import PropTypes from "prop-types";
+import { faCog, faDownload, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useContext } from "react";
 import { Form } from "react-bootstrap";
-import { removeQueryPart, modifyQueryPart } from "../../tools/routingHelper";
+import { OfflineLayerCacheContext } from "../../contexts/OfflineLayerCacheContextProvider";
 import { TopicMapContext } from "../../contexts/TopicMapContextProvider";
 import {
   TopicMapStylingContext,
   TopicMapStylingDispatchContext,
 } from "../../contexts/TopicMapStylingContextProvider";
-import { OfflineLayerCacheContext } from "../../contexts/OfflineLayerCacheContextProvider";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faCog, faDownload, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { modifyQueryPart, removeQueryPart } from "../../tools/routingHelper";
 
 const OfflineStatus = ({ status, style }) => {
   // const [status, setStatus] = useState();

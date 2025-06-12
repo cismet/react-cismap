@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 
+import Button from "react-bootstrap/Button";
+import { Link } from "react-scroll";
+import GenericHelpTextForMyLocation from "../docBlocks/GenericHelpTextForMyLocation";
 import GenericModalApplicationMenu from "../menu/ModalApplicationMenu";
 import GenericModalMenuSection from "../menu/Section";
 import { storiesCategory } from "./StoriesConf";
-import { Link } from "react-scroll";
-import Button from "react-bootstrap/Button";
-import GenericHelpTextForMyLocation from "../docBlocks/GenericHelpTextForMyLocation";
 
 export default {
   title: storiesCategory + "ModalMenu",

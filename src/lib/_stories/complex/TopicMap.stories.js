@@ -1,16 +1,11 @@
 import { faSync } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import queryString from "query-string";
+import L from "leaflet";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Control from "react-leaflet-control";
 import { Link } from "react-scroll";
-import L from "leaflet";
 
-import { nordbahntrasse } from "../_data/Demo";
-import { kassenzeichen } from "../_data/Editing.Storybook.data";
-import uwz from "../_data/UWZ";
 import Icon from "../../commons/Icon";
 import {
   FeatureCollectionContext,
@@ -18,81 +13,70 @@ import {
 } from "../../contexts/FeatureCollectionContextProvider";
 import {
   TopicMapContext,
-  TopicMapDispatchContext,
   TopicMapContextProvider,
+  TopicMapDispatchContext,
 } from "../../contexts/TopicMapContextProvider";
+import { nordbahntrasse } from "../_data/Demo";
+import { kassenzeichen } from "../_data/Editing.Storybook.data";
+import uwz from "../_data/UWZ";
 
+import { faComment } from "@fortawesome/free-solid-svg-icons";
+import { BroadcastChannel } from "broadcast-channel";
+import { TileLayer } from "react-leaflet";
+import CismapLayer from "../../CismapLayer";
+import CrossTabCommunicationContextProvider from "../../contexts/CrossTabCommunicationContextProvider";
 import {
   TopicMapStylingContext,
   TopicMapStylingDispatchContext,
 } from "../../contexts/TopicMapStylingContextProvider";
-import { UIContext, UIDispatchContext } from "../../contexts/UIContextProvider";
+import { UIDispatchContext } from "../../contexts/UIContextProvider";
+import CrossTabCommunicationControl from "../../CrossTabCommunicationControl";
 import FeatureCollection from "../../FeatureCollection";
-import FeatureCollectionDisplay from "../../FeatureCollectionDisplay";
-import GazetteerHitDisplay from "../../GazetteerHitDisplay";
-import GazetteerSearchControl from "../../GazetteerSearchControl";
 import GazetteerSearchComponent from "../../GazetteerSearchComponent";
-import {
-  FeatureCollectionDisplayWithTooltipLabels,
-  MappingConstants,
-  RoutedMap,
-} from "../../index";
+import { FeatureCollectionDisplayWithTooltipLabels, MappingConstants } from "../../index";
 import NonTiledWMSLayer from "../../NonTiledWMSLayer";
+import PaleOverlay from "../../PaleOverlay";
 import ProjSingleGeoJson from "../../ProjSingleGeoJson";
 import StyledWMSTileLayer from "../../StyledWMSTileLayer";
 import { defaultLayerConf } from "../../tools/layerFactory";
 import LogConsole from "../../tools/LogConsole";
-import ConsoleLog from "../../tools/LogConsole";
-import { addSVGToProps, DEFAULT_SVG } from "../../tools/svgHelper";
+import { addSVGToProps } from "../../tools/svgHelper";
 import {
   getActionLinksForFeature,
   getClusterIconCreatorFunction,
   getSimpleHelpForTM,
 } from "../../tools/uiHelper";
 import { SimpleMenu } from "../../topicmaps/_stories/ModalMenu.stories";
-import ResponsiveInfoBox, { MODES } from "../../topicmaps/ResponsiveInfoBox";
 import ConfigurableDocBlocks from "../../topicmaps/ConfigurableDocBlocks";
 import getGTMFeatureStyler, { getColorFromProperties } from "../../topicmaps/generic/GTMStyler";
 import GenericInfoBoxFromFeature from "../../topicmaps/GenericInfoBoxFromFeature";
 import InfoBox from "../../topicmaps/InfoBox";
-import InfoBoxFotoPreview from "../../topicmaps/InfoBoxFotoPreview";
 import AppMenu from "../../topicmaps/menu/DefaultAppMenu";
 import DefaultSettingsPanel from "../../topicmaps/menu/DefaultSettingsPanel";
 import FilterPanel from "../../topicmaps/menu/FilterPanel";
 import GenericModalApplicationMenu from "../../topicmaps/menu/ModalApplicationMenu";
 import Section from "../../topicmaps/menu/Section";
+import ResponsiveInfoBox, { MODES } from "../../topicmaps/ResponsiveInfoBox";
 import SecondaryInfo from "../../topicmaps/SecondaryInfo";
 import SecondaryInfoPanelSection from "../../topicmaps/SecondaryInfoPanelSection";
 import TopicMapComponent from "../../topicmaps/TopicMapComponent";
 import MapLibreLayer from "../../vector/MapLibreLayer";
-import { getGazData, getGazData25387, host, storiesCategory } from "./StoriesConf";
-import { BroadcastChannel } from "broadcast-channel";
-import CrossTabCommunicationContextProvider, {
-  CrossTabCommunicationContext,
-} from "../../contexts/CrossTabCommunicationContextProvider";
-import CrossTabCommunicationControl from "../../CrossTabCommunicationControl";
-import { faComment } from "@fortawesome/free-solid-svg-icons";
-import CismapLayer from "../../CismapLayer";
-import { Rectangle, TileLayer } from "react-leaflet";
-import PaleOverlay from "../../PaleOverlay";
-import kanalStyle from "./layerstyles/kanal";
-import { select } from "@storybook/addon-knobs";
-import { createItemsDictionary } from "./helper/emob/createItemsDictionary";
-import { getFeatureStyler, getPoiClusterIconCreatorFunction } from "./helper/emob/styler";
 import convertItemToFeature from "./helper/emob/convertItemToFeature";
+import { createItemsDictionary } from "./helper/emob/createItemsDictionary";
 import { getGazData as getEmobGazData } from "./helper/emob/gazData";
-import { faInfo } from "@fortawesome/free-solid-svg-icons";
-import { faSquare } from "@fortawesome/free-regular-svg-icons";
+import { getFeatureStyler, getPoiClusterIconCreatorFunction } from "./helper/emob/styler";
+import kanalStyle from "./layerstyles/kanal";
+import { getGazData, getGazData25387, host, storiesCategory } from "./StoriesConf";
 
-import DefaultAppMenu from "../../topicmaps/menu/DefaultAppMenu";
-import ProjGeoJson from "../../ProjGeoJson";
-import proj4 from "proj4";
 import bbox from "@turf/bbox";
-import { crs3857, proj4crs3857def } from "../../constants/gis";
+import proj4 from "proj4";
+import { proj4crs3857def } from "../../constants/gis";
+import ProjGeoJson from "../../ProjGeoJson";
 import { convertBBox2Bounds } from "../../tools/gisHelper";
+import DefaultAppMenu from "../../topicmaps/menu/DefaultAppMenu";
 
-import ExtraMarker from "../../ExtraMarker";
 import { faFacebook } from "@fortawesome/free-brands-svg-icons";
+import ExtraMarker from "../../ExtraMarker";
 
 export default {
   title: storiesCategory + "TopicMapComponent",
@@ -481,7 +465,7 @@ export const SimpleTopicMapWithVectorLayerAndSelectionInfoBox = () => {
           ),
         },
       ];
-      console.log('selectedFeature', f);
+      console.log("selectedFeature", f);
 
       setSelectedFeature(f);
     } else {
@@ -610,7 +594,7 @@ export const SimpleTopicMapWithVectorLayerAndSelectionInfoBox = () => {
               maxSelectionCount: 10,
               selectionEnabled: selectionEnabled,
               zIndex: 900000,
-              initialVisualSelection: { source: "poi-source", sourceLayer: "poi", id: 143, },
+              initialVisualSelection: { source: "poi-source", sourceLayer: "poi", id: 143 },
               manualSelectionManagement: true,
               onSelectionClick: (e) => {
                 // console.log("xxx selectionClick", e);
@@ -715,7 +699,7 @@ export const SimpleTopicMapWithNewSelectionOnZoom = () => {
             selectionEnabled: selectionEnabled,
             manualSelectionManagement: true,
 
-            onSelectionClick: (e) => { },
+            onSelectionClick: (e) => {},
             onSelectionChanged: (e) => {
               console.log("xxx onSelectionChanged", e);
               setPos([e.newLngLat.lat, e.newLngLat.lng]);
@@ -840,7 +824,12 @@ export const MostSimpleTopicMapWithCustomLayerAnPaleOverlay = () => {
 export const MostSimpleTopicMapWithCismapLayer = () => {
   return (
     <TopicMapContextProvider>
-      <TopicMapComponent gazData={[]} backgroundlayers="empty" homeCenter={[51.27771, 7.1413124]} homeZoom={19}>
+      <TopicMapComponent
+        gazData={[]}
+        backgroundlayers="empty"
+        homeCenter={[51.27771, 7.1413124]}
+        homeZoom={19}
+      >
         <CismapLayer
           {...{
             type: "wmts",
@@ -1307,7 +1296,6 @@ export const SimpleTopicMapWithDefaulAppMenu = () => {
               _10_test: <div>test</div>,
             }}
             previewMapPosition="?lat=51.28057512270058&lng=7.216461896896363&zoom=15"
-
           ></DefaultAppMenu>
         }
         gazData={gazData}
@@ -1317,8 +1305,6 @@ export const SimpleTopicMapWithDefaulAppMenu = () => {
     </TopicMapContextProvider>
   );
 };
-
-
 
 export const SimpleTopicMapWithDefaulAppMenuAndReplacedMapPreview = () => {
   const [gazData, setGazData] = useState([]);
@@ -1331,7 +1317,9 @@ export const SimpleTopicMapWithDefaulAppMenuAndReplacedMapPreview = () => {
       <TopicMapComponent
         modalMenu={
           <DefaultAppMenu
-            getSymbolSVG={(size, color) => { return <img width={size} src="/svgs/pikto_e-mobil.svg" /> }}
+            getSymbolSVG={(size, color) => {
+              return <img width={size} src="/svgs/pikto_e-mobil.svg" />;
+            }}
             simpleHelp={{
               type: "MARKDOWN",
               content:
@@ -1345,20 +1333,18 @@ export const SimpleTopicMapWithDefaulAppMenuAndReplacedMapPreview = () => {
               _10_test: <div>test</div>,
             }}
             previewMapPosition="?lat=51.28057512270058&lng=7.216461896896363&zoom=15"
-            overridingMapPreview={<div style={{ height: 300, background: "orange" }}
-            >Map Preview</div>}
-
+            overridingMapPreview={
+              <div style={{ height: 300, background: "orange" }}>Map Preview</div>
+            }
           ></DefaultAppMenu>
         }
         gazData={gazData}
       >
         <FeatureCollection />
-      </TopicMapComponent >
-    </TopicMapContextProvider >
+      </TopicMapComponent>
+    </TopicMapContextProvider>
   );
 };
-
-
 
 export const SimpleTopicMapWithDefaulAppMenuAndAdditionalPreviewLayers = () => {
   const [gazData, setGazData] = useState([]);
@@ -1371,7 +1357,9 @@ export const SimpleTopicMapWithDefaulAppMenuAndAdditionalPreviewLayers = () => {
       <TopicMapComponent
         modalMenu={
           <DefaultAppMenu
-            getSymbolSVG={(size, color) => { return <img width={size} src="/svgs/pikto_e-mobil.svg" /> }}
+            getSymbolSVG={(size, color) => {
+              return <img width={size} src="/svgs/pikto_e-mobil.svg" />;
+            }}
             simpleHelp={{
               type: "MARKDOWN",
               content:
@@ -1385,28 +1373,30 @@ export const SimpleTopicMapWithDefaulAppMenuAndAdditionalPreviewLayers = () => {
               _10_test: <div>test</div>,
             }}
             previewMapPosition="?lat=51.28057512270058&lng=7.216461896896363&zoom=15"
-            previewChildren={(<>
-              <CismapLayer
-                {...{
-                  type: "vector",
-                  style: "https://tiles.cismet.de/poi/trinkwasserbrunnen.style.json",
-                  additionalLayerUniquePane: "trinkwasserbrunnen",
-                  opacity: 1,
-                  pane: "additionalLayers0",
-                  additionalLayersFreeZOrder: 10,
-                }}
-              />
-              <CismapLayer
-                {...{
-                  type: "vector",
-                  style: "https://tiles.cismet.de/bplanhintergrund/style.json",
-                  additionalLayerUniquePane: "bplan",
-                  opacity: 1,
-                  pane: "additionalLayers1",
-                  additionalLayersFreeZOrder: 9,
-                }}
-              />
-            </>)}
+            previewChildren={
+              <>
+                <CismapLayer
+                  {...{
+                    type: "vector",
+                    style: "https://tiles.cismet.de/poi/trinkwasserbrunnen.style.json",
+                    additionalLayerUniquePane: "trinkwasserbrunnen",
+                    opacity: 1,
+                    pane: "additionalLayers0",
+                    additionalLayersFreeZOrder: 10,
+                  }}
+                />
+                <CismapLayer
+                  {...{
+                    type: "vector",
+                    style: "https://tiles.cismet.de/bplanhintergrund/style.json",
+                    additionalLayerUniquePane: "bplan",
+                    opacity: 1,
+                    pane: "additionalLayers1",
+                    additionalLayersFreeZOrder: 9,
+                  }}
+                />
+              </>
+            }
           ></DefaultAppMenu>
         }
         gazData={gazData}
@@ -1944,7 +1934,7 @@ export const TopicMapWithWithSecondaryInfoSheet = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
-      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
       >
         <FeatureCollection />
       </TopicMapComponent>
@@ -2068,16 +2058,15 @@ const MyMenu = ({ sparseSettingsSectionsExtensions = [] }) => {
         <Section
           key="filter"
           sectionKey="filter"
-          sectionTitle={`Meine Klimastandorte (${filteredItems?.length || "0"
-            } Standorte gefunden, davon ${shownFeatures?.length || "0"} in der Karte)`}
+          sectionTitle={`Meine Klimastandorte (${
+            filteredItems?.length || "0"
+          } Standorte gefunden, davon ${shownFeatures?.length || "0"} in der Karte)`}
           sectionBsStyle="primary"
           sectionContent={<FilterPanel filterConfiguration={filterConfiguration} />}
         />,
         <DefaultSettingsPanel
           key="settings"
-
           sparseSettingsSectionsExtensions={sparseSettingsSectionsExtensions}
-
           titleCheckBoxlabel="Titel anzeigen (📝)"
           checkBoxSettingsSectionTitle="Einstellungen (📝)"
           // checkBoxSettingsSectionTitle={null}
@@ -2153,7 +2142,7 @@ export const TopicMapWithWithCustomSettings = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
-      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
       >
         <FeatureCollection />
       </TopicMapComponent>
@@ -2234,7 +2223,7 @@ export const TopicMapWithAdditionalLayers = () => {
                 };
                 return style;
               }}
-              featureClickHandler={() => { }}
+              featureClickHandler={() => {}}
             />
           ),
         },
@@ -2560,8 +2549,8 @@ export const TopicMapWithCrossTabCommunicationContextProvider = () => {
               fillOpacity: 0.3,
             }}
             masked={false}
-          // _maskingPolygon={maskingPolygon}
-          // _mapRef={leafletRoutedMapRef}
+            // _maskingPolygon={maskingPolygon}
+            // _mapRef={leafletRoutedMapRef}
           />
 
           <CrossTabCommunicationControl key="crosstabcomcontr" hideWhenNoSibblingIsPresent={true} />
@@ -2695,8 +2684,8 @@ export const RemoteControledTopicMap = () => {
             fillOpacity: 0.3,
           }}
           masked={false}
-        // _maskingPolygon={maskingPolygon}
-        // _mapRef={leafletRoutedMapRef}
+          // _maskingPolygon={maskingPolygon}
+          // _mapRef={leafletRoutedMapRef}
         />
       </TopicMapComponent>
     </TopicMapContextProvider>
@@ -2787,7 +2776,7 @@ export const TopicMapWithWithCustomSettingsAndOneAdditionlLayer = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
-      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
       >
         <FeatureCollection />
       </TopicMapComponent>
@@ -3266,22 +3255,22 @@ export const TopicMapWithWithFilterDrivenTitleBoxWithActivatedOverlayConsole = (
           />
         }
         secondaryInfo={<InfoPanel />}
-      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
-      // gazetteerHitTrigger={(hits) => {
-      //   if (Array.isArray(hits) && hits[0]?.more?.id) {
-      //     setSelectedFeatureByPredicate((feature) => {
-      //       try {
-      //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
-      //         if (check === true) {
-      //           zoomToFeature(feature);
-      //         }
-      //         return check;
-      //       } catch (e) {
-      //         return false;
-      //       }
-      //     });
-      //   }
-      // }}
+        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+        // gazetteerHitTrigger={(hits) => {
+        //   if (Array.isArray(hits) && hits[0]?.more?.id) {
+        //     setSelectedFeatureByPredicate((feature) => {
+        //       try {
+        //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
+        //         if (check === true) {
+        //           zoomToFeature(feature);
+        //         }
+        //         return check;
+        //       } catch (e) {
+        //         return false;
+        //       }
+        //     });
+        //   }
+        // }}
       >
         <FeatureCollection />
       </TopicMapComponent>
@@ -3487,22 +3476,22 @@ export const TopicMapWithWithFilterDrivenTitleBox = () => {
           />
         }
         secondaryInfo={<InfoPanel />}
-      // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
-      // gazetteerHitTrigger={(hits) => {
-      //   if (Array.isArray(hits) && hits[0]?.more?.id) {
-      //     setSelectedFeatureByPredicate((feature) => {
-      //       try {
-      //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
-      //         if (check === true) {
-      //           zoomToFeature(feature);
-      //         }
-      //         return check;
-      //       } catch (e) {
-      //         return false;
-      //       }
-      //     });
-      //   }
-      // }}
+        // secondaryInfoBoxElements={[<InfoBoxFotoPreview />]}
+        // gazetteerHitTrigger={(hits) => {
+        //   if (Array.isArray(hits) && hits[0]?.more?.id) {
+        //     setSelectedFeatureByPredicate((feature) => {
+        //       try {
+        //         const check = parseInt(feature.properties.standort.id) === hits[0].more.id;
+        //         if (check === true) {
+        //           zoomToFeature(feature);
+        //         }
+        //         return check;
+        //       } catch (e) {
+        //         return false;
+        //       }
+        //     });
+        //   }
+        // }}
       >
         <FeatureCollection />
       </TopicMapComponent>

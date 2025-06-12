@@ -4,16 +4,15 @@ import FeatureCollection from "../../FeatureCollection";
 import { getSimpleHelpForGenericTM } from "../../tools/genericTopicMapHelper";
 import getGTMFeatureStyler, { getColorFromProperties } from "../../topicmaps/generic/GTMStyler";
 import GenericInfoBoxFromFeature from "../../topicmaps/GenericInfoBoxFromFeature";
-import TopicMapComponent from "../../topicmaps/TopicMapComponent";
 import DefaultAppMenu from "../../topicmaps/menu/DefaultAppMenu";
-import Control from "react-leaflet-control";
-import { getGazData, storiesCategory } from "./StoriesConf";
+import TopicMapComponent from "../../topicmaps/TopicMapComponent";
 import CismetFooterAcks from "../../topicmaps/wuppertal/CismetFooterAcknowledgements";
+import { getGazData, storiesCategory } from "./StoriesConf";
 
 //--------  Config Files
-import * as wasserstoffConfig from "./config/wasserstoff/";
-import { getClusterIconCreatorFunction } from "../../tools/uiHelper";
 import IconComp from "../../commons/Icon";
+import { getClusterIconCreatorFunction } from "../../tools/uiHelper";
+import * as wasserstoffConfig from "./config/wasserstoff/";
 
 export default {
   title: storiesCategory + "GenericTopicMapComponent",
@@ -38,7 +37,6 @@ const {
 //   infoBoxConfig,
 //   simpleHelp,
 // } = parkscheinautomatenConfig;
-
 
 async function getConfig(slugName, configType, server, path) {
   try {
@@ -244,8 +242,9 @@ export const SimpleStaticGenericTopicMap_Wasserstofftankstelle = () => {
               previewMapPosition={config?.tm?.previewMapPosition}
               previewFeatureCollectionCount={config?.tm?.previewFeatureCollectionCount}
               introductionMarkdown={`Über **Einstellungen** können Sie die Darstellung der
-              Hintergrundkarte und ${config?.tm?.applicationMenuIntroductionTerm || " der Objekte"
-                } an Ihre 
+              Hintergrundkarte und ${
+                config?.tm?.applicationMenuIntroductionTerm || " der Objekte"
+              } an Ihre 
               Vorlieben anpassen. Wählen Sie **Kompaktanleitung** 
               für detailliertere Bedienungsinformationen.`}
               menuIcon={config?.tm?.applicationMenuIconname}
@@ -270,19 +269,11 @@ export const SimpleStaticGenericTopicMap_Wasserstofftankstelle = () => {
 };
 
 export const SimpleStaticGenericTopicMap_Parkscheinautomaten = () => {
-
-
-
-
-
   const [gazData, setGazData] = useState([]);
   const [initialized, setInitialized] = useState(false);
   const [config, setConfig] = useState({});
   useEffect(() => {
-
     (async () => {
-
-
       // const {
       //   configFromFile,
       //   featureDefaultProperties,
@@ -297,41 +288,19 @@ export const SimpleStaticGenericTopicMap_Parkscheinautomaten = () => {
       const slugName = "park";
       const config = await getConfig(slugName, "config", server, path);
 
-
       const featureDefaultProperties = await getConfig(
         slugName,
         "featureDefaultProperties",
         server,
-        path,
+        path
       );
-      const featureDefaults = await getConfig(
-        slugName,
-        "featureDefaults",
-        server,
-        path,
-      );
-      const helpTextBlocks = await getConfig(
-        slugName,
-        "helpTextBlocks",
-        server,
-        path,
-      );
-      const simpleHelpMd = await await getMarkdown(
-        slugName,
-        "simpleHelp",
-        server,
-        path,
-      );
-      const simpleHelp = await await getConfig(
-        slugName,
-        "simpleHelp",
-        server,
-        path,
-      );
+      const featureDefaults = await getConfig(slugName, "featureDefaults", server, path);
+      const helpTextBlocks = await getConfig(slugName, "helpTextBlocks", server, path);
+      const simpleHelpMd = await await getMarkdown(slugName, "simpleHelp", server, path);
+      const simpleHelp = await await getConfig(slugName, "simpleHelp", server, path);
       const infoBoxConfig = await getConfig(slugName, "infoBoxConfig", path);
       const features = await getConfig(slugName, "features", server, path);
       // const config = configFromFile;
-
 
       // if (helpTextBlocks !== undefined) {
       //   config.helpTextblocks = helpTextBlocks;
@@ -349,20 +318,13 @@ export const SimpleStaticGenericTopicMap_Parkscheinautomaten = () => {
       //   config.info = infoBoxConfig;
       // }
 
-
       if (helpTextBlocks !== undefined) {
         config.helpTextblocks = helpTextBlocks;
       } else if (simpleHelpMd !== undefined) {
         const simpleHelpObject = { type: "MARKDOWN", content: simpleHelpMd };
-        config.helpTextblocks = getSimpleHelpForGenericTM(
-          document.title,
-          simpleHelpObject,
-        );
+        config.helpTextblocks = getSimpleHelpForGenericTM(document.title, simpleHelpObject);
       } else {
-        config.helpTextblocks = getSimpleHelpForGenericTM(
-          document.title,
-          simpleHelp,
-        );
+        config.helpTextblocks = getSimpleHelpForGenericTM(document.title, simpleHelp);
       }
       if (features !== undefined) {
         config.features = features;
@@ -371,7 +333,6 @@ export const SimpleStaticGenericTopicMap_Parkscheinautomaten = () => {
       if (infoBoxConfig !== undefined) {
         config.info = infoBoxConfig;
       }
-
 
       const fc = [];
       let i = 0;
@@ -421,8 +382,9 @@ export const SimpleStaticGenericTopicMap_Parkscheinautomaten = () => {
               previewMapPosition={config?.tm?.previewMapPosition}
               previewFeatureCollectionCount={config?.tm?.previewFeatureCollectionCount}
               introductionMarkdown={`Über **Einstellungen** können Sie die Darstellung der
-              Hintergrundkarte und ${config?.tm?.applicationMenuIntroductionTerm || " der Objekte"
-                } an Ihre 
+              Hintergrundkarte und ${
+                config?.tm?.applicationMenuIntroductionTerm || " der Objekte"
+              } an Ihre 
               Vorlieben anpassen. Wählen Sie **Kompaktanleitung** 
               für detailliertere Bedienungsinformationen.`}
               menuIcon={config?.tm?.applicationMenuIconname}

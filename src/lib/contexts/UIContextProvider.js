@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useLayoutEffect } from "react";
-import { useImmer } from "use-immer";
 import localforage from "localforage";
+import React, { useEffect } from "react";
+import { useImmer } from "use-immer";
 import { setFromLocalforage } from "./_helper";
 const StateContext = React.createContext();
 const DispatchContext = React.createContext();
@@ -79,4 +79,4 @@ const UIContextProvider = ({ children, enabled = true, appKey, persistenceSettin
 };
 export default UIContextProvider;
 
-export { UIContextProvider, StateContext as UIContext, DispatchContext as UIDispatchContext };
+export { StateContext as UIContext, UIContextProvider, DispatchContext as UIDispatchContext };

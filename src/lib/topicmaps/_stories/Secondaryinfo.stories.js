@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
-import { storiesCategory } from "./StoriesConf";
-import { RoutedMap, MappingConstants } from "../..";
+import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
 import GenericSecondaryInfo from "../SecondaryInfo";
 import GenericSecondaryInfoPanelSection from "../SecondaryInfoPanelSection";
-import Button from "react-bootstrap/Button";
+import { storiesCategory } from "./StoriesConf";
 
 export default {
   title: storiesCategory + "SecondaryInfo",

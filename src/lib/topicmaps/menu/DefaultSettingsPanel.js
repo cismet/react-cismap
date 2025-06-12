@@ -1,34 +1,33 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
+import queryString from "query-string";
+import React, { useContext, useEffect, useState } from "react";
+import { removeQueryPart } from "../../tools/routingHelper";
 import Section from "./Section";
 import SettingsPanelWithPreviewSection from "./SettingsPanelWithPreviewSection";
-import { Map } from "react-leaflet";
-import queryString from "query-string";
-import { removeQueryPart, modifyQueryPart } from "../../tools/routingHelper";
 
-import { UIContext, UIDispatchContext } from "../../contexts/UIContextProvider";
-import { TopicMapContext } from "../../contexts/TopicMapContextProvider";
+import { Form } from "react-bootstrap";
+import { MappingConstants } from "../..";
+import { defaultClusteringOptions, getDefaultFeatureStyler } from "../../FeatureCollection";
+import FeatureCollectionDisplay from "../../FeatureCollectionDisplay";
 import {
   FeatureCollectionContext,
   FeatureCollectionDispatchContext,
 } from "../../contexts/FeatureCollectionContextProvider";
-import { MappingConstants } from "../..";
-import getLayersByName from "../../tools/layerFactory";
-import { Form, ToggleButton } from "react-bootstrap";
-import NamedMapStyleChooser from "./NamedMapStyleChooser";
-import SymbolSizeChooser from "./SymbolSizeChooser";
-import FeatureCollectionDisplay from "../../FeatureCollectionDisplay";
-import { ResponsiveTopicMapContext } from "../../contexts/ResponsiveTopicMapContextProvider";
-import {
-  TopicMapStylingContext,
-  TopicMapStylingDispatchContext,
-} from "../../contexts/TopicMapStylingContextProvider";
-import { getSymbolSVGGetter } from "../../tools/uiHelper";
-import { defaultClusteringOptions, getDefaultFeatureStyler } from "../../FeatureCollection";
-import PreviewMap from "./PreviewMap";
 import {
   OfflineLayerCacheContext,
   OfflineLayerCacheDispatchContext,
 } from "../../contexts/OfflineLayerCacheContextProvider";
+import { ResponsiveTopicMapContext } from "../../contexts/ResponsiveTopicMapContextProvider";
+import { TopicMapContext } from "../../contexts/TopicMapContextProvider";
+import {
+  TopicMapStylingContext,
+  TopicMapStylingDispatchContext,
+} from "../../contexts/TopicMapStylingContextProvider";
+import { UIContext, UIDispatchContext } from "../../contexts/UIContextProvider";
+import getLayersByName from "../../tools/layerFactory";
+import { getSymbolSVGGetter } from "../../tools/uiHelper";
+import NamedMapStyleChooser from "./NamedMapStyleChooser";
+import PreviewMap from "./PreviewMap";
+import SymbolSizeChooser from "./SymbolSizeChooser";
 
 const SettingsPanel = (props) => {
   const {
@@ -63,13 +62,13 @@ const SettingsPanel = (props) => {
     overridingMapPreview,
     previewChildren,
     previewMapKeyPostfix,
-    previewChildrenKey
+    previewChildrenKey,
   } = props;
 
   const { setAppMenuActiveMenuSection, setAppMenuVisible } =
     useContext(UIDispatchContext) || defaultContextValues;
   const { activeMenuSection } = useContext(UIContext) || defaultContextValues;
-  const { routedMapRef, history, referenceSystem, } =
+  const { routedMapRef, history, referenceSystem } =
     useContext(TopicMapContext) || defaultContextValues;
   const { setMarkerSymbolSize } =
     useContext(TopicMapStylingDispatchContext) || defaultContextValues;
@@ -157,7 +156,7 @@ const SettingsPanel = (props) => {
   let backgroundsFromMode;
   try {
     backgroundsFromMode = backgroundConfigurations[selectedBackground].layerkey;
-  } catch (e) { }
+  } catch (e) {}
 
   useEffect(() => {
     //uglyWinning : with variable using for mapPreveiw there are refresh Problems
@@ -188,58 +187,60 @@ const SettingsPanel = (props) => {
       }
     }
 
-    setMapPreview(overridingMapPreview || (
-      <PreviewMap
-        key={"map" + allFeatures?.length + selectedBackground + _namedMapStyle + previewMapKeyPostfix}
-        referenceSystem={referenceSystem || MappingConstants.crs25832}
-        style={{ height: 300 }}
-        center={{
-          lat: Number(previewMapLat),
-          lng: Number(previewMapLng),
-        }}
-        zoomControl={false}
-        doubleClickZoom={false}
-        attributionControl={false}
-        dragging={false}
-        keyboard={false}
-        zoom={Number(previewMapZoom)}
-        minZoom={Number(previewMapZoom)}
-        maxZoom={Number(previewMapZoom)}
-      >
-        <div key={"." + "JSON.stringify(activeAdditionalLayerKeys)" + "." + "offlineReadyToUse"}>
-          {getLayersByName(backgroundsFromMode, _namedMapStyle, undefined, baseLayerConf)}
-          {activeAdditionalLayerKeys !== undefined &&
-            activeAdditionalLayerKeys?.length > 0 &&
-            activeAdditionalLayerKeys.map((activekey, index) => {
-              if (additionalLayerConfiguration) {
-                const layerConf = additionalLayerConfiguration[activekey];
-                if (layerConf?.layer) {
-                  return layerConf.layer;
-                } else if (layerConf?.layerkey) {
-                  const layers = getLayersByName(layerConf.layerkey);
-                  return layers;
-                }
-              }
-            })}
-        </div>
-        <FeatureCollectionDisplay
-          key={"FeatureCollectionDisplayPreview." + _markerSymbolSize + clusteringEnabled}
-          featureCollection={previewFeatures}
-          clusteringEnabled={previewMapClusteringEnabled || clusteringEnabled}
-          clusterOptions={{
-            ...defaultClusteringOptions,
-            ...(previewMapClusteringOptions || clusteringOptions),
+    setMapPreview(
+      overridingMapPreview || (
+        <PreviewMap
+          key={
+            "map" + allFeatures?.length + selectedBackground + _namedMapStyle + previewMapKeyPostfix
+          }
+          referenceSystem={referenceSystem || MappingConstants.crs25832}
+          style={{ height: 300 }}
+          center={{
+            lat: Number(previewMapLat),
+            lng: Number(previewMapLng),
           }}
-          style={style}
-          featureStylerScalableImageSize={currentMarkerSize}
-          //mapRef={previewMapRef} // commented out because there cannot be a ref in a functional comp and it is bnot needed
-          showMarkerCollection={false}
-          {...previewFeatureCollectionDisplayProps}
-        />
-        <div key={previewChildrenKey}>
-          {previewChildren}
-        </div>
-      </PreviewMap>)
+          zoomControl={false}
+          doubleClickZoom={false}
+          attributionControl={false}
+          dragging={false}
+          keyboard={false}
+          zoom={Number(previewMapZoom)}
+          minZoom={Number(previewMapZoom)}
+          maxZoom={Number(previewMapZoom)}
+        >
+          <div key={"." + "JSON.stringify(activeAdditionalLayerKeys)" + "." + "offlineReadyToUse"}>
+            {getLayersByName(backgroundsFromMode, _namedMapStyle, undefined, baseLayerConf)}
+            {activeAdditionalLayerKeys !== undefined &&
+              activeAdditionalLayerKeys?.length > 0 &&
+              activeAdditionalLayerKeys.map((activekey, index) => {
+                if (additionalLayerConfiguration) {
+                  const layerConf = additionalLayerConfiguration[activekey];
+                  if (layerConf?.layer) {
+                    return layerConf.layer;
+                  } else if (layerConf?.layerkey) {
+                    const layers = getLayersByName(layerConf.layerkey);
+                    return layers;
+                  }
+                }
+              })}
+          </div>
+          <FeatureCollectionDisplay
+            key={"FeatureCollectionDisplayPreview." + _markerSymbolSize + clusteringEnabled}
+            featureCollection={previewFeatures}
+            clusteringEnabled={previewMapClusteringEnabled || clusteringEnabled}
+            clusterOptions={{
+              ...defaultClusteringOptions,
+              ...(previewMapClusteringOptions || clusteringOptions),
+            }}
+            style={style}
+            featureStylerScalableImageSize={currentMarkerSize}
+            //mapRef={previewMapRef} // commented out because there cannot be a ref in a functional comp and it is bnot needed
+            showMarkerCollection={false}
+            {...previewFeatureCollectionDisplayProps}
+          />
+          <div key={previewChildrenKey}>{previewChildren}</div>
+        </PreviewMap>
+      )
     );
   }, [
     allFeatures,
@@ -334,85 +335,90 @@ const SettingsPanel = (props) => {
     _pushNewRoute = history.push;
   }
 
-  const settingsSections = (
-    checkBoxSettingsSectionTitle
-    || (skipFilterTitleSettings === false && (itemFilterFunction || filterFunction))
-    || skipClusteringSettings === false
-    || (skipOfflineLayerSettings === false && offlineCacheConfig?.optional)) ? [
-    <Form>
-      {checkBoxSettingsSectionTitle &&
-        <>
-          <Form.Label>{checkBoxSettingsSectionTitle}</Form.Label>
-          <br />
-        </>}
-      {skipFilterTitleSettings === false && (itemFilterFunction || filterFunction) && (
-        <Form.Group>
-          <Form.Check
-            type="checkbox"
-            readOnly={true}
-            id={"title.checkbox"}
-            key={"title.checkbox" + titleDisplay}
-            checked={titleDisplay}
-            onChange={(e) => {
-              if (e.target.checked === false) {
-                _pushNewRoute(_urlPathname + removeQueryPart(_urlSearch, "title"));
-                setTitleDisplay(false);
-              } else {
-                _pushNewRoute(_urlPathname + (_urlSearch !== "" ? _urlSearch : "?") + "&title");
-                setTitleDisplay(true);
-              }
-            }}
-            label={titleCheckBoxlabel}
-          ></Form.Check>
-        </Form.Group>
-      )}
+  const settingsSections =
+    checkBoxSettingsSectionTitle ||
+    (skipFilterTitleSettings === false && (itemFilterFunction || filterFunction)) ||
+    skipClusteringSettings === false ||
+    (skipOfflineLayerSettings === false && offlineCacheConfig?.optional)
+      ? [
+          <Form>
+            {checkBoxSettingsSectionTitle && (
+              <>
+                <Form.Label>{checkBoxSettingsSectionTitle}</Form.Label>
+                <br />
+              </>
+            )}
+            {skipFilterTitleSettings === false && (itemFilterFunction || filterFunction) && (
+              <Form.Group>
+                <Form.Check
+                  type="checkbox"
+                  readOnly={true}
+                  id={"title.checkbox"}
+                  key={"title.checkbox" + titleDisplay}
+                  checked={titleDisplay}
+                  onChange={(e) => {
+                    if (e.target.checked === false) {
+                      _pushNewRoute(_urlPathname + removeQueryPart(_urlSearch, "title"));
+                      setTitleDisplay(false);
+                    } else {
+                      _pushNewRoute(
+                        _urlPathname + (_urlSearch !== "" ? _urlSearch : "?") + "&title"
+                      );
+                      setTitleDisplay(true);
+                    }
+                  }}
+                  label={titleCheckBoxlabel}
+                ></Form.Check>
+              </Form.Group>
+            )}
 
-      {skipClusteringSettings === false && (
-        <Form.Group>
-          <Form.Check
-            type="checkbox"
-            readOnly={true}
-            key={"clustered.checkbox-" + clusteringEnabled}
-            id={"clustered.checkbox"}
-            checked={clusteringEnabled}
-            onClick={(e) => {
-              // console.log("xxx onClick", e);
-            }}
-            onChange={(e) => {
-              if (e.target.checked === false) {
-                setClusteringEnabled(false);
-              } else {
-                setClusteringEnabled(true);
-              }
-            }}
-            label={checkBoxTextClustering}
-          />
-        </Form.Group>
-      )}
-      {skipOfflineLayerSettings === false && offlineCacheConfig?.optional && (
-        <Form.Group>
-          <Form.Check
-            type="checkbox"
-            readOnly={true}
-            key={"vectorLayerOfflineEnabled.checkbox-" + vectorLayerOfflineEnabled}
-            id={"vectorLayerOfflineEnabled.checkbox"}
-            checked={vectorLayerOfflineEnabled}
-            onClick={(e) => {
-              // console.log("xxx onClick", e);
-            }}
-            onChange={(e) => {
-              if (e.target.checked === false) {
-                setVectorLayerOfflineEnabled(false);
-              } else {
-                setVectorLayerOfflineEnabled(true);
-              }
-            }}
-            label="Vektorlayer offline verfügbar machen"
-          />
-        </Form.Group>
-      )}
-    </Form>,
-  ] : [];
+            {skipClusteringSettings === false && (
+              <Form.Group>
+                <Form.Check
+                  type="checkbox"
+                  readOnly={true}
+                  key={"clustered.checkbox-" + clusteringEnabled}
+                  id={"clustered.checkbox"}
+                  checked={clusteringEnabled}
+                  onClick={(e) => {
+                    // console.log("xxx onClick", e);
+                  }}
+                  onChange={(e) => {
+                    if (e.target.checked === false) {
+                      setClusteringEnabled(false);
+                    } else {
+                      setClusteringEnabled(true);
+                    }
+                  }}
+                  label={checkBoxTextClustering}
+                />
+              </Form.Group>
+            )}
+            {skipOfflineLayerSettings === false && offlineCacheConfig?.optional && (
+              <Form.Group>
+                <Form.Check
+                  type="checkbox"
+                  readOnly={true}
+                  key={"vectorLayerOfflineEnabled.checkbox-" + vectorLayerOfflineEnabled}
+                  id={"vectorLayerOfflineEnabled.checkbox"}
+                  checked={vectorLayerOfflineEnabled}
+                  onClick={(e) => {
+                    // console.log("xxx onClick", e);
+                  }}
+                  onChange={(e) => {
+                    if (e.target.checked === false) {
+                      setVectorLayerOfflineEnabled(false);
+                    } else {
+                      setVectorLayerOfflineEnabled(true);
+                    }
+                  }}
+                  label="Vektorlayer offline verfügbar machen"
+                />
+              </Form.Group>
+            )}
+          </Form>,
+        ]
+      : [];
   if (skipBackgroundSettings === false) {
     settingsSections.push(
       <NamedMapStyleChooser
@@ -439,17 +445,12 @@ const SettingsPanel = (props) => {
     );
   }
 
-
   for (let i = 0; i < sparseSettingsSectionsExtensions.length; i++) {
     const element = sparseSettingsSectionsExtensions[i];
     if (element) {
       settingsSections.splice(i, 0, element);
     }
-
   }
-
-
-
 
   return (
     <Section
