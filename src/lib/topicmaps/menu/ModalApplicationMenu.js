@@ -20,6 +20,7 @@ const GenericModalApplicationMenu = ({
   visible,
   setVisible,
   activeSectionKey,
+  modalTitleStyle,
 }) => {
   const { appMenuVisible, activeMenuSection } = useContext(UIContext);
   const { setAppMenuVisible, setAppMenuActiveMenuSection } = useContext(UIDispatchContext);
@@ -63,7 +64,7 @@ const GenericModalApplicationMenu = ({
       keyboard={false}
     >
       <Modal.Header>
-        <Modal.Title>
+        <Modal.Title style={modalTitleStyle}>
           <Icon name={menuIcon} /> {menuTitle}
         </Modal.Title>
       </Modal.Header>
