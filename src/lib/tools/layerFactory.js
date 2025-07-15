@@ -313,15 +313,13 @@ export const defaultLayerConf = {
     },
     "wupp-plan-live-tiles-3857": {
       type: "tiles",
-      url:
-        "https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_light&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}",
+      url: "https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_light&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}",
       maxNativeZoom: 20,
       maxZoom: 22,
     },
     "rvrGrau-tiles-3857": {
       type: "tiles",
-      url:
-        "https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_graublau&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}",
+      url: "https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_graublau&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}",
       maxNativeZoom: 20,
       maxZoom: 22,
     },
@@ -376,6 +374,12 @@ export const defaultLayerConf = {
       url: "https://wunda-geoportal-cache.cismet.de/geoportal",
       layers: "R102:trueortho202010",
     },
+    fasttrueOrtho2024: {
+      type: "wms",
+      url: "https://geo.udsp.wuppertal.de/geoserver-cloud/ows",
+      layers: "GIS-102:trueortho2024",
+      transparent: true,
+    },
     hillshadeCached: {
       type: "wms",
       url: "https://wunda-geoportal-cache.cismet.de/geoportal",
@@ -383,8 +387,7 @@ export const defaultLayerConf = {
     },
     ESRILayer: {
       type: "tiles",
-      url:
-        "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      url: "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       maxZoom: 22,
       maxNativeZoom: 18,
     },
