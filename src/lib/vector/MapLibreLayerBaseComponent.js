@@ -92,10 +92,15 @@ class MaplibreGlLayer extends GridLayer {
           if (this.mapLibreMap && this.props.selectionEnabled === true) {
             const hits = this.mapLibreMap.queryRenderedFeatures(rect);
             const filteredHits = hits.filter((hit) => {
-              //hit.layer.id should not contain selection
-              return !hit.layer.id.includes("selection");
+              // with this we are removing all nonSelectable features 
+              // or features that are only there for selection visualization (selection in the name)
+              return !hit.layer.id.includes("selection")
+                || hit?.layer?.metadata?.carmaConf?.nonSelectable;
+
             });
             // console.log("xxx filteredHits", filteredHits);
+
+            // console.log('hits vs filtered hits', { hits, filteredHits });
 
             // Deselect all selected features first
             this.selectedFeatures.forEach((feature) => {
@@ -118,16 +123,33 @@ class MaplibreGlLayer extends GridLayer {
 
               const normalizedLimitedHits = [];
               limitedHits.forEach((hit) => {
-                const setSelection = (selected) => {
+
+                const setSelection = (selected, sourceLayer) => {
+                  let _sourceLayer;
+                  if (sourceLayer === undefined) {
+                    _sourceLayer = hit.sourceLayer
+                  }
+                  else {
+                    _sourceLayer = sourceLayer;
+                  }
                   this.mapLibreMap.setFeatureState(
-                    { source: hit.source, sourceLayer: hit.sourceLayer, id: hit.id },
+                    { source: hit.source, sourceLayer: _sourceLayer, id: hit.id },
                     { selected }
                   );
                   this.selectedFeatures.add({
                     source: hit.source,
-                    sourceLayer: hit.sourceLayer,
+                    sourceLayer: _sourceLayer,
                     id: hit.id,
                   });
+                  const carmaConf = hit?.layer?.metadata?.carmaConf;
+                  if (sourceLayer === undefined && carmaConf) {
+                    for (const target of carmaConf.selectionForwardingTo || []) {
+                      if (target !== _sourceLayer) {
+                        setSelection(true, target);
+                      }
+                    }
+                  }
+
                 };
 
                 if (manualSelectionManagement === false) {
@@ -136,7 +158,6 @@ class MaplibreGlLayer extends GridLayer {
                   hit.setSelection = setSelection;
                   hit.selectionLayerExists = this.selectionLayerExists;
                 }
-
                 //add hit to normalizedLimitedHits if an object with the id isn't already in the array
                 if (!normalizedLimitedHits.some((e) => e.id === hit.id)) {
                   normalizedLimitedHits.push(hit);
@@ -144,20 +165,26 @@ class MaplibreGlLayer extends GridLayer {
               });
 
               if (normalizeFeatureHitsById) {
-                props.onSelectionChanged({
-                  hits: normalizedLimitedHits,
-                  hit: normalizedLimitedHits[0],
-                  latlng: e.latlng,
-                });
+                if (props.onSelectionChanged) {
+                  props.onSelectionChanged({
+                    hits: normalizedLimitedHits,
+                    hit: normalizedLimitedHits[0],
+                    latlng: e.latlng,
+                  });
+                }
               } else {
-                props.onSelectionChanged({
-                  hits: limitedHits,
-                  hit: limitedHits[0],
-                  latlng: e.latlng,
-                });
+                if (props.onSelectionChanged) {
+                  props.onSelectionChanged({
+                    hits: limitedHits,
+                    hit: limitedHits[0],
+                    latlng: e.latlng,
+                  });
+                }
               }
             } else {
-              props.onSelectionChanged({ hits: undefined, hit: undefined, latlng: e.latlng });
+              if (props.onSelectionChanged) {
+                props.onSelectionChanged({ hits: undefined, hit: undefined, latlng: e.latlng });
+              }
               // console.log("No features found at the click location.");
             }
           }
@@ -193,8 +220,20 @@ class MaplibreGlLayer extends GridLayer {
 
   _addLayer({ layer }, props) {
     const mlMap = layer.getMaplibreMap();
+    if (props.logMapLibreErrors) {
+      mlMap.on("error", (e) => {
+        console.error("...Maplibre Map error:", e.error || e);
+      });
+
+      mlMap.on("style.loaderror", (e) => {
+        console.error("...Maplibre Style load error:", e.error || e);
+      });
+    }
+
+
     mlMap.showTileBoundaries = props.showTileBoundaries || false;
     // mlMap.showCollisionBoxes = true;
+
 
     if (props.onStyleIdle) {
       mlMap.on("idle", (e) => {
@@ -210,7 +249,9 @@ class MaplibreGlLayer extends GridLayer {
     mlMap.on("load", () => {
       this.mapLibreMap = mlMap;
       const style = mlMap.getStyle();
-
+      if (props.logMapLibreStyle) {
+        console.log('...Maplibre Style', JSON.stringify(style, null, 2));
+      }
 
       if (this.props.initialVisualSelection) {
         this.mapLibreMap.setFeatureState(
@@ -223,11 +264,9 @@ class MaplibreGlLayer extends GridLayer {
         //   hit: this.props.initialVisualSelection,
         // });
       }
-
-
       //check if a layer in the style has the word "selection" in its id
       this.selectionLayerExists = style.layers.some((layer) => {
-        return layer.id.includes("selection");
+        return layer.id.includes("selection") || layer?.metadata?.carmaConf?.selectionForwardingTo || layer?.metadata?.carmaConf?.selectable;
       });
 
       this._onViewChanged();
