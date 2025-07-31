@@ -77,7 +77,7 @@ import DefaultAppMenu from "../../topicmaps/menu/DefaultAppMenu";
 
 import { faFacebook } from "@fortawesome/free-brands-svg-icons";
 import ExtraMarker from "../../ExtraMarker";
-import { alkis_flurstuecke_style, alkis_flurstuecke_style_original } from "../_data/VectorStyles";
+import { alkis_flurstuecke_style, alkis_flurstuecke_style_original, allBlack } from "../_data/VectorStyles";
 import StyledTileLayer from "../../StyledTileLayer";
 
 export default {
@@ -637,10 +637,11 @@ export const SimpleTopicMapWithLocalVectorLayerAndSelectionInfoBox = () => {
   // Line 485 resets the selectedFeature when the second layer has no hits
 
   const onSelectionChanged = (e) => {
+    let selectedFeature;
     if (e.hits) {
       e.hits.forEach((hit, i) => {
         if (i === 0) {
-          const selectedFeature = hit;
+          selectedFeature = hit;
           hit.setSelection(true);
         } else {
           hit.setSelection(false);
@@ -679,7 +680,7 @@ export const SimpleTopicMapWithLocalVectorLayerAndSelectionInfoBox = () => {
       //     ),
       //   },
       // ];
-      console.log("selectedFeature", selectedFeature);
+      console.log("selectedFeature", JSON.stringify(selectedFeature.properties, null, 2));
 
       // setSelectedFeature(selectedFeature);
     } else {
@@ -714,9 +715,10 @@ export const SimpleTopicMapWithLocalVectorLayerAndSelectionInfoBox = () => {
         <CismapLayer
           {...{
             type: "vector",
-            style: "https://tiles.cismet.de/alkis/flurstuecke.style.json",
+            // style: "https://tiles.cismet.de/alkis/flurstuecke.style.json",
             // style: "https://tiles.cismet.de/test/style.json",
-            //style: alkis_flurstuecke_style,
+            style: alkis_flurstuecke_style,
+            // style: allBlack,
             // style: "https://tiles.cismet.de/apotheken/style.json",
             // style: alkis_flurstuecke_style_original,
             // style: "https://tiles.kg6.cismet.de/kanal_kb_abschnitte/style.json",
@@ -743,12 +745,12 @@ export const SimpleTopicMapWithLocalVectorLayerAndSelectionInfoBox = () => {
           }}
         />
 
-        <StyledTileLayer
+        {/* <StyledTileLayer
           maxNativeZoom={20}
           maxZoom={22}
           url={`https://geodaten.metropoleruhr.de/spw2?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=spw2_light&STYLE=default&FORMAT=image/png&TILEMATRIXSET=webmercator_hq&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`}
           cssFilter="filter:grayscale(0.9)brightness(0.9)invert(1)"
-        />
+        /> */}
       </TopicMapComponent>
     </TopicMapContextProvider>
   );
