@@ -638,14 +638,14 @@ export const SimpleTopicMapWithLocalVectorLayerAndSelectionInfoBox = () => {
 
   const onSelectionChanged = (e) => {
     if (e.hits) {
-      // e.hits.forEach((hit) => {
-      //   if (hit.setSelection) {
-      //     hit.setSelection(true);
-      //   }
-      // });
-      const selectedFeature = e.hits[0];
-      const hit = e.hits[0];
-      hit.setSelection(true);
+      e.hits.forEach((hit, i) => {
+        if (i === 0) {
+          const selectedFeature = hit;
+          hit.setSelection(true);
+        } else {
+          hit.setSelection(false);
+        }
+      });
 
 
 
@@ -714,8 +714,9 @@ export const SimpleTopicMapWithLocalVectorLayerAndSelectionInfoBox = () => {
         <CismapLayer
           {...{
             type: "vector",
+            style: "https://tiles.cismet.de/alkis/flurstuecke.style.json",
             // style: "https://tiles.cismet.de/test/style.json",
-            style: alkis_flurstuecke_style,
+            //style: alkis_flurstuecke_style,
             // style: "https://tiles.cismet.de/apotheken/style.json",
             // style: alkis_flurstuecke_style_original,
             // style: "https://tiles.kg6.cismet.de/kanal_kb_abschnitte/style.json",
