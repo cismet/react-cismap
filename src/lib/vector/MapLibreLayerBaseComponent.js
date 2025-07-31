@@ -124,6 +124,25 @@ class MaplibreGlLayer extends GridLayer {
               const normalizedLimitedHits = [];
               limitedHits.forEach((hit) => {
                 hit.properties.carmaInfo = { ...(hit?.layer?.metadata?.carmaConf || {}), sourceLayer: hit.sourceLayer };
+                // console.log('propertyTarget', hit?.layer?.metadata?.carmaConf.propertyTarget, hit.id);
+                const propTarg = hit?.layer?.metadata?.carmaConf.propertyTarget;
+
+                if (propTarg) {
+                  const propTargs = propTarg.split(".");
+                  const propertyTargetSource = propTargs[0];
+                  const propertyTargetSourceLayer = propTargs[1];
+
+                  const propertyTargets = this.mapLibreMap.querySourceFeatures(
+                    propertyTargetSource,
+                    {
+                      sourceLayer: propertyTargetSourceLayer,
+                      filter: ["==", ["get", "fid"], hit.id]
+                    });
+                  const targetProperties = propertyTargets[0]?.properties;
+                  // console.log('targetProperties', targetProperties);
+
+                  hit.properties.targetProperties = targetProperties;
+                }
                 const setSelection = (selected, sourceLayer) => {
                   let _sourceLayer;
                   if (sourceLayer === undefined) {
@@ -149,7 +168,6 @@ class MaplibreGlLayer extends GridLayer {
                       }
                     }
                   }
-
                 };
 
                 if (manualSelectionManagement === false) {
