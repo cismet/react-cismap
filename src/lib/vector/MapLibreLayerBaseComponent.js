@@ -123,7 +123,7 @@ class MaplibreGlLayer extends GridLayer {
 
               const normalizedLimitedHits = [];
               limitedHits.forEach((hit) => {
-
+                hit.properties.carmaInfo = { ...(hit?.layer?.metadata?.carmaConf || {}), sourceLayer: hit.sourceLayer };
                 const setSelection = (selected, sourceLayer) => {
                   let _sourceLayer;
                   if (sourceLayer === undefined) {
@@ -145,7 +145,7 @@ class MaplibreGlLayer extends GridLayer {
                   if (sourceLayer === undefined && carmaConf) {
                     for (const target of carmaConf.selectionForwardingTo || []) {
                       if (target !== _sourceLayer) {
-                        setSelection(true, target);
+                        setSelection(selected, target);
                       }
                     }
                   }
