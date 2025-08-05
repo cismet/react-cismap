@@ -31,6 +31,7 @@ import {
   faUser,
   faBicycle,
   faSquare,
+  faShoppingCart,
 } from "@fortawesome/free-solid-svg-icons";
 import { faFilePdf, faFile as faFileReg } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -87,6 +88,7 @@ export const nameMap = {
   "file-o": faFileReg,
   cloudscale: faCloudscale,
   square: faSquare,
+  "shopping-cart": faShoppingCart,
 };
 
 const IconComp = (props) => {
