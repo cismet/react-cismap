@@ -362,8 +362,8 @@ export class RoutedMap extends React.Component {
       }
     };
 
-    //Do stuff after panning is over
-    map.on("moveend", () => {
+    //Do stuff after panning or zooming is over
+    map.on("moveend zoomend", () => {
       generalMoveendHandler();
     });
 
