@@ -60,7 +60,7 @@
 		"flatbush": "^3.3.0",
 		"geotiff": "0.4.1",
 		"history": "^5.0.0",
-		"html-react-parser": "^5.2.6",
+		"html-react-parser": "3.0.15",
 		"immer": "^8.0.1",
 		"kdbush": "^3.0.0",
 		"leaflet": "^1.6.0",
