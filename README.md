@@ -32,7 +32,7 @@ Map icon from http://www.kameleon.pics/free-icons-pack.html
 
 Make sure to use node v16.18.1
 
-1. If on never version use nvm or your node version manager to switch to node v16.18.
+1. If on newer version use nvm or your node version manager to switch to node v16.18.
 ```bash
 nvm use v16.18.1
 ```
