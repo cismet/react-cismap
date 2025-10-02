@@ -110,10 +110,10 @@ const GenericModalApplicationMenu = ({
 export default GenericModalApplicationMenu;
 GenericModalApplicationMenu.propTypes = {
   menuIcon: PropTypes.string,
-  menuTitle: PropTypes.string,
-  menuIntroduction: PropTypes.object,
-  menuSections: PropTypes.array,
-  menuFooter: PropTypes.object,
+  menuTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  menuIntroduction: PropTypes.node,
+  menuSections: PropTypes.arrayOf(PropTypes.node),
+  menuFooter: PropTypes.node,
 
   uiStateActions: PropTypes.object,
   uiState: PropTypes.object,

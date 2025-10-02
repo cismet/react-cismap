@@ -25,3 +25,26 @@ Please don't use it till the version number will go significally over 1.
 --------
 
 Map icon from http://www.kameleon.pics/free-icons-pack.html 
+
+## Development setup
+
+### Prerequisites
+
+Make sure to use node v16.18.1
+
+1. If on never version use nvm or your node version manager to switch to node v16.18.
+```bash
+nvm use v16.18.1
+```
+
+2. restart corepack to work with node v16.18.
+
+```bash
+corepack disable && corepack enable
+```
+
+### Installation
+
+1. clone the repository
+2. install with `yarn install`
+3. run `yarn storybook` for testing

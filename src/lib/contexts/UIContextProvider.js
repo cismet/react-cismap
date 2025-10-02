@@ -12,7 +12,7 @@ const defaultState = {
   menuCounter: 0,
 };
 
-const UIContextProvider = ({ children, enabled = true, appKey, persistenceSettings }) => {
+const UIContextProvider = ({ children, enabled = true, appKey, persistenceSettings = {} }) => {
   const contextKey = "ui";
   const set = (prop, noTest) => {
     return (x) => {
