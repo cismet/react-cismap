@@ -31,7 +31,7 @@ const ResponsiveTopicMapContextProvider = ({
   children,
   enabled = true,
   appKey,
-  persistenceSettings,
+  persistenceSettings = {},
   infoBoxPixelWidth = 300,
   searchBoxPixelWidth = 300,
 }) => {

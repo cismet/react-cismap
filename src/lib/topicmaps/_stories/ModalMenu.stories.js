@@ -2,6 +2,10 @@ import React, { useState } from "react";
 
 import Button from "react-bootstrap/Button";
 import { Link } from "react-scroll";
+
+import UIContextProvider from "../../contexts/UIContextProvider";
+import ResponsiveTopicMapContextProvider from "../../contexts/ResponsiveTopicMapContextProvider";
+
 import GenericHelpTextForMyLocation from "../docBlocks/GenericHelpTextForMyLocation";
 import GenericModalApplicationMenu from "../menu/ModalApplicationMenu";
 import GenericModalMenuSection from "../menu/Section";
@@ -9,6 +13,15 @@ import { storiesCategory } from "./StoriesConf";
 
 export default {
   title: storiesCategory + "ModalMenu",
+  decorators: [
+    (Story) => (
+      <UIContextProvider>
+        <ResponsiveTopicMapContextProvider>
+          <Story />
+        </ResponsiveTopicMapContextProvider>
+      </UIContextProvider>
+    ),
+  ],
 };
 export const SimpleMenu = () => {
   const [activeSectionKey, setActiveActionKey] = useState("A");
