@@ -112,7 +112,7 @@ GenericModalApplicationMenu.propTypes = {
   menuIcon: PropTypes.string,
   menuTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   menuIntroduction: PropTypes.node,
-  menuSections: PropTypes.arrayOf(PropTypes.node),
+  menuSections: PropTypes.oneOfType([PropTypes.array, PropTypes.node]),
   menuFooter: PropTypes.node,
 
   uiStateActions: PropTypes.object,
