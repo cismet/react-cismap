@@ -111,7 +111,7 @@ if (window.location.pathname === "/follower") {
       {/* <TopicMapsExamples.SimpleMutedTopicMap /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCismapLayer /> */}
       {/* <TopicMapsExamples.SimpleTopicMapWithVectorLayerAndSelectionInfoBox /> */}
-      <TopicMapsExamples.SimpleTopicMapWithLocalVectorLayerAndSelectionInfoBox />
+      {/* <TopicMapsExamples.SimpleTopicMapWithLocalVectorLayerAndSelectionInfoBox /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithAllCismapLayers /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithInfoBoxComponent /> */}
       {/* <TopicMapsExamples.MostSimpleTopicMapWithCustomLayer /> */}
@@ -164,6 +164,8 @@ if (window.location.pathname === "/follower") {
       {/* <MapLibreExamples.SimpleTopicMapWithMapLibreLayer /> */}
       {/* <MapLibreExamples.SimpleMapLibreLayerWithLocalStyle /> */}
       {/* <MapLibreExamples.SimpleMapLibreLayerWithAttribution /> */}
+      <MapLibreExamples.SimpleMapLibreLayerWithMapLibreCallback />
+
       {/* <MapLibreExamples.SimpleMapLibreLayerWithCustomProtocol /> */}
       {/* <AnimationExamples.SimpleWuppertal25832 /> */}
       {/* <AnimationExamples.SimpleWuppertal3857 /> */}

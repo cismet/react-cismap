@@ -422,6 +422,207 @@ export const SimpleMapLibreLayerWithAttribution = () => {
   );
 };
 
+export const SimpleMapLibreLayerWithMapLibreCallback = () => {
+  const position = [51.2720151, 7.2000203134];
+  const [radius, setRadius] = useState(5);
+  const radiusRef = useRef(radius);
+  const mapRef = useRef(null);
+
+  // Keep ref in sync with state
+  useEffect(() => {
+    radiusRef.current = radius;
+  }, [radius]);
+
+  return (
+    <div>
+      <div style={{ 
+        position: 'absolute', 
+        top: 10, 
+        right: 10, 
+        zIndex: 1000, 
+        background: 'white', 
+        padding: '10px 15px', 
+        borderRadius: '4px',
+        boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+      }}>
+        <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+          Query Radius: {radius}px
+        </label>
+        <input 
+          type="range" 
+          min="1" 
+          max="50" 
+          value={radius} 
+          onChange={(e) => setRadius(Number(e.target.value))}
+          style={{ width: '200px' }}
+        />
+      </div>
+      
+      <Map ref={mapRef} style={mapStyle} center={position} zoom={18} maxZoom={25}>
+
+        <MapLibreLayer
+          style="https://omt.map-hosting.de/styles/klokantech-basic/style.json"
+          onMapLibreCoreMapReady={(maplibreMap) => {
+            console.log("xxx maplibreMap", maplibreMap);
+            
+            // Get the Leaflet map from the ref
+            const leafletMap = mapRef.current?.leafletElement;
+            
+            // Add a source for highlighting features
+            maplibreMap.addSource('highlight', {
+              type: 'geojson',
+              data: {
+                type: 'FeatureCollection',
+                features: []
+              }
+            });
+            
+            // Add a source for the radius circle
+            maplibreMap.addSource('radius-circle', {
+              type: 'geojson',
+              data: {
+                type: 'FeatureCollection',
+                features: []
+              }
+            });
+          
+          // Add layers for different geometry types
+          // Highlight polygons/fills
+          maplibreMap.addLayer({
+            id: 'highlight-fill',
+            type: 'fill',
+            source: 'highlight',
+            filter: ['==', ['geometry-type'], 'Polygon'],
+            paint: {
+              'fill-color': '#ff0000',
+              'fill-opacity': 0.3
+            }
+          });
+          
+          // Highlight lines
+          maplibreMap.addLayer({
+            id: 'highlight-line',
+            type: 'line',
+            source: 'highlight',
+            filter: ['==', ['geometry-type'], 'LineString'],
+            paint: {
+              'line-color': '#ff0000',
+              'line-width': 3
+            }
+          });
+          
+          // Highlight points
+          maplibreMap.addLayer({
+            id: 'highlight-point',
+            type: 'circle',
+            source: 'highlight',
+            filter: ['==', ['geometry-type'], 'Point'],
+            paint: {
+              'circle-radius': 8,
+              'circle-color': '#ff0000',
+              'circle-opacity': 0.5,
+              'circle-stroke-width': 2,
+              'circle-stroke-color': '#ffffff'
+            }
+          });
+          
+          // Add radius circle visualization layer
+          maplibreMap.addLayer({
+            id: 'radius-circle-layer',
+            type: 'circle',
+            source: 'radius-circle',
+            paint: {
+              'circle-radius': radiusRef.current,
+              'circle-color': '#ffffff',
+              'circle-opacity': 0.2,
+              'circle-stroke-width': 2,
+              'circle-stroke-color': '#ffffff',
+              'circle-stroke-opacity': 0.5
+            }
+          });
+
+          leafletMap.on('mousemove', (e) => {
+            // Get the MapLibre canvas position relative to the page
+            const canvas = maplibreMap.getCanvas();
+            const rect = canvas.getBoundingClientRect();
+            
+            // Calculate the mouse position relative to the MapLibre canvas
+            const point = {
+              x: e.originalEvent.clientX - rect.left,
+              y: e.originalEvent.clientY - rect.top
+            };
+            
+            // Get current radius from ref
+            const currentRadius = radiusRef.current;
+            
+            // Update radius circle position
+            maplibreMap.getSource('radius-circle').setData({
+              type: 'FeatureCollection',
+              features: [{
+                type: 'Feature',
+                geometry: {
+                  type: 'Point',
+                  coordinates: [e.latlng.lng, e.latlng.lat]
+                }
+              }]
+            });
+            
+            // Update circle radius
+            maplibreMap.setPaintProperty('radius-circle-layer', 'circle-radius', currentRadius);
+            
+            // Query features using the current radius
+            const bbox = [
+              [point.x - currentRadius, point.y - currentRadius],
+              [point.x + currentRadius, point.y + currentRadius]
+            ];
+            
+            // Query features but exclude our highlight and radius layers to avoid feedback loop
+            let features = maplibreMap.queryRenderedFeatures(bbox, {
+              layers: maplibreMap.getStyle().layers
+                .map(layer => layer.id)
+                .filter(id => !id.startsWith('highlight-') && !id.startsWith('radius-'))
+            });
+            console.log("xxx features found:", features.length);
+            
+            // Update the highlight source with the features under the cursor
+            if (features.length > 0) {
+              maplibreMap.getCanvas().style.cursor = 'pointer';
+              
+              // Update the highlight layer with the queried features
+              maplibreMap.getSource('highlight').setData({
+                type: 'FeatureCollection',
+                features: features
+              });
+            } else {
+              maplibreMap.getCanvas().style.cursor = '';
+              // Clear highlights
+              maplibreMap.getSource('highlight').setData({
+                type: 'FeatureCollection',
+                features: []
+              });
+            }
+          });
+          
+          // Clear highlights and radius circle when mouse leaves
+          leafletMap.on('mouseout', () => {
+            maplibreMap.getCanvas().style.cursor = '';
+            maplibreMap.getSource('highlight').setData({
+              type: 'FeatureCollection',
+              features: []
+            });
+            maplibreMap.getSource('radius-circle').setData({
+              type: 'FeatureCollection',
+              features: []
+            });
+          });
+        }}
+      />
+
+      </Map>
+    </div>
+  );
+};
+
 export const SimpleMapLibreLayerWithCustomProtocol = () => {
   const position = [51.2720151, 7.2000203134];
   console.log("maplibregl", maplibreGl);
