@@ -338,6 +338,9 @@ class MaplibreGlLayer extends GridLayer {
       //     // props.onLayerClick(e);
       //   });
       // }
+      if (props.onMapLibreCoreMapReady) {
+        props.onMapLibreCoreMapReady(mlMap);
+      }
     });
   }
 
