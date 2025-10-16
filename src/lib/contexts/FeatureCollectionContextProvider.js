@@ -213,19 +213,21 @@ const FeatureCollectionContextProvider = ({
       let index = 0;
       // console.log("will check in showFeatures:", draft.shownFeatures);
 
-      for (const feature of draft.shownFeatures) {
-        if (predicate(feature) === true) {
-          // console.log("xxx predicate hit. will select ", index);
-          draft.selectedIndexState = {
-            ...draft.selectedIndexState,
-            selectedIndex: index,
-            forced: true,
-          };
-          // console.log("xxx predicate hit. after setSelectedIndex", index);
-          feedbacker(true);
-          return;
+      if (draft.shownFeatures) {
+        for (const feature of draft.shownFeatures) {
+          if (predicate(feature) === true) {
+            // console.log("xxx predicate hit. will select ", index);
+            draft.selectedIndexState = {
+              ...draft.selectedIndexState,
+              selectedIndex: index,
+              forced: true,
+            };
+            // console.log("xxx predicate hit. after setSelectedIndex", index);
+            feedbacker(true);
+            return;
+          }
+          index++;
         }
-        index++;
       }
       feedbacker(false);
     });
