@@ -38,17 +38,19 @@ const TopicMapComponent = (props) => {
     homeCenter,
     homeZoom,
     home,
-    ondblclick = () => {},
-    onclick = () => {},
-    locationChangedHandler = () => {},
+    ondblclick = () => { },
+    onclick = () => { },
+    locationChangedHandler = () => { },
     outerLocationChangedHandlerExclusive = false,
+    // Consider linking disableUseLocation to outerLocationChangedHandlerExclusive or unifying these flags
+    disableUseLocation = false,
     pushToHistory,
     autoFitBounds = false,
     autoFitMode = MappingConstants.AUTO_FIT_MODE_STRICT,
     autoFitBoundsTarget = null,
-    setAutoFit = () => {},
+    setAutoFit = () => { },
     urlSearchParams,
-    mappingBoundsChanged = (boundingbox) => {},
+    mappingBoundsChanged = (boundingbox) => { },
     backgroundlayers,
     fullScreenControl = true,
     locatorControl = false,
@@ -103,10 +105,12 @@ const TopicMapComponent = (props) => {
 
   const [url, setUrl] = useState(undefined);
   useEffect(() => {
-    history.listen(({ action, location }) => {
-      setUrl(history.location.search);
-    });
-  }, []);
+    if (!disableUseLocation) {
+      history.listen(({ action, location }) => {
+        setUrl(history.location.search);
+      });
+    }
+  }, [disableUseLocation]);
 
   let featureCollectionDisplay;
 
@@ -124,7 +128,7 @@ const TopicMapComponent = (props) => {
   let backgroundsFromMode;
   try {
     backgroundsFromMode = backgroundConfigurations[selectedBackground].layerkey;
-  } catch (e) {}
+  } catch (e) { }
 
   const _backgroundLayers = backgroundlayers || backgroundsFromMode || "rvrGrau@40";
 
