@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // Since this component is simple and static, there's no parent container for it.
-const IconLink = ({ tooltip, href, target, onClick, icon }) => {
+const IconLink = ({ tooltip = null, href, target, onClick, icon }) => {
 	return (
 		<a title={tooltip} href={href} onClick={onClick} target={target}>
 			<FontAwesomeIcon
@@ -20,9 +20,4 @@ IconLink.propTypes = {
 	href: PropTypes.string,
 	target: PropTypes.string,
 	icon: PropTypes.object
-};
-
-IconLink.defaultProps = {
-	tooltip: null,
-	iconname: 'external-link-square'
 };

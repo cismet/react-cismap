@@ -26,6 +26,10 @@ const Comp = ({
     </div>
   ),
   defaultContextValues = {},
+  menuIcon = "bars",
+  menuTitle = "Einstellungen und Hilfe",
+  menuSections = [],
+  menuFooter = <GenericRVRStadtplanwerkMenuFooter />,
 }) => {
   const { secondaryInfoVisible } = useContext(UIContext) || defaultContextValues;
   const { setSecondaryInfoVisible } = useContext(UIDispatchContext) || defaultContextValues;
@@ -128,11 +132,21 @@ const Comp = ({
 
 export default Comp;
 Comp.propTypes = {
+  visible: PropTypes.bool,
+  uiHeight: PropTypes.number,
+  setVisibleState: PropTypes.func,
+  modalBodyStyle: PropTypes.object,
+  title: PropTypes.string,
+  titleIconName: PropTypes.string,
+  mainSection: PropTypes.node,
+  subSections: PropTypes.array,
+  imageUrl: PropTypes.string,
+  imageStyle: PropTypes.object,
+  footer: PropTypes.node,
   menuIcon: PropTypes.string,
   menuTitle: PropTypes.string,
-  menuIntroduction: PropTypes.object,
   menuSections: PropTypes.array,
-  menuFooter: PropTypes.object,
+  menuFooter: PropTypes.node,
 
   uiStateActions: PropTypes.object,
   uiState: PropTypes.object,
@@ -140,11 +154,4 @@ Comp.propTypes = {
   kitasActions: PropTypes.object,
   mappingState: PropTypes.object,
   mappingActions: PropTypes.object,
-};
-
-Comp.defaultProps = {
-  menuIcon: "bars",
-  menuTitle: "Einstellungen und Hilfe",
-  menuSections: [],
-  menuFooter: <GenericRVRStadtplanwerkMenuFooter />,
 };

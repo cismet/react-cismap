@@ -7,12 +7,37 @@ import { ResponsiveTopicMapContext } from "../../contexts/ResponsiveTopicMapCont
 
 // import 'react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css';
 
+const DEFAULT_MENU_FOOTER = (
+  <div style={{ fontSize: "11px" }}>
+    <b>react-cismap</b> (
+    <a href="https://cismet.de/" target="_cismet">
+      cismet GmbH
+    </a>{" "}
+    auf Basis von{" "}
+    <a href="http://leafletjs.com/" target="_more">
+      Leaflet
+    </a>{" "}
+    und{" "}
+    <a href="https://cismet.de/#refs" target="_cismet">
+      cids | WuNDa
+    </a>{" "}
+    |{" "}
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href="https://cismet.de/datenschutzerklaerung.html"
+    >
+      Datenschutzerklärung (Privacy Policy)
+    </a>
+  </div>
+);
+
 const GenericModalApplicationMenu = ({
-  menuIcon,
-  menuTitle,
+  menuIcon = "bars",
+  menuTitle = "Einstellungen und Hilfe",
   menuIntroduction,
-  menuSections,
-  menuFooter,
+  menuSections = [],
+  menuFooter = DEFAULT_MENU_FOOTER,
 
   //new
   height,
@@ -121,34 +146,4 @@ GenericModalApplicationMenu.propTypes = {
   kitasActions: PropTypes.object,
   mappingState: PropTypes.object,
   mappingActions: PropTypes.object,
-};
-
-GenericModalApplicationMenu.defaultProps = {
-  menuIcon: "bars",
-  menuTitle: "Einstellungen und Hilfe",
-  menuSections: [],
-  menuFooter: (
-    <div style={{ fontSize: "11px" }}>
-      <b>react-cismap</b> (
-      <a href="https://cismet.de/" target="_cismet">
-        cismet GmbH
-      </a>{" "}
-      auf Basis von{" "}
-      <a href="http://leafletjs.com/" target="_more">
-        Leaflet
-      </a>{" "}
-      und{" "}
-      <a href="https://cismet.de/#refs" target="_cismet">
-        cids | WuNDa
-      </a>{" "}
-      |{" "}
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://cismet.de/datenschutzerklaerung.html"
-      >
-        Datenschutzerklärung (Privacy Policy)
-      </a>
-    </div>
-  ),
 };

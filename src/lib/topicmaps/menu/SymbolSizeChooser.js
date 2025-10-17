@@ -9,13 +9,13 @@ import { getSymbolSVGGetter } from "../../tools/uiHelper";
 
 // Since this component is simple and static, there's no parent container for it.
 const SymbolSizeChooser = ({
-  title,
+  title = "Symbolgröße:",
   changeMarkerSymbolSize,
   currentMarkerSize,
   getSymbolSVG,
-  symbolColor,
-  additionalConfig,
-  sizeMulitplier,
+  symbolColor = "#00A0B0",
+  additionalConfig = {},
+  sizeMulitplier = 0.9,
 }) => {
   const defaultConfig = {
     smallSize: 25,
@@ -115,13 +115,7 @@ SymbolSizeChooser.propTypes = {
   changeMarkerSymbolSize: PropTypes.func.isRequired,
   currentMarkerSize: PropTypes.number.isRequired,
   getSymbolSVG: PropTypes.func,
-  config: PropTypes.object,
+  additionalConfig: PropTypes.object,
+  symbolColor: PropTypes.string,
   sizeMulitplier: PropTypes.number,
-};
-
-SymbolSizeChooser.defaultProps = {
-  title: "Symbolgröße:",
-  config: {},
-  symbolColor: "#00A0B0",
-  sizeMulitplier: 0.9,
 };

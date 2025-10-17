@@ -3,7 +3,7 @@ import CismetFooterAcks from "./CismetFooterAcknowledgements";
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-const Comp = ({ showModalMenu }) => {
+const Comp = ({ showModalMenu = () => {} }) => {
   return (
     <div style={{ fontSize: "11px" }}>
       <b>Hintergrundkarten</b>: Stadtkarte 2.0 © RVR | True Orthophoto 2022 © Stadt Wuppertal{" "}
@@ -15,6 +15,3 @@ const Comp = ({ showModalMenu }) => {
 };
 
 export default Comp;
-Comp.defaultProps = {
-  showModalMenu: () => {},
-};
