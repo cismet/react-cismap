@@ -63,8 +63,12 @@ L.Map.TouchExtend = L.Handler.extend({
 
     var containerPoint = this._map.mouseEventToContainerPoint(e),
       layerPoint = this._map.containerPointToLayerPoint(containerPoint),
+    try {
       latlng = this._map.layerPointToLatLng(layerPoint);
-
+    } catch (error) {
+      console.log("Error in _onTouchStart (wont fire touchstart):", error, { layerPoint, containerPoint, error, e });
+      return;
+    }
     this._map.fire(type, {
       latlng: latlng,
       layerPoint: layerPoint,
