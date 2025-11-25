@@ -260,10 +260,12 @@ export const SimpleTopicMapWithMapLibreLayerToTestHidingForwarding = () => {
         <CismapLayer
           {...{
             type: "vector",
-            style: "https://tiles.cismet.de/alkis/flurstuecke.str.hsnr.yellow.style.json",
+            // style: "https://tiles.cismet.de/alkis/flurstuecke.str.hsnr.yellow.style.json",
+            style: "https://tiles.cismet.de/alkis/xxx.flurstuecke.yellow.style.json",
             additionalLayerUniquePane: "bplan",
             opacity: 1,
             additionalLayersFreeZOrder: 9,
+            logMapLibreErrors: true,
           }} />
       </TopicMapComponent>
     </TopicMapContextProvider>
