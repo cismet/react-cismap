@@ -264,8 +264,11 @@ class MaplibreGlLayer extends GridLayer {
     }
 
 
+    // Debug visualization properties
     mlMap.showTileBoundaries = props.showTileBoundaries || false;
-    // mlMap.showCollisionBoxes = true;
+    mlMap.showCollisionBoxes = props.showCollisionBoxes || false;
+    mlMap.showOverdrawInspector = props.showOverdrawInspector || false;
+    mlMap.showPadding = props.showPadding || false;
 
 
     if (props.onStyleIdle) {
