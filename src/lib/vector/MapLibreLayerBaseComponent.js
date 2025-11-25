@@ -2,6 +2,21 @@ import L from "leaflet";
 import { GridLayer } from "react-leaflet";
 import { } from "./leaflet-maplibre-gl";
 
+/**
+ * Helper function to get source and sourceLayer information for a layer by ID
+ * @param {string} layerId - The layer ID to look up
+ * @param {object} style - The MapLibre style object
+ * @returns {object|null} Object with { source, sourceLayer } or null if not found
+ */
+const getLayerSourceInfo = (layerId, style) => {
+  const layer = style.layers.find(l => l.id === layerId);
+  if (!layer) return null;
+
+  return {
+    source: layer.source,
+    sourceLayer: layer['source-layer']
+  };
+};
 
 class MaplibreGlLayer extends GridLayer {
   constructor(props) {
@@ -289,6 +304,112 @@ class MaplibreGlLayer extends GridLayer {
 
       this._onViewChanged();
 
+      // Set up hiding forwarding for layers with hidingForwardingTo metadata
+      const hidingForwardingMap = new Map();
+      style.layers.forEach(layer => {
+        if (layer?.metadata?.carmaConf?.hidingForwardingTo) {
+          hidingForwardingMap.set(layer.id, {
+            targets: layer.metadata.carmaConf.hidingForwardingTo,
+            lastVisibleIds: null
+          });
+        }
+      });
+
+      // Only add idle handler if there are layers with hiding forwarding
+      if (hidingForwardingMap.size > 0) {
+        const syncHidingState = () => {
+          try {
+            hidingForwardingMap.forEach((config, sourceLayerId) => {
+              // Query currently visible features in source layer (after collision detection)
+              const visibleFeatures = mlMap.queryRenderedFeatures({
+                layers: [sourceLayerId]
+              });
+
+              const visibleIds = new Set(
+                visibleFeatures.map(f => f.id).filter(Boolean)
+              );
+
+              // Create a string representation to compare with last run
+              const visibleIdsString = Array.from(visibleIds).sort().join(",");
+
+              // Only update if the visible IDs changed
+              if (visibleIdsString === config.lastVisibleIds) return;
+
+              // First, collect all unique feature IDs from all target layers
+              const allTargetIds = new Set();
+              const targetLayerInfos = [];
+
+              config.targets.forEach(targetLayerId => {
+                const targetLayerInfo = getLayerSourceInfo(targetLayerId, style);
+
+                if (!targetLayerInfo) {
+                  if (props.logMapLibreErrors) {
+                    console.warn(`Hiding forwarding: target layer "${targetLayerId}" not found in style`);
+                  }
+                  return;
+                }
+
+                targetLayerInfos.push({ id: targetLayerId, ...targetLayerInfo });
+
+                // Query rendered features in this target layer
+                const targetFeatures = mlMap.queryRenderedFeatures({
+                  layers: [targetLayerId]
+                });
+
+                if (props.logMapLibreDebugLogs) {
+                  console.log(`Hiding forwarding: ${targetLayerId} has ${targetFeatures.length} rendered features`);
+                }
+
+                // Collect all IDs
+                targetFeatures.forEach(feature => {
+                  if (feature.id) {
+                    allTargetIds.add(feature.id);
+                  }
+                });
+              });
+
+              if (props.logMapLibreDebugLogs) {
+                console.log(`Hiding forwarding: Total unique IDs collected: ${allTargetIds.size}, Visible IDs: ${visibleIds.size}`);
+                console.log(`Hiding forwarding: Setting state for ${targetLayerInfos.length} target layers`);
+              }
+
+              // Now set feature state on ALL target layers for ALL collected IDs
+              targetLayerInfos.forEach(layerInfo => {
+                allTargetIds.forEach(featureId => {
+                  const isHidden = !visibleIds.has(featureId);
+
+                  try {
+                    mlMap.setFeatureState(
+                      {
+                        source: layerInfo.source,
+                        sourceLayer: layerInfo.sourceLayer,
+                        id: featureId
+                      },
+                      { hidden: isHidden }
+                    );
+                  } catch (e) {
+                    if (props.logMapLibreErrors) {
+                      console.error(`Hiding forwarding: error setting feature state for layer "${layerInfo.id}" feature ${featureId}:`, e);
+                    }
+                  }
+                });
+              });
+
+              // Update lastVisibleIds
+              config.lastVisibleIds = visibleIdsString;
+            });
+          } catch (e) {
+            if (props.logMapLibreErrors) {
+              console.error("Hiding forwarding: error in syncHidingState:", e);
+            }
+          }
+        };
+
+        // Store reference for cleanup
+        this._hidingIdleHandler = syncHidingState;
+        mlMap.on("idle", syncHidingState);
+      }
+
       if ((props.textOpacity || props.iconOpacity) && mlMap) {
         try {
           const layers = style.layers;
@@ -345,6 +466,11 @@ class MaplibreGlLayer extends GridLayer {
   }
 
   _removeLayer() {
+    // Clean up hiding forwarding idle handler if it exists
+    if (this._hidingIdleHandler && this.mapLibreMap) {
+      this.mapLibreMap.off("idle", this._hidingIdleHandler);
+      this._hidingIdleHandler = null;
+    }
     this._layer = null;
   }
   _onViewChanged() {
