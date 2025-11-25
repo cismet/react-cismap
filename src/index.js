@@ -162,9 +162,11 @@ if (window.location.pathname === "/follower") {
       {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMap /> */}
       {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMapWithFeatureCollectionInAnotherCRS /> */}
       {/* <MapLibreExamples.SimpleTopicMapWithMapLibreLayer /> */}
+      <MapLibreExamples.SimpleTopicMapWithMapLibreLayerToTestHidingForwarding />
+
       {/* <MapLibreExamples.SimpleMapLibreLayerWithLocalStyle /> */}
       {/* <MapLibreExamples.SimpleMapLibreLayerWithAttribution /> */}
-      <MapLibreExamples.SimpleMapLibreLayerWithMapLibreCallback />
+      {/* <MapLibreExamples.SimpleMapLibreLayerWithMapLibreCallback /> */}
 
       {/* <MapLibreExamples.SimpleMapLibreLayerWithCustomProtocol /> */}
       {/* <AnimationExamples.SimpleWuppertal25832 /> */}
