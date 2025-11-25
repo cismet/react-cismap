@@ -246,6 +246,38 @@ export const SimpleMapLibreLayerInRoutedMapWithFeatureCollectionInAnotherCRS = (
     </div>
   );
 };
+
+export const SimpleTopicMapWithMapLibreLayerAndDebugProperties = () => {
+  const [gazData, setGazData] = useState([]);
+
+  return (
+    <TopicMapContextProvider
+
+      referenceSystem={MappingConstants.crs3857}
+      referenceSystemDefinition={MappingConstants.proj4crs3857def}
+
+    >
+      <TopicMapComponent maxZoom={22} gazData={gazData}>
+        <CismapLayer
+          {...{
+            type: "vector",
+            style: "https://tiles.cismet.de/alkis/flurstuecke.str.hsnr.black.style.json",
+            additionalLayerUniquePane: "alkis",
+            opacity: 1,
+            additionalLayersFreeZOrder: 9,
+            logMapLibreErrors: true,
+            logMapLibreDebugLogs: true,
+            showCollisionBoxes: true,
+            showOverdrawInspector: true,
+            showPadding: true,
+            showTileBoundaries: true,
+          }} />
+      </TopicMapComponent>
+    </TopicMapContextProvider>
+  );
+}
+
+
 export const SimpleTopicMapWithMapLibreLayerToTestHidingForwarding = () => {
   const [gazData, setGazData] = useState([]);
 
@@ -263,7 +295,7 @@ export const SimpleTopicMapWithMapLibreLayerToTestHidingForwarding = () => {
             //style: "https://tiles.cismet.de/alkis/flurstuecke.yellow.style.json",
             // style: "https://tiles.cismet.de/alkis/flurstuecke.str.hsnr.yellow.style.json",
             style: "https://tiles.cismet.de/alkis/xxx.flurstuecke.yellow.style.json",
-            additionalLayerUniquePane: "bplan",
+            additionalLayerUniquePane: "alkis",
             opacity: 1,
             additionalLayersFreeZOrder: 9,
             logMapLibreErrors: true,

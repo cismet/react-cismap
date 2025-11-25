@@ -162,7 +162,8 @@ if (window.location.pathname === "/follower") {
       {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMap /> */}
       {/* <MapLibreExamples.SimpleMapLibreLayerInRoutedMapWithFeatureCollectionInAnotherCRS /> */}
       {/* <MapLibreExamples.SimpleTopicMapWithMapLibreLayer /> */}
-      <MapLibreExamples.SimpleTopicMapWithMapLibreLayerToTestHidingForwarding />
+      {/* <MapLibreExamples.SimpleTopicMapWithMapLibreLayerToTestHidingForwarding /> */}
+      <MapLibreExamples.SimpleTopicMapWithMapLibreLayerAndDebugProperties />
 
       {/* <MapLibreExamples.SimpleMapLibreLayerWithLocalStyle /> */}
       {/* <MapLibreExamples.SimpleMapLibreLayerWithAttribution /> */}
