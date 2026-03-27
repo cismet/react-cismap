@@ -282,6 +282,12 @@ class MaplibreGlLayer extends GridLayer {
     //handle opacity prop to set the native css opacity of the layer container
     this._layer._container.style.opacity = props.opacity;
 
+    if (props.onStyleData) {
+      mlMap.once("styledata", () => {
+        props.onStyleData(mlMap);
+      });
+    }
+
     mlMap.on("load", () => {
       this.mapLibreMap = mlMap;
       const style = mlMap.getStyle();
