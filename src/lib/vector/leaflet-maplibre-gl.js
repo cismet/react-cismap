@@ -54,10 +54,20 @@
         L.DomEvent.off(this._map._proxy, L.DomUtil.TRANSITION_END, this._transitionEnd, this);
       }
       var paneName = this.getPaneName();
-      map.getPane(paneName).removeChild(this._container);
+      var pane = map.getPane(paneName);
 
-      this._glMap.remove();
-      this._glMap = null;
+      if (this._container && this._container.parentNode === pane) {
+        pane.removeChild(this._container);
+      } else if (this._container && this._container.parentNode) {
+        // container was detached or reparented (external DOM mutation / teardown race) -
+        // remove it from wherever it actually lives instead of throwing "not a child"
+        this._container.parentNode.removeChild(this._container);
+      }
+
+      if (this._glMap) {
+        this._glMap.remove();
+        this._glMap = null;
+      }
     },
 
     getEvents: function () {
