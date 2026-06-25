@@ -41,7 +41,7 @@ jobs:
       - name: Install Dependencies
         run: |
           yarn install
-          yarn global add @babel/cli @babel/core
+          yarn global add @babel/cli@^7 @babel/core@^7
 
       - name: Change release version
         run: npm version ${{ env.RELEASE_TYPE }}
